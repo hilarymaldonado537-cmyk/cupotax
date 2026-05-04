@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CupoTax - Iniciar Sesión</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* ========== MODO 1: NARANJA FUEGO (PREDETERMINADO) ========== */
+        body.style-fire {
+            --bg-gradient-start: #0A0A0A;
+            --bg-gradient-end: #1E1E1E;
+            --glass-bg: rgba(30, 30, 30, 0.85);
+            --glass-border: rgba(255, 106, 42, 0.3);
+            --navbar-bg: rgba(10, 10, 10, 0.9);
+            --text-primary: #FFFFFF;
+            --text-secondary: #B3B3B3;
+            --accent: #FF6A2A;
+            --accent-neon: #FF8C42;
+            --accent-glow: 0 0 15px rgba(255, 106, 42, 0.4);
+            --card-bg: rgba(30, 30, 30, 0.85);
+            --input-bg: rgba(255, 255, 255, 0.08);
+        }
+        
+        /* ========== MODO 2: GLASS AZUL ========== */
+        body.style-glass {
+            --bg-gradient-start: #0B1220;
+            --bg-gradient-end: #0A2540;
+            --glass-bg: rgba(22, 38, 58, 0.55);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --navbar-bg: rgba(16, 26, 43, 0.6);
+            --text-primary: #FFFFFF;
+            --text-secondary: #A8B2D1;
+            --accent: #3A86FF;
+            --accent-neon: #4FACFE;
+            --accent-glow: 0 0 15px rgba(58, 134, 255, 0.3);
+            --card-bg: rgba(22, 38, 58, 0.55);
+            --input-bg: rgba(255, 255, 255, 0.08);
+        }
+        
+        /* ========== MODO 3: NEON GLOW ========== */
+        body.style-neon {
+            --bg-gradient-start: #0B0B12;
+            --bg-gradient-end: #1A1D2E;
+            --glass-bg: rgba(26, 29, 46, 0.7);
+            --glass-border: rgba(255, 76, 205, 0.3);
+            --navbar-bg: rgba(16, 18, 30, 0.8);
+            --text-primary: #FFFFFF;
+            --text-secondary: #A0A3BD;
+            --accent: #FF4ECD;
+            --accent-neon: #9D4EDD;
+            --accent-glow: 0 0 15px rgba(255, 76, 205, 0.4);
+            --card-bg: rgba(26, 29, 46, 0.7);
+            --input-bg: rgba(255, 255, 255, 0.08);
+        }
+        
+        /* ========== MODO 4: CRIMSON GLASS (ROJO OSCURO) ========== */
+        body.style-crimson {
+            --bg-gradient-start: #1A0A0A;
+            --bg-gradient-end: #2D1515;
+            --glass-bg: rgba(45, 21, 21, 0.55);
+            --glass-border: rgba(255, 100, 100, 0.15);
+            --navbar-bg: rgba(26, 14, 14, 0.9);
+            --text-primary: #FFFFFF;
+            --text-secondary: #D1A8A8;
+            --accent: #E63946;
+            --accent-neon: #FF6B6B;
+            --accent-glow: 0 0 15px rgba(230, 57, 70, 0.4);
+            --card-bg: rgba(45, 21, 21, 0.55);
+            --input-bg: rgba(255, 255, 255, 0.08);
+        }
+        
+        body.style-crimson::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(230, 57, 70, 0.12), rgba(255, 100, 100, 0.05), transparent);
+            pointer-events: none;
+            z-index: -2;
+        }
+        
+        body.style-crimson .btn-login {
+            background: linear-gradient(135deg, #E63946, #FF6B6B);
+        }
+        
+        body.style-crimson .forgot-link a,
+        body.style-crimson .register-link a,
+        body.style-crimson .back-link a {
+            color: #E63946;
+        }
+        
+        /* ========== MODO CLARO ========== */
+        body.light-mode {
+            --bg-gradient-start: #F5F5F7;
+            --bg-gradient-end: #FFFFFF;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --navbar-bg: #FFFFFF;
+            --text-primary: #000000;
+            --text-secondary: #555555;
+            --accent: #FF6A2A;
+            --accent-neon: #FF8C42;
+            --accent-glow: 0 0 10px rgba(255, 106, 42, 0.2);
+            --card-bg: #FFFFFF;
+            --input-bg: #F5F5F5;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://i.ibb.co/pBSfBsYF/Whats-App-Image-2026-04-28-at-12-20-21-AM.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 0.25;
+            z-index: -2;
+        }
+        
+        body.light-mode::before { opacity: 0.6; }
+        
+        .login-container {
+            width: 100%;
+            max-width: 450px;
+            padding: 2rem;
+            margin: 2rem;
+        }
+        
+        .login-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+        
+        .logo { text-align: center; margin-bottom: 1.5rem; }
+        .logo h1 { font-size: 2rem; background: linear-gradient(135deg, var(--accent), var(--accent-neon)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .logo span { font-size: 0.7rem; color: var(--text-secondary); letter-spacing: 2px; }
+        
+        .login-title { text-align: center; margin-bottom: 1.5rem; }
+        .login-title h2 { color: var(--accent); font-size: 1.5rem; }
+        
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; color: var(--accent); font-size: 0.75rem; margin-bottom: 0.3rem; letter-spacing: 0.5px; }
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--input-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+        
+        .btn-login {
+            background: linear-gradient(135deg, var(--accent), var(--accent-neon));
+            border: none;
+            padding: 0.8rem;
+            border-radius: 40px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 0.5rem;
+            color: #000;
+            transition: all 0.3s;
+        }
+        .btn-login:hover { transform: translateY(-2px); box-shadow: var(--accent-glow); }
+        
+        .forgot-link { text-align: right; margin-top: 0.5rem; margin-bottom: 0.5rem; }
+        .forgot-link a { color: var(--accent); text-decoration: none; font-size: 0.75rem; cursor: pointer; }
+        .register-link { text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-secondary); }
+        .register-link a { color: var(--accent); text-decoration: none; font-weight: 600; cursor: pointer; }
+        .back-link { text-align: center; margin-top: 1rem; }
+        .back-link a { color: var(--text-secondary); text-decoration: none; font-size: 0.8rem; cursor: pointer; }
+        
+        /* Panel de ajustes */
+        .settings-toggle {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            cursor: pointer;
+            z-index: 1000;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            transition: all 0.3s;
+        }
+        .settings-toggle:hover { transform: scale(1.1); box-shadow: var(--accent-glow); }
+        
+        .settings-panel {
+            position: fixed;
+            bottom: 90px;
+            right: 24px;
+            width: 260px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid var(--accent);
+            padding: 1rem;
+            z-index: 10000;
+            display: none;
+        }
+        .settings-panel.open { display: block !important; }
+        .settings-panel h4 { color: var(--accent); margin-bottom: 0.5rem; text-align: center; }
+        .theme-card { padding: 0.5rem; cursor: pointer; border-radius: 12px; margin-bottom: 0.5rem; transition: all 0.3s; text-align: center; }
+        .theme-card:hover { background: rgba(255,255,255,0.1); }
+        .theme-card.active { background: var(--accent); color: #000; }
+        .btn-reset { width: 100%; padding: 0.5rem; background: transparent; border: 1px solid var(--accent); color: var(--accent); border-radius: 30px; cursor: pointer; margin-top: 0.5rem; }
+        .btn-reset:hover { background: var(--accent); color: #000; }
+        
+        @media (max-width: 480px) {
+            .login-container { padding: 1rem; margin: 0.5rem; }
+            .login-card { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <div class="login-card">
+        <div class="logo">
+            <h1>CupoTax</h1>
+            <span>TRANSPORTE INTELIGENTE</span>
+        </div>
+        
+        <div class="login-title">
+            <h2>Iniciar Sesión</h2>
+        </div>
+        
+        <form id="loginForm" onsubmit="login(event)">
+            <div class="form-group">
+                <label>USUARIO O CORREO</label>
+                <input type="text" id="username" placeholder="Ingresa tu usuario o email" required>
+            </div>
+            
+            <div class="form-group">
+                <label>CONTRASEÑA</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+            
+            <div class="forgot-link">
+                <a onclick="abrirRecuperacion()">¿Olvidaste tu contraseña?</a>
+            </div>
+            
+            <button type="submit" class="btn-login">INGRESAR</button>
+        </form>
+        
+        <div class="register-link">
+            ¿No tienes cuenta? <a onclick="navegarA('register')">Regístrate aquí</a>
+        </div>
+        
+        <div class="back-link">
+            <a onclick="navegarA('')">← Volver al inicio</a>
+        </div>
+    </div>
+</div>
+
+<div class="settings-toggle" onclick="toggleSettingsPanel()"><i class="fas fa-palette"></i></div>
+<div id="settingsPanel" class="settings-panel">
+    <h4>Personalizar</h4>
+    <div class="theme-card active" onclick="setEstilo('fire')" id="cardFire">🔥 Naranja Fuego</div>
+    <div class="theme-card" onclick="setEstilo('glass')" id="cardGlass">🌀 Glass Azul</div>
+    <div class="theme-card" onclick="setEstilo('neon')" id="cardNeon">🎨 Neon Glow</div>
+    <div class="theme-card" onclick="setEstilo('crimson')" id="cardCrimson">🔴 Crimson Glass</div>
+    <div class="theme-card" onclick="toggleLightMode()">☀️ Claro / Oscuro</div>
+    <button class="btn-reset" onclick="resetearEstilos()">Restaurar</button>
+</div>
+
+<script>
+    const API_URL = '';
+    
+    function navegarA(pagina) {
+        if(pagina === '') window.location.href = API_URL + '/';
+        else window.location.href = API_URL + '/' + pagina;
+    }
+    
+    async function login(event) {
+        event.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        
+        const formData = new URLSearchParams();
+        formData.append('username', username);
+        formData.append('password', password);
+        
+        try {
+            const response = await fetch(API_URL + '/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                credentials: 'include',
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                Swal.fire({
+                    title: '¡Bienvenido!',
+                    text: 'Inicio de sesión exitoso. Se ha enviado una notificación a tu correo.',
+                    icon: 'success',
+                    background: '#0A0A0F',
+                    color: '#FF6A2A',
+                    confirmButtonColor: '#FF6A2A',
+                    timer: 1500
+                });
+                setTimeout(() => {
+                    window.location.href = API_URL + data.redirectUrl;
+                }, 1500);
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: data.error || 'Usuario o contraseña incorrectos',
+                    icon: 'error',
+                    background: '#0A0A0F',
+                    color: '#FF6A2A',
+                    confirmButtonColor: '#FF6A2A'
+                });
+            }
+        } catch (error) {
+            Swal.fire({
+                title: 'Error',
+                text: 'Error de conexión',
+                icon: 'error',
+                background: '#0A0A0F',
+                color: '#FF6A2A',
+                confirmButtonColor: '#FF6A2A'
+            });
+        }
+    }
+    
+    function abrirRecuperacion() {
+        Swal.fire({
+            title: 'Recuperar contraseña',
+            html: `
+                <select id="metodoRecuperacion" style="background:#0A0A0F; color:#fff; border:1px solid #FF6A2A; border-radius:12px; padding:8px; width:100%; margin-bottom:12px;">
+                    <option value="pin">🔐 Recuperar con PIN de seguridad</option>
+                    <option value="email">📧 Recuperar con correo electrónico</option>
+                    <option value="sms">📱 Recuperar con SMS (teléfono)</option>
+                </select>
+                <input type="text" id="valorRecuperacion" placeholder="PIN / Correo / Teléfono" style="background:#0A0A0F; color:#fff; border:1px solid #FF6A2A; border-radius:12px; padding:8px; width:100%;">
+            `,
+            showCancelButton: true,
+            confirmButtonText: 'Recuperar',
+            cancelButtonText: 'Cancelar',
+            background: '#0A0A0F',
+            color: '#FF6A2A',
+            confirmButtonColor: '#FF6A2A',
+            preConfirm: () => {
+                const metodo = document.getElementById('metodoRecuperacion').value;
+                const valor = document.getElementById('valorRecuperacion').value;
+                if (!valor) Swal.showValidationMessage('Completa el campo');
+                return { metodo, valor };
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                recuperarContraseña(result.value.metodo, result.value.valor);
+            }
+        });
+    }
+    
+    async function recuperarContraseña(metodo, valor) {
+        try {
+            const response = await fetch(API_URL + '/recuperar/solicitar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                credentials: 'include',
+                body: `metodo=${metodo}&valor=${valor}`
+            });
+            const data = await response.json();
+            Swal.fire({
+                title: data.success ? 'Enviado' : 'Error',
+                text: data.message || (data.success ? 'Revisa tu correo o SMS para restablecer tu contraseña' : 'No se encontró una cuenta con esos datos'),
+                icon: data.success ? 'success' : 'error',
+                background: '#0A0A0F',
+                color: '#FF6A2A',
+                confirmButtonColor: '#FF6A2A'
+            });
+        } catch (error) {
+            Swal.fire({
+                title: 'Error',
+                text: 'Error de conexión',
+                icon: 'error',
+                background: '#0A0A0F',
+                color: '#FF6A2A',
+                confirmButtonColor: '#FF6A2A'
+            });
+        }
+    }
+    
+    // Panel de ajustes
+    function toggleSettingsPanel() {
+        document.getElementById('settingsPanel').classList.toggle('open');
+    }
+    
+    function setEstilo(estilo) {
+        document.body.classList.remove('style-fire', 'style-glass', 'style-neon', 'style-crimson', 'light-mode');
+        if(estilo === 'fire') document.body.classList.add('style-fire');
+        else if(estilo === 'glass') document.body.classList.add('style-glass');
+        else if(estilo === 'neon') document.body.classList.add('style-neon');
+        else if(estilo === 'crimson') document.body.classList.add('style-crimson');
+        localStorage.setItem('cupotax-login-estilo', estilo);
+        localStorage.removeItem('cupotax-login-light');
+        actualizarCards(estilo);
+        let nombreTema = estilo === 'fire' ? 'Naranja Fuego' : estilo === 'glass' ? 'Glass Azul' : estilo === 'neon' ? 'Neon Glow' : 'Crimson Glass';
+        Swal.fire({ title: `Estilo ${nombreTema} aplicado`, icon: 'success', timer: 1500, showConfirmButton: false });
+    }
+    
+    function toggleLightMode() {
+        if(document.body.classList.contains('light-mode')) {
+            document.body.classList.remove('light-mode');
+            let estilo = localStorage.getItem('cupotax-login-estilo') || 'fire';
+            if(estilo === 'fire') document.body.classList.add('style-fire');
+            else if(estilo === 'glass') document.body.classList.add('style-glass');
+            else if(estilo === 'neon') document.body.classList.add('style-neon');
+            else if(estilo === 'crimson') document.body.classList.add('style-crimson');
+            localStorage.removeItem('cupotax-login-light');
+        } else {
+            document.body.classList.add('light-mode');
+            localStorage.setItem('cupotax-login-light', 'true');
+        }
+        Swal.fire({ title: document.body.classList.contains('light-mode') ? 'Modo claro' : 'Modo oscuro', icon: 'success', timer: 1500, showConfirmButton: false });
+    }
+    
+    function resetearEstilos() {
+        document.body.classList.remove('style-glass', 'style-neon', 'style-crimson', 'light-mode');
+        document.body.classList.add('style-fire');
+        localStorage.setItem('cupotax-login-estilo', 'fire');
+        localStorage.removeItem('cupotax-login-light');
+        actualizarCards('fire');
+        Swal.fire({ title: 'Estilos restaurados', text: 'Volviste a Naranja Fuego', icon: 'success', timer: 1500, showConfirmButton: false });
+    }
+    
+    function actualizarCards(estilo) {
+        document.getElementById('cardFire')?.classList.remove('active');
+        document.getElementById('cardGlass')?.classList.remove('active');
+        document.getElementById('cardNeon')?.classList.remove('active');
+        document.getElementById('cardCrimson')?.classList.remove('active');
+        if(estilo === 'fire') document.getElementById('cardFire')?.classList.add('active');
+        else if(estilo === 'glass') document.getElementById('cardGlass')?.classList.add('active');
+        else if(estilo === 'neon') document.getElementById('cardNeon')?.classList.add('active');
+        else if(estilo === 'crimson') document.getElementById('cardCrimson')?.classList.add('active');
+    }
+    
+    const estiloGuardado = localStorage.getItem('cupotax-login-estilo') || 'fire';
+    const lightGuardado = localStorage.getItem('cupotax-login-light') === 'true';
+    if(estiloGuardado === 'glass') document.body.classList.add('style-glass');
+    else if(estiloGuardado === 'neon') document.body.classList.add('style-neon');
+    else if(estiloGuardado === 'crimson') document.body.classList.add('style-crimson');
+    else document.body.classList.add('style-fire');
+    if(lightGuardado) document.body.classList.add('light-mode');
+    actualizarCards(estiloGuardado);
+    
+    window.onclick = function(e) {
+        const panel = document.getElementById('settingsPanel');
+        const btn = document.querySelector('.settings-toggle');
+        if(panel && panel.classList.contains('open') && !panel.contains(e.target) && e.target !== btn && !btn.contains(e.target)) {
+            panel.classList.remove('open');
+        }
+    }
+</script>
+
+</body>
+</html>
