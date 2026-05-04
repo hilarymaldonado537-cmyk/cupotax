@@ -11,6 +11,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="/js/tarifas.js"></script>
     <style>
+        /* MANTÉN TODOS TUS ESTILOS EXISTENTES AQUÍ - SON LOS MISMOS QUE YA TIENES */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body.style-fire {
@@ -1104,13 +1105,20 @@
     
     async function marcarTodasLeidas() {
         try {
+            // Llamar al backend para marcar todas como leídas
             await fetch(API_URL + '/api/notificaciones/marcar-todas', {
                 method: 'PUT',
                 credentials: 'include'
             });
-            await cargarNotificaciones();
+            // Actualizar localmente
+            notificacionesListaGlobal.forEach(n => n.leida = true);
+            mostrarNotificacionesEnPanel();
+            // Ocultar el badge
+            const contadorSpan = document.getElementById('notificacionesContador');
+            if (contadorSpan) contadorSpan.style.display = 'none';
             Swal.fire('Listo', 'Todas las notificaciones marcadas como leídas', 'success');
         } catch (error) {
+            console.error('Error al marcar todas como leídas:', error);
             notificacionesListaGlobal.forEach(n => n.leida = true);
             mostrarNotificacionesEnPanel();
             document.getElementById('notificacionesContador').style.display = 'none';
@@ -1123,9 +1131,12 @@
         event.stopPropagation();
         const panel = document.getElementById('notificacionesPanel');
         notificacionesPanelAbierto = !notificacionesPanelAbierto;
+        
         if (notificacionesPanelAbierto) {
             panel.classList.add('open');
             cargarNotificaciones();
+            // Marcar todas como leídas automáticamente al abrir el panel
+            marcarTodasLeidas();
         } else {
             panel.classList.remove('open');
         }
