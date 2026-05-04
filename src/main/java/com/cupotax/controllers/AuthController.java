@@ -42,11 +42,18 @@ public class AuthController {
             @RequestParam(required = false) String placa,
             @RequestParam(required = false) String modelo,
             @RequestParam(required = false) String color,
+            @RequestParam(required = false) Integer anio,
             @RequestParam(required = false) Integer capacidad,
+            @RequestParam(required = false) String numeroVehiculo,
             @RequestParam(required = false) String tipoTaxi,
             @RequestParam(required = false) String rutaBusero,
+            @RequestParam(required = false) String rutaSeleccionada,
+            @RequestParam(required = false) String chasis,
+            @RequestParam(required = false) String fechaMatricula,
+            @RequestParam(required = false) String ultimaRevision,
+            @RequestParam(required = false) String proximaRevision,
             @RequestParam(required = false) MultipartFile fotoPerfil,
-            @RequestParam(required = false) MultipartFile fotoBus,
+            @RequestParam(required = false) MultipartFile fotoVehiculo,
             HttpSession session) throws IOException {
         
         Map<String, Object> response = new HashMap<>();
@@ -89,9 +96,32 @@ public class AuthController {
             user.setCapacidad(capacidad != null ? capacidad : ("TAXISTA".equals(rol) ? 4 : 50));
             user.setTipoTaxi(tipoTaxi);
             user.setRutaBusero(rutaBusero);
+            user.setRutaSeleccionada(rutaSeleccionada);
+            user.setAnioVehiculo(anio);
+            user.setNumeroBus(numeroVehiculo);
+            user.setChasis(chasis);
             
-            if (fotoBus != null && !fotoBus.isEmpty()) {
-                user.setFotoBus(fotoBus.getBytes());
+            // Convertir fechas si vienen como String
+            if (fechaMatricula != null && !fechaMatricula.isEmpty()) {
+                try {
+                    user.setFechaMatricula(LocalDateTime.parse(fechaMatricula + "T00:00:00"));
+                } catch (Exception e) {
+                    // Si hay error, intentar con formato diferente
+                }
+            }
+            if (ultimaRevision != null && !ultimaRevision.isEmpty()) {
+                try {
+                    user.setUltimaRevision(LocalDateTime.parse(ultimaRevision + "T00:00:00"));
+                } catch (Exception e) {}
+            }
+            if (proximaRevision != null && !proximaRevision.isEmpty()) {
+                try {
+                    user.setProximaRevision(LocalDateTime.parse(proximaRevision + "T00:00:00"));
+                } catch (Exception e) {}
+            }
+            
+            if (fotoVehiculo != null && !fotoVehiculo.isEmpty()) {
+                user.setFotoBus(fotoVehiculo.getBytes());
             }
         }
         
@@ -474,10 +504,10 @@ public class AuthController {
         
         for (User u : users) {
             sb.append("<tr>");
-            sb.append("<td>").append(u.getId()).append("</tr>");
-            sb.append("<td>").append(u.getNombreCompleto() != null ? u.getNombreCompleto() : u.getUsername()).append("</tr>");
+            sb.append("<td>").append(u.getId()).append("<tr>");
+            sb.append("<td>").append(u.getNombreCompleto() != null ? u.getNombreCompleto() : u.getUsername()).append("</table>");
             sb.append("<td>").append(u.getEmail()).append("</td>");
-            sb.append("<td>").append(u.getRol()).append("</td>");
+            sb.append("<td>").append(u.getRol()).append("</tr>");
             sb.append("<td style='color:").append(u.isActivo() ? "#2ecc71" : "#e74c3c").append("'>").append(u.isActivo() ? "✅ Activo" : "❌ Inactivo").append("</td>");
             sb.append("<td>").append(u.getTelefono() != null ? u.getTelefono() : "-").append("</td>");
             sb.append("</tr>");
