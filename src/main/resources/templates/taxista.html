@@ -704,6 +704,8 @@
             <li><a href="#" onclick="mostrarSeccion('ingresos'); cerrarSidebar()"><i class="fas fa-dollar-sign"></i> <span>Ingresos</span></a></li>
             <li><a href="#" onclick="mostrarSeccion('vehiculo'); cerrarSidebar()"><i class="fas fa-car"></i> <span>Vehículo</span></a></li>
             <li><a href="#" onclick="mostrarSeccion('billetera'); cerrarSidebar()"><i class="fas fa-wallet"></i> <span>Billetera</span></a></li>
+            <!-- ========== MI PERFIL ========== -->
+            <li><a href="#" onclick="irAPerfil(); cerrarSidebar()"><i class="fas fa-user-circle"></i> <span>Mi Perfil</span></a></li>
             <li><a href="#" onclick="cerrarSesion(); cerrarSidebar()"><i class="fas fa-sign-out-alt"></i> <span>Salir</span></a></li>
         </ul>
     </div>
@@ -945,6 +947,11 @@
         } catch (error) {
             console.error('Error cargando foto del vehículo:', error);
         }
+    }
+    
+    // ========== FUNCIÓN IR A PERFIL ==========
+    function irAPerfil() {
+        window.location.href = API_URL + '/perfil';
     }
     
     // ========== FUNCIONES DE NOTIFICACIONES ==========
