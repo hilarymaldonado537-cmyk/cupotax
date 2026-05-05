@@ -363,17 +363,7 @@
                     </div>
                 </div>
                 
-                <div id="campoRutaBusero" style="display: none;">
-                    <div class="form-group">
-                        <label>RUTA ASIGNADA <span class="required-star">*</span></label>
-                        <select id="rutaBusero">
-                            <option value="">-- Selecciona una ruta --</option>
-                            <option value="Changuinola - Almirante">Changuinola - Almirante</option>
-                            <option value="Changuinola - David">Changuinola - David</option>
-                            <option value="Changuinola - Guabito">Changuinola - Guabito</option>
-                        </select>
-                    </div>
-                </div>
+                <!-- RUTA ASIGNADA (ELIMINADA - AHORA SOLO USA rutaSeleccionada) -->
                 
                 <div class="form-group">
                     <label>FOTO DEL VEHÍCULO</label>
@@ -393,7 +383,7 @@
                 </div>
             </div>
             
-            <!-- SELECCIÓN DE RUTA (SOLO PARA BUSERO) -->
+            <!-- SELECCIÓN DE RUTA (SOLO PARA BUSERO) - CON TODAS LAS RUTAS -->
             <div id="campoRutaSeleccionada" style="display: none;">
                 <div class="form-group">
                     <label>🗺️ SELECCIONAR RUTA <span class="required-star">*</span></label>
@@ -548,7 +538,6 @@
         const rol = this.value;
         const camposVehiculo = document.getElementById('camposVehiculo');
         const campoTipoTaxi = document.getElementById('campoTipoTaxi');
-        const campoRutaBusero = document.getElementById('campoRutaBusero');
         const infoBusExtra = document.getElementById('infoBusExtra');
         const campoRutaSeleccionada = document.getElementById('campoRutaSeleccionada');
         const numeroVehiculoLabel = document.getElementById('numeroVehiculoLabel');
@@ -559,13 +548,11 @@
         const color = document.getElementById('color');
         const anio = document.getElementById('anio');
         const capacidad = document.getElementById('capacidad');
-        const rutaBuseroSelect = document.getElementById('rutaBusero');
         const rutaSeleccionadaSelect = document.getElementById('rutaSeleccionada');
         
         if (rol === 'TAXISTA') {
             camposVehiculo.style.display = 'block';
             campoTipoTaxi.style.display = 'block';
-            campoRutaBusero.style.display = 'none';
             infoBusExtra.style.display = 'none';
             campoRutaSeleccionada.style.display = 'none';
             
@@ -578,13 +565,11 @@
             color.required = true;
             anio.required = true;
             capacidad.required = true;
-            rutaBuseroSelect.required = false;
             rutaSeleccionadaSelect.required = false;
             
         } else if (rol === 'BUSERO') {
             camposVehiculo.style.display = 'block';
             campoTipoTaxi.style.display = 'none';
-            campoRutaBusero.style.display = 'block';
             infoBusExtra.style.display = 'block';
             campoRutaSeleccionada.style.display = 'block';
             
@@ -597,13 +582,11 @@
             color.required = true;
             anio.required = true;
             capacidad.required = true;
-            rutaBuseroSelect.required = true;
             rutaSeleccionadaSelect.required = true;
             
         } else {
             camposVehiculo.style.display = 'none';
             campoTipoTaxi.style.display = 'none';
-            campoRutaBusero.style.display = 'none';
             infoBusExtra.style.display = 'none';
             campoRutaSeleccionada.style.display = 'none';
             
@@ -613,7 +596,6 @@
             anio.required = false;
             capacidad.required = false;
             numeroVehiculoInput.required = false;
-            rutaBuseroSelect.required = false;
             rutaSeleccionadaSelect.required = false;
         }
     });
@@ -684,7 +666,7 @@
                 if (rol === 'TAXISTA') {
                     formData.append('tipoTaxi', document.getElementById('tipoTaxi').value);
                 } else {
-                    formData.append('rutaBusero', document.getElementById('rutaBusero').value);
+                    // Solo usamos rutaSeleccionada, ya no usamos rutaBusero
                     formData.append('rutaSeleccionada', document.getElementById('rutaSeleccionada').value);
                     formData.append('chasis', document.getElementById('chasis').value);
                     formData.append('fechaMatricula', document.getElementById('fechaMatricula').value);
