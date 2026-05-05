@@ -1087,8 +1087,16 @@
             </div>
         </div>
 
+        <!-- ========== SECCIÓN VEHÍCULO CON FOTO ========== -->
         <div id="seccion-vehiculo" style="display:none;">
-            <div class="card"><div class="card-title"><i class="fas fa-truck"></i> Información del bus</div><div id="vehiculoInfo"></div><button class="btn-toggle" style="margin-top:1rem;" onclick="verDetallesVehiculo()">Ver detalles</button></div>
+            <div class="card">
+                <div class="card-title"><i class="fas fa-truck"></i> Información del bus</div>
+                <div id="vehiculoFoto" style="text-align:center; margin-bottom:1rem;">
+                    <img id="fotoVehiculoPerfil" style="width:150px; height:150px; object-fit:cover; border-radius:16px; display:none;">
+                </div>
+                <div id="vehiculoInfo"></div>
+                <button class="btn-toggle" style="margin-top:1rem;" onclick="verDetallesVehiculo()">Ver detalles</button>
+            </div>
         </div>
 
         <div id="seccion-calificaciones" style="display:none;">
@@ -1225,6 +1233,33 @@
             }
         } catch (error) {
             console.error('Error cargando perfil:', error);
+        }
+    }
+    
+    // ========== FUNCIÓN PARA CARGAR FOTO DEL VEHÍCULO ==========
+    async function cargarFotoVehiculo() {
+        try {
+            const response = await fetch(API_URL + '/api/perfil', {
+                method: 'GET',
+                credentials: 'include'
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                const fotoImg = document.getElementById('fotoVehiculoPerfil');
+                
+                if (data.fotoVehiculo && fotoImg) {
+                    fotoImg.src = 'data:image/jpeg;base64,' + data.fotoVehiculo;
+                    fotoImg.style.display = 'block';
+                } else if (data.fotoBus && fotoImg) {
+                    fotoImg.src = 'data:image/jpeg;base64,' + data.fotoBus;
+                    fotoImg.style.display = 'block';
+                }
+            } else {
+                console.log('No se pudo cargar la foto del vehículo');
+            }
+        } catch (error) {
+            console.error('Error cargando foto del vehículo:', error);
         }
     }
     
@@ -1787,7 +1822,8 @@
         cargarDatosVehiculo();
         cargarTransaccionesBilletera();
         cargarNotificaciones();
-        cargarPerfilUsuario();  // <-- NUEVA: CARGA LOS DATOS REALES DEL USUARIO
+        cargarPerfilUsuario();
+        cargarFotoVehiculo();  // <-- CARGAR FOTO DEL VEHÍCULO
         mostrarSeccion('inicio');
     };
     
