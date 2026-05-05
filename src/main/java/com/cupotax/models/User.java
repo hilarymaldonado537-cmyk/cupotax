@@ -73,6 +73,15 @@ public class User {
     // Campo para ruta seleccionada en el registro
     private String rutaSeleccionada;
     
+    // ========== CAMPOS PARA MULTIEMPRESAS ==========
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "empresa_id")
+    private Empresa empresa;
+    
+    @Column(name = "empresa_id", insertable = false, updatable = false)
+    private Long empresaId;
+    
     // ========== GETTERS Y SETTERS ==========
     
     public Long getId() { return id; }
@@ -167,4 +176,12 @@ public class User {
     
     public String getRutaSeleccionada() { return rutaSeleccionada; }
     public void setRutaSeleccionada(String rutaSeleccionada) { this.rutaSeleccionada = rutaSeleccionada; }
+    
+    // ========== GETTERS Y SETTERS PARA MULTIEMPRESAS ==========
+    
+    public Empresa getEmpresa() { return empresa; }
+    public void setEmpresa(Empresa empresa) { this.empresa = empresa; }
+    
+    public Long getEmpresaId() { return empresaId; }
+    public void setEmpresaId(Long empresaId) { this.empresaId = empresaId; }
 }

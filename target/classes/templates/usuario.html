@@ -11,7 +11,6 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="/js/tarifas.js"></script>
     <style>
-        /* MANTÉN TODOS TUS ESTILOS EXISTENTES AQUÍ - SON LOS MISMOS QUE YA TIENES */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body.style-fire {
@@ -438,6 +437,37 @@
         }
         @keyframes pulseSos { 0%,100% { transform: scale(1); } 50% { transform: scale(1.02); background: #c0392b; } }
         
+        .emergencia-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        .emergencia-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        .btn-emergencia {
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .btn-emergencia i { font-size: 1.2rem; margin-bottom: 5px; display: block; }
+        .btn-emergencia:hover { transform: scale(1.02); filter: brightness(1.1); }
+        .btn-policia { background: #e74c3c; }
+        .btn-bomberos { background: #e67e22; }
+        .btn-ambulancia { background: #2ecc71; }
+        .btn-transito { background: #3498db; }
+        .btn-salud { background: #9b59b6; }
+        .btn-empresa { background: #1abc9c; }
+        
         .service-buttons { display: flex; gap: 0.5rem; margin: 1rem 0; }
         #map { width: 100%; height: 300px; border-radius: 20px; margin: 1rem 0; border: 1px solid var(--glass-border); }
         
@@ -612,6 +642,12 @@
         
         @media (max-width: 768px) {
             .planes-container {
+                grid-template-columns: 1fr;
+            }
+            .emergencia-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .emergencia-grid-2 {
                 grid-template-columns: 1fr;
             }
         }
@@ -889,6 +925,35 @@
         <div id="seccion-seguridad" style="display:none;">
             <div class="card">
                 <div class="card-title"><i class="fas fa-shield-alt"></i> Centro de seguridad</div>
+                
+                <!-- ========== NÚMEROS DE EMERGENCIA AGREGADOS ========== -->
+                <div style="margin-bottom: 1.5rem;">
+                    <div class="card-title"><i class="fas fa-phone-alt" style="color: #e74c3c;"></i> 📞 NÚMEROS DE EMERGENCIA - Panamá</div>
+                    <div class="emergencia-grid">
+                        <button class="btn-emergencia btn-policia" onclick="window.location.href='tel:911'">
+                            <i class="fas fa-car"></i> 🚓 POLICÍA<br>911
+                        </button>
+                        <button class="btn-emergencia btn-bomberos" onclick="window.location.href='tel:103'">
+                            <i class="fas fa-fire"></i> 🚒 BOMBEROS<br>103
+                        </button>
+                        <button class="btn-emergencia btn-ambulancia" onclick="window.location.href='tel:911'">
+                            <i class="fas fa-ambulance"></i> 🚑 AMBULANCIA<br>911
+                        </button>
+                    </div>
+                    <div class="emergencia-grid-2">
+                        <button class="btn-emergencia btn-transito" onclick="window.location.href='tel:104'">
+                            <i class="fas fa-traffic-light"></i> 🚨 TRÁNSITO<br>104
+                        </button>
+                        <button class="btn-emergencia btn-salud" onclick="window.location.href='tel:147'">
+                            <i class="fas fa-hospital"></i> ⚕️ SALUD<br>147
+                        </button>
+                    </div>
+                    <div id="emergenciaEmpresaContainer" style="margin-top: 0.8rem;"></div>
+                    <p style="font-size: 0.65rem; text-align: center; margin-top: 0.8rem; color: var(--text-secondary);">
+                        ⚠️ Solo para emergencias reales. Llamada gratuita 24/7.
+                    </p>
+                </div>
+                
                 <button class="btn-sos" id="btnSOS">
                     <i class="fas fa-exclamation-triangle"></i> SOS - EMERGENCIA
                 </button>
@@ -1007,6 +1072,31 @@
     const tarifasTaxi = {"Changuinola Centro-Guabito":6.05,"Guabito-Changuinola Centro":6.05,"Changuinola Centro-Almirante":14.50,"Almirante-Changuinola Centro":14.50,"Changuinola Centro-Aeropuerto de Changuinola":1.20,"Changuinola Centro-El Silencio":1.20,"Finca 6 Cuartel-Changuinola Centro":0.70,"El Empalme-Changuinola Centro":0.70,"Cuadrante-Changuinola Centro":0.70};
     const tarifasBus = {"Changuinola-Almirante":1.45,"Almirante-Changuinola":1.45,"Changuinola-David":9.65,"David-Changuinola":9.65,"Changuinola-Guabito":0.95,"Guabito-Changuinola":0.95};
 
+    // ========== FUNCIÓN PARA CARGAR EMPRESA (números personalizados) ==========
+    async function cargarEmpresaEmergencia() {
+        try {
+            const response = await fetch(API_URL + '/api/mapa/empresa/mis-datos', {
+                credentials: 'include'
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                const container = document.getElementById('emergenciaEmpresaContainer');
+                if (container && data.telefonoEmergencia && data.telefonoEmergencia !== '911') {
+                    container.innerHTML = `
+                        <button class="btn-emergencia btn-empresa" onclick="window.location.href='tel:${data.telefonoEmergencia}'">
+                            <i class="fas fa-building"></i> 🏢 ${data.nombre}<br>${data.telefonoEmergencia}
+                        </button>
+                    `;
+                } else if (container) {
+                    container.innerHTML = '';
+                }
+            }
+        } catch(error) {
+            console.error('Error cargando empresa:', error);
+        }
+    }
+
     async function cargarNotificaciones() {
         try {
             const response = await fetch(API_URL + '/api/notificaciones', {
@@ -1105,15 +1195,12 @@
     
     async function marcarTodasLeidas() {
         try {
-            // Llamar al backend para marcar todas como leídas
             await fetch(API_URL + '/api/notificaciones/marcar-todas', {
                 method: 'PUT',
                 credentials: 'include'
             });
-            // Actualizar localmente
             notificacionesListaGlobal.forEach(n => n.leida = true);
             mostrarNotificacionesEnPanel();
-            // Ocultar el badge
             const contadorSpan = document.getElementById('notificacionesContador');
             if (contadorSpan) contadorSpan.style.display = 'none';
             Swal.fire('Listo', 'Todas las notificaciones marcadas como leídas', 'success');
@@ -1135,7 +1222,6 @@
         if (notificacionesPanelAbierto) {
             panel.classList.add('open');
             cargarNotificaciones();
-            // Marcar todas como leídas automáticamente al abrir el panel
             marcarTodasLeidas();
         } else {
             panel.classList.remove('open');
@@ -1625,7 +1711,6 @@
         else if(estilo === 'crimson') document.getElementById('cardCrimson')?.classList.add('active');
     }
     
-    // ========== FUNCIÓN CERRAR SESIÓN MEJORADA ==========
     function cerrarSesion() {
         Swal.fire({
             title: '¿Cerrar sesión?',
@@ -1656,9 +1741,22 @@
     actualizarCards(estiloGuardado);
     
     window.onload = () => {
-        cargarUsuario(); cargarSaldo(); cargarViajesRecientes(); cargarRutasPopulares(); cargarNotificacionesLista(); cargarPlanPremium(); cargarDestinosRapidos(); cargarReservas(); cargarFavoritos(); cargarTransacciones(); cargarContactos();
+        cargarUsuario(); 
+        cargarSaldo(); 
+        cargarViajesRecientes(); 
+        cargarRutasPopulares(); 
+        cargarNotificacionesLista(); 
+        cargarPlanPremium(); 
+        cargarDestinosRapidos(); 
+        cargarReservas(); 
+        cargarFavoritos(); 
+        cargarTransacciones(); 
+        cargarContactos();
         cargarNotificaciones();
-        initMap(); mostrarSeccion('inicio'); calcularTarifaReal();
+        cargarEmpresaEmergencia(); // <-- Cargar números de emergencia de la empresa
+        initMap(); 
+        mostrarSeccion('inicio'); 
+        calcularTarifaReal();
     };
     
     window.onclick = function(e) {

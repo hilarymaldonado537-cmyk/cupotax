@@ -1,5 +1,6 @@
 com\cupotax\config\SecurityConfig.class
 com\cupotax\models\Incident.class
+com\cupotax\models\Empresa.class
 com\cupotax\config\DataLoader.class
 com\cupotax\repositories\TripRepository.class
 com\cupotax\config\CorsConfig.class
@@ -13,9 +14,11 @@ com\cupotax\controllers\NotificacionController.class
 com\cupotax\models\AuditLog.class
 com\cupotax\controllers\WebController.class
 com\cupotax\repositories\UserRepository.class
+com\cupotax\repositories\EmpresaRepository.class
 com\cupotax\controllers\AdminController.class
 com\cupotax\repositories\NotificacionRepository.class
 com\cupotax\controllers\AuthController.class
+com\cupotax\controllers\EmergenciaController.class
 com\cupotax\controllers\TripController.class
 com\cupotax\models\Notificacion.class
 com\cupotax\controllers\UserController.class
