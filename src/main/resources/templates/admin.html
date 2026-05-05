@@ -539,13 +539,157 @@
             color: var(--accent);
         }
         
+        /* ========== ESTILOS FLOTA DE VEHÍCULOS ========== */
+        .flota-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 0.5rem;
+        }
+        
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .tab-btn.active {
+            background: var(--accent);
+            color: #000;
+            box-shadow: var(--accent-glow);
+        }
+        
+        .tab-btn:hover:not(.active) {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .vehiculos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .vehiculo-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .vehiculo-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: var(--accent-glow);
+        }
+        
+        .vehiculo-foto {
+            width: 100%;
+            height: 180px;
+            background: rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .vehiculo-foto img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .vehiculo-foto i {
+            font-size: 4rem;
+            color: var(--accent);
+            opacity: 0.5;
+        }
+        
+        .vehiculo-info {
+            padding: 1rem;
+        }
+        
+        .vehiculo-info h4 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .vehiculo-info p {
+            font-size: 0.75rem;
+            margin: 0.3rem 0;
+            color: var(--text-secondary);
+        }
+        
+        .estado-activo {
+            color: #2ecc71;
+            font-weight: bold;
+        }
+        
+        .estado-inactivo {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .btn-toggle-vehiculo {
+            background: var(--accent);
+            border: none;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            color: #000;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        
+        .btn-toggle-vehiculo:hover {
+            transform: scale(1.02);
+            box-shadow: var(--accent-glow);
+        }
+        
+        .detalle-foto {
+            width: 100%;
+            max-height: 250px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+        }
+        
+        .detalle-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+        
+        .detalle-info p {
+            margin: 0.3rem 0;
+            font-size: 0.8rem;
+        }
+        
+        .detalle-info strong {
+            color: var(--accent);
+        }
+        
         @media (max-width: 1000px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .two-columns { grid-template-columns: 1fr; }
             .sidebar { width: 70px; }
             .sidebar span { display: none; }
             .main-content { margin-left: 70px; }
+            .vehiculos-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
         }
+        
         @media (max-width: 700px) {
             .menu-toggle { display: block; }
             .sidebar { transform: translateX(-100%); width: 260px; }
@@ -555,6 +699,8 @@
             .stats-grid { grid-template-columns: 1fr; }
             .settings-panel { right: 10px; bottom: 80px; width: 240px; }
             .settings-toggle { right: 10px; bottom: 10px; }
+            .vehiculos-grid { grid-template-columns: 1fr; }
+            .detalle-info { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -571,12 +717,12 @@
         <ul class="sidebar-menu">
             <li><a href="#" onclick="mostrarSeccion('dashboard'); return false;" class="active"><i class="fas fa-chart-line"></i><span>Dashboard</span></a></li>
             <li><a href="#" onclick="mostrarSeccion('conductores'); return false;"><i class="fas fa-id-card"></i><span>Conductores</span></a></li>
-            <li><a href="#" onclick="mostrarSeccion('vehiculos'); return false;"><i class="fas fa-truck"></i><span>Vehículos</span></a></li>
+            <li><a href="#" onclick="mostrarSeccion('flota'); return false;"><i class="fas fa-truck"></i><span>Flota Vehículos</span></a></li>
+            <li><a href="#" onclick="mostrarSeccion('vehiculos'); return false;"><i class="fas fa-table"></i><span>Tabla Vehículos</span></a></li>
             <li><a href="#" onclick="mostrarSeccion('usuarios'); return false;"><i class="fas fa-users"></i><span>Usuarios</span></a></li>
             <li><a href="#" onclick="mostrarSeccion('viajes'); return false;"><i class="fas fa-map-marked-alt"></i><span>Viajes</span></a></li>
             <li><a href="#" onclick="mostrarSeccion('reportes'); return false;"><i class="fas fa-chart-bar"></i><span>Reportes</span></a></li>
             <li><a href="#" onclick="mostrarSeccion('alertasSOS'); return false;"><i class="fas fa-exclamation-triangle"></i><span>Alertas SOS</span></a></li>
-            <!-- ========== NUEVO APARTADO DE SALIR ========== -->
             <li><a href="#" onclick="cerrarSesion(); return false;"><i class="fas fa-sign-out-alt"></i><span>Salir</span></a></li>
         </ul>
     </div>
@@ -607,7 +753,7 @@
 <div id="detailModal" class="detail-modal">
     <div class="detail-modal-content">
         <div class="detail-modal-header">
-            <h3 id="modalTitle">Detalles</h3>
+            <h3 id="modalTitle">Detalles del Vehículo</h3>
             <button class="detail-modal-close" onclick="cerrarModal()">&times;</button>
         </div>
         <div id="modalBody"></div>
@@ -623,6 +769,7 @@
     let viajesGlobal = [];
     let currentUserFilter = "todos";
     let currentServiceFilter = "semana";
+    let flotaFiltro = 'BUSERO'; // BUSERO o TAXISTA
     
     // ========== FUNCIÓN DE CIERRE DE SESIÓN (SALIR) ==========
     function cerrarSesion() {
@@ -638,10 +785,8 @@
             confirmButtonColor: 'var(--accent)'
         }).then((result) => {
             if (result.isConfirmed) {
-                // Llamada al logout del backend (si existe)
                 fetch(API_URL + '/logout', { method: 'POST', credentials: 'include' })
                     .catch(e => console.error('Error al cerrar sesión:', e));
-                // Redirige al inicio (página principal)
                 window.location.href = API_URL + '/';
             }
         });
@@ -669,6 +814,134 @@
         const totalIngresos = viajes.reduce((s, v) => s + (v.tarifa || 0), 0);
         
         return { totalUsuarios, totalTaxistas, totalBuseros, totalViajes, totalIngresos };
+    }
+    
+    // ========== FLOTA DE VEHÍCULOS ==========
+    async function cargarFlotaVehiculos() {
+        const container = document.getElementById('flotaVehiculos');
+        if (!container) return;
+        
+        // Filtrar por tipo
+        const vehiculosFiltrados = conductoresGlobal.filter(c => c.rol === flotaFiltro);
+        
+        if (vehiculosFiltrados.length === 0) {
+            container.innerHTML = `<div class="section" style="text-align:center; padding:2rem;">
+                <i class="fas fa-truck" style="font-size:3rem; opacity:0.5;"></i>
+                <p>No hay ${flotaFiltro === 'BUSERO' ? 'buses' : 'taxis'} registrados</p>
+            </div>`;
+            return;
+        }
+        
+        container.innerHTML = vehiculosFiltrados.map(v => `
+            <div class="vehiculo-card" onclick="verDetalleVehiculo(${v.id})">
+                <div class="vehiculo-foto">
+                    ${v.fotoVehiculo ? 
+                        `<img src="data:image/jpeg;base64,${v.fotoVehiculo}" alt="Foto del vehículo">` : 
+                        `<i class="fas ${v.rol === 'BUSERO' ? 'fa-bus' : 'fa-taxi'}"></i>`
+                    }
+                </div>
+                <div class="vehiculo-info">
+                    <h4>${v.placa || 'Sin placa'}</h4>
+                    <p><strong>Conductor:</strong> ${v.nombreCompleto || v.username}</p>
+                    <p><strong>Modelo:</strong> ${v.modelo || 'N/A'}</p>
+                    <p><strong>Capacidad:</strong> ${v.capacidad || 'N/A'} pasajeros</p>
+                    <p><strong>Estado:</strong> <span class="${v.activo ? 'estado-activo' : 'estado-inactivo'}">${v.activo ? 'Activo' : 'Inactivo'}</span></p>
+                    <button class="btn-toggle-vehiculo" onclick="event.stopPropagation(); toggleVehiculoEstado(${v.id})">
+                        ${v.activo ? 'Desactivar' : 'Activar'}
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    async function verDetalleVehiculo(id) {
+        const vehiculo = conductoresGlobal.find(c => c.id === id);
+        if (!vehiculo) return;
+        
+        document.getElementById('modalTitle').innerHTML = `🚗 Detalles del ${vehiculo.rol === 'BUSERO' ? 'Bus' : 'Taxi'}`;
+        document.getElementById('modalBody').innerHTML = `
+            <div style="text-align:center;">
+                ${vehiculo.fotoVehiculo ? 
+                    `<img src="data:image/jpeg;base64,${vehiculo.fotoVehiculo}" class="detalle-foto" alt="Foto del vehículo">` : 
+                    `<div style="width:100%; height:150px; background:rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center; border-radius:16px; margin-bottom:1rem;">
+                        <i class="fas ${vehiculo.rol === 'BUSERO' ? 'fa-bus' : 'fa-taxi'}" style="font-size:4rem; color:var(--accent);"></i>
+                     </div>`
+                }
+            </div>
+            <div class="detalle-info">
+                <p><strong>🔢 Matrícula:</strong> ${vehiculo.placa || 'N/A'}</p>
+                <p><strong>📅 Año:</strong> ${vehiculo.anioVehiculo || 'N/A'}</p>
+                <p><strong>🚗 Modelo:</strong> ${vehiculo.modelo || 'N/A'}</p>
+                <p><strong>🎨 Color:</strong> ${vehiculo.color || 'N/A'}</p>
+                <p><strong>👥 Capacidad:</strong> ${vehiculo.capacidad || 'N/A'}</p>
+                <p><strong>🔧 Número:</strong> ${vehiculo.numeroBus || vehiculo.numeroVehiculo || 'N/A'}</p>
+                <p><strong>🔢 Chasis:</strong> ${vehiculo.chasis || 'N/A'}</p>
+                <p><strong>📅 Matrícula:</strong> ${vehiculo.fechaMatricula ? new Date(vehiculo.fechaMatricula).toLocaleDateString() : 'N/A'}</p>
+                <p><strong>👤 Conductor:</strong> ${vehiculo.nombreCompleto}</p>
+                <p><strong>📞 Contacto:</strong> ${vehiculo.telefono || 'N/A'}</p>
+                <p><strong>📧 Email:</strong> ${vehiculo.email || 'N/A'}</p>
+                <p><strong>📋 Ruta:</strong> ${vehiculo.rutaBusero || vehiculo.tipoTaxi || 'N/A'}</p>
+                <p><strong>📆 Última revisión:</strong> ${vehiculo.ultimaRevision ? new Date(vehiculo.ultimaRevision).toLocaleDateString() : 'N/A'}</p>
+                <p><strong>📆 Próxima revisión:</strong> ${vehiculo.proximaRevision ? new Date(vehiculo.proximaRevision).toLocaleDateString() : 'N/A'}</p>
+            </div>
+        `;
+        document.getElementById('detailModal').classList.add('active');
+    }
+    
+    async function toggleVehiculoEstado(id) {
+        try {
+            const response = await fetch(API_URL + `/admin/user/toggle/${id}`, {
+                method: 'POST',
+                credentials: 'include'
+            });
+            
+            if (response.ok) {
+                Swal.fire('Estado actualizado', '', 'success');
+                await cargarStats();
+                await cargarFlotaVehiculos();
+                // Actualizar listas
+                const users = await fetchAPI('/admin/users');
+                usuariosGlobal = users;
+                conductoresGlobal = users.filter(u => u.rol === 'TAXISTA' || u.rol === 'BUSERO');
+            } else {
+                Swal.fire('Error', 'No se pudo actualizar el estado', 'error');
+            }
+        } catch (error) {
+            Swal.fire('Error', 'Error de conexión', 'error');
+        }
+    }
+    
+    function cambiarFiltroFlota(tipo) {
+        flotaFiltro = tipo;
+        document.getElementById('tabBuses').classList.toggle('active', tipo === 'BUSERO');
+        document.getElementById('tabTaxis').classList.toggle('active', tipo === 'TAXISTA');
+        cargarFlotaVehiculos();
+    }
+    
+    function mostrarSeccionFlota() {
+        const html = `
+            <div class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-truck"></i> Flota de Vehículos</h2>
+                </div>
+                <div class="flota-tabs">
+                    <button class="tab-btn active" id="tabBuses" onclick="cambiarFiltroFlota('BUSERO')">
+                        <i class="fas fa-bus"></i> Buses
+                    </button>
+                    <button class="tab-btn" id="tabTaxis" onclick="cambiarFiltroFlota('TAXISTA')">
+                        <i class="fas fa-taxi"></i> Taxis
+                    </button>
+                </div>
+                <div id="flotaVehiculos" class="vehiculos-grid">
+                    <div class="section" style="text-align:center; padding:2rem;">
+                        <i class="fas fa-spinner fa-spin" style="font-size:2rem;"></i>
+                        <p>Cargando vehículos...</p>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.getElementById('contenidoPrincipal').innerHTML = html;
+        cargarFlotaVehiculos();
     }
     
     async function cargarIncidentes() {
@@ -938,9 +1211,12 @@
                 <div style="overflow-x:auto;"><table class="data-table" id="tablaConductores"><thead><tr><th>Nombre</th><th>Cédula</th><th>Email</th><th>Teléfono</th><th>Tipo</th><th>Placa</th><th>Estado</th></tr></thead><tbody>${conductoresGlobal.map(c => `<tr><td>${c.nombreCompleto || c.username}</td><td>${c.cedula || '-'}</td><td>${c.email || '-'}</td><td>${c.telefono || '-'}</td><td>${c.rol}</td><td>${c.placa || '-'}</td><td class="${c.activo ? 'status-active' : 'status-inactive'}">${c.activo ? 'Activo' : 'Inactivo'}</td></tr>`).join('')}</tbody></table></div></div>`;
             document.getElementById('contenidoPrincipal').innerHTML = html;
         }
+        else if(seccion === 'flota') {
+            mostrarSeccionFlota();
+        }
         else if(seccion === 'vehiculos') {
             const vehiculos = conductoresGlobal.filter(c => c.placa).map(c => ({ placa: c.placa, modelo: c.modelo, tipo: c.rol, conductor: c.nombreCompleto, estado: c.activo ? 'Activo' : 'Inactivo' }));
-            const html = `<div class="section"><h2><i class="fas fa-truck"></i> Vehículos</h2>
+            const html = `<div class="section"><h2><i class="fas fa-table"></i> Tabla Vehículos</h2>
                 <div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>Placa</th><th>Modelo</th><th>Tipo</th><th>Conductor</th><th>Estado</th></tr></thead><tbody>${vehiculos.map(v => `<tr><td>${v.placa}</td><td>${v.modelo || '-'}</td><td>${v.tipo}</td><td>${v.conductor}</td><td class="${v.estado === 'Activo' ? 'status-active' : 'status-inactive'}">${v.estado}</td></tr>`).join('')}</tbody></table></div></div>`;
             document.getElementById('contenidoPrincipal').innerHTML = html;
         }
