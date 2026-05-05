@@ -11,11 +11,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.regex.Pattern;
 
 @RestController
 public class AuthController {
@@ -27,6 +29,37 @@ public class AuthController {
     private IncidentRepository incidentRepository;
     
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    
+    // Rate limiting
+    private Map<String, Integer> loginAttempts = new HashMap<>();
+    private Map<String, Long> lockoutTime = new HashMap<>();
+    private static final int MAX_ATTEMPTS = 5;
+    private static final long LOCKOUT_DURATION = 15 * 60 * 1000;
+    
+    // Sanitizacion
+    private String sanitizar(String input) {
+        if (input == null) return null;
+        return input.replaceAll("&", "&amp;")
+                    .replaceAll("<", "&lt;")
+                    .replaceAll(">", "&gt;")
+                    .replaceAll("\"", "&quot;")
+                    .replaceAll("'", "&#x27;")
+                    .replaceAll("/", "&#x2F;");
+    }
+    
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        Pattern pat = Pattern.compile(emailRegex);
+        return email != null && pat.matcher(email).matches();
+    }
+    
+    private boolean isValidPhone(String telefono) {
+        return telefono != null && telefono.matches("^[+]?[0-9]{7,15}$");
+    }
+    
+    private boolean isValidCedula(String cedula) {
+        return cedula != null && cedula.matches("^[0-9]{3,15}$");
+    }
     
     @PostMapping("/register")
     @ResponseBody
@@ -54,9 +87,49 @@ public class AuthController {
             @RequestParam(required = false) String proximaRevision,
             @RequestParam(required = false) MultipartFile fotoPerfil,
             @RequestParam(required = false) MultipartFile fotoVehiculo,
-            HttpSession session) throws IOException {
+            HttpServletRequest request) throws IOException {
         
         Map<String, Object> response = new HashMap<>();
+        
+        if (!isValidEmail(email)) {
+            response.put("error", "Formato de email invalido");
+            return response;
+        }
+        
+        if (!isValidPhone(telefono)) {
+            response.put("error", "Formato de telefono invalido");
+            return response;
+        }
+        
+        if (!isValidCedula(cedula)) {
+            response.put("error", "Formato de cedula invalido");
+            return response;
+        }
+        
+        if (!pinSeguridad.matches("\\d{6}")) {
+            response.put("error", "El PIN debe ser de 6 digitos");
+            return response;
+        }
+        
+        List<String> validRoles = Arrays.asList("ADMIN", "TAXISTA", "BUSERO", "USUARIO", "ESTUDIANTE");
+        if (!validRoles.contains(rol)) {
+            response.put("error", "Rol invalido");
+            return response;
+        }
+        
+        nombreCompleto = sanitizar(nombreCompleto);
+        cedula = sanitizar(cedula);
+        email = sanitizar(email);
+        telefono = sanitizar(telefono);
+        username = sanitizar(username);
+        placa = sanitizar(placa);
+        modelo = sanitizar(modelo);
+        color = sanitizar(color);
+        numeroVehiculo = sanitizar(numeroVehiculo);
+        tipoTaxi = sanitizar(tipoTaxi);
+        rutaBusero = sanitizar(rutaBusero);
+        rutaSeleccionada = sanitizar(rutaSeleccionada);
+        chasis = sanitizar(chasis);
         
         if (userRepository.findByUsername(username).isPresent()) {
             response.put("error", "El nombre de usuario ya existe");
@@ -64,7 +137,7 @@ public class AuthController {
         }
         
         if (userRepository.findByEmail(email).isPresent()) {
-            response.put("error", "El correo ya está registrado");
+            response.put("error", "El correo ya esta registrado");
             return response;
         }
         
@@ -86,6 +159,10 @@ public class AuthController {
         user.setPinSeguridad(pinSeguridad);
         
         if (fotoPerfil != null && !fotoPerfil.isEmpty()) {
+            if (fotoPerfil.getSize() > 5 * 1024 * 1024) {
+                response.put("error", "La foto no puede superar los 5MB");
+                return response;
+            }
             user.setFotoPerfil(fotoPerfil.getBytes());
         }
         
@@ -101,13 +178,10 @@ public class AuthController {
             user.setNumeroBus(numeroVehiculo);
             user.setChasis(chasis);
             
-            // Convertir fechas si vienen como String
             if (fechaMatricula != null && !fechaMatricula.isEmpty()) {
                 try {
                     user.setFechaMatricula(LocalDateTime.parse(fechaMatricula + "T00:00:00"));
-                } catch (Exception e) {
-                    // Si hay error, intentar con formato diferente
-                }
+                } catch (Exception e) {}
             }
             if (ultimaRevision != null && !ultimaRevision.isEmpty()) {
                 try {
@@ -121,16 +195,25 @@ public class AuthController {
             }
             
             if (fotoVehiculo != null && !fotoVehiculo.isEmpty()) {
+                if (fotoVehiculo.getSize() > 5 * 1024 * 1024) {
+                    response.put("error", "La foto del vehiculo no puede superar los 5MB");
+                    return response;
+                }
                 user.setFotoBus(fotoVehiculo.getBytes());
             }
         }
         
         userRepository.save(user);
         
-        session.setAttribute("userId", user.getId());
-        session.setAttribute("username", user.getUsername());
-        session.setAttribute("rol", user.getRol());
-        session.setAttribute("nombre", user.getNombreCompleto());
+        HttpSession oldSession = request.getSession(false);
+        if (oldSession != null) {
+            oldSession.invalidate();
+        }
+        HttpSession newSession = request.getSession(true);
+        newSession.setAttribute("userId", user.getId());
+        newSession.setAttribute("username", user.getUsername());
+        newSession.setAttribute("rol", user.getRol());
+        newSession.setAttribute("nombre", user.getNombreCompleto());
         
         response.put("success", true);
         response.put("redirectUrl", getRedirectUrl(rol));
@@ -140,16 +223,19 @@ public class AuthController {
     
     private String validarPasswordFuerte(String password) {
         if (password == null || password.length() < 8) {
-            return "La contraseña debe tener al menos 8 caracteres";
+            return "La contrasena debe tener al menos 8 caracteres";
         }
         if (!password.matches(".*[A-Z].*")) {
-            return "La contraseña debe tener al menos una MAYÚSCULA";
+            return "La contrasena debe tener al menos una MAYUSCULA";
         }
         if (!password.matches(".*[a-z].*")) {
-            return "La contraseña debe tener al menos una MINÚSCULA";
+            return "La contrasena debe tener al menos una MINUSCULA";
         }
         if (!password.matches(".*[0-9].*")) {
-            return "La contraseña debe tener al menos un NÚMERO";
+            return "La contrasena debe tener al menos un NUMERO";
+        }
+        if (!password.matches(".*[^A-Za-z0-9].*")) {
+            return "La contrasena debe tener al menos un CARACTER ESPECIAL";
         }
         return null;
     }
@@ -157,10 +243,21 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestParam String username,
                                                       @RequestParam String password,
-                                                      HttpSession session) {
+                                                      HttpServletRequest request) {
         Map<String, Object> response = new HashMap<>();
-        Optional<User> userOpt = userRepository.findByUsername(username);
         
+        String ip = request.getRemoteAddr();
+        
+        if (lockoutTime.containsKey(ip) && System.currentTimeMillis() < lockoutTime.get(ip)) {
+            long remaining = (lockoutTime.get(ip) - System.currentTimeMillis()) / 1000;
+            response.put("success", false);
+            response.put("error", "Demasiados intentos. Intenta en " + remaining + " segundos");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+        
+        username = sanitizar(username);
+        
+        Optional<User> userOpt = userRepository.findByUsername(username);
         if (userOpt.isEmpty()) {
             userOpt = userRepository.findByEmail(username);
         }
@@ -170,15 +267,25 @@ public class AuthController {
             
             if (!user.isActivo()) {
                 response.put("success", false);
-                response.put("error", "Tu cuenta está bloqueada");
+                response.put("error", "Tu cuenta esta bloqueada");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
             
             if (passwordEncoder.matches(password, user.getPassword())) {
-                session.setAttribute("userId", user.getId());
-                session.setAttribute("username", user.getUsername());
-                session.setAttribute("rol", user.getRol());
-                session.setAttribute("nombre", user.getNombreCompleto());
+                loginAttempts.remove(ip);
+                lockoutTime.remove(ip);
+                
+                HttpSession oldSession = request.getSession(false);
+                if (oldSession != null) {
+                    oldSession.invalidate();
+                }
+                HttpSession newSession = request.getSession(true);
+                
+                newSession.setAttribute("userId", user.getId());
+                newSession.setAttribute("username", user.getUsername());
+                newSession.setAttribute("rol", user.getRol());
+                newSession.setAttribute("nombre", user.getNombreCompleto());
+                newSession.setAttribute("email", user.getEmail());
                 
                 response.put("success", true);
                 response.put("rol", user.getRol());
@@ -187,18 +294,40 @@ public class AuthController {
             }
         }
         
+        int attempts = loginAttempts.getOrDefault(ip, 0) + 1;
+        loginAttempts.put(ip, attempts);
+        
+        if (attempts >= MAX_ATTEMPTS) {
+            lockoutTime.put(ip, System.currentTimeMillis() + LOCKOUT_DURATION);
+            loginAttempts.remove(ip);
+            response.put("error", "Demasiados intentos. Cuenta bloqueada 15 minutos");
+        } else {
+            response.put("error", "Usuario o contrasena incorrectos. Intentos restantes: " + (MAX_ATTEMPTS - attempts));
+        }
+        
         response.put("success", false);
-        response.put("error", "Usuario o contraseña incorrectos");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
     
     @PostMapping("/login-with-pin")
     public ResponseEntity<Map<String, Object>> loginWithPin(@RequestParam String username,
                                                              @RequestParam String pin,
-                                                             HttpSession session) {
+                                                             HttpServletRequest request) {
         Map<String, Object> response = new HashMap<>();
-        Optional<User> userOpt = userRepository.findByUsername(username);
         
+        String ip = request.getRemoteAddr();
+        
+        if (lockoutTime.containsKey(ip) && System.currentTimeMillis() < lockoutTime.get(ip)) {
+            long remaining = (lockoutTime.get(ip) - System.currentTimeMillis()) / 1000;
+            response.put("success", false);
+            response.put("error", "Demasiados intentos. Intenta en " + remaining + " segundos");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+        
+        username = sanitizar(username);
+        pin = sanitizar(pin);
+        
+        Optional<User> userOpt = userRepository.findByUsername(username);
         if (userOpt.isEmpty()) {
             userOpt = userRepository.findByEmail(username);
         }
@@ -208,15 +337,25 @@ public class AuthController {
             
             if (!user.isActivo()) {
                 response.put("success", false);
-                response.put("error", "Tu cuenta está bloqueada");
+                response.put("error", "Tu cuenta esta bloqueada");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
             
             if (user.getPinSeguridad() != null && user.getPinSeguridad().equals(pin)) {
-                session.setAttribute("userId", user.getId());
-                session.setAttribute("username", user.getUsername());
-                session.setAttribute("rol", user.getRol());
-                session.setAttribute("nombre", user.getNombreCompleto());
+                loginAttempts.remove(ip);
+                lockoutTime.remove(ip);
+                
+                HttpSession oldSession = request.getSession(false);
+                if (oldSession != null) {
+                    oldSession.invalidate();
+                }
+                HttpSession newSession = request.getSession(true);
+                
+                newSession.setAttribute("userId", user.getId());
+                newSession.setAttribute("username", user.getUsername());
+                newSession.setAttribute("rol", user.getRol());
+                newSession.setAttribute("nombre", user.getNombreCompleto());
+                newSession.setAttribute("email", user.getEmail());
                 
                 response.put("success", true);
                 response.put("rol", user.getRol());
@@ -225,14 +364,27 @@ public class AuthController {
             }
         }
         
+        int attempts = loginAttempts.getOrDefault(ip, 0) + 1;
+        loginAttempts.put(ip, attempts);
+        
+        if (attempts >= MAX_ATTEMPTS) {
+            lockoutTime.put(ip, System.currentTimeMillis() + LOCKOUT_DURATION);
+            loginAttempts.remove(ip);
+            response.put("error", "Demasiados intentos. Cuenta bloqueada 15 minutos");
+        } else {
+            response.put("error", "PIN incorrecto. Intentos restantes: " + (MAX_ATTEMPTS - attempts));
+        }
+        
         response.put("success", false);
-        response.put("error", "PIN incorrecto");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
     
     @PostMapping("/recuperar/enviar-codigo")
     public ResponseEntity<Map<String, Object>> enviarCodigoRecuperacion(@RequestParam String contacto) {
         Map<String, Object> response = new HashMap<>();
+        
+        contacto = sanitizar(contacto);
+        
         Optional<User> userOpt = userRepository.findByEmail(contacto);
         if (userOpt.isEmpty()) {
             userOpt = userRepository.findByTelefono(contacto);
@@ -240,7 +392,7 @@ public class AuthController {
         
         if (userOpt.isEmpty()) {
             response.put("success", false);
-            response.put("error", "No se encontró una cuenta");
+            response.put("error", "No se encontro una cuenta");
             return ResponseEntity.badRequest().body(response);
         }
         
@@ -252,10 +404,10 @@ public class AuthController {
         user.setCodigoRecuperacionExpiracion(expiracion);
         userRepository.save(user);
         
-        System.out.println("CÓDIGO DE RECUPERACIÓN: " + codigo);
+        System.out.println("CODIGO DE RECUPERACION: " + codigo);
         
         response.put("success", true);
-        response.put("message", "Código enviado");
+        response.put("message", "Codigo enviado");
         response.put("email", user.getEmail());
         return ResponseEntity.ok(response);
     }
@@ -264,8 +416,11 @@ public class AuthController {
     public ResponseEntity<Map<String, Object>> verificarCodigo(@RequestParam String email,
                                                                 @RequestParam String codigo) {
         Map<String, Object> response = new HashMap<>();
-        Optional<User> userOpt = userRepository.findByEmail(email);
         
+        email = sanitizar(email);
+        codigo = sanitizar(codigo);
+        
+        Optional<User> userOpt = userRepository.findByEmail(email);
         if (userOpt.isEmpty()) {
             response.put("success", false);
             response.put("error", "Usuario no encontrado");
@@ -276,7 +431,7 @@ public class AuthController {
         
         if (user.getCodigoRecuperacion() == null || !user.getCodigoRecuperacion().equals(codigo)) {
             response.put("success", false);
-            response.put("error", "Código incorrecto");
+            response.put("error", "Codigo incorrecto");
             return ResponseEntity.badRequest().body(response);
         }
         
@@ -284,13 +439,13 @@ public class AuthController {
             LocalDateTime expiracion = LocalDateTime.parse(user.getCodigoRecuperacionExpiracion());
             if (expiracion.isBefore(LocalDateTime.now())) {
                 response.put("success", false);
-                response.put("error", "Código expirado");
+                response.put("error", "Codigo expirado");
                 return ResponseEntity.badRequest().body(response);
             }
         }
         
         response.put("success", true);
-        response.put("message", "Código verificado");
+        response.put("message", "Codigo verificado");
         return ResponseEntity.ok(response);
     }
     
@@ -298,6 +453,8 @@ public class AuthController {
     public ResponseEntity<Map<String, Object>> cambiarPassword(@RequestParam String email,
                                                                 @RequestParam String nuevaPassword) {
         Map<String, Object> response = new HashMap<>();
+        
+        email = sanitizar(email);
         
         String passwordError = validarPasswordFuerte(nuevaPassword);
         if (passwordError != null) {
@@ -320,7 +477,7 @@ public class AuthController {
         userRepository.save(user);
         
         response.put("success", true);
-        response.put("message", "Contraseña actualizada");
+        response.put("message", "Contrasena actualizada");
         return ResponseEntity.ok(response);
     }
     
@@ -360,6 +517,16 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         
+        if (!isValidPhone(telefono)) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", false);
+            response.put("error", "Formato de telefono invalido");
+            return ResponseEntity.badRequest().body(response);
+        }
+        
+        nombreCompleto = sanitizar(nombreCompleto);
+        telefono = sanitizar(telefono);
+        
         Optional<User> userOpt = userRepository.findById(userId);
         if (userOpt.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -370,6 +537,12 @@ public class AuthController {
         user.setTelefono(telefono);
         
         if (fotoPerfil != null && !fotoPerfil.isEmpty()) {
+            if (fotoPerfil.getSize() > 5 * 1024 * 1024) {
+                Map<String, Object> response = new HashMap<>();
+                response.put("success", false);
+                response.put("error", "La foto no puede superar los 5MB");
+                return ResponseEntity.badRequest().body(response);
+            }
             user.setFotoPerfil(fotoPerfil.getBytes());
             session.setAttribute("fotoPerfil", Base64.getEncoder().encodeToString(fotoPerfil.getBytes()));
         }
@@ -401,7 +574,7 @@ public class AuthController {
         if (!passwordEncoder.matches(actualPassword, user.getPassword())) {
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
-            response.put("error", "Contraseña actual incorrecta");
+            response.put("error", "Contrasena actual incorrecta");
             return ResponseEntity.badRequest().body(response);
         }
         
@@ -418,14 +591,19 @@ public class AuthController {
         
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
-        response.put("message", "Contraseña actualizada");
+        response.put("message", "Contrasena actualizada");
         return ResponseEntity.ok(response);
     }
     
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/";
+    @PostMapping("/logout")
+    public ResponseEntity<Map<String, Object>> logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        return ResponseEntity.ok(response);
     }
     
     private String getRedirectUrl(String rol) {
@@ -437,10 +615,9 @@ public class AuthController {
         }
     }
     
-    // ==================== SISTEMA SOS ====================
-    
     @PostMapping("/api/incidentes/reportar")
-    public ResponseEntity<Map<String, Object>> reportarIncidente(@RequestBody Map<String, Object> request, HttpSession session) {
+    public ResponseEntity<Map<String, Object>> reportarIncidente(@RequestBody Map<String, Object> request, 
+                                                                  HttpSession session) {
         Map<String, Object> response = new HashMap<>();
         Long userId = (Long) session.getAttribute("userId");
         
@@ -455,12 +632,22 @@ public class AuthController {
             return ResponseEntity.badRequest().body(response);
         }
         
+        String tipo = (String) request.get("tipo");
+        String descripcion = (String) request.get("descripcion");
+        String ubicacion = (String) request.get("ubicacion");
+        String contacto = (String) request.get("contacto");
+        
+        tipo = sanitizar(tipo);
+        descripcion = sanitizar(descripcion);
+        ubicacion = sanitizar(ubicacion);
+        contacto = sanitizar(contacto);
+        
         Incident incident = new Incident();
         incident.setUsuario(userOpt.get());
-        incident.setTipo((String) request.get("tipo"));
-        incident.setDescripcion((String) request.get("descripcion"));
-        incident.setUbicacion((String) request.get("ubicacion"));
-        incident.setContacto((String) request.get("contacto"));
+        incident.setTipo(tipo);
+        incident.setDescripcion(descripcion);
+        incident.setUbicacion(ubicacion);
+        incident.setContacto(contacto);
         incident.setAtendido(false);
         incidentRepository.save(incident);
         
@@ -485,10 +672,12 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
     
-    // ==================== DEPURACIÓN ====================
-    
     @GetMapping("/debug/users")
-    public String debugUsers() {
+    public String debugUsers(HttpSession session) {
+        if (!"ADMIN".equals(session.getAttribute("rol"))) {
+            return "Acceso denegado";
+        }
+        
         List<User> users = userRepository.findAll();
         StringBuilder sb = new StringBuilder();
         sb.append("<html><head><title>Usuarios CupoTax</title><style>");
@@ -497,24 +686,24 @@ public class AuthController {
         sb.append("th,td{border:1px solid #FFD700;padding:8px;text-align:left;}");
         sb.append("th{background:#FFD700;color:#000;}");
         sb.append("</style></head><body>");
-        sb.append("<h1 style='color:#FFD700;'>📋 Usuarios registrados</h1>");
+        sb.append("<h1 style='color:#FFD700;'>Usuarios registrados</h1>");
         sb.append("<p>Total: <strong>").append(users.size()).append("</strong> usuarios</p>");
         sb.append("<table>");
-        sb.append("氢<th>ID</th><th>Nombre</th><th>Email</th><th>Rol</th><th>Activo</th><th>Teléfono</th>");
+        sb.append("<tr><th>ID</th><th>Nombre</th><th>Email</th><th>Rol</th><th>Activo</th><th>Telefono</th></tr>");
         
         for (User u : users) {
             sb.append("<tr>");
-            sb.append("<td>").append(u.getId()).append("<tr>");
-            sb.append("<td>").append(u.getNombreCompleto() != null ? u.getNombreCompleto() : u.getUsername()).append("</table>");
+            sb.append("<td>").append(u.getId()).append("</td>");
+            sb.append("<td>").append(u.getNombreCompleto() != null ? u.getNombreCompleto() : u.getUsername()).append("</td>");
             sb.append("<td>").append(u.getEmail()).append("</td>");
-            sb.append("<td>").append(u.getRol()).append("</tr>");
-            sb.append("<td style='color:").append(u.isActivo() ? "#2ecc71" : "#e74c3c").append("'>").append(u.isActivo() ? "✅ Activo" : "❌ Inactivo").append("</td>");
+            sb.append("<td>").append(u.getRol()).append("</td>");
+            sb.append("<td style='color:").append(u.isActivo() ? "#2ecc71" : "#e74c3c").append("'>").append(u.isActivo() ? "Activo" : "Inactivo").append("</td>");
             sb.append("<td>").append(u.getTelefono() != null ? u.getTelefono() : "-").append("</td>");
             sb.append("</tr>");
         }
         
         sb.append("</table>");
-        sb.append("<p style='margin-top:20px;'><a href='/' style='color:#FFD700;'>⬅ Volver a CupoTax</a></p>");
+        sb.append("<p><a href='/'>Volver a CupoTax</a></p>");
         sb.append("</body></html>");
         return sb.toString();
     }
