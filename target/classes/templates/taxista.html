@@ -213,9 +213,11 @@
             justify-content: center;
             margin: 0 auto 0.5rem;
             box-shadow: var(--accent-glow);
+            overflow: hidden;
         }
         
         .sidebar-avatar i { font-size: 2.5rem; color: #fff; }
+        .sidebar-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .sidebar-profile h3 { font-size: 1rem; background: var(--glow-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
         .sidebar-profile p { font-size: 0.7rem; color: var(--text-secondary); }
         
@@ -689,9 +691,12 @@
             <h1><i class="fas fa-taxi"></i> CupoTax</h1>
         </div>
         <div class="sidebar-profile">
-            <div class="sidebar-avatar"><i class="fas fa-user-astronaut"></i></div>
-            <h3>Juan Pérez</h3>
-            <p>Taxista PRO</p>
+            <div class="sidebar-avatar">
+                <img id="fotoPerfilSidebar" style="width:80px; height:80px; border-radius:50%; object-fit:cover; display:none;">
+                <i id="iconoPerfilSidebar" class="fas fa-user-astronaut"></i>
+            </div>
+            <h3 id="sidebarNombre">Cargando...</h3>
+            <p id="sidebarRol">Cargando...</p>
         </div>
         <ul class="sidebar-menu">
             <li><a href="#" class="active" onclick="mostrarSeccion('inicio'); cerrarSidebar()"><i class="fas fa-home"></i> <span>Inicio</span></a></li>
@@ -870,6 +875,43 @@
     const API_URL = '';
     let notificacionesListaGlobal = [];
     
+    // ========== FUNCIÓN PARA CARGAR PERFIL REAL ==========
+    async function cargarPerfilUsuario() {
+        try {
+            const response = await fetch(API_URL + '/api/perfil', {
+                method: 'GET',
+                credentials: 'include'
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                const nombreElement = document.getElementById('sidebarNombre');
+                const rolElement = document.getElementById('sidebarRol');
+                const fotoImg = document.getElementById('fotoPerfilSidebar');
+                const fotoIcon = document.getElementById('iconoPerfilSidebar');
+                
+                if (nombreElement) nombreElement.innerText = data.nombreCompleto;
+                if (rolElement) {
+                    let rolTexto = '';
+                    if (data.rol === 'TAXISTA') rolTexto = 'Taxista PRO';
+                    else if (data.rol === 'BUSERO') rolTexto = 'Busero PRO';
+                    else rolTexto = data.rol;
+                    rolElement.innerText = rolTexto;
+                }
+                
+                if (data.fotoPerfil && fotoImg) {
+                    fotoImg.src = 'data:image/jpeg;base64,' + data.fotoPerfil;
+                    fotoImg.style.display = 'block';
+                    if (fotoIcon) fotoIcon.style.display = 'none';
+                }
+            } else {
+                console.log('No se pudo cargar el perfil');
+            }
+        } catch (error) {
+            console.error('Error cargando perfil:', error);
+        }
+    }
+    
     // ========== FUNCIONES DE NOTIFICACIONES ==========
     async function cargarNotificaciones() {
         try {
@@ -973,9 +1015,13 @@
                 method: 'PUT',
                 credentials: 'include'
             });
-            await cargarNotificaciones();
+            notificacionesListaGlobal.forEach(n => n.leida = true);
+            mostrarNotificacionesEnPanel();
+            const contadorSpan = document.getElementById('notificacionesContador');
+            if (contadorSpan) contadorSpan.style.display = 'none';
             Swal.fire('Listo', 'Todas las notificaciones marcadas como leídas', 'success');
         } catch (error) {
+            console.error('Error:', error);
             notificacionesListaGlobal.forEach(n => n.leida = true);
             mostrarNotificacionesEnPanel();
             document.getElementById('notificacionesContador').style.display = 'none';
@@ -988,9 +1034,11 @@
         event.stopPropagation();
         const panel = document.getElementById('notificacionesPanel');
         notificacionesPanelAbierto = !notificacionesPanelAbierto;
+        
         if (notificacionesPanelAbierto) {
             panel.classList.add('open');
             cargarNotificaciones();
+            marcarTodasLeidas();
         } else {
             panel.classList.remove('open');
         }
@@ -1405,6 +1453,7 @@
         cargarDatosVehiculo();
         cargarTransaccionesBilletera();
         cargarNotificaciones();
+        cargarPerfilUsuario();
         mostrarSeccion('inicio');
         
         intervaloActualizar = setInterval(() => {

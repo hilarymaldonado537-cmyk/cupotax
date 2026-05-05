@@ -1,9 +1,12 @@
 package com.cupotax.controllers;
 
+import com.cupotax.models.AuditLog;
 import com.cupotax.models.Incident;
 import com.cupotax.models.User;
+import com.cupotax.repositories.AuditLogRepository;
 import com.cupotax.repositories.IncidentRepository;
 import com.cupotax.repositories.UserRepository;
+import com.cupotax.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -28,6 +30,12 @@ public class AuthController {
     @Autowired
     private IncidentRepository incidentRepository;
     
+    @Autowired
+    private AuditLogRepository auditLogRepository;
+    
+    @Autowired
+    private JwtUtil jwtUtil;
+    
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     
     // Rate limiting
@@ -35,6 +43,16 @@ public class AuthController {
     private Map<String, Long> lockoutTime = new HashMap<>();
     private static final int MAX_ATTEMPTS = 5;
     private static final long LOCKOUT_DURATION = 15 * 60 * 1000;
+    
+    // Auditoria
+    private void registrarAuditoria(String usuario, String accion, String ip, String detalles) {
+        AuditLog log = new AuditLog();
+        log.setUsuario(usuario);
+        log.setAccion(accion);
+        log.setIp(ip);
+        log.setDetalles(detalles);
+        auditLogRepository.save(log);
+    }
     
     // Sanitizacion
     private String sanitizar(String input) {
@@ -90,6 +108,7 @@ public class AuthController {
             HttpServletRequest request) throws IOException {
         
         Map<String, Object> response = new HashMap<>();
+        String ip = request.getRemoteAddr();
         
         if (!isValidEmail(email)) {
             response.put("error", "Formato de email invalido");
@@ -205,19 +224,16 @@ public class AuthController {
         
         userRepository.save(user);
         
-        HttpSession oldSession = request.getSession(false);
-        if (oldSession != null) {
-            oldSession.invalidate();
-        }
-        HttpSession newSession = request.getSession(true);
-        newSession.setAttribute("userId", user.getId());
-        newSession.setAttribute("username", user.getUsername());
-        newSession.setAttribute("rol", user.getRol());
-        newSession.setAttribute("nombre", user.getNombreCompleto());
+        // Generar token JWT
+        String token = jwtUtil.generateToken(username, rol);
+        
+        // Registrar auditoria
+        registrarAuditoria(username, "REGISTRO", ip, "Nuevo usuario registrado con rol: " + rol);
         
         response.put("success", true);
         response.put("redirectUrl", getRedirectUrl(rol));
         response.put("nombre", user.getNombreCompleto());
+        response.put("token", token);
         return response;
     }
     
@@ -245,7 +261,6 @@ public class AuthController {
                                                       @RequestParam String password,
                                                       HttpServletRequest request) {
         Map<String, Object> response = new HashMap<>();
-        
         String ip = request.getRemoteAddr();
         
         if (lockoutTime.containsKey(ip) && System.currentTimeMillis() < lockoutTime.get(ip)) {
@@ -266,6 +281,7 @@ public class AuthController {
             User user = userOpt.get();
             
             if (!user.isActivo()) {
+                registrarAuditoria(username, "LOGIN_FALLIDO", ip, "Cuenta bloqueada");
                 response.put("success", false);
                 response.put("error", "Tu cuenta esta bloqueada");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
@@ -275,21 +291,17 @@ public class AuthController {
                 loginAttempts.remove(ip);
                 lockoutTime.remove(ip);
                 
-                HttpSession oldSession = request.getSession(false);
-                if (oldSession != null) {
-                    oldSession.invalidate();
-                }
-                HttpSession newSession = request.getSession(true);
+                // Generar token JWT
+                String token = jwtUtil.generateToken(user.getUsername(), user.getRol());
                 
-                newSession.setAttribute("userId", user.getId());
-                newSession.setAttribute("username", user.getUsername());
-                newSession.setAttribute("rol", user.getRol());
-                newSession.setAttribute("nombre", user.getNombreCompleto());
-                newSession.setAttribute("email", user.getEmail());
+                // Registrar auditoria
+                registrarAuditoria(user.getUsername(), "LOGIN_EXITOSO", ip, "Inicio de sesion exitoso");
                 
                 response.put("success", true);
                 response.put("rol", user.getRol());
                 response.put("redirectUrl", getRedirectUrl(user.getRol()));
+                response.put("nombre", user.getNombreCompleto());
+                response.put("token", token);
                 return ResponseEntity.ok(response);
             }
         }
@@ -300,8 +312,10 @@ public class AuthController {
         if (attempts >= MAX_ATTEMPTS) {
             lockoutTime.put(ip, System.currentTimeMillis() + LOCKOUT_DURATION);
             loginAttempts.remove(ip);
+            registrarAuditoria(username, "BLOQUEO_IP", ip, "IP bloqueada por intentos fallidos");
             response.put("error", "Demasiados intentos. Cuenta bloqueada 15 minutos");
         } else {
+            registrarAuditoria(username, "LOGIN_FALLIDO", ip, "Intento de login fallido");
             response.put("error", "Usuario o contrasena incorrectos. Intentos restantes: " + (MAX_ATTEMPTS - attempts));
         }
         
@@ -309,298 +323,11 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
     
-    @PostMapping("/login-with-pin")
-    public ResponseEntity<Map<String, Object>> loginWithPin(@RequestParam String username,
-                                                             @RequestParam String pin,
-                                                             HttpServletRequest request) {
-        Map<String, Object> response = new HashMap<>();
-        
-        String ip = request.getRemoteAddr();
-        
-        if (lockoutTime.containsKey(ip) && System.currentTimeMillis() < lockoutTime.get(ip)) {
-            long remaining = (lockoutTime.get(ip) - System.currentTimeMillis()) / 1000;
-            response.put("success", false);
-            response.put("error", "Demasiados intentos. Intenta en " + remaining + " segundos");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-        }
-        
-        username = sanitizar(username);
-        pin = sanitizar(pin);
-        
-        Optional<User> userOpt = userRepository.findByUsername(username);
-        if (userOpt.isEmpty()) {
-            userOpt = userRepository.findByEmail(username);
-        }
-        
-        if (userOpt.isPresent()) {
-            User user = userOpt.get();
-            
-            if (!user.isActivo()) {
-                response.put("success", false);
-                response.put("error", "Tu cuenta esta bloqueada");
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-            }
-            
-            if (user.getPinSeguridad() != null && user.getPinSeguridad().equals(pin)) {
-                loginAttempts.remove(ip);
-                lockoutTime.remove(ip);
-                
-                HttpSession oldSession = request.getSession(false);
-                if (oldSession != null) {
-                    oldSession.invalidate();
-                }
-                HttpSession newSession = request.getSession(true);
-                
-                newSession.setAttribute("userId", user.getId());
-                newSession.setAttribute("username", user.getUsername());
-                newSession.setAttribute("rol", user.getRol());
-                newSession.setAttribute("nombre", user.getNombreCompleto());
-                newSession.setAttribute("email", user.getEmail());
-                
-                response.put("success", true);
-                response.put("rol", user.getRol());
-                response.put("redirectUrl", getRedirectUrl(user.getRol()));
-                return ResponseEntity.ok(response);
-            }
-        }
-        
-        int attempts = loginAttempts.getOrDefault(ip, 0) + 1;
-        loginAttempts.put(ip, attempts);
-        
-        if (attempts >= MAX_ATTEMPTS) {
-            lockoutTime.put(ip, System.currentTimeMillis() + LOCKOUT_DURATION);
-            loginAttempts.remove(ip);
-            response.put("error", "Demasiados intentos. Cuenta bloqueada 15 minutos");
-        } else {
-            response.put("error", "PIN incorrecto. Intentos restantes: " + (MAX_ATTEMPTS - attempts));
-        }
-        
-        response.put("success", false);
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-    }
-    
-    @PostMapping("/recuperar/enviar-codigo")
-    public ResponseEntity<Map<String, Object>> enviarCodigoRecuperacion(@RequestParam String contacto) {
-        Map<String, Object> response = new HashMap<>();
-        
-        contacto = sanitizar(contacto);
-        
-        Optional<User> userOpt = userRepository.findByEmail(contacto);
-        if (userOpt.isEmpty()) {
-            userOpt = userRepository.findByTelefono(contacto);
-        }
-        
-        if (userOpt.isEmpty()) {
-            response.put("success", false);
-            response.put("error", "No se encontro una cuenta");
-            return ResponseEntity.badRequest().body(response);
-        }
-        
-        User user = userOpt.get();
-        String codigo = String.format("%06d", new Random().nextInt(999999));
-        String expiracion = LocalDateTime.now().plusMinutes(15).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        
-        user.setCodigoRecuperacion(codigo);
-        user.setCodigoRecuperacionExpiracion(expiracion);
-        userRepository.save(user);
-        
-        System.out.println("CODIGO DE RECUPERACION: " + codigo);
-        
-        response.put("success", true);
-        response.put("message", "Codigo enviado");
-        response.put("email", user.getEmail());
-        return ResponseEntity.ok(response);
-    }
-    
-    @PostMapping("/recuperar/verificar-codigo")
-    public ResponseEntity<Map<String, Object>> verificarCodigo(@RequestParam String email,
-                                                                @RequestParam String codigo) {
-        Map<String, Object> response = new HashMap<>();
-        
-        email = sanitizar(email);
-        codigo = sanitizar(codigo);
-        
-        Optional<User> userOpt = userRepository.findByEmail(email);
-        if (userOpt.isEmpty()) {
-            response.put("success", false);
-            response.put("error", "Usuario no encontrado");
-            return ResponseEntity.badRequest().body(response);
-        }
-        
-        User user = userOpt.get();
-        
-        if (user.getCodigoRecuperacion() == null || !user.getCodigoRecuperacion().equals(codigo)) {
-            response.put("success", false);
-            response.put("error", "Codigo incorrecto");
-            return ResponseEntity.badRequest().body(response);
-        }
-        
-        if (user.getCodigoRecuperacionExpiracion() != null) {
-            LocalDateTime expiracion = LocalDateTime.parse(user.getCodigoRecuperacionExpiracion());
-            if (expiracion.isBefore(LocalDateTime.now())) {
-                response.put("success", false);
-                response.put("error", "Codigo expirado");
-                return ResponseEntity.badRequest().body(response);
-            }
-        }
-        
-        response.put("success", true);
-        response.put("message", "Codigo verificado");
-        return ResponseEntity.ok(response);
-    }
-    
-    @PostMapping("/recuperar/cambiar-password")
-    public ResponseEntity<Map<String, Object>> cambiarPassword(@RequestParam String email,
-                                                                @RequestParam String nuevaPassword) {
-        Map<String, Object> response = new HashMap<>();
-        
-        email = sanitizar(email);
-        
-        String passwordError = validarPasswordFuerte(nuevaPassword);
-        if (passwordError != null) {
-            response.put("success", false);
-            response.put("error", passwordError);
-            return ResponseEntity.badRequest().body(response);
-        }
-        
-        Optional<User> userOpt = userRepository.findByEmail(email);
-        if (userOpt.isEmpty()) {
-            response.put("success", false);
-            response.put("error", "Usuario no encontrado");
-            return ResponseEntity.badRequest().body(response);
-        }
-        
-        User user = userOpt.get();
-        user.setPassword(passwordEncoder.encode(nuevaPassword));
-        user.setCodigoRecuperacion(null);
-        user.setCodigoRecuperacionExpiracion(null);
-        userRepository.save(user);
-        
-        response.put("success", true);
-        response.put("message", "Contrasena actualizada");
-        return ResponseEntity.ok(response);
-    }
-    
-    @GetMapping("/api/perfil")
-    public ResponseEntity<Map<String, Object>> getPerfil(HttpSession session) {
-        Long userId = (Long) session.getAttribute("userId");
-        if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        
-        Optional<User> userOpt = userRepository.findById(userId);
-        if (userOpt.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        
-        User user = userOpt.get();
-        Map<String, Object> response = new HashMap<>();
-        response.put("nombreCompleto", user.getNombreCompleto());
-        response.put("email", user.getEmail());
-        response.put("telefono", user.getTelefono());
-        response.put("rol", user.getRol());
-        
-        if (user.getFotoPerfil() != null) {
-            response.put("fotoPerfil", Base64.getEncoder().encodeToString(user.getFotoPerfil()));
-        }
-        
-        return ResponseEntity.ok(response);
-    }
-    
-    @PostMapping("/api/perfil/actualizar")
-    public ResponseEntity<Map<String, Object>> actualizarPerfil(@RequestParam String nombreCompleto,
-                                                                  @RequestParam String telefono,
-                                                                  @RequestParam(required = false) MultipartFile fotoPerfil,
-                                                                  HttpSession session) throws IOException {
-        Long userId = (Long) session.getAttribute("userId");
-        if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        
-        if (!isValidPhone(telefono)) {
-            Map<String, Object> response = new HashMap<>();
-            response.put("success", false);
-            response.put("error", "Formato de telefono invalido");
-            return ResponseEntity.badRequest().body(response);
-        }
-        
-        nombreCompleto = sanitizar(nombreCompleto);
-        telefono = sanitizar(telefono);
-        
-        Optional<User> userOpt = userRepository.findById(userId);
-        if (userOpt.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        
-        User user = userOpt.get();
-        user.setNombreCompleto(nombreCompleto);
-        user.setTelefono(telefono);
-        
-        if (fotoPerfil != null && !fotoPerfil.isEmpty()) {
-            if (fotoPerfil.getSize() > 5 * 1024 * 1024) {
-                Map<String, Object> response = new HashMap<>();
-                response.put("success", false);
-                response.put("error", "La foto no puede superar los 5MB");
-                return ResponseEntity.badRequest().body(response);
-            }
-            user.setFotoPerfil(fotoPerfil.getBytes());
-            session.setAttribute("fotoPerfil", Base64.getEncoder().encodeToString(fotoPerfil.getBytes()));
-        }
-        
-        userRepository.save(user);
-        session.setAttribute("nombre", user.getNombreCompleto());
-        
-        Map<String, Object> response = new HashMap<>();
-        response.put("success", true);
-        return ResponseEntity.ok(response);
-    }
-    
-    @PostMapping("/api/cambiar-password")
-    public ResponseEntity<Map<String, Object>> cambiarPasswordPerfil(@RequestParam String actualPassword,
-                                                                       @RequestParam String nuevaPassword,
-                                                                       HttpSession session) {
-        Long userId = (Long) session.getAttribute("userId");
-        if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        
-        Optional<User> userOpt = userRepository.findById(userId);
-        if (userOpt.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        
-        User user = userOpt.get();
-        
-        if (!passwordEncoder.matches(actualPassword, user.getPassword())) {
-            Map<String, Object> response = new HashMap<>();
-            response.put("success", false);
-            response.put("error", "Contrasena actual incorrecta");
-            return ResponseEntity.badRequest().body(response);
-        }
-        
-        String passwordError = validarPasswordFuerte(nuevaPassword);
-        if (passwordError != null) {
-            Map<String, Object> response = new HashMap<>();
-            response.put("success", false);
-            response.put("error", passwordError);
-            return ResponseEntity.badRequest().body(response);
-        }
-        
-        user.setPassword(passwordEncoder.encode(nuevaPassword));
-        userRepository.save(user);
-        
-        Map<String, Object> response = new HashMap<>();
-        response.put("success", true);
-        response.put("message", "Contrasena actualizada");
-        return ResponseEntity.ok(response);
-    }
-    
     @PostMapping("/logout")
     public ResponseEntity<Map<String, Object>> logout(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
+        String ip = request.getRemoteAddr();
+        registrarAuditoria("SISTEMA", "LOGOUT", ip, "Cierre de sesion");
+        
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
         return ResponseEntity.ok(response);
@@ -617,25 +344,15 @@ public class AuthController {
     
     @PostMapping("/api/incidentes/reportar")
     public ResponseEntity<Map<String, Object>> reportarIncidente(@RequestBody Map<String, Object> request, 
-                                                                  HttpSession session) {
+                                                                  HttpServletRequest httpRequest) {
         Map<String, Object> response = new HashMap<>();
-        Long userId = (Long) session.getAttribute("userId");
-        
-        if (userId == null) {
-            response.put("error", "Usuario no autenticado");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-        }
-        
-        Optional<User> userOpt = userRepository.findById(userId);
-        if (userOpt.isEmpty()) {
-            response.put("error", "Usuario no encontrado");
-            return ResponseEntity.badRequest().body(response);
-        }
+        String ip = httpRequest.getRemoteAddr();
         
         String tipo = (String) request.get("tipo");
         String descripcion = (String) request.get("descripcion");
         String ubicacion = (String) request.get("ubicacion");
         String contacto = (String) request.get("contacto");
+        String username = (String) request.get("username");
         
         tipo = sanitizar(tipo);
         descripcion = sanitizar(descripcion);
@@ -643,13 +360,14 @@ public class AuthController {
         contacto = sanitizar(contacto);
         
         Incident incident = new Incident();
-        incident.setUsuario(userOpt.get());
         incident.setTipo(tipo);
         incident.setDescripcion(descripcion);
         incident.setUbicacion(ubicacion);
         incident.setContacto(contacto);
         incident.setAtendido(false);
         incidentRepository.save(incident);
+        
+        registrarAuditoria(username != null ? username : "ANONIMO", "SOS_ENVIADO", ip, "Tipo: " + tipo);
         
         response.put("success", true);
         response.put("message", "Alerta SOS enviada correctamente");
@@ -673,8 +391,10 @@ public class AuthController {
     }
     
     @GetMapping("/debug/users")
-    public String debugUsers(HttpSession session) {
-        if (!"ADMIN".equals(session.getAttribute("rol"))) {
+    public String debugUsers(HttpServletRequest request) {
+        String ip = request.getRemoteAddr();
+        // Solo permitir acceso local o especifico
+        if (!ip.equals("127.0.0.1") && !ip.equals("0:0:0:0:0:0:0:1")) {
             return "Acceso denegado";
         }
         
@@ -688,8 +408,8 @@ public class AuthController {
         sb.append("</style></head><body>");
         sb.append("<h1 style='color:#FFD700;'>Usuarios registrados</h1>");
         sb.append("<p>Total: <strong>").append(users.size()).append("</strong> usuarios</p>");
-        sb.append("<table>");
-        sb.append("<tr><th>ID</th><th>Nombre</th><th>Email</th><th>Rol</th><th>Activo</th><th>Telefono</th></tr>");
+        sb.append("<td>");
+        sb.append("氢<th>ID</th><th>Nombre</th><th>Email</th><th>Rol</th><th>Activo</th><th>Telefono</th>");
         
         for (User u : users) {
             sb.append("<tr>");
