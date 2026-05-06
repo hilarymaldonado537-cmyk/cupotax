@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>CupoTax - Viaje Seguro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="/js/tarifas.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body.style-fire {
+            --bg-gradient-start: #0A0A0A;
+            --bg-gradient-end: #1E1E1E;
+            --glass-bg: rgba(30, 30, 30, 0.85);
+            --glass-border: rgba(255, 106, 42, 0.3);
+            --navbar-bg: rgba(10, 10, 10, 0.9);
+            --text-primary: #FFFFFF;
+            --text-secondary: #B3B3B3;
+            --accent: #FF6A2A;
+            --accent-neon: #FF8C42;
+            --accent-glow: 0 0 20px rgba(255, 106, 42, 0.4);
+            --card-bg: rgba(30, 30, 30, 0.85);
+            --input-bg: rgba(255, 255, 255, 0.08);
+            --success: #FFA15C;
+            --danger: #FF3D2E;
+        }
+        
+        body.style-glass {
+            --bg-gradient-start: #0B1220;
+            --bg-gradient-end: #0A2540;
+            --glass-bg: rgba(22, 38, 58, 0.55);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --navbar-bg: rgba(16, 26, 43, 0.6);
+            --text-primary: #FFFFFF;
+            --text-secondary: #A8B2D1;
+            --accent: #3A86FF;
+            --accent-neon: #4FACFE;
+            --accent-glow: 0 0 20px rgba(58, 134, 255, 0.3);
+            --card-bg: rgba(22, 38, 58, 0.55);
+            --input-bg: rgba(255, 255, 255, 0.08);
+            --success: #43E97B;
+            --danger: #e74c3c;
+        }
+        
+        body.style-neon {
+            --bg-gradient-start: #0B0B12;
+            --bg-gradient-end: #1A1D2E;
+            --glass-bg: rgba(26, 29, 46, 0.7);
+            --glass-border: rgba(255, 76, 205, 0.3);
+            --navbar-bg: rgba(16, 18, 30, 0.8);
+            --text-primary: #FFFFFF;
+            --text-secondary: #A0A3BD;
+            --accent: #FF4ECD;
+            --accent-neon: #9D4EDD;
+            --accent-glow: 0 0 20px rgba(255, 76, 205, 0.5);
+            --card-bg: rgba(26, 29, 46, 0.7);
+            --input-bg: rgba(255, 255, 255, 0.08);
+            --success: #C77DFF;
+            --danger: #FF2FD8;
+        }
+        
+        body.style-crimson {
+            --bg-gradient-start: #1A0A0A;
+            --bg-gradient-end: #2D1515;
+            --glass-bg: rgba(45, 21, 21, 0.55);
+            --glass-border: rgba(255, 100, 100, 0.15);
+            --navbar-bg: rgba(26, 14, 14, 0.9);
+            --text-primary: #FFFFFF;
+            --text-secondary: #D1A8A8;
+            --accent: #E63946;
+            --accent-neon: #FF6B6B;
+            --accent-glow: 0 0 20px rgba(230, 57, 70, 0.4);
+            --card-bg: rgba(45, 21, 21, 0.55);
+            --input-bg: rgba(255, 255, 255, 0.08);
+            --success: #FF6B6B;
+            --danger: #E63946;
+        }
+        
+        body.style-crimson::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(230, 57, 70, 0.12), rgba(255, 100, 100, 0.05), transparent);
+            pointer-events: none;
+            z-index: -2;
+        }
+        
+        body.style-crimson .btn-primary {
+            background: linear-gradient(135deg, #E63946, #FF6B6B);
+        }
+        
+        body.style-crimson .btn-outline {
+            border-color: #E63946;
+            color: #E63946;
+        }
+        
+        body.style-crimson .btn-outline:hover {
+            background: rgba(230, 57, 70, 0.2);
+        }
+        
+        body.light-mode {
+            --bg-gradient-start: #F5F5F7;
+            --bg-gradient-end: #FFFFFF;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --navbar-bg: #FFFFFF;
+            --text-primary: #000000;
+            --text-secondary: #555555;
+            --accent: #FF6A2A;
+            --accent-neon: #FF8C42;
+            --accent-glow: 0 0 15px rgba(255, 106, 42, 0.2);
+            --card-bg: #FFFFFF;
+            --input-bg: #F5F5F5;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://i.ibb.co/pBSfBsYF/Whats-App-Image-2026-04-28-at-12-20-21-AM.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 0.2;
+            z-index: -2;
+        }
+        
+        body.light-mode::before { opacity: 0.6; }
+        
+        .app-container { display: flex; min-height: 100vh; position: relative; z-index: 1; }
+        
+        .sidebar {
+            width: 280px;
+            background: var(--navbar-bg);
+            backdrop-filter: blur(16px);
+            border-right: 1px solid var(--glass-border);
+            padding: 1.5rem 1rem;
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        .sidebar-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .sidebar-logo h1 { font-size: 1.3rem; background: linear-gradient(135deg, var(--accent), var(--accent-neon)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .sidebar-logo p { font-size: 0.7rem; color: var(--text-secondary); margin-top: 0.3rem; }
+        .sidebar-menu { list-style: none; }
+        .sidebar-menu li { margin-bottom: 0.2rem; }
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.7rem 0.8rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        .sidebar-menu a:hover, .sidebar-menu a.active { background: rgba(255,255,255,0.08); color: var(--accent); }
+        .sidebar-menu a i { width: 24px; }
+        
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 1.5rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .top-bar-notificaciones {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 1rem;
+            gap: 1rem;
+        }
+        
+        .notificacion-icono {
+            position: relative;
+            cursor: pointer;
+            background: rgba(255,255,255,0.08);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .notificacion-icono:hover {
+            background: var(--accent);
+            box-shadow: var(--accent-glow);
+        }
+        
+        .notificacion-icono i {
+            font-size: 1.3rem;
+            color: var(--accent);
+        }
+        
+        .notificacion-icono:hover i {
+            color: #000;
+        }
+        
+        .notificacion-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.65rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        .notificaciones-panel {
+            display: none;
+            position: absolute;
+            top: 50px;
+            right: 0;
+            width: 350px;
+            max-height: 450px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid var(--accent);
+            box-shadow: var(--accent-glow);
+            z-index: 1000;
+            overflow: hidden;
+        }
+        
+        .notificaciones-panel.open {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .notificaciones-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .notificaciones-header h4 {
+            color: var(--accent);
+            font-size: 1rem;
+        }
+        
+        .btn-marcar-todas {
+            background: transparent;
+            border: none;
+            color: var(--accent);
+            font-size: 0.7rem;
+            cursor: pointer;
+        }
+        
+        .btn-marcar-todas:hover {
+            text-decoration: underline;
+        }
+        
+        .notificaciones-lista {
+            max-height: 350px;
+            overflow-y: auto;
+        }
+        
+        .notificacion-item-panel {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid var(--glass-border);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .notificacion-item-panel:hover {
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .notificacion-item-panel.no-leida {
+            background: rgba(255, 106, 42, 0.1);
+            border-left: 3px solid var(--accent);
+        }
+        
+        .notificacion-titulo {
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-bottom: 0.2rem;
+        }
+        
+        .notificacion-mensaje {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+        
+        .notificacion-fecha {
+            font-size: 0.6rem;
+            color: var(--text-secondary);
+            margin-top: 0.3rem;
+        }
+        
+        .notificacion-vacia {
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+        
+        .welcome-header { margin-bottom: 1.5rem; }
+        .welcome-header h1 { font-size: 1.5rem; background: linear-gradient(135deg, var(--text-primary), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .welcome-header p { color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.2rem; }
+        
+        .two-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 1.2rem;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s;
+        }
+        .card:hover { border-color: var(--accent); box-shadow: var(--accent-glow); }
+        .card-title { color: var(--accent); font-weight: 600; margin-bottom: 0.8rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; }
+        .card-value { font-size: 1.8rem; font-weight: 700; color: var(--accent-neon); }
+        .card-sub { font-size: 0.7rem; color: var(--text-secondary); }
+        
+        .quick-destinos { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.5rem; }
+        .destino-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            min-width: 100px;
+        }
+        .destino-item:hover { background: rgba(255,255,255,0.1); border-color: var(--accent); }
+        .destino-item strong { display: block; font-size: 0.85rem; }
+        .destino-item span { font-size: 0.65rem; color: var(--text-secondary); }
+        
+        .viaje-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.7rem 0;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .viaje-info h4 { font-size: 0.85rem; font-weight: 600; }
+        .viaje-info p { font-size: 0.65rem; color: var(--text-secondary); }
+        .viaje-precio { color: var(--accent); font-weight: 700; }
+        .viaje-estado { font-size: 0.65rem; color: var(--success); }
+        
+        .notificacion-item { padding: 0.7rem 0; border-bottom: 1px solid var(--glass-border); }
+        .notificacion-item strong { font-size: 0.8rem; display: block; }
+        .notificacion-item p { font-size: 0.65rem; color: var(--text-secondary); margin-top: 0.2rem; }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        .btn-outline:hover { background: rgba(255,255,255,0.08); }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-neon));
+            border: none;
+            padding: 0.6rem;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            color: #000;
+        }
+        .btn-sos {
+            background: var(--danger);
+            border: none;
+            padding: 0.8rem;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            color: #fff;
+            margin-bottom: 1rem;
+            animation: pulseSos 2s infinite;
+        }
+        @keyframes pulseSos { 0%,100% { transform: scale(1); } 50% { transform: scale(1.02); background: #c0392b; } }
+        
+        .emergencia-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        .emergencia-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        .btn-emergencia {
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .btn-emergencia i { font-size: 1.2rem; margin-bottom: 5px; display: block; }
+        .btn-emergencia:hover { transform: scale(1.02); filter: brightness(1.1); }
+        .btn-policia { background: #e74c3c; }
+        .btn-bomberos { background: #e67e22; }
+        .btn-ambulancia { background: #2ecc71; }
+        .btn-transito { background: #3498db; }
+        .btn-salud { background: #9b59b6; }
+        .btn-empresa { background: #1abc9c; }
+        
+        .service-buttons { display: flex; gap: 0.5rem; margin: 1rem 0; }
+        #map { width: 100%; height: 300px; border-radius: 20px; margin: 1rem 0; border: 1px solid var(--glass-border); }
+        
+        .modal-recarga {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-recarga.active { display: flex; }
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 28px;
+            max-width: 500px;
+            width: 90%;
+            padding: 1.5rem;
+            border: 1px solid var(--accent);
+            animation: modalFadeIn 0.3s ease;
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .modal-header h3 { color: var(--accent); }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+        .modal-close:hover { color: var(--danger); }
+        .metodo-recarga {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+        }
+        .metodo-recarga:hover { border-color: var(--accent); background: rgba(255,255,255,0.05); }
+        .metodo-titulo { font-weight: 700; color: var(--accent); margin-bottom: 0.5rem; font-size: 1rem; }
+        .metodo-info { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5; }
+        .metodo-info strong { color: var(--accent-neon); }
+        .btn-copiar {
+            margin-top: 0.5rem;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            color: var(--accent);
+        }
+        .btn-copiar:hover { background: var(--accent); color: #000; }
+        
+        .planes-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .plan-card {
+            background: rgba(0,0,0,0.2);
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid var(--glass-border);
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: var(--accent-glow);
+        }
+        
+        .plan-card.recommended {
+            border: 2px solid var(--accent);
+            position: relative;
+        }
+        
+        .recommended-badge {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: var(--accent);
+            color: #000;
+            padding: 0.2rem 1rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        
+        .plan-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .plan-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .plan-price {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--accent-neon);
+            margin-bottom: 0.2rem;
+        }
+        
+        .plan-price small {
+            font-size: 0.8rem;
+            font-weight: normal;
+        }
+        
+        .plan-features {
+            list-style: none;
+            text-align: left;
+            margin: 1rem 0;
+            padding-left: 0;
+        }
+        
+        .plan-features li {
+            padding: 0.4rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        .plan-features li i {
+            width: 20px;
+            color: var(--success);
+        }
+        
+        .plan-features li .fa-times {
+            color: var(--danger);
+        }
+        
+        .explicacion-premium {
+            background: rgba(0,0,0,0.2);
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .explicacion-premium p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        @media (max-width: 768px) {
+            .planes-container {
+                grid-template-columns: 1fr;
+            }
+            .emergencia-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .emergencia-grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .settings-toggle {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--accent);
+            cursor: pointer;
+            z-index: 1000;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            transition: all 0.3s;
+        }
+        .settings-toggle:hover { transform: scale(1.1); box-shadow: var(--accent-glow); }
+        
+        .settings-panel {
+            position: fixed;
+            bottom: 90px;
+            right: 24px;
+            width: 320px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid var(--accent);
+            padding: 1rem;
+            z-index: 10000;
+            display: none;
+        }
+        .settings-panel.open { display: block !important; }
+        .settings-panel h4 { color: var(--accent); text-align: center; margin-bottom: 0.5rem; }
+        .theme-card { padding: 0.5rem; cursor: pointer; border-radius: 12px; margin-bottom: 0.5rem; text-align: center; transition: all 0.3s; }
+        .theme-card:hover { background: rgba(255,255,255,0.1); }
+        .theme-card.active { background: var(--accent); color: #000; }
+        .btn-reset { width: 100%; padding: 0.5rem; background: transparent; border: 1px solid var(--accent); color: var(--accent); border-radius: 30px; cursor: pointer; margin-top: 0.5rem; }
+        .btn-reset:hover { background: var(--accent); color: #000; }
+        
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 101;
+            background: var(--navbar-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--accent);
+            border-radius: 12px;
+            padding: 10px 12px;
+            cursor: pointer;
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+        
+        @media (max-width: 1000px) {
+            .sidebar { width: 70px; }
+            .sidebar span { display: none; }
+            .main-content { margin-left: 70px; }
+            .two-columns { grid-template-columns: 1fr; }
+            .settings-panel { width: 280px; right: 20px; }
+        }
+        @media (max-width: 700px) {
+            .menu-toggle { display: block; }
+            .sidebar { transform: translateX(-100%); width: 80%; max-width: 260px; }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; padding: 1rem; padding-top: 60px; }
+            .settings-panel { width: 90%; right: auto; left: 50%; transform: translateX(-50%); bottom: 90px; }
+            .settings-toggle { right: 20px; bottom: 20px; }
+            .notificaciones-panel { width: calc(100% - 2rem); right: 1rem; left: 1rem; }
+            .top-bar-notificaciones { justify-content: center; margin-top: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="menu-toggle" onclick="toggleSidebarMenu()"><i class="fas fa-bars"></i></div>
+
+<div class="app-container">
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <h1>CupoTax</h1>
+            <p>viaja seguro, llega mejor</p>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a class="active" onclick="mostrarSeccion('inicio'); cerrarSidebar()"><i class="fas fa-home"></i> <span>Inicio</span></a></li>
+            <li><a onclick="mostrarSeccion('solicitar'); cerrarSidebar()"><i class="fas fa-car"></i> <span>Solicitar viaje</span></a></li>
+            <li><a onclick="mostrarSeccion('reservas'); cerrarSidebar()"><i class="fas fa-calendar-check"></i> <span>Mis reservas</span></a></li>
+            <li><a onclick="mostrarSeccion('favoritos'); cerrarSidebar()"><i class="fas fa-heart"></i> <span>Favoritos</span></a></li>
+            <li><a onclick="mostrarSeccion('billetera'); cerrarSidebar()"><i class="fas fa-wallet"></i> <span>Billetera</span></a></li>
+            <li><a onclick="mostrarSeccion('historial'); cerrarSidebar()"><i class="fas fa-history"></i> <span>Historial de viajes</span></a></li>
+            <li><a onclick="mostrarSeccion('premium'); cerrarSidebar()"><i class="fas fa-crown"></i> <span>Planes Premium</span></a></li>
+            <li><a onclick="mostrarSeccion('notificaciones'); cerrarSidebar()"><i class="fas fa-bell"></i> <span>Notificaciones</span></a></li>
+            <li><a onclick="mostrarSeccion('seguridad'); cerrarSidebar()"><i class="fas fa-shield-alt"></i> <span>Seguridad</span></a></li>
+            <li><a onclick="mostrarSeccion('ayuda'); cerrarSidebar()"><i class="fas fa-question-circle"></i> <span>Ayuda</span></a></li>
+            <li><a onclick="mostrarSeccion('configuracion'); cerrarSidebar()"><i class="fas fa-cog"></i> <span>Configuracion</span></a></li>
+            <li><a onclick="cerrarSesion(); cerrarSidebar()"><i class="fas fa-sign-out-alt"></i> <span>Salir</span></a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="top-bar-notificaciones">
+            <div class="notificacion-icono" onclick="toggleNotificacionesPanel(event)">
+                <i class="fas fa-bell"></i>
+                <span id="notificacionesContador" class="notificacion-badge" style="display: none;">0</span>
+            </div>
+            
+            <div id="notificacionesPanel" class="notificaciones-panel">
+                <div class="notificaciones-header">
+                    <h4><i class="fas fa-bell"></i> Notificaciones</h4>
+                    <button class="btn-marcar-todas" onclick="marcarTodasLeidas()">Marcar todas como leídas</button>
+                </div>
+                <div id="notificacionesListaPanel" class="notificaciones-lista">
+                    <div class="notificacion-vacia">Cargando...</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="welcome-header">
+            <h1>Hola, <span id="nombreUsuario">Cargando...</span>!</h1>
+            <p>A donde vamos hoy?</p>
+        </div>
+
+        <div id="seccion-inicio">
+            <div class="two-columns">
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-map-marker-alt"></i> A donde quieres ir?</div>
+                    <div class="quick-destinos" id="destinosRapidos"></div>
+                </div>
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-wallet"></i> Mi billetera</div>
+                    <div class="card-value" id="saldoBilletera">Cargando...</div>
+                    <div class="card-sub">Saldo disponible</div>
+                    <button class="btn-outline" style="margin-top:0.8rem;" onclick="abrirModalRecarga()">Recargar saldo</button>
+                </div>
+            </div>
+            <div class="two-columns">
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-crown"></i> Plan Premium</div>
+                    <p style="font-size:0.8rem;" id="planPremiumDesc">Cargando informacion...</p>
+                    <ul style="margin:0.5rem 0 0 1rem; font-size:0.75rem; color:var(--text-secondary);"><li>Prioridad en la asignacion</li><li>Soporte preferencial 24/7</li><li>Descuentos exclusivos</li></ul>
+                    <button class="btn-outline" style="margin-top:0.8rem;" onclick="verPlanes()">Ver todas las opciones</button>
+                </div>
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-shield-alt"></i> Seguridad rapida</div>
+                    <div class="viaje-item" style="cursor:pointer;" onclick="mostrarSeccion('seguridad')"><div><i class="fas fa-share-alt"></i> Compartir mi viaje</div><span style="color:var(--accent);">→</span></div>
+                    <div class="viaje-item" style="cursor:pointer;" onclick="mostrarSeccion('seguridad')"><div><i class="fas fa-users"></i> Contactos de confianza</div><span style="color:var(--accent);">→</span></div>
+                    <div class="viaje-item" style="cursor:pointer;" onclick="mostrarSeccion('seguridad')"><div><i class="fas fa-shield-alt"></i> Centro de seguridad</div><span style="color:var(--accent);">→</span></div>
+                </div>
+            </div>
+
+            <div class="two-columns">
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-history"></i> Viajes recientes</div>
+                    <div id="viajesRecientes"></div>
+                    <button class="btn-outline" style="margin-top:0.5rem;" onclick="mostrarSeccion('historial')">Ver todas las opciones</button>
+                </div>
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-route"></i> Rutas populares (Bus)</div>
+                    <div id="rutasPopulares"></div>
+                </div>
+            </div>
+
+            <div class="two-columns">
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-bell"></i> Notificaciones</div>
+                    <div id="notificacionesLista"></div>
+                    <button class="btn-outline" style="margin-top:0.5rem;" onclick="mostrarSeccion('notificaciones')">Ver todas las opciones</button>
+                </div>
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-gift"></i> Invita y gana</div>
+                    <p style="font-size:0.75rem;">Invita a tus amigos y obten creditos para tus proximos viajes.</p>
+                    <button class="btn-primary" style="margin-top:0.8rem;" onclick="invitarAmigos()">Invitar amigos</button>
+                    <p style="font-size:0.7rem; margin-top:0.5rem; color:var(--success);">Has ayudado a reducir 12.5 kg de CO2 este mes</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="seccion-solicitar" style="display:none;">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-car"></i> Solicitar viaje</div>
+                <div class="form-group" style="margin-bottom:1rem;">
+                    <label style="color:var(--accent); font-size:0.8rem;">ORIGEN</label>
+                    <select id="origenViaje" class="destino-item" style="width:100%; background:var(--input-bg);" onchange="calcularTarifaReal()">
+                        <option value="Changuinola Centro">Changuinola Centro</option>
+                        <option value="Finca 6">Finca 6</option>
+                        <option value="El Empalme">El Empalme</option>
+                        <option value="Cuadrante">Cuadrante</option>
+                        <option value="Almirante">Almirante</option>
+                        <option value="Guabito">Guabito</option>
+                        <option value="David">David</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom:1rem;">
+                    <label style="color:var(--accent); font-size:0.8rem;">DESTINO</label>
+                    <input type="text" id="destinoSolicitud" class="destino-item" style="width:100%; background:var(--input-bg);" placeholder="Escribe el destino" oninput="calcularTarifaReal()">
+                </div>
+                <div class="form-group" style="margin-bottom:1rem;">
+                    <label style="color:var(--accent); font-size:0.8rem;">TIPO DE VIAJE</label>
+                    <select id="tipoViaje" class="destino-item" style="width:100%; background:var(--input-bg);" onchange="calcularTarifaReal()">
+                        <option value="TAXI">Taxi</option>
+                        <option value="BUS">Bus</option>
+                    </select>
+                </div>
+                <div id="sugerenciasDestinos"></div>
+                <div id="tarifaMostrada" style="background:rgba(255,255,255,0.05); border-radius:16px; padding:1rem; margin:1rem 0; text-align:center;">
+                    <div style="font-size:0.8rem; color:var(--text-secondary);">Tarifa estimada</div>
+                    <div style="font-size:2rem; font-weight:800; color:var(--accent);" id="tarifaEstimada">B/. 0.00</div>
+                </div>
+                <div class="service-buttons"><button class="btn-outline" onclick="seleccionarServicio('estandar')" id="servicioEstandar">Estandar</button><button class="btn-outline" onclick="seleccionarServicio('confort')" id="servicioConfort">Confort</button><button class="btn-outline" onclick="seleccionarServicio('premium')" id="servicioPremium">Premium</button></div>
+                <div id="map"></div>
+                <button class="btn-primary" style="margin-top:1rem;" onclick="solicitarViaje()">Solicitar viaje</button>
+            </div>
+        </div>
+
+        <div id="seccion-reservas" style="display:none;"><div class="card"><div class="card-title"><i class="fas fa-calendar-check"></i> Mis reservas</div><div id="reservasLista"></div></div></div>
+        <div id="seccion-favoritos" style="display:none;"><div class="card"><div class="card-title"><i class="fas fa-heart"></i> Lugares favoritos</div><div id="favoritosLista"></div><button class="btn-outline" style="margin-top:0.5rem;" onclick="agregarFavorito()">Agregar favorito</button></div></div>
+        <div id="seccion-billetera" style="display:none;"><div class="card"><div class="card-title"><i class="fas fa-wallet"></i> Billetera</div><div class="card-value" id="saldoBilletera2">Cargando...</div><div class="card-sub">Saldo disponible</div><button class="btn-primary" style="margin-top:0.8rem;" onclick="abrirModalRecarga()">Recargar saldo</button><div style="margin-top:1rem;"><h4 style="color:var(--accent); margin-bottom:0.5rem;">Transacciones recientes</h4><div id="transaccionesLista"></div></div></div></div>
+        <div id="seccion-historial" style="display:none;"><div class="card"><div class="card-title"><i class="fas fa-history"></i> Historial de viajes</div><div id="historialCompleto"></div></div></div>
+        
+        <div id="seccion-premium" style="display:none;">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-crown"></i> CupoTax Premium</div>
+                <div class="explicacion-premium">
+                    <p><i class="fas fa-info-circle"></i> <strong>¿Qué es CupoTax Premium?</strong> No es un paquete de viajes, es una <strong>MEMBRESÍA</strong> que te da beneficios exclusivos en CADA viaje que realizes. Paga una vez al mes y disfruta de ventajas en todos tus traslados.</p>
+                </div>
+                <div class="planes-container">
+                    <div class="plan-card">
+                        <div class="plan-icon"><i class="fas fa-user"></i></div>
+                        <div class="plan-name">Plan Básico</div>
+                        <div class="plan-price">Gratis <small>siempre</small></div>
+                        <ul class="plan-features">
+                            <li><i class="fas fa-check"></i> Viajes estándar</li>
+                            <li><i class="fas fa-check"></i> Soporte por chat</li>
+                            <li><i class="fas fa-times"></i> Prioridad en asignación</li>
+                            <li><i class="fas fa-times"></i> Descuentos exclusivos</li>
+                            <li><i class="fas fa-times"></i> Seguro de viaje</li>
+                            <li><i class="fas fa-times"></i> Cancelación gratuita</li>
+                        </ul>
+                        <button class="btn-outline" disabled style="opacity:0.5;">Plan actual</button>
+                    </div>
+                    <div class="plan-card recommended">
+                        <div class="recommended-badge">⭐ RECOMENDADO</div>
+                        <div class="plan-icon"><i class="fas fa-crown"></i></div>
+                        <div class="plan-name">Plan Premium</div>
+                        <div class="plan-price">B/. 19.90 <small>/mes</small></div>
+                        <ul class="plan-features">
+                            <li><i class="fas fa-check"></i> Viajes estándar y premium</li>
+                            <li><i class="fas fa-check"></i> Soporte prioritario 24/7</li>
+                            <li><i class="fas fa-check"></i> Prioridad en asignación de conductores</li>
+                            <li><i class="fas fa-check"></i> 15% de descuento en cada viaje</li>
+                            <li><i class="fas fa-check"></i> Seguro de viaje incluido</li>
+                            <li><i class="fas fa-check"></i> Cancelación gratuita hasta 5 min antes</li>
+                        </ul>
+                        <button class="btn-primary" onclick="contratarPremium()">Contratar Premium</button>
+                        <p style="font-size:0.7rem; margin-top:0.5rem; color:var(--text-secondary);">Cobro mensual automático</p>
+                    </div>
+                </div>
+                <div style="margin-top: 1rem; padding: 1rem; background: rgba(0,0,0,0.2); border-radius: 16px;">
+                    <h4 style="color:var(--accent); margin-bottom: 0.5rem;"><i class="fas fa-question-circle"></i> ¿Por qué ser Premium?</h4>
+                    <p style="font-size: 0.8rem; line-height: 1.5;">Con CupoTax Premium, tus viajes son más rápidos, seguros y económicos. Ahorras hasta un 15% en cada viaje, tienes prioridad sobre otros usuarios y cuentas con asistencia inmediata. ¡La membresía se paga sola con pocos viajes al mes!</p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="seccion-notificaciones" style="display:none;"><div class="card"><div class="card-title"><i class="fas fa-bell"></i> Notificaciones</div><div id="notificacionesCompleto"></div></div></div>
+        
+        <div id="seccion-seguridad" style="display:none;">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-shield-alt"></i> Centro de seguridad</div>
+                
+                <!-- ========== NÚMEROS DE EMERGENCIA AGREGADOS ========== -->
+                <div style="margin-bottom: 1.5rem;">
+                    <div class="card-title"><i class="fas fa-phone-alt" style="color: #e74c3c;"></i> 📞 NÚMEROS DE EMERGENCIA - Panamá</div>
+                    <div class="emergencia-grid">
+                        <button class="btn-emergencia btn-policia" onclick="window.location.href='tel:911'">
+                            <i class="fas fa-car"></i> 🚓 POLICÍA<br>911
+                        </button>
+                        <button class="btn-emergencia btn-bomberos" onclick="window.location.href='tel:103'">
+                            <i class="fas fa-fire"></i> 🚒 BOMBEROS<br>103
+                        </button>
+                        <button class="btn-emergencia btn-ambulancia" onclick="window.location.href='tel:911'">
+                            <i class="fas fa-ambulance"></i> 🚑 AMBULANCIA<br>911
+                        </button>
+                    </div>
+                    <div class="emergencia-grid-2">
+                        <button class="btn-emergencia btn-transito" onclick="window.location.href='tel:104'">
+                            <i class="fas fa-traffic-light"></i> 🚨 TRÁNSITO<br>104
+                        </button>
+                        <button class="btn-emergencia btn-salud" onclick="window.location.href='tel:147'">
+                            <i class="fas fa-hospital"></i> ⚕️ SALUD<br>147
+                        </button>
+                    </div>
+                    <div id="emergenciaEmpresaContainer" style="margin-top: 0.8rem;"></div>
+                    <p style="font-size: 0.65rem; text-align: center; margin-top: 0.8rem; color: var(--text-secondary);">
+                        ⚠️ Solo para emergencias reales. Llamada gratuita 24/7.
+                    </p>
+                </div>
+                
+                <button class="btn-sos" id="btnSOS">
+                    <i class="fas fa-exclamation-triangle"></i> SOS - EMERGENCIA
+                </button>
+                <p style="font-size:0.7rem; text-align:center; margin-bottom:1rem;">⚠️ 1 clic = seleccionar tipo de emergencia | 2 clics = alerta inmediata</p>
+                
+                <div class="card" style="margin-bottom:1rem;">
+                    <div class="card-title"><i class="fas fa-share-alt"></i> Compartir viaje</div>
+                    <button class="btn-primary" onclick="compartirViaje()">Compartir ubicacion en vivo</button>
+                </div>
+                <div class="card" style="margin-bottom:1rem;">
+                    <div class="card-title"><i class="fas fa-users"></i> Contactos de confianza</div>
+                    <input type="text" id="contactoEmergencia" class="destino-item" style="width:100%; background:var(--input-bg); margin-bottom:0.5rem;" placeholder="Nombre y telefono">
+                    <div id="contactosLista"></div>
+                    <button class="btn-outline" style="margin-top:0.5rem;" onclick="guardarContacto()">Guardar contacto</button>
+                </div>
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-history"></i> Historial de incidentes</div>
+                    <div id="incidentesLista">Sin incidentes reportados</div>
+                </div>
+                <div class="card" style="margin-top:1rem;">
+                    <div class="card-title"><i class="fas fa-lightbulb"></i> Consejos de seguridad</div>
+                    <ul style="margin-left:1rem; font-size:0.75rem;">
+                        <li>Verifica los datos de tu conductor y vehiculo antes de subir.</li>
+                        <li>Comparte tu viaje en tiempo real con alguien de confianza.</li>
+                        <li>Si algo no te parece bien, usa el boton SOS sin dudar.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="seccion-ayuda" style="display:none;"><div class="card"><div class="card-title"><i class="fas fa-headset"></i> Centro de ayuda</div><div class="viaje-item"><span><i class="fas fa-phone"></i> Llamar a soporte</span><span style="color:var(--accent);">+507 6663-7549</span></div><div class="viaje-item"><span><i class="fas fa-envelope"></i> Email</span><span style="color:var(--accent);">soporte@cupotax.com</span></div><div class="viaje-item"><span><i class="fab fa-whatsapp"></i> WhatsApp</span><span style="color:var(--accent);">+507 6663-7549</span></div><button class="btn-primary" style="margin-top:1rem;" onclick="chatSoporte()">Chat en vivo</button></div></div>
+
+        <div id="seccion-configuracion" style="display:none;"><div class="card"><div class="card-title"><i class="fas fa-cog"></i> Configuracion</div><div class="viaje-item" style="cursor:pointer;" onclick="irAPerfil()"><span><i class="fas fa-user"></i> Editar perfil</span><span style="color:var(--accent);">→</span></div><div class="viaje-item" style="cursor:pointer;" onclick="cambiarPassword()"><span><i class="fas fa-lock"></i> Cambiar contrasena</span><span style="color:var(--accent);">→</span></div><div class="viaje-item"><span><i class="fas fa-language"></i> Idioma</span><span style="color:var(--accent);">Espanol</span></div><div class="viaje-item"><span><i class="fas fa-bell"></i> Notificaciones</span><span style="color:var(--accent);">Activadas</span></div><div class="viaje-item"><span><i class="fas fa-mobile-alt"></i> Version de la app</span><span>v2.4.1</span></div></div></div>
+    </div>
+</div>
+
+<div id="modalRecarga" class="modal-recarga">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-wallet"></i> Recargar saldo</h3>
+            <button class="modal-close" onclick="cerrarModalRecarga()">&times;</button>
+        </div>
+        
+        <div class="metodo-recarga">
+            <div class="metodo-titulo"><i class="fab fa-yappy"></i> Yappy</div>
+            <div class="metodo-info">
+                <strong>Cuenta Yappy:</strong> <span id="yappyCuenta">cupotax@banco.general</span>
+                <button class="btn-copiar" onclick="copiarTexto('yappyCuenta')">Copiar</button><br>
+                <strong>Nombre:</strong> CupoTax S.A.<br>
+                <strong>Monto mínimo:</strong> B/. 5.00
+            </div>
+        </div>
+        
+        <div class="metodo-recarga">
+            <div class="metodo-titulo"><i class="fas fa-university"></i> Transferencia bancaria</div>
+            <div class="metodo-info">
+                <strong>Banco:</strong> Banco General<br>
+                <strong>Tipo:</strong> Cuenta de ahorros<br>
+                <strong>Número:</strong> <span id="cuentaBancaria">04-123-456789-123</span>
+                <button class="btn-copiar" onclick="copiarTexto('cuentaBancaria')">Copiar</button><br>
+                <strong>Beneficiario:</strong> CupoTax S.A.<br>
+                <strong>Cédula:</strong> 4-123-4567<br>
+                <strong>Referencia:</strong> Tu nombre de usuario + celular
+            </div>
+        </div>
+        
+        <div class="metodo-recarga">
+            <div class="metodo-titulo"><i class="fas fa-money-bill-wave"></i> Efectivo (Oficinas autorizadas)</div>
+            <div class="metodo-info">
+                <strong>Puntos de recarga:</strong><br>
+                📍 Changuinola Centro - Farmacia Central<br>
+                📍 Almirante - Supermercado La Fe<br>
+                📍 David - Terminal de buses (local 3)<br>
+                <strong>Horario:</strong> Lunes a Domingo 8am - 8pm
+            </div>
+        </div>
+        
+        <div class="metodo-recarga">
+            <div class="metodo-titulo"><i class="fas fa-credit-card"></i> Tarjeta de crédito/débito</div>
+            <div class="metodo-info">
+                <strong>Próximamente</strong> - Estamos implementando pagos directos con tarjeta.
+            </div>
+        </div>
+        
+        <button class="btn-primary" onclick="cerrarModalRecarga()">Cerrar</button>
+    </div>
+</div>
+
+<div class="settings-toggle" onclick="toggleSettingsPanel()"><i class="fas fa-palette"></i></div>
+<div id="settingsPanel" class="settings-panel">
+    <h4>Personalizar interfaz</h4>
+    <div class="theme-card" onclick="setEstilo('fire')" id="cardFire">🔥 Naranja Fuego</div>
+    <div class="theme-card" onclick="setEstilo('glass')" id="cardGlass">🌀 Glass Azul</div>
+    <div class="theme-card" onclick="setEstilo('neon')" id="cardNeon">🎨 Neon Glow</div>
+    <div class="theme-card" onclick="setEstilo('crimson')" id="cardCrimson">🔴 Crimson Glass</div>
+    <div class="theme-card" onclick="toggleLightMode()" id="cardLight">☀️ Claro / Oscuro</div>
+    <button class="btn-reset" onclick="resetearEstilos()">Restaurar predeterminado</button>
+</div>
+
+<script>
+    const API_URL = '';
+    let usuarioActual = null;
+    let pressTimer;
+    let map;
+    let servicioSeleccionado = 'estandar';
+    let viajeActivo = false;
+    let intervaloMonitoreo = null;
+    let tarifaCalculada = 0;
+    let clickCount = 0;
+    let sosTimeout = null;
+    let viajeSolicitadoId = null;
+    let intervaloVerificacionViaje = null;
+    
+    let notificacionesListaGlobal = [];
+
+    const tarifasTaxi = {"Changuinola Centro-Guabito":6.05,"Guabito-Changuinola Centro":6.05,"Changuinola Centro-Almirante":14.50,"Almirante-Changuinola Centro":14.50,"Changuinola Centro-Aeropuerto de Changuinola":1.20,"Changuinola Centro-El Silencio":1.20,"Finca 6 Cuartel-Changuinola Centro":0.70,"El Empalme-Changuinola Centro":0.70,"Cuadrante-Changuinola Centro":0.70};
+    const tarifasBus = {"Changuinola-Almirante":1.45,"Almirante-Changuinola":1.45,"Changuinola-David":9.65,"David-Changuinola":9.65,"Changuinola-Guabito":0.95,"Guabito-Changuinola":0.95};
+
+    // ========== FUNCIÓN PARA CARGAR EMPRESA (números personalizados) ==========
+    async function cargarEmpresaEmergencia() {
+        try {
+            const response = await fetch(API_URL + '/api/mapa/empresa/mis-datos', {
+                credentials: 'include'
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                const container = document.getElementById('emergenciaEmpresaContainer');
+                if (container && data.telefonoEmergencia && data.telefonoEmergencia !== '911') {
+                    container.innerHTML = `
+                        <button class="btn-emergencia btn-empresa" onclick="window.location.href='tel:${data.telefonoEmergencia}'">
+                            <i class="fas fa-building"></i> 🏢 ${data.nombre}<br>${data.telefonoEmergencia}
+                        </button>
+                    `;
+                } else if (container) {
+                    container.innerHTML = '';
+                }
+            }
+        } catch(error) {
+            console.error('Error cargando empresa:', error);
+        }
+    }
+
+    async function cargarNotificaciones() {
+        try {
+            const response = await fetch(API_URL + '/api/notificaciones', {
+                method: 'GET',
+                credentials: 'include'
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                notificacionesListaGlobal = data.notificaciones || [];
+                const noLeidas = data.noLeidas || 0;
+                
+                const contadorSpan = document.getElementById('notificacionesContador');
+                if (noLeidas > 0) {
+                    contadorSpan.style.display = 'flex';
+                    contadorSpan.textContent = noLeidas > 9 ? '9+' : noLeidas;
+                } else {
+                    contadorSpan.style.display = 'none';
+                }
+                
+                mostrarNotificacionesEnPanel();
+            } else {
+                notificacionesListaGlobal = [
+                    { id: 1, titulo: "Bienvenido", mensaje: "Bienvenido a CupoTax", leida: false, fecha: new Date().toISOString() },
+                    { id: 2, titulo: "Viaje completado", mensaje: "Has completado un viaje exitosamente", leida: false, fecha: new Date().toISOString() }
+                ];
+                mostrarNotificacionesEnPanel();
+                document.getElementById('notificacionesContador').style.display = 'flex';
+                document.getElementById('notificacionesContador').textContent = '2';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            notificacionesListaGlobal = [
+                { id: 1, titulo: "Bienvenido", mensaje: "Bienvenido a CupoTax", leida: false, fecha: new Date().toISOString() },
+                { id: 2, titulo: "Viaje completado", mensaje: "Has completado un viaje exitosamente", leida: false, fecha: new Date().toISOString() }
+            ];
+            mostrarNotificacionesEnPanel();
+            document.getElementById('notificacionesContador').style.display = 'flex';
+            document.getElementById('notificacionesContador').textContent = '2';
+        }
+    }
+    
+    function mostrarNotificacionesEnPanel() {
+        const container = document.getElementById('notificacionesListaPanel');
+        if (!container) return;
+        
+        if (notificacionesListaGlobal.length === 0) {
+            container.innerHTML = '<div class="notificacion-vacia">✨ No tienes notificaciones</div>';
+            return;
+        }
+        
+        container.innerHTML = notificacionesListaGlobal.map(notif => `
+            <div class="notificacion-item-panel ${!notif.leida ? 'no-leida' : ''}" onclick="marcarNotificacionLeida(${notif.id})">
+                <div class="notificacion-titulo">${notif.titulo || 'Notificación'}</div>
+                <div class="notificacion-mensaje">${notif.mensaje || ''}</div>
+                <div class="notificacion-fecha">${formatearFecha(notif.fecha)}</div>
+            </div>
+        `).join('');
+    }
+    
+    function formatearFecha(fechaISO) {
+        if (!fechaISO) return '';
+        const fecha = new Date(fechaISO);
+        const ahora = new Date();
+        const diffMs = ahora - fecha;
+        const diffMin = Math.floor(diffMs / 60000);
+        const diffHoras = Math.floor(diffMin / 60);
+        const diffDias = Math.floor(diffHoras / 24);
+        
+        if (diffMin < 1) return 'Justo ahora';
+        if (diffMin < 60) return `Hace ${diffMin} min`;
+        if (diffHoras < 24) return `Hace ${diffHoras} h`;
+        if (diffDias < 7) return `Hace ${diffDias} días`;
+        return fecha.toLocaleDateString();
+    }
+    
+    async function marcarNotificacionLeida(id) {
+        try {
+            await fetch(API_URL + `/api/notificaciones/${id}/leer`, {
+                method: 'PUT',
+                credentials: 'include'
+            });
+            await cargarNotificaciones();
+        } catch (error) {
+            const notif = notificacionesListaGlobal.find(n => n.id === id);
+            if (notif) notif.leida = true;
+            mostrarNotificacionesEnPanel();
+            const noLeidas = notificacionesListaGlobal.filter(n => !n.leida).length;
+            if (noLeidas === 0) {
+                document.getElementById('notificacionesContador').style.display = 'none';
+            } else {
+                document.getElementById('notificacionesContador').textContent = noLeidas;
+            }
+        }
+    }
+    
+    async function marcarTodasLeidas() {
+        try {
+            await fetch(API_URL + '/api/notificaciones/marcar-todas', {
+                method: 'PUT',
+                credentials: 'include'
+            });
+            notificacionesListaGlobal.forEach(n => n.leida = true);
+            mostrarNotificacionesEnPanel();
+            const contadorSpan = document.getElementById('notificacionesContador');
+            if (contadorSpan) contadorSpan.style.display = 'none';
+            Swal.fire('Listo', 'Todas las notificaciones marcadas como leídas', 'success');
+        } catch (error) {
+            console.error('Error al marcar todas como leídas:', error);
+            notificacionesListaGlobal.forEach(n => n.leida = true);
+            mostrarNotificacionesEnPanel();
+            document.getElementById('notificacionesContador').style.display = 'none';
+            Swal.fire('Listo', 'Todas las notificaciones marcadas como leídas', 'success');
+        }
+    }
+    
+    let notificacionesPanelAbierto = false;
+    function toggleNotificacionesPanel(event) {
+        event.stopPropagation();
+        const panel = document.getElementById('notificacionesPanel');
+        notificacionesPanelAbierto = !notificacionesPanelAbierto;
+        
+        if (notificacionesPanelAbierto) {
+            panel.classList.add('open');
+            cargarNotificaciones();
+            marcarTodasLeidas();
+        } else {
+            panel.classList.remove('open');
+        }
+    }
+    
+    document.addEventListener('click', function(event) {
+        const panel = document.getElementById('notificacionesPanel');
+        const icono = document.querySelector('.notificacion-icono');
+        if (panel && icono && !panel.contains(event.target) && !icono.contains(event.target)) {
+            panel.classList.remove('open');
+            notificacionesPanelAbierto = false;
+        }
+    });
+
+    function abrirModalRecarga() {
+        document.getElementById('modalRecarga').classList.add('active');
+    }
+    
+    function cerrarModalRecarga() {
+        document.getElementById('modalRecarga').classList.remove('active');
+    }
+    
+    function copiarTexto(elementoId) {
+        const texto = document.getElementById(elementoId).innerText;
+        navigator.clipboard.writeText(texto);
+        Swal.fire({
+            title: 'Copiado',
+            text: 'Información copiada al portapapeles',
+            icon: 'success',
+            timer: 1500,
+            showConfirmButton: false,
+            background: 'var(--card-bg)',
+            color: 'var(--text-primary)'
+        });
+    }
+
+    function calcularTarifaReal() {
+        const origen = document.getElementById('origenViaje')?.value;
+        const destino = document.getElementById('destinoSolicitud')?.value;
+        const tipo = document.getElementById('tipoViaje')?.value;
+        
+        if (!origen || !destino || destino.trim() === "") {
+            document.getElementById('tarifaEstimada').innerHTML = 'B/. 0.00';
+            tarifaCalculada = 0;
+            return;
+        }
+        
+        let tarifa = 0;
+        
+        if (window.calcularTarifa) {
+            tarifa = window.calcularTarifa(origen, destino, tipo);
+        } else {
+            let key = origen + "-" + destino;
+            if (tipo === 'TAXI') {
+                tarifa = tarifasTaxi[key] || tarifasTaxi[destino + "-" + origen] || 5.00;
+            } else {
+                tarifa = tarifasBus[key] || tarifasBus[destino + "-" + origen] || 1.45;
+            }
+        }
+        
+        tarifaCalculada = tarifa;
+        document.getElementById('tarifaEstimada').innerHTML = tarifa ? `B/. ${tarifa.toFixed(2)}` : 'Ruta no disponible';
+        
+        if (window.sugerirRutas) {
+            const sugerencias = window.sugerirRutas(origen, tipo);
+            const sugerenciasDiv = document.getElementById('sugerenciasDestinos');
+            if (sugerenciasDiv && sugerencias.length) {
+                sugerenciasDiv.innerHTML = '<div style="margin-top:0.5rem; font-size:0.7rem;">🔍 Destinos frecuentes: ' + sugerencias.map(s => `<span class="destino-item" style="display:inline-block; margin:0.2rem; padding:0.2rem 0.6rem;" onclick="document.getElementById('destinoSolicitud').value='${s}';calcularTarifaReal()">${s}</span>`).join(', ') + '</div>';
+            }
+        }
+    }
+
+    function initMap() { if(map) return; map = L.map('map').setView([9.5, -82.5], 13); L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: 'OpenStreetMap, CARTO', maxZoom: 20 }).addTo(map); if(navigator.geolocation) navigator.geolocation.getCurrentPosition(pos => { L.marker([pos.coords.latitude, pos.coords.longitude]).addTo(map).bindPopup('Tu ubicacion').openPopup(); map.setView([pos.coords.latitude, pos.coords.longitude], 14); }); }
+    
+    async function cargarUsuario() { try { const res = await fetch(API_URL + '/api/perfil', { credentials: 'include' }); if (!res.ok) { window.location.href = API_URL + '/login'; return; } usuarioActual = await res.json(); document.getElementById('nombreUsuario').innerText = usuarioActual.nombreCompleto?.split(' ')[0] || 'Usuario'; } catch(e) { window.location.href = API_URL + '/login'; } }
+    async function cargarSaldo() { try { const res = await fetch(API_URL + '/api/billetera/saldo', { credentials: 'include' }); if (res.ok) { const data = await res.json(); document.getElementById('saldoBilletera').innerHTML = `B/. ${data.saldo || 45.30}`; document.getElementById('saldoBilletera2').innerHTML = `B/. ${data.saldo || 45.30}`; } else { document.getElementById('saldoBilletera').innerHTML = 'B/. 45.30'; } } catch(e) { console.error(e); } }
+    async function cargarViajesRecientes() { try { const res = await fetch(API_URL + '/api/viajes/historial?limite=3', { credentials: 'include' }); if (res.ok) { const viajes = await res.json(); const container = document.getElementById('viajesRecientes'); if (!viajes.length) { container.innerHTML = '<div class="viaje-item">No hay viajes recientes</div>'; return; } container.innerHTML = ''; viajes.forEach(v => { const div = document.createElement('div'); div.className = 'viaje-item'; div.innerHTML = `<div class="viaje-info"><h4>${v.tipoViaje || 'Viaje'}</h4><p>${v.origen || 'Changuinola'} → ${v.destino}</p></div><div class="viaje-precio">B/.${v.tarifa || 0}</div>`; container.appendChild(div); }); } else { document.getElementById('viajesRecientes').innerHTML = '<div class="viaje-item">No hay viajes recientes</div>'; } } catch(e) { console.error(e); } }
+    async function cargarHistorialCompleto() { try { const res = await fetch(API_URL + '/api/viajes/historial', { credentials: 'include' }); if (res.ok) { const viajes = await res.json(); const container = document.getElementById('historialCompleto'); if (!viajes.length) { container.innerHTML = '<div class="viaje-item">No hay viajes registrados</div>'; return; } container.innerHTML = ''; viajes.forEach(v => { const div = document.createElement('div'); div.className = 'viaje-item'; div.innerHTML = `<div class="viaje-info"><h4>${v.tipoViaje || 'Viaje'}</h4><p>${v.origen || 'Changuinola'} → ${v.destino}</p><p class="viaje-estado">${new Date(v.fechaSolicitud).toLocaleDateString()} - ${v.estado || 'pendiente'}</p></div><div class="viaje-precio">B/.${v.tarifa || 0}</div>`; container.appendChild(div); }); } } catch(e) { console.error(e); } }
+    async function cargarRutasPopulares() { const rutas = [{ origen: "Changuinola", destino: "Almirante", tarifa: 1.45 }, { origen: "Changuinola", destino: "David", tarifa: 9.65 }, { origen: "Changuinola", destino: "Guabito", tarifa: 0.95 }]; const container = document.getElementById('rutasPopulares'); if(container) { container.innerHTML = ''; rutas.forEach(r => { const div = document.createElement('div'); div.className = 'viaje-item'; div.innerHTML = `<div>${r.origen} → ${r.destino}</div><div class="viaje-precio">B/.${r.tarifa.toFixed(2)}</div>`; container.appendChild(div); }); } }
+    async function cargarNotificacionesLista() { const container = document.getElementById('notificacionesLista'); if(container) container.innerHTML = '<div class="notificacion-item"><strong>¡Bienvenido a CupoTax!</strong><p>Disfruta de tus viajes con nosotros</p></div>'; }
+    async function cargarDestinosRapidos() { const destinos = [{ nombre: "Casa", direccion: "Changuinola Centro" }, { nombre: "Trabajo", direccion: "David" }, { nombre: "Aeropuerto", direccion: "Aeropuerto de Changuinola" }]; const container = document.getElementById('destinosRapidos'); if(container) { container.innerHTML = ''; destinos.forEach(f => { const div = document.createElement('div'); div.className = 'destino-item'; div.onclick = () => { if(document.getElementById('destinoSolicitud')) document.getElementById('destinoSolicitud').value = f.direccion; calcularTarifaReal(); mostrarSeccion('solicitar'); }; div.innerHTML = `<strong>${f.nombre}</strong><span>${f.direccion}</span>`; container.appendChild(div); }); } }
+    async function cargarReservas() { const container = document.getElementById('reservasLista'); if(container) container.innerHTML = '<div class="viaje-item">No hay reservas activas</div>'; }
+    async function cargarFavoritos() { const container = document.getElementById('favoritosLista'); if(container) container.innerHTML = '<div class="viaje-item">No hay favoritos</div>'; }
+    async function cargarTransacciones() { const container = document.getElementById('transaccionesLista'); if(container) container.innerHTML = '<div class="viaje-item">No hay transacciones</div>'; }
+    async function cargarContactos() { const container = document.getElementById('contactosLista'); if(container) container.innerHTML = '<div class="viaje-item">No hay contactos guardados</div>'; }
+    async function cargarPlanPremium() { const desc = document.getElementById('planPremiumDesc'); if(desc) desc.innerHTML = 'Mejora tu experiencia con beneficios exclusivos'; }
+
+    function seleccionarServicio(tipo) { servicioSeleccionado = tipo; document.querySelectorAll('.service-buttons .btn-outline').forEach(btn => btn.style.background = 'transparent'); const idMap = { estandar: 'servicioEstandar', confort: 'servicioConfort', premium: 'servicioPremium' }; const btn = document.getElementById(idMap[tipo]); if(btn) btn.style.background = 'rgba(255,255,255,0.2)'; }
+    
+    async function solicitarViaje() { 
+        const origen = document.getElementById('origenViaje').value; 
+        const destino = document.getElementById('destinoSolicitud').value; 
+        const tipo = document.getElementById('tipoViaje').value; 
+        
+        if (!destino) { 
+            SwalFire('Error', 'Ingresa un destino', 'error'); 
+            return; 
+        } 
+        if (tarifaCalculada === 0) { 
+            SwalFire('Error', 'Ruta no disponible', 'error'); 
+            return; 
+        } 
+        
+        let tarifaFinal = tarifaCalculada; 
+        if (servicioSeleccionado === 'confort') tarifaFinal *= 1.2; 
+        if (servicioSeleccionado === 'premium') tarifaFinal *= 1.5; 
+        
+        SwalFire('Confirmar viaje', `<div style="text-align:left;">
+            <strong>Origen:</strong> ${origen}<br>
+            <strong>Destino:</strong> ${destino}<br>
+            <strong>Tipo:</strong> ${tipo}<br>
+            <strong>Precio:</strong> B/.${tarifaFinal.toFixed(2)}
+        </div>`, 'question').then(async (result) => { 
+            if (result.isConfirmed) { 
+                try { 
+                    const response = await fetch(API_URL + '/api/viajes/solicitar', { 
+                        method: 'POST', 
+                        headers: { 'Content-Type': 'application/json' }, 
+                        credentials: 'include', 
+                        body: JSON.stringify({ 
+                            origen: origen, 
+                            destino: destino, 
+                            tipoServicio: servicioSeleccionado, 
+                            tipoViaje: tipo, 
+                            tarifaEstimada: tarifaFinal 
+                        }) 
+                    }); 
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok && data.success) { 
+                        viajeActivo = true; 
+                        viajeSolicitadoId = data.tripId;
+                        iniciarMonitoreo(); 
+                        iniciarVerificacionViaje();
+                        
+                        Swal.fire({
+                            title: '✅ Viaje solicitado',
+                            text: 'Buscando conductor disponible...',
+                            icon: 'info',
+                            timer: 2000,
+                            showConfirmButton: false,
+                            background: 'var(--card-bg)',
+                            color: 'var(--text-primary)'
+                        });
+                    } else { 
+                        SwalFire('Error', data.error || 'No se pudo solicitar el viaje', 'error'); 
+                    } 
+                } catch(e) { 
+                    console.error('Error:', e);
+                    SwalFire('Error', 'Error de conexión con el servidor', 'error'); 
+                } 
+            } 
+        }); 
+    }
+    
+    async function verificarEstadoViaje() {
+        try {
+            const response = await fetch(API_URL + '/api/viajes/historial', {
+                method: 'GET',
+                credentials: 'include'
+            });
+            
+            if (response.ok) {
+                const viajes = await response.json();
+                const viajePendiente = viajes.find(v => v.id === viajeSolicitadoId);
+                
+                if (viajePendiente && viajePendiente.estado === 'asignado') {
+                    if (intervaloVerificacionViaje) clearInterval(intervaloVerificacionViaje);
+                    viajeActivo = false;
+                    Swal.fire({
+                        title: '🚖 Viaje aceptado',
+                        text: `Tu conductor se dirige a tu ubicación`,
+                        icon: 'success',
+                        background: 'var(--card-bg)',
+                        color: 'var(--text-primary)',
+                        confirmButtonColor: 'var(--accent)'
+                    });
+                    cargarHistorialCompleto();
+                    cargarViajesRecientes();
+                } else if (viajePendiente && viajePendiente.estado === 'rechazado') {
+                    if (intervaloVerificacionViaje) clearInterval(intervaloVerificacionViaje);
+                    viajeActivo = false;
+                    Swal.fire({
+                        title: '❌ Viaje rechazado',
+                        text: 'Tu viaje fue rechazado. Intenta nuevamente.',
+                        icon: 'warning',
+                        background: 'var(--card-bg)',
+                        color: 'var(--text-primary)',
+                        confirmButtonColor: 'var(--accent)'
+                    });
+                } else if (viajePendiente && viajePendiente.estado === 'completado') {
+                    if (intervaloVerificacionViaje) clearInterval(intervaloVerificacionViaje);
+                    viajeActivo = false;
+                    Swal.fire({
+                        title: '✅ Viaje completado',
+                        text: 'Gracias por viajar con CupoTax',
+                        icon: 'success',
+                        background: 'var(--card-bg)',
+                        color: 'var(--text-primary)',
+                        confirmButtonColor: 'var(--accent)'
+                    });
+                    cargarHistorialCompleto();
+                    cargarViajesRecientes();
+                }
+            }
+        } catch(e) {
+            console.error('Error verificando viaje:', e);
+        }
+    }
+    
+    function iniciarVerificacionViaje() {
+        if (intervaloVerificacionViaje) clearInterval(intervaloVerificacionViaje);
+        intervaloVerificacionViaje = setInterval(() => {
+            verificarEstadoViaje();
+        }, 5000);
+    }
+    
+    function SwalFire(title, text, icon) { Swal.fire({ title, text, icon, background: 'var(--card-bg)', color: 'var(--text-primary)', confirmButtonColor: 'var(--accent)' }); }
+    
+    function iniciarMonitoreo() { if (intervaloMonitoreo) clearInterval(intervaloMonitoreo); intervaloMonitoreo = setInterval(() => { if (!viajeActivo) return; if (Math.random() > 0.9) { Swal.fire({ title: 'Alerta de seguridad', text: 'Detectamos una desviacion en la ruta, todo esta bien?', icon: 'warning', background: 'var(--card-bg)', color: 'var(--text-primary)', confirmButtonColor: 'var(--accent)', showCancelButton: true, confirmButtonText: 'Si', cancelButtonText: 'Ayuda' }).then(result => { if (!result.isConfirmed) activarSOSInmediato(); }); } }, 30000); }
+    
+    function recargarSaldo() { abrirModalRecarga(); }
+    function verPlanes() { mostrarSeccion('premium'); }
+    function invitarAmigos() { SwalFire('Invitar amigos', 'Comparte tu codigo: CUPOTAX2025', 'success'); }
+    function contratarPremium() { 
+        Swal.fire({
+            title: 'Plan Premium',
+            text: '¿Deseas contratar el Plan Premium por B/. 19.90/mes?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, contratar',
+            cancelButtonText: 'Cancelar',
+            background: 'var(--card-bg)',
+            color: 'var(--text-primary)',
+            confirmButtonColor: 'var(--accent)'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: '¡Premium activado!',
+                    text: 'Ahora disfrutas de todos los beneficios exclusivos. Tu membresía se renovará automáticamente cada mes.',
+                    icon: 'success',
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)',
+                    confirmButtonColor: 'var(--accent)'
+                });
+            }
+        });
+    }
+    function agregarFavorito() { SwalFire('Agregar favorito', 'Selecciona una direccion en el mapa', 'info'); }
+    
+    function copiarEnlace(enlace) {
+        navigator.clipboard.writeText(enlace);
+        Swal.fire({
+            title: '✅ Enlace copiado',
+            text: 'Pégalo donde quieras compartir',
+            icon: 'success',
+            timer: 1500,
+            showConfirmButton: false,
+            background: 'var(--card-bg)',
+            color: 'var(--text-primary)'
+        });
+    }
+    
+    function compartirViaje() {
+        Swal.fire({
+            title: 'Obteniendo ubicación...',
+            text: 'Por favor espera',
+            allowOutsideClick: false,
+            didOpen: () => { Swal.showLoading(); }
+        });
+        
+        if (!navigator.geolocation) {
+            Swal.close();
+            Swal.fire('Error', 'Tu navegador no soporta geolocalización', 'error');
+            return;
+        }
+        
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                Swal.close();
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                const mapsLink = `https://maps.google.com/?q=${lat},${lng}`;
+                const mensaje = `Hola, estoy en ${mapsLink} - Compartido desde CupoTax`;
+                
+                Swal.fire({
+                    title: 'Compartir ubicación en vivo',
+                    html: `
+                        <div style="text-align: left;">
+                            <p><strong>📍 Enlace de Google Maps:</strong></p>
+                            <p style="font-size: 0.8rem; word-break: break-all;">${mapsLink}</p>
+                            <hr style="margin: 1rem 0;">
+                            <button class="btn-compartir" onclick="window.open('https://wa.me/?text=${encodeURIComponent(mensaje)}', '_blank')" style="background: #25D366; width: 100%; margin-bottom: 0.5rem; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">
+                                📱 Compartir por WhatsApp
+                            </button>
+                            <button class="btn-compartir" onclick="window.location.href='mailto:?subject=Mi ubicación en vivo&body=${encodeURIComponent(mensaje)}'" style="background: #3A86FF; width: 100%; margin-bottom: 0.5rem; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">
+                                📧 Enviar por Correo
+                            </button>
+                            <button class="btn-compartir" onclick="copiarEnlace('${mapsLink}')" style="background: #6C6F93; width: 100%; margin-bottom: 0.5rem; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">
+                                🔗 Copiar enlace
+                            </button>
+                            <button class="btn-compartir" onclick="Swal.fire('Instagram', 'Toma una captura de pantalla del enlace y compártela en tu historia o mensaje directo.', 'info')" style="background: #E1306C; width: 100%; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">
+                                📸 Compartir en Instagram
+                            </button>
+                        </div>
+                    `,
+                    showConfirmButton: false,
+                    showCloseButton: true,
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)'
+                });
+            },
+            (error) => {
+                Swal.close();
+                let mensajeError = 'No se pudo obtener tu ubicación. ';
+                switch(error.code) {
+                    case error.PERMISSION_DENIED:
+                        mensajeError += 'Permiso denegado. Activa la ubicación en tu dispositivo.';
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        mensajeError += 'Información de ubicación no disponible.';
+                        break;
+                    case error.TIMEOUT:
+                        mensajeError += 'Tiempo de espera agotado.';
+                        break;
+                    default:
+                        mensajeError += 'Error desconocido.';
+                }
+                Swal.fire('Error', mensajeError, 'error');
+            }
+        );
+    }
+    
+    function chatSoporte() { SwalFire('Chat de soporte', 'Un agente se conectara contigo', 'info'); }
+    function irAPerfil() { window.location.href = API_URL + '/perfil'; }
+    function cambiarPassword() { SwalFire('Cambiar contrasena', 'Recibiras un enlace de recuperacion por email', 'info'); }
+    
+    async function guardarContacto() { const contacto = document.getElementById('contactoEmergencia').value; if (!contacto) { SwalFire('Error', 'Ingresa un contacto', 'error'); return; } try { await fetch(API_URL + '/api/usuarios/contacto', { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ contacto }) }); SwalFire('Contacto guardado', contacto, 'success'); cargarContactos(); document.getElementById('contactoEmergencia').value = ''; } catch(e) { SwalFire('Error', 'No se pudo guardar', 'error'); } }
+
+    async function activarSOS(tipo, descripcion) {
+        const contacto = document.getElementById('contactoEmergencia').value || 'Sin contacto registrado';
+        const ubicacion = "Changuinola, Panamá";
+        
+        try {
+            await fetch(API_URL + '/api/incidentes/reportar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ tipo, descripcion, contacto, ubicacion, timestamp: new Date().toISOString() })
+            });
+        } catch(e) {}
+        
+        Swal.fire({
+            title: '🚨 ALERTA DE EMERGENCIA ENVIADA',
+            html: `<strong>Tipo:</strong> ${tipo}<br><strong>Descripción:</strong> ${descripcion}<br><strong>Ubicación:</strong> ${ubicacion}<br><strong>Contacto:</strong> ${contacto}`,
+            icon: 'error',
+            background: '#0A0A0F',
+            color: '#FF6A2A',
+            confirmButtonColor: '#d33'
+        });
+    }
+    
+    function activarSOSInmediato() {
+        activarSOS('EMERGENCIA MÁXIMA', 'Alerta inmediata por doble clic - Se requiere asistencia urgente');
+    }
+    
+    function mostrarOpcionesSOS() {
+        Swal.fire({
+            title: '🆘 ¿Qué está sucediendo?',
+            html: `
+                <div style="text-align:left;">
+                    <button class="sos-option" onclick="seleccionarSOS('Accidente de tránsito', 'Se ha producido un accidente vehicular')">🚗 Accidente de tránsito</button><br><br>
+                    <button class="sos-option" onclick="seleccionarSOS('Asalto / Robo', 'Estoy siendo víctima de un asalto')">🔫 Asalto / Robo</button><br><br>
+                    <button class="sos-option" onclick="seleccionarSOS('Problema médico', 'Necesito asistencia médica urgente')">🏥 Problema médico</button><br><br>
+                    <button class="sos-option" onclick="seleccionarSOS('Conductor sospechoso', 'El conductor tiene una actitud sospechosa')">⚠️ Conductor sospechoso</button><br><br>
+                    <button class="sos-option" onclick="seleccionarSOS('Otro', 'Describir situación')">📝 Otro</button>
+                </div>
+            `,
+            showConfirmButton: false,
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            background: 'var(--card-bg)',
+            color: 'var(--text-primary)',
+            didOpen: () => {
+                const style = document.createElement('style');
+                style.textContent = `.sos-option { background: var(--accent); border: none; padding: 10px; border-radius: 10px; width: 100%; cursor: pointer; color: #000; font-weight: bold; transition: all 0.3s; } .sos-option:hover { transform: scale(1.02); }`;
+                document.head.appendChild(style);
+            }
+        });
+    }
+    
+    function seleccionarSOS(tipo, descripcion) {
+        Swal.close();
+        if (tipo === 'Otro') {
+            Swal.fire({
+                title: 'Describa la situación',
+                input: 'textarea',
+                inputPlaceholder: 'Escriba los detalles de la emergencia...',
+                showCancelButton: true,
+                confirmButtonText: 'Enviar alerta',
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)',
+                confirmButtonColor: '#d33'
+            }).then(result => {
+                if (result.isConfirmed && result.value) {
+                    activarSOS(tipo, result.value);
+                }
+            });
+        } else {
+            activarSOS(tipo, descripcion);
+        }
+    }
+    
+    function iniciarSOS() {
+        clickCount++;
+        if (clickCount === 1) {
+            sosTimeout = setTimeout(() => {
+                mostrarOpcionesSOS();
+                clickCount = 0;
+                sosTimeout = null;
+            }, 300);
+        } else if (clickCount === 2) {
+            if (sosTimeout) clearTimeout(sosTimeout);
+            activarSOSInmediato();
+            clickCount = 0;
+            sosTimeout = null;
+        }
+        setTimeout(() => { if (clickCount > 0 && !sosTimeout) clickCount = 0; }, 500);
+    }
+    
+    document.getElementById('btnSOS')?.addEventListener('click', iniciarSOS);
+
+    function mostrarSeccion(seccion) { const secciones = ['inicio', 'solicitar', 'reservas', 'favoritos', 'billetera', 'historial', 'premium', 'notificaciones', 'seguridad', 'ayuda', 'configuracion']; secciones.forEach(s => { const el = document.getElementById(`seccion-${s}`); if (el) el.style.display = 'none'; }); document.getElementById(`seccion-${seccion}`).style.display = 'block'; if (seccion === 'solicitar') { setTimeout(() => initMap(), 100); calcularTarifaReal(); } if (seccion === 'historial') cargarHistorialCompleto(); if (seccion === 'reservas') cargarReservas(); if (seccion === 'favoritos') cargarFavoritos(); if (seccion === 'billetera') { cargarSaldo(); cargarTransacciones(); } if (seccion === 'notificaciones') cargarNotificacionesLista(); if (seccion === 'seguridad') cargarContactos(); }
+    function toggleSidebarMenu() { document.getElementById('sidebar').classList.toggle('open'); }
+    function cerrarSidebar() { if (window.innerWidth <= 700) document.getElementById('sidebar').classList.remove('open'); }
+    
+    function toggleSettingsPanel() { document.getElementById('settingsPanel').classList.toggle('open'); }
+    
+    function setEstilo(estilo) {
+        document.body.classList.remove('style-fire', 'style-glass', 'style-neon', 'style-crimson', 'light-mode');
+        if(estilo === 'fire') document.body.classList.add('style-fire');
+        else if(estilo === 'glass') document.body.classList.add('style-glass');
+        else if(estilo === 'neon') document.body.classList.add('style-neon');
+        else if(estilo === 'crimson') document.body.classList.add('style-crimson');
+        localStorage.setItem('cupotax-usuario-estilo', estilo);
+        localStorage.removeItem('cupotax-usuario-light');
+        actualizarCards(estilo);
+        Swal.fire({ title: `Estilo ${estilo === 'fire' ? 'Naranja Fuego' : estilo === 'glass' ? 'Glass Azul' : estilo === 'neon' ? 'Neon Glow' : 'Crimson Glass'} aplicado`, icon: 'success', timer: 1500, showConfirmButton: false });
+    }
+    
+    function toggleLightMode() {
+        if(document.body.classList.contains('light-mode')) {
+            document.body.classList.remove('light-mode');
+            let estilo = localStorage.getItem('cupotax-usuario-estilo') || 'fire';
+            if(estilo === 'fire') document.body.classList.add('style-fire');
+            else if(estilo === 'glass') document.body.classList.add('style-glass');
+            else if(estilo === 'neon') document.body.classList.add('style-neon');
+            else if(estilo === 'crimson') document.body.classList.add('style-crimson');
+            localStorage.removeItem('cupotax-usuario-light');
+        } else {
+            document.body.classList.add('light-mode');
+            localStorage.setItem('cupotax-usuario-light', 'true');
+        }
+        Swal.fire({ title: document.body.classList.contains('light-mode') ? 'Modo claro activado' : 'Modo oscuro activado', icon: 'success', timer: 1500, showConfirmButton: false });
+    }
+    
+    function resetearEstilos() {
+        document.body.classList.remove('style-glass', 'style-neon', 'style-crimson', 'light-mode');
+        document.body.classList.add('style-fire');
+        localStorage.setItem('cupotax-usuario-estilo', 'fire');
+        localStorage.removeItem('cupotax-usuario-light');
+        actualizarCards('fire');
+        Swal.fire({ title: 'Estilos restaurados', icon: 'success', timer: 1500, showConfirmButton: false });
+    }
+    
+    function actualizarCards(estilo) {
+        document.getElementById('cardFire')?.classList.remove('active');
+        document.getElementById('cardGlass')?.classList.remove('active');
+        document.getElementById('cardNeon')?.classList.remove('active');
+        document.getElementById('cardCrimson')?.classList.remove('active');
+        document.getElementById('cardLight')?.classList.remove('active');
+        if(estilo === 'fire') document.getElementById('cardFire')?.classList.add('active');
+        else if(estilo === 'glass') document.getElementById('cardGlass')?.classList.add('active');
+        else if(estilo === 'neon') document.getElementById('cardNeon')?.classList.add('active');
+        else if(estilo === 'crimson') document.getElementById('cardCrimson')?.classList.add('active');
+    }
+    
+    function cerrarSesion() {
+        Swal.fire({
+            title: '¿Cerrar sesión?',
+            text: '¿Estás seguro de que quieres salir?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, salir',
+            cancelButtonText: 'Cancelar',
+            background: 'var(--card-bg)',
+            color: 'var(--text-primary)',
+            confirmButtonColor: 'var(--accent)'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(API_URL + '/logout', { method: 'POST', credentials: 'include' })
+                    .catch(e => console.error('Error:', e));
+                window.location.href = API_URL + '/';
+            }
+        });
+    }
+    
+    const estiloGuardado = localStorage.getItem('cupotax-usuario-estilo') || 'fire';
+    const lightGuardado = localStorage.getItem('cupotax-usuario-light') === 'true';
+    if(estiloGuardado === 'glass') document.body.classList.add('style-glass');
+    else if(estiloGuardado === 'neon') document.body.classList.add('style-neon');
+    else if(estiloGuardado === 'crimson') document.body.classList.add('style-crimson');
+    else document.body.classList.add('style-fire');
+    if(lightGuardado) document.body.classList.add('light-mode');
+    actualizarCards(estiloGuardado);
+    
+    window.onload = () => {
+        cargarUsuario(); 
+        cargarSaldo(); 
+        cargarViajesRecientes(); 
+        cargarRutasPopulares(); 
+        cargarNotificacionesLista(); 
+        cargarPlanPremium(); 
+        cargarDestinosRapidos(); 
+        cargarReservas(); 
+        cargarFavoritos(); 
+        cargarTransacciones(); 
+        cargarContactos();
+        cargarNotificaciones();
+        cargarEmpresaEmergencia(); // <-- Cargar números de emergencia de la empresa
+        initMap(); 
+        mostrarSeccion('inicio'); 
+        calcularTarifaReal();
+    };
+    
+    window.onclick = function(e) {
+        const panel = document.getElementById('settingsPanel');
+        const btn = document.querySelector('.settings-toggle');
+        if(panel && panel.classList.contains('open') && !panel.contains(e.target) && e.target !== btn && !btn.contains(e.target)) {
+            panel.classList.remove('open');
+        }
+        const modal = document.getElementById('modalRecarga');
+        if (modal && modal.classList.contains('active') && e.target === modal) {
+            cerrarModalRecarga();
+        }
+    }
+</script>
+</body>
+</html>

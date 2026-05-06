@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>CupoTax Premium | Temas Visuales + Reservas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+        }
+
+        body.style-fire {
+            --bg-base: #0A0A0A;
+            --bg-secondary: #1E1E1E;
+            --bg-card-solid: #2A2A2A;
+            --gradient-glow: linear-gradient(135deg, #FF6A2A, #FF8C42);
+            --accent-primary: #FF6A2A;
+            --accent-purple: #FF8C42;
+            --accent-lilac: #FFA15C;
+            --bar-active: #FF6A2A;
+            --bar-inactive: #333333;
+            --text-white: #FFFFFF;
+            --text-gray-light: #B3B3B3;
+            --text-gray-sec: #888888;
+            --glass-bg: rgba(30, 30, 30, 0.85);
+            --glass-card: rgba(30, 30, 30, 0.7);
+            --glass-border: rgba(255, 106, 42, 0.3);
+            --input-bg: rgba(255, 255, 255, 0.08);
+            --shadow-glow: 0 0 20px rgba(255, 106, 42, 0.4);
+            --card-radius: 20px;
+            --btn-hover: #FF6A2A;
+            --blur-amount: 12px;
+        }
+
+        body.style-fire::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(255, 106, 42, 0.15), transparent);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        body.style-glass {
+            --bg-base: #0B1220;
+            --bg-secondary: #0F1B2D;
+            --bg-card-solid: #16263A;
+            --gradient-glow: linear-gradient(135deg, #3A86FF, #4FACFE);
+            --accent-primary: #3A86FF;
+            --accent-purple: #4FACFE;
+            --accent-lilac: #43E97B;
+            --bar-active: #4FACFE;
+            --bar-inactive: rgba(255,255,255,0.08);
+            --text-white: #FFFFFF;
+            --text-gray-light: #A8B2D1;
+            --text-gray-sec: #6C7A99;
+            --glass-bg: rgba(16, 26, 43, 0.6);
+            --glass-card: rgba(22, 38, 58, 0.55);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --input-bg: rgba(58, 134, 255, 0.15);
+            --shadow-glow: 0 0 20px rgba(58, 134, 255, 0.4);
+            --card-radius: 16px;
+            --btn-hover: #3A86FF;
+            --blur-amount: 14px;
+        }
+
+        body.style-glass::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 40%, rgba(79, 172, 254, 0.2), rgba(67, 233, 123, 0.08), transparent);
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        body.style-glass::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://i.ibb.co/pBSfBsYF/Whats-App-Image-2026-04-28-at-12-20-21-AM.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            opacity: 0.15;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        body.style-neon {
+            --bg-base: #0B0B12;
+            --bg-secondary: #0F1220;
+            --bg-card-solid: #1A1D2E;
+            --gradient-glow: linear-gradient(135deg, #7B2FF7, #FF2FD8, #FF4ECD);
+            --accent-primary: #FF4ECD;
+            --accent-purple: #9D4EDD;
+            --accent-lilac: #C77DFF;
+            --bar-active: #FF4ECD;
+            --bar-inactive: #2A2D3E;
+            --text-white: #FFFFFF;
+            --text-gray-light: #A0A3BD;
+            --text-gray-sec: #6C6F93;
+            --glass-bg: rgba(22, 19, 22, 0.85);
+            --glass-card: rgba(26, 29, 46, 0.7);
+            --glass-border: rgba(255, 76, 205, 0.3);
+            --input-bg: #161316;
+            --shadow-glow: 0 0 20px rgba(255, 76, 205, 0.6);
+            --card-radius: 20px;
+            --btn-hover: #FF4ECD;
+            --blur-amount: 12px;
+        }
+
+        body.style-neon::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(123, 47, 247, 0.2), rgba(255, 46, 216, 0.1), transparent);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* ========== MODO 4: CRIMSON GLASS (ROJO OSCURO) ========== */
+        body.style-crimson {
+            --bg-base: #1A0A0A;
+            --bg-secondary: #2D1515;
+            --bg-card-solid: #3D1A1A;
+            --gradient-glow: linear-gradient(135deg, #E63946, #FF6B6B);
+            --accent-primary: #E63946;
+            --accent-purple: #FF6B6B;
+            --accent-lilac: #FF8A8A;
+            --bar-active: #E63946;
+            --bar-inactive: #4A2A2A;
+            --text-white: #FFFFFF;
+            --text-gray-light: #D1A8A8;
+            --text-gray-sec: #A87070;
+            --glass-bg: rgba(45, 21, 21, 0.55);
+            --glass-card: rgba(61, 26, 26, 0.45);
+            --glass-border: rgba(255, 100, 100, 0.15);
+            --input-bg: rgba(255, 255, 255, 0.08);
+            --shadow-glow: 0 0 20px rgba(230, 57, 70, 0.4);
+            --card-radius: 18px;
+            --btn-hover: #E63946;
+            --blur-amount: 12px;
+        }
+
+        body.style-crimson::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(230, 57, 70, 0.12), rgba(255, 100, 100, 0.05), transparent);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        body.style-crimson::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://i.ibb.co/pBSfBsYF/Whats-App-Image-2026-04-28-at-12-20-21-AM.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            opacity: 0.12;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        body.style-crimson .service-card i,
+        body.style-crimson .service-btn i {
+            color: #E63946;
+        }
+
+        body.style-crimson .seat-selected {
+            background: #E63946 !important;
+        }
+
+        body.light-mode {
+            --bg-base: #F5F5F7;
+            --bg-secondary: #E8E8ED;
+            --bg-card-solid: #FFFFFF;
+            --gradient-glow: linear-gradient(135deg, #FF6A2A, #FF8C42);
+            --accent-primary: #FF6A2A;
+            --accent-purple: #FF8C42;
+            --accent-lilac: #FFA15C;
+            --bar-active: #FF6A2A;
+            --bar-inactive: #DDDDDD;
+            --text-white: #000000;
+            --text-gray-light: #555555;
+            --text-gray-sec: #888888;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --glass-card: rgba(240, 240, 245, 0.95);
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --input-bg: #F5F5F5;
+            --shadow-glow: 0 0 15px rgba(255, 106, 42, 0.2);
+            --card-radius: 16px;
+            --btn-hover: #FF6A2A;
+            --blur-amount: 12px;
+        }
+
+        body.light-mode::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(79, 172, 254, 0.12), transparent);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        body {
+            background: var(--bg-base);
+            color: var(--text-white);
+        }
+
+        .navbar, .form-section, .service-card, .resumen-box, .modal-pago-content, .settings-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--blur-amount));
+            border: 1px solid var(--glass-border);
+            border-radius: var(--card-radius);
+        }
+
+        .navbar {
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            background: var(--gradient-glow);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .nav-btn, .settings-btn {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--text-white);
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover, .settings-btn:hover {
+            background: var(--btn-hover);
+            color: #000;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .settings-panel {
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .settings-panel.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .theme-options {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .theme-card {
+            background: var(--bg-base);
+            border-radius: 20px;
+            padding: 1.5rem;
+            cursor: pointer;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .theme-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .theme-card.active {
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .theme-preview {
+            width: 100%;
+            height: 120px;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .preview-fire {
+            background: linear-gradient(135deg, #0A0A0A, #1E1E1E);
+            position: relative;
+            overflow: hidden;
+        }
+        .preview-fire::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle, #FF6A2A20, transparent);
+        }
+
+        .preview-glass {
+            background: linear-gradient(135deg, #0B1220, #16263A);
+            position: relative;
+        }
+        .preview-glass::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background: rgba(22, 38, 58, 0.4);
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(4px);
+        }
+
+        .preview-neon {
+            background: linear-gradient(135deg, #0B0B12, #1A1D2E);
+            position: relative;
+            overflow: hidden;
+        }
+        .preview-neon::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle, #FF4ECD20, transparent);
+        }
+
+        .preview-crimson {
+            background: linear-gradient(135deg, #1A0A0A, #3D1A1A);
+            position: relative;
+            overflow: hidden;
+        }
+        .preview-crimson::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle, #E6394620, transparent);
+        }
+
+        .preview-light {
+            background: linear-gradient(135deg, #F5F5F7, #E8E8ED);
+            position: relative;
+        }
+        .preview-light::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle, #FF6A2A15, transparent);
+        }
+
+        .service-highlight {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .service-card {
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .service-card i {
+            font-size: 2rem;
+            color: var(--accent-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-detalle {
+            display: none;
+            background: rgba(0,0,0,0.5);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .info-detalle.show { display: block; }
+
+        .service-selector {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .service-btn {
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            padding: 1.5rem 2.5rem;
+            border-radius: 60px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+            min-width: 180px;
+        }
+
+        .service-btn.active, .service-btn:hover {
+            background: var(--accent-primary);
+            color: #000;
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .form-section {
+            padding: 2rem;
+            margin-top: 1rem;
+        }
+
+        .form-title {
+            color: var(--accent-primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--accent-primary);
+            font-size: 0.7rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--input-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            color: var(--text-white);
+        }
+
+        body.light-mode .form-group input, 
+        body.light-mode .form-group select {
+            color: #000;
+        }
+
+        .resumen-box {
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .payment-methods {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .payment-btn {
+            background: var(--input-bg);
+            border: 1px solid var(--glass-border);
+            padding: 0.8rem 1.5rem;
+            border-radius: 40px;
+            cursor: pointer;
+            color: var(--text-white);
+        }
+
+        .payment-btn.selected {
+            background: var(--accent-primary);
+            color: #000;
+        }
+
+        .btn-submit {
+            background: var(--gradient-glow);
+            border: none;
+            padding: 1rem;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .btn-submit:hover {
+            transform: scale(0.98);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .modal-pago {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-pago-content {
+            max-width: 500px;
+            width: 90%;
+            padding: 2rem;
+        }
+
+        .ticket {
+            background: white;
+            color: black;
+            padding: 2rem;
+            border-radius: 20px;
+            margin-top: 2rem;
+        }
+
+        .btn-pdf {
+            background: var(--accent-primary);
+            border: none;
+            padding: 0.8rem;
+            border-radius: 40px;
+            cursor: pointer;
+            margin-top: 1rem;
+            width: 100%;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .seats-table {
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+
+        .seats-table td {
+            padding: 8px;
+        }
+
+        .seat-btn {
+            width: 60px;
+            height: 50px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .seat-available { background: #2ecc71; color: #fff; cursor: pointer; }
+        .seat-selected { background: var(--accent-primary); color: #000; }
+        .seat-occupied { background: #7f8c8d; color: #fff; cursor: not-allowed; }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            color: var(--text-gray-sec);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .progress-bar-container {
+            background: var(--bar-inactive);
+            border-radius: 30px;
+            height: 8px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 30px;
+            background: linear-gradient(90deg, #4FACFE, #43E97B, #F9D423, #FF7A18);
+            width: 65%;
+            box-shadow: var(--shadow-glow);
+        }
+
+        @media (max-width: 768px) {
+            .service-highlight { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .container { padding: 0 1rem; }
+            .service-selector { flex-direction: column; align-items: center; }
+            .seat-btn { width: 45px; height: 40px; font-size: 12px; }
+            .theme-options { flex-direction: column; }
+        }
+    </style>
+</head>
+<body class="style-fire">
+
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="logo"><h1>CupoTax</h1><span style="font-size: 0.7rem;">PREMIUM</span></div>
+        <div class="nav-links">
+            <button class="nav-btn" onclick="window.location.reload()"><i class="fas fa-home"></i> INICIO</button>
+            <button class="settings-btn" onclick="toggleAjustes()"><i class="fas fa-sliders-h"></i> AJUSTES</button>
+            <button class="nav-btn" onclick="cerrarSesion()">SALIR</button>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <!-- Panel de Ajustes Visuales -->
+    <div id="settingsPanel" class="settings-panel">
+        <h2 style="text-align: center; color: var(--accent-primary);"><i class="fas fa-palette"></i> Personaliza tu interfaz</h2>
+        <div class="theme-options">
+            <div class="theme-card" data-theme="fire" onclick="cambiarTema('fire')">
+                <div class="theme-preview preview-fire"></div>
+                <h3>🔥 Naranja Fuego</h3>
+                <p style="font-size: 0.8rem;">Cálido / Vibrante / Energético</p>
+                <small>🌞 Por defecto</small>
+            </div>
+            <div class="theme-card" data-theme="glass" onclick="cambiarTema('glass')">
+                <div class="theme-preview preview-glass"></div>
+                <h3>💎 Glass Azul</h3>
+                <p style="font-size: 0.8rem;">Azul profundo / Vidrio / Blur</p>
+                <small>✨ Efecto elegante</small>
+            </div>
+            <div class="theme-card" data-theme="neon" onclick="cambiarTema('neon')">
+                <div class="theme-preview preview-neon"></div>
+                <h3>🎨 Neon Glow</h3>
+                <p style="font-size: 0.8rem;">Morados / Rosas / Glow intenso</p>
+                <small>💜 Estilo futurista</small>
+            </div>
+            <div class="theme-card" data-theme="crimson" onclick="cambiarTema('crimson')">
+                <div class="theme-preview preview-crimson"></div>
+                <h3>🔴 Crimson Glass</h3>
+                <p style="font-size: 0.8rem;">Rojo oscuro / Elegancia / Glow tenue</p>
+                <small>🔥 Exclusivo</small>
+            </div>
+            <div class="theme-card" data-theme="light" onclick="cambiarTema('light')">
+                <div class="theme-preview preview-light"></div>
+                <h3>☀️ Modo Claro</h3>
+                <p style="font-size: 0.8rem;">Fondo blanco / Limpio</p>
+                <small>📖 Para día</small>
+            </div>
+        </div>
+        <div class="progress-bar-container">
+            <div class="progress-bar"></div>
+        </div>
+        <p style="text-align: center; font-size: 0.8rem;">
+            <i class="fas fa-eye"></i> Vista previa en tiempo real — Cambia de estilo sin recargar
+        </p>
+    </div>
+
+    <h1 style="text-align: center; margin-bottom: 2rem;"><i class="fas fa-crown"></i> CupoTax Premium</h1>
+    
+    <div class="service-highlight">
+        <div class="service-card" onclick="toggleInfo('prioridadInfo')">
+            <i class="fas fa-rocket"></i>
+            <h3>Prioridad</h3>
+            <p>Asignación prioritaria de chófer</p>
+            <div id="prioridadInfo" class="info-detalle">
+                <strong>✅ Chófer verificado con capacidad exclusiva</strong><br>
+                🚗 Ruta dinámica en tiempo real<br>
+                📶 Wi-Fi Premium y Agua de Cortesía
+            </div>
+        </div>
+        <div class="service-card" onclick="toggleInfo('asientosInfo')">
+            <i class="fas fa-couch"></i>
+            <h3>Asientos VIP</h3>
+            <p>Máximo confort en cada viaje</p>
+            <div id="asientosInfo" class="info-detalle">
+                <strong>✨ Materiales de alta gama</strong><br>
+                🌡️ Control de clima individual<br>
+                📱 Puerto USB y tomacorriente
+            </div>
+        </div>
+        <div class="service-card" onclick="toggleInfo('soporteInfo')">
+            <i class="fas fa-headset"></i>
+            <h3>Soporte 24/7</h3>
+            <p>Asistencia en todo momento</p>
+            <div id="soporteInfo" class="info-detalle">
+                <strong>📞 Asistencia telefónica y chat 24/7</strong><br>
+                🎫 Boleto electrónico inmediato<br>
+                🔒 Seguridad y objetos perdidos
+            </div>
+        </div>
+    </div>
+    
+    <div class="service-selector">
+        <button class="service-btn" id="btnTaxi" onclick="selectService('taxi')">
+            <i class="fas fa-taxi" style="font-size: 2rem;"></i>
+            <span>🚖 TAXI PREMIUM</span>
+        </button>
+        <button class="service-btn" id="btnBus" onclick="selectService('bus')">
+            <i class="fas fa-bus" style="font-size: 2rem;"></i>
+            <span>🚌 BUS PREMIUM</span>
+        </button>
+    </div>
+    
+    <!-- Formulario Taxi -->
+    <div id="taxiForm" class="form-section">
+        <h2 class="form-title"><i class="fas fa-taxi"></i> Tu taxi privado, al instante</h2>
+        <div class="form-row">
+            <div class="form-group"><label>📍 RECOGIDA</label><select id="taxiOrigen"><option>Changuinola (Terminal)</option><option>Aeropuerto</option><option>Finca 4</option><option>Finca 60</option></select></div>
+            <div class="form-group"><label>📍 DESTINO</label><select id="taxiDestino"><option>Finca 60</option><option>Aeropuerto</option><option>Changuinola</option><option>Almirante</option></select></div>
+        </div>
+        <div class="form-row">
+            <div class="form-group"><label>👤 NOMBRE</label><input type="text" id="taxiNombre" placeholder="Ej: Juan Pérez"></div>
+            <div class="form-group"><label>📞 TELÉFONO</label><input type="text" id="taxiTelefono" placeholder="+507 6000-1234"></div>
+        </div>
+        <div class="form-group"><label>📅 FECHA Y HORA</label><input type="datetime-local" id="taxiFecha"></div>
+        <div class="form-group"><label>🔄 ¿REGRESO?</label><select id="taxiRegreso"><option value="no">Solo ida</option><option value="si">Ida y vuelta</option></select></div>
+        <div id="taxiRegresoFields" style="display:none;">
+            <div class="form-row">
+                <div class="form-group"><label>📅 FECHA REGRESO</label><input type="date" id="taxiFechaRegreso"></div>
+                <div class="form-group"><label>⏰ HORA REGRESO</label><input type="time" id="taxiHoraRegreso"></div>
+            </div>
+        </div>
+        <div class="resumen-box">
+            <h3>💰 RESUMEN</h3>
+            <p>🚖 Tarifa base: $15.00</p>
+            <p id="taxiExtraTexto">🔄 Solo ida</p>
+            <p><strong>Total: <span id="taxiTotal">$15.00</span></strong></p>
+            <h3>💳 MÉTODO DE PAGO</h3>
+            <div class="payment-methods">
+                <button type="button" class="payment-btn" onclick="abrirModalPago('taxi', 'tarjeta')">💳 Tarjeta</button>
+                <button type="button" class="payment-btn" onclick="abrirModalPago('taxi', 'digital')">📱 Digital</button>
+                <button type="button" class="payment-btn" onclick="abrirModalPago('taxi', 'efectivo')">💵 Efectivo</button>
+            </div>
+            <input type="hidden" id="taxiPago" value="">
+            <button class="btn-submit" onclick="reservarTaxi()">✅ Confirmar Reserva</button>
+        </div>
+    </div>
+    
+    <!-- Formulario Bus -->
+    <div id="busForm" class="form-section" style="display:none;">
+        <h2 class="form-title"><i class="fas fa-bus"></i> Reserva tu asiento con anticipación</h2>
+        
+        <div class="form-row">
+            <div class="form-group"><label>📍 ORIGEN</label><select id="busOrigen"><option>Bocas del Toro</option><option>Changuinola</option><option>Almirante</option></select></div>
+            <div class="form-group"><label>📍 DESTINO</label><select id="busDestino"><option>David</option><option>Panamá</option><option>Chiriquí</option></select></div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group"><label>📅 FECHA IDA</label><input type="date" id="busFechaIda"></div>
+            <div class="form-group"><label>⏰ HORA IDA</label><select id="busHoraIda"><option>8:00 AM</option><option>10:00 AM</option><option>2:00 PM</option></select></div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group"><label>👤 NOMBRE</label><input type="text" id="busNombre" placeholder="Ej: Juan Pérez"></div>
+            <div class="form-group"><label>📞 TELÉFONO</label><input type="text" id="busTelefono" placeholder="+507 6000-1234"></div>
+        </div>
+        
+        <div style="display: flex; gap: 1.5rem; margin: 1rem 0; justify-content: center; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><div style="width: 25px; height: 25px; background: #2ecc71; border-radius: 8px;"></div><span>Disponible</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><div style="width: 25px; height: 25px; background: var(--accent-primary); border-radius: 8px;"></div><span>Tu selección</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><div style="width: 25px; height: 25px; background: #7f8c8d; border-radius: 8px;"></div><span>Ocupado</span></div>
+        </div>
+        
+        <h3 style="text-align: center; margin: 1rem 0;">💺 Asientos Premium</h3>
+        <div id="seatsMapIda" style="display: flex; justify-content: center; margin: 1rem 0;"></div>
+        <div id="seatsSelectionInfo" style="text-align: center; margin: 1rem 0; font-weight: bold;"></div>
+        <div id="lowSeatsWarning" style="text-align: center; margin: 0.5rem 0; color: #e74c3c;"></div>
+        
+        <div style="display: flex; justify-content: space-between; gap: 1rem; margin-top: 1rem;">
+            <button class="btn-submit" id="prevStepBtn" style="width: auto; padding: 0.8rem 2rem; background: #555;" onclick="prevStep()">← Anterior</button>
+            <button class="btn-submit" id="nextStepBtn" style="width: auto; padding: 0.8rem 2rem;" onclick="nextStep()">Siguiente →</button>
+        </div>
+        
+        <div id="busResumenSection" style="display: none;">
+            <div class="resumen-box">
+                <h3>💰 RESUMEN DE RESERVA</h3>
+                <p>🚌 Tarifa por asiento: $10.00</p>
+                <p><strong>Total: <span id="busTotal">$0.00</span></strong></p>
+                <h3>💳 MÉTODO DE PAGO</h3>
+                <div class="payment-methods">
+                    <button type="button" class="payment-btn" onclick="abrirModalPago('bus', 'tarjeta')">💳 Tarjeta</button>
+                    <button type="button" class="payment-btn" onclick="abrirModalPago('bus', 'digital')">📱 Digital</button>
+                    <button type="button" class="payment-btn" onclick="abrirModalPago('bus', 'efectivo')">💵 Efectivo</button>
+                </div>
+                <input type="hidden" id="busPago" value="">
+                <button class="btn-submit" onclick="confirmarReservaBus()">✅ Confirmar Reserva</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="ticketSection" style="display:none;">
+        <div id="ticketContent" class="ticket"></div>
+        <button class="btn-pdf" onclick="exportarPDF()"><i class="fas fa-download"></i> Descargar Ticket (PDF)</button>
+        <button class="btn-pdf" style="background:#555; color:white;" onclick="nuevaReserva()">+ Nueva Reserva</button>
+    </div>
+</div>
+
+<div class="footer">
+    <p>CupoTax - Transporte Inteligente | Bocas del Toro, Panamá</p>
+    <p style="margin-top: 0.5rem; font-size: 0.7rem;">✨ Tema dinámico con efectos glassmorphism y glow neón ✨</p>
+</div>
+
+<div id="modalPago" class="modal-pago">
+    <div class="modal-pago-content">
+        <h3 id="modalTitle">Completar pago</h3>
+        <div id="modalBody"></div>
+        <button class="btn-submit" onclick="confirmarPago()" style="margin-top:1rem;">✅ Pagar y reservar</button>
+        <button onclick="cerrarModalPago()" style="margin-top:0.5rem; background:#555; padding:0.5rem; border-radius:40px; cursor:pointer; width:100%;">Cancelar</button>
+    </div>
+</div>
+
+<script>
+    // ========== TEMAS VISUALES (UNIFICADO CON CRIMSON) ==========
+    function cambiarTema(tema) {
+        document.body.classList.remove('style-fire', 'style-glass', 'style-neon', 'style-crimson', 'light-mode');
+        
+        if (tema === 'fire') {
+            document.body.classList.add('style-fire');
+        } else if (tema === 'glass') {
+            document.body.classList.add('style-glass');
+        } else if (tema === 'neon') {
+            document.body.classList.add('style-neon');
+        } else if (tema === 'crimson') {
+            document.body.classList.add('style-crimson');
+        } else if (tema === 'light') {
+            document.body.classList.add('light-mode');
+        }
+        
+        localStorage.setItem('cupotax-viajes-theme', tema);
+        
+        document.querySelectorAll('.theme-card').forEach(card => {
+            if(card.getAttribute('data-theme') === tema) {
+                card.classList.add('active');
+            } else {
+                card.classList.remove('active');
+            }
+        });
+        
+        let nombreTema = '';
+        if (tema === 'fire') nombreTema = 'Naranja Fuego';
+        else if (tema === 'glass') nombreTema = 'Glass Azul';
+        else if (tema === 'neon') nombreTema = 'Neon Glow';
+        else if (tema === 'crimson') nombreTema = 'Crimson Glass';
+        else if (tema === 'light') nombreTema = 'Modo Claro';
+        
+        Swal.fire({
+            title: `Tema ${nombreTema} activado`,
+            icon: 'success',
+            timer: 1500,
+            showConfirmButton: false,
+            background: 'var(--glass-bg)',
+            color: 'var(--text-white)'
+        });
+    }
+
+    function toggleAjustes() {
+        const panel = document.getElementById('settingsPanel');
+        panel.classList.toggle('show');
+        if(panel.classList.contains('show')) {
+            panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    function cargarTemaGuardado() {
+        const temaGuardado = localStorage.getItem('cupotax-viajes-theme');
+        if(temaGuardado === 'fire') {
+            document.body.classList.add('style-fire');
+            document.querySelector('.theme-card[data-theme="fire"]').classList.add('active');
+        } else if(temaGuardado === 'glass') {
+            document.body.classList.add('style-glass');
+            document.querySelector('.theme-card[data-theme="glass"]').classList.add('active');
+        } else if(temaGuardado === 'neon') {
+            document.body.classList.add('style-neon');
+            document.querySelector('.theme-card[data-theme="neon"]').classList.add('active');
+        } else if(temaGuardado === 'crimson') {
+            document.body.classList.add('style-crimson');
+            document.querySelector('.theme-card[data-theme="crimson"]').classList.add('active');
+        } else if(temaGuardado === 'light') {
+            document.body.classList.add('light-mode');
+            document.querySelector('.theme-card[data-theme="light"]').classList.add('active');
+        } else {
+            document.body.classList.add('style-fire');
+            document.querySelector('.theme-card[data-theme="fire"]').classList.add('active');
+        }
+    }
+
+    // ========== LÓGICA DE RESERVAS ==========
+    let servicioActivo = 'taxi';
+    let pagoPendiente = { servicio: null, metodo: null, datos: null };
+    
+    const asientosConfig = [
+        { id: 'A1', fila: 1, col: 1, ocupado: false }, { id: 'A2', fila: 1, col: 2, ocupado: false },
+        { id: 'A3', fila: 1, col: 3, ocupado: false }, { id: 'A4', fila: 1, col: 4, ocupado: false },
+        { id: 'B1', fila: 2, col: 1, ocupado: false }, { id: 'B2', fila: 2, col: 2, ocupado: false },
+        { id: 'B3', fila: 2, col: 3, ocupado: true }, { id: 'B4', fila: 2, col: 4, ocupado: true },
+        { id: 'C1', fila: 3, col: 1, ocupado: false }, { id: 'C2', fila: 3, col: 2, ocupado: false },
+        { id: 'C3', fila: 3, col: 3, ocupado: true }, { id: 'C4', fila: 3, col: 4, ocupado: false },
+        { id: 'D1', fila: 4, col: 1, ocupado: false }, { id: 'D2', fila: 4, col: 2, ocupado: false },
+        { id: 'D3', fila: 4, col: 3, ocupado: false }, { id: 'D4', fila: 4, col: 4, ocupado: false },
+        { id: 'E1', fila: 5, col: 1, ocupado: false }, { id: 'E2', fila: 5, col: 2, ocupado: false },
+        { id: 'E3', fila: 5, col: 3, ocupado: false }, { id: 'E4', fila: 5, col: 4, ocupado: false }
+    ];
+    
+    let asientosSeleccionados = [];
+    let busStep = 1;
+    
+    // ========== FUNCIÓN CERRAR SESIÓN MODIFICADA ==========
+    function cerrarSesion() {
+        Swal.fire({
+            title: '¿Cerrar sesión?',
+            text: '¿Estás seguro de que quieres salir?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, salir',
+            cancelButtonText: 'Cancelar',
+            background: 'var(--glass-bg)',
+            color: 'var(--text-white)',
+            confirmButtonColor: 'var(--accent-primary)'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirige a la página principal (inicio)
+                window.location.href = '/';
+            }
+        });
+    }
+    
+    function toggleInfo(id) { document.getElementById(id).classList.toggle('show'); }
+    
+    function selectService(service) {
+        servicioActivo = service;
+        document.getElementById('taxiForm').style.display = service === 'taxi' ? 'block' : 'none';
+        document.getElementById('busForm').style.display = service === 'bus' ? 'block' : 'none';
+        document.getElementById('btnTaxi').classList.toggle('active', service === 'taxi');
+        document.getElementById('btnBus').classList.toggle('active', service === 'bus');
+        if(service === 'bus') {
+            asientosSeleccionados = [];
+            busStep = 1;
+            document.getElementById('busResumenSection').style.display = 'none';
+            document.getElementById('seatsMapIda').style.display = 'flex';
+            document.getElementById('seatsSelectionInfo').style.display = 'block';
+            document.getElementById('lowSeatsWarning').style.display = 'block';
+            document.getElementById('nextStepBtn').innerText = 'Siguiente →';
+            generarMapaAsientos();
+        }
+    }
+    
+    function generarMapaAsientos() {
+        const container = document.getElementById('seatsMapIda');
+        container.innerHTML = '';
+        
+        const filas = {};
+        asientosConfig.forEach(asiento => {
+            if (!filas[asiento.fila]) filas[asiento.fila] = [];
+            filas[asiento.fila].push(asiento);
+        });
+        
+        const tabla = document.createElement('table');
+        tabla.className = 'seats-table';
+        
+        for (let fila in filas) {
+            const tr = document.createElement('tr');
+            filas[fila].forEach(asiento => {
+                const td = document.createElement('td');
+                const btn = document.createElement('button');
+                btn.innerText = asiento.id;
+                btn.className = 'seat-btn';
+                
+                if (asientosSeleccionados.includes(asiento.id)) {
+                    btn.classList.add('seat-selected');
+                } else if (asiento.ocupado) {
+                    btn.classList.add('seat-occupied');
+                } else {
+                    btn.classList.add('seat-available');
+                }
+                
+                if (!asiento.ocupado) {
+                    btn.onclick = () => toggleAsientoBus(asiento.id);
+                }
+                
+                td.appendChild(btn);
+                tr.appendChild(td);
+            });
+            tabla.appendChild(tr);
+        }
+        container.appendChild(tabla);
+        
+        const count = asientosSeleccionados.length;
+        const infoDiv = document.getElementById('seatsSelectionInfo');
+        if (count > 0) {
+            infoDiv.innerHTML = `✅ Seleccionaste: ${count} asiento${count > 1 ? 's' : ''} (${asientosSeleccionados.join(', ')})`;
+        } else {
+            infoDiv.innerHTML = '📌 Selecciona tus asientos';
+        }
+        
+        const disponibles = asientosConfig.filter(a => !a.ocupado && !asientosSeleccionados.includes(a.id)).length;
+        const warningDiv = document.getElementById('lowSeatsWarning');
+        if (disponibles <= 4 && disponibles > 0) {
+            warningDiv.innerHTML = '⚠️ Quedan pocos asientos disponibles. ¡Reserva pronto!';
+        } else {
+            warningDiv.innerHTML = '';
+        }
+    }
+    
+    function toggleAsientoBus(asientoId) {
+        const asiento = asientosConfig.find(a => a.id === asientoId);
+        if (asiento.ocupado) return;
+        
+        const idx = asientosSeleccionados.indexOf(asientoId);
+        if (idx === -1) {
+            asientosSeleccionados.push(asientoId);
+        } else {
+            asientosSeleccionados.splice(idx, 1);
+        }
+        generarMapaAsientos();
+    }
+    
+    function nextStep() {
+        if (busStep === 1) {
+            if (asientosSeleccionados.length === 0) {
+                Swal.fire({ title: 'Sin asientos seleccionados', text: 'Selecciona al menos un asiento', icon: 'warning', background: 'var(--glass-bg)', color: 'var(--text-white)', confirmButtonColor: 'var(--accent-primary)' });
+                return;
+            }
+            document.getElementById('seatsMapIda').style.display = 'none';
+            document.getElementById('seatsSelectionInfo').style.display = 'none';
+            document.getElementById('lowSeatsWarning').style.display = 'none';
+            document.getElementById('busResumenSection').style.display = 'block';
+            document.getElementById('prevStepBtn').style.display = 'inline-block';
+            document.getElementById('nextStepBtn').innerText = 'Confirmar Pago →';
+            let total = asientosSeleccionados.length * 10;
+            document.getElementById('busTotal').innerText = `$${total}.00`;
+            busStep = 2;
+        } else if (busStep === 2) {
+            let pagoActual = document.getElementById('busPago').value;
+            if (!pagoActual) {
+                Swal.fire({ title: 'Método de pago requerido', text: 'Selecciona un método de pago', icon: 'error', background: 'var(--glass-bg)', color: 'var(--text-white)', confirmButtonColor: 'var(--accent-primary)' });
+                return;
+            }
+            confirmarReservaBus();
+        }
+    }
+    
+    function prevStep() {
+        if (busStep === 2) {
+            document.getElementById('seatsMapIda').style.display = 'flex';
+            document.getElementById('seatsSelectionInfo').style.display = 'block';
+            document.getElementById('lowSeatsWarning').style.display = 'block';
+            document.getElementById('busResumenSection').style.display = 'none';
+            document.getElementById('nextStepBtn').innerText = 'Siguiente →';
+            busStep = 1;
+        }
+    }
+    
+    document.getElementById('taxiRegreso').addEventListener('change', function() {
+        let show = this.value === 'si';
+        document.getElementById('taxiRegresoFields').style.display = show ? 'block' : 'none';
+        let total = 15 + (show ? 15 : 0);
+        document.getElementById('taxiTotal').innerText = `$${total}.00`;
+        document.getElementById('taxiExtraTexto').innerHTML = show ? '🔄 Ida y vuelta: +$15.00' : '🔄 Solo ida';
+    });
+    
+    function abrirModalPago(servicio, metodo) {
+        pagoPendiente = { servicio, metodo, datos: null };
+        let modal = document.getElementById('modalPago');
+        let body = document.getElementById('modalBody');
+        let title = document.getElementById('modalTitle');
+        
+        if(metodo === 'tarjeta') {
+            title.innerText = '💳 Pago con Tarjeta';
+            body.innerHTML = `<div class="form-group"><label>💳 Número</label><input type="text" id="pagoTarjetaNum" placeholder="**** **** **** ****"></div>
+                <div class="form-row"><div class="form-group"><label>📅 Expiración</label><input type="text" id="pagoTarjetaExp" placeholder="MM/AA"></div>
+                <div class="form-group"><label>🔐 CVV</label><input type="password" id="pagoTarjetaCvv" placeholder="***"></div></div>
+                <div class="form-group"><label>👤 Titular</label><input type="text" id="pagoTarjetaTitular" placeholder="Nombre"></div>`;
+        } else if(metodo === 'digital') {
+            title.innerText = '📱 Pago Digital';
+            body.innerHTML = `<div class="form-group"><label>📱 Teléfono</label><input type="text" id="pagoDigitalTel" placeholder="+507 6000-1234"></div>
+                <div class="form-group"><label>📧 Correo</label><input type="email" id="pagoDigitalEmail" placeholder="ejemplo@correo.com"></div>`;
+        } else {
+            title.innerText = '💵 Pago en Efectivo';
+            body.innerHTML = `<div class="form-group"><label>✅ Confirmación</label><p>Pagas en efectivo al abordar.</p>
+                <select id="pagoEfectivoConfirma"><option value="si">Sí, pagaré en efectivo</option><option value="no">Cancelar</option></select></div>`;
+        }
+        modal.style.display = 'flex';
+    }
+    
+    function cerrarModalPago() {
+        document.getElementById('modalPago').style.display = 'none';
+        pagoPendiente = null;
+    }
+    
+    function confirmarPago() {
+        let metodo = pagoPendiente.metodo;
+        let servicio = pagoPendiente.servicio;
+        
+        if(metodo === 'tarjeta') {
+            let numero = document.getElementById('pagoTarjetaNum')?.value;
+            if(!numero) { Swal.fire('Error', 'Datos incompletos', 'error'); return; }
+        } else if(metodo === 'digital') {
+            let telefono = document.getElementById('pagoDigitalTel')?.value;
+            if(!telefono) { Swal.fire('Error', 'Ingresa tu teléfono', 'error'); return; }
+        } else {
+            let confirma = document.getElementById('pagoEfectivoConfirma')?.value;
+            if(confirma !== 'si') { Swal.fire('Error', 'Confirma el pago', 'error'); return; }
+        }
+        
+        document.getElementById(`${servicio}Pago`).value = metodo;
+        cerrarModalPago();
+        
+        if(servicio === 'taxi') reservarTaxi();
+    }
+    
+    function reservarTaxi() {
+        let pago = document.getElementById('taxiPago').value;
+        if(!pago) { Swal.fire('Error', 'Selecciona método de pago', 'error'); return; }
+        
+        let reserva = {
+            tipo: 'taxi',
+            origen: document.getElementById('taxiOrigen').value,
+            destino: document.getElementById('taxiDestino').value,
+            nombre: document.getElementById('taxiNombre').value || 'Cliente',
+            telefono: document.getElementById('taxiTelefono').value || 'N/A',
+            fecha: document.getElementById('taxiFecha').value || new Date().toISOString(),
+            regreso: document.getElementById('taxiRegreso').value,
+            total: document.getElementById('taxiTotal').innerText,
+            pago: pago
+        };
+        mostrarTicket(reserva);
+    }
+    
+    function confirmarReservaBus() {
+        let pago = document.getElementById('busPago').value;
+        if(!pago) { Swal.fire('Error', 'Selecciona método de pago', 'error'); return; }
+        
+        let reserva = {
+            tipo: 'bus',
+            origen: document.getElementById('busOrigen').value,
+            destino: document.getElementById('busDestino').value,
+            nombre: document.getElementById('busNombre').value || 'Cliente',
+            telefono: document.getElementById('busTelefono').value || 'N/A',
+            fechaIda: document.getElementById('busFechaIda').value || 'Hoy',
+            horaIda: document.getElementById('busHoraIda').value,
+            asientosIda: asientosSeleccionados.join(', '),
+            total: document.getElementById('busTotal').innerText,
+            pago: pago
+        };
+        mostrarTicket(reserva);
+    }
+    
+    function mostrarTicket(reserva) {
+        document.querySelector('.service-selector').style.display = 'none';
+        document.getElementById('taxiForm').style.display = 'none';
+        document.getElementById('busForm').style.display = 'none';
+        document.getElementById('ticketSection').style.display = 'block';
+        let codigo = `VP-${Math.floor(Math.random()*1000000)}`;
+        let fechaHora = new Date().toLocaleString();
+        
+        let html = `<div style="text-align:center; border-bottom: 2px solid var(--accent-primary); padding-bottom: 1rem; margin-bottom: 1rem;">
+                        <h2 style="color:var(--accent-primary);">🎫 CupoTax Premium</h2>
+                        <p><strong>Código:</strong> ${codigo}</p>
+                        <p><strong>Fecha:</strong> ${fechaHora}</p>
+                    </div>
+                    <p><strong>🚖 Servicio:</strong> ${reserva.tipo === 'taxi' ? 'TAXI PREMIUM' : 'BUS PREMIUM'}</p>
+                    <p><strong>📍 Origen:</strong> ${reserva.origen}</p>
+                    <p><strong>📍 Destino:</strong> ${reserva.destino}</p>
+                    <p><strong>👤 Pasajero:</strong> ${reserva.nombre}</p>
+                    <p><strong>💰 Total:</strong> ${reserva.total}</p>
+                    <p><strong>💳 Pago:</strong> ${reserva.pago.toUpperCase()}</p>`;
+        
+        if(reserva.tipo === 'bus') {
+            html += `<p><strong>📅 Fecha:</strong> ${reserva.fechaIda} - ${reserva.horaIda}</p>
+                     <p><strong>💺 Asientos:</strong> ${reserva.asientosIda}</p>`;
+        } else {
+            html += `<p><strong>📅 Fecha/Hora:</strong> ${reserva.fecha}</p>
+                     <p><strong>🔄 Regreso:</strong> ${reserva.regreso === 'si' ? 'Sí' : 'No'}</p>`;
+        }
+        
+        html += `<div style="background:#f0f0f0; color:#000; padding:0.8rem; border-radius:12px; margin-top:1rem;">
+                    <p><strong>📌 Instrucciones:</strong> Presenta este ticket al abordar.</p>
+                 </div>`;
+        
+        document.getElementById('ticketContent').innerHTML = html;
+        Swal.fire({ title: '¡Reserva confirmada!', text: `Código: ${codigo}`, icon: 'success', background: 'var(--glass-bg)', color: 'var(--text-white)', timer: 2000, showConfirmButton: false });
+    }
+    
+    function exportarPDF() { html2pdf().from(document.getElementById('ticketContent')).save('ticket_cupotax.pdf'); }
+    function nuevaReserva() { location.reload(); }
+    
+    // Inicializar
+    cargarTemaGuardado();
+    selectService('taxi');
+    
+    const style = document.createElement('style');
+    style.textContent = `
+        .seat-selected { background: var(--accent-primary) !important; }
+        .btn-submit { background: var(--gradient-glow); }
+        .payment-btn.selected { background: var(--accent-primary); color: #000; }
+    `;
+    document.head.appendChild(style);
+</script>
+</body>
+</html>
