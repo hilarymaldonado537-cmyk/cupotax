@@ -12,6 +12,8 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -72,7 +74,6 @@
             --chart-grid: rgba(255,255,255,0.06);
         }
         
-        /* ========== MODO 4: CRIMSON GLASS (ROJO OSCURO) ========== */
         body.style-crimson {
             --bg-gradient-start: #1A0A0A;
             --bg-gradient-end: #2D1515;
@@ -121,33 +122,6 @@
             pointer-events: none;
         }
         
-        body.style-crimson .stat-card i,
-        body.style-crimson .kpi-card i {
-            background: linear-gradient(135deg, #E63946, #FF6B6B);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        
-        body.style-crimson .btn-primary,
-        body.style-crimson .btn-submit {
-            background: linear-gradient(135deg, #E63946, #FF6B6B);
-        }
-        
-        body.style-crimson .btn-outline {
-            border-color: #E63946;
-            color: #E63946;
-        }
-        
-        body.style-crimson .btn-outline:hover {
-            background: rgba(230, 57, 70, 0.2);
-        }
-        
-        body.style-crimson .progress-fill.low { background: #43E97B; }
-        body.style-crimson .progress-fill.medium { background: #F9D423; }
-        body.style-crimson .progress-fill.high { background: #FF6B6B; }
-        body.style-crimson .progress-fill.critical { background: #E63946; }
-        
         body.light-mode {
             --bg-gradient-start: #F5F5F7;
             --bg-gradient-end: #FFFFFF;
@@ -189,6 +163,58 @@
             background-attachment: fixed;
             opacity: 0.15;
             z-index: -1;
+        }
+        
+        /* Fondo animado premium */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+        
+        .animated-bg::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(circle at 30% 40%, rgba(79, 172, 254, 0.15), rgba(255, 78, 205, 0.1), rgba(255, 106, 42, 0.08), transparent);
+            animation: breathe 12s ease-in-out infinite;
+        }
+        
+        @keyframes breathe {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.5; }
+            50% { transform: scale(1.2) rotate(5deg); opacity: 1; }
+        }
+        
+        /* Partículas sutiles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-40px) translateX(30px); }
+            75% { transform: translateY(40px) translateX(-30px); }
         }
         
         body.light-mode::before { opacity: 0.6; }
@@ -235,7 +261,7 @@
             transition: all 0.3s;
             cursor: pointer;
         }
-        .sidebar-menu a:hover, .sidebar-menu a.active { background: var(--accent); color: #000; box-shadow: var(--accent-glow); }
+        .sidebar-menu a:hover, .sidebar-menu a.active { background: var(--accent); color: #000; box-shadow: var(--accent-glow); transform: translateX(5px); }
         .sidebar-menu i { width: 24px; }
         
         .main-content {
@@ -255,8 +281,13 @@
             gap: 1rem;
         }
         
-        .welcome h1 { font-size: 1.3rem; color: var(--accent); }
+        .welcome h1 { font-size: 1.3rem; color: var(--accent); animation: fadeInUp 0.8s ease forwards; }
         .welcome p { color: var(--text-secondary); font-size: 0.8rem; }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
         
         .stats-grid {
             display: grid;
@@ -272,9 +303,11 @@
             padding: 1rem;
             text-align: center;
             border: 1px solid var(--glass-border);
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInUp 0.6s ease forwards;
+            animation-delay: calc(var(--i) * 0.1s);
         }
-        .stat-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: var(--accent-glow); }
+        .stat-card:hover { transform: translateY(-8px) scale(1.02); border-color: var(--accent); box-shadow: var(--accent-glow); }
         .stat-card i { font-size: 1.8rem; background: var(--glow-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 0.3rem; display: inline-block; }
         .stat-card h3 { font-size: 1.8rem; color: var(--accent-neon); }
         .stat-card p { font-size: 0.7rem; color: var(--text-secondary); }
@@ -294,7 +327,10 @@
             padding: 1.2rem;
             margin-bottom: 1.5rem;
             border: 1px solid var(--glass-border);
+            transition: all 0.3s;
+            animation: fadeInUp 0.6s ease forwards;
         }
+        .section:hover { border-color: var(--accent); box-shadow: var(--accent-glow); }
         
         .section h2 {
             color: var(--accent);
@@ -519,7 +555,7 @@
         .settings-panel.open { display: block !important; }
         .settings-panel.h4 { color: var(--accent); text-align: center; margin-bottom: 0.8rem; font-size: 1rem; }
         .theme-card { padding: 0.5rem; cursor: pointer; border-radius: 12px; margin-bottom: 0.5rem; text-align: center; font-size: 0.85rem; transition: all 0.3s; }
-        .theme-card:hover { background: rgba(255,255,255,0.1); }
+        .theme-card:hover { background: rgba(255,255,255,0.1); transform: scale(1.02); }
         .theme-card.active { background: var(--accent); color: #000; }
         .btn-reset { width: 100%; padding: 0.5rem; background: transparent; border: 1px solid var(--accent); color: var(--accent); border-radius: 30px; cursor: pointer; font-size: 0.8rem; margin-top: 0.5rem; }
         .btn-reset:hover { background: var(--accent); color: #000; }
@@ -539,7 +575,7 @@
             color: var(--accent);
         }
         
-        /* ========== ESTILOS FLOTA DE VEHÍCULOS ========== */
+        /* Estilos flota de vehículos */
         .flota-tabs {
             display: flex;
             gap: 1rem;
@@ -586,7 +622,7 @@
         }
         
         .vehiculo-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
             border-color: var(--accent);
             box-shadow: var(--accent-glow);
         }
@@ -706,6 +742,10 @@
 </head>
 <body>
 
+<!-- Fondo animado premium -->
+<div class="animated-bg"></div>
+<div class="particles" id="particles"></div>
+
 <div class="menu-toggle" onclick="toggleSidebarMenu()"><i class="fas fa-bars"></i></div>
 
 <div class="admin-container">
@@ -769,7 +809,24 @@
     let viajesGlobal = [];
     let currentUserFilter = "todos";
     let currentServiceFilter = "semana";
-    let flotaFiltro = 'BUSERO'; // BUSERO o TAXISTA
+    let flotaFiltro = 'BUSERO';
+    
+    // Crear partículas
+    function createParticles() {
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 60; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            const size = Math.random() * 4 + 2;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = 15 + Math.random() * 10 + 's';
+            particlesContainer.appendChild(particle);
+        }
+    }
     
     // ========== FUNCIÓN DE CIERRE DE SESIÓN (SALIR) ==========
     function cerrarSesion() {
@@ -821,7 +878,6 @@
         const container = document.getElementById('flotaVehiculos');
         if (!container) return;
         
-        // Filtrar por tipo
         const vehiculosFiltrados = conductoresGlobal.filter(c => c.rol === flotaFiltro);
         
         if (vehiculosFiltrados.length === 0) {
@@ -899,7 +955,6 @@
                 Swal.fire('Estado actualizado', '', 'success');
                 await cargarStats();
                 await cargarFlotaVehiculos();
-                // Actualizar listas
                 const users = await fetchAPI('/admin/users');
                 usuariosGlobal = users;
                 conductoresGlobal = users.filter(u => u.rol === 'TAXISTA' || u.rol === 'BUSERO');
@@ -1044,10 +1099,11 @@
                 <thead><tr><th>Placa</th><th>Conductor</th><th>Modelo</th><th>Estado</th></tr></thead>
                 <tbody>
                     ${vehiculos.map(v => `
-                        <tr><td>${v.placa || 'N/A'}</td>
-                        <td>${v.nombreCompleto || v.username}</td>
-                        <td>${v.modelo || 'N/A'}</td>
-                        <td>${v.activo ? 'Activo' : 'Inactivo'}</td>
+                        <tr>
+                            <td>${v.placa || 'N/A'}知
+                            <td>${v.nombreCompleto || v.username}知
+                            <td>${v.modelo || 'N/A'}知
+                            <td>${v.activo ? 'Activo' : 'Inactivo'}知
                         </tr>
                     `).join('')}
                 </tbody>
@@ -1078,11 +1134,11 @@
         if (tbody) {
             tbody.innerHTML = usuariosFiltrados.map(u => `
                 <tr>
-                    <td>${u.nombreCompleto || u.username}</td>
-                    <td>${u.rol}</td>
-                    <td><span class="status-badge ${u.activo ? 'status-active' : 'status-inactive'}">${u.activo ? 'Activo' : 'Inactivo'}</span></td>
-                    <td>${u.viajesRealizados || 0}</td>
-                    <td>${u.ultimaActividad ? new Date(u.ultimaActividad).toLocaleDateString() : '-'}</td>
+                    <td>${u.nombreCompleto || u.username}知
+                    <td>${u.rol}知
+                    <td><span class="status-badge ${u.activo ? 'status-active' : 'status-inactive'}">${u.activo ? 'Activo' : 'Inactivo'}</span>知
+                    <td>${u.viajesRealizados || 0}知
+                    <td>${u.ultimaActividad ? new Date(u.ultimaActividad).toLocaleDateString() : '-'}知
                 </tr>
             `).join('');
         }
@@ -1099,17 +1155,17 @@
             
             let html = `
                 <div class="stats-grid">
-                    <div class="stat-card"><i class="fas fa-users"></i><h3>${stats.totalUsuarios}</h3><p>Usuarios</p></div>
-                    <div class="stat-card"><i class="fas fa-taxi"></i><h3>${stats.totalTaxistas}</h3><p>Taxistas</p></div>
-                    <div class="stat-card"><i class="fas fa-bus"></i><h3>${stats.totalBuseros}</h3><p>Buseros</p></div>
-                    <div class="stat-card"><i class="fas fa-chart-line"></i><h3>${stats.totalViajes}</h3><p>Viajes Totales</p></div>
+                    <div class="stat-card" style="--i:1"><i class="fas fa-users"></i><h3>${stats.totalUsuarios}</h3><p>Usuarios</p></div>
+                    <div class="stat-card" style="--i:2"><i class="fas fa-taxi"></i><h3>${stats.totalTaxistas}</h3><p>Taxistas</p></div>
+                    <div class="stat-card" style="--i:3"><i class="fas fa-bus"></i><h3>${stats.totalBuseros}</h3><p>Buseros</p></div>
+                    <div class="stat-card" style="--i:4"><i class="fas fa-chart-line"></i><h3>${stats.totalViajes}</h3><p>Viajes Totales</p></div>
                 </div>
                 
                 <div class="stats-grid">
-                    <div class="stat-card"><i class="fas fa-car"></i><h3 id="viajesHoy">12</h3><p>Viajes hoy</p><div class="trend">+8% vs ayer</div></div>
-                    <div class="stat-card"><i class="fas fa-dollar-sign"></i><h3 id="ingresosHoy">B/. 245.50</h3><p>Ingresos hoy</p><div class="trend">+12% vs ayer</div></div>
-                    <div class="stat-card"><i class="fas fa-user-check"></i><h3 id="usuariosActivos">${stats.totalUsuarios}</h3><p>Usuarios activos</p><div class="trend">+5% esta semana</div></div>
-                    <div class="stat-card"><i class="fas fa-user-clock"></i><h3 id="conductoresActivos">${stats.totalTaxistas + stats.totalBuseros}</h3><p>Conductores activos</p><div class="trend">+3% esta semana</div></div>
+                    <div class="stat-card" style="--i:5"><i class="fas fa-car"></i><h3 id="viajesHoy">12</h3><p>Viajes hoy</p><div class="trend">+8% vs ayer</div></div>
+                    <div class="stat-card" style="--i:6"><i class="fas fa-dollar-sign"></i><h3 id="ingresosHoy">B/. 245.50</h3><p>Ingresos hoy</p><div class="trend">+12% vs ayer</div></div>
+                    <div class="stat-card" style="--i:7"><i class="fas fa-user-check"></i><h3>${stats.totalUsuarios}</h3><p>Usuarios activos</p><div class="trend">+5% esta semana</div></div>
+                    <div class="stat-card" style="--i:8"><i class="fas fa-user-clock"></i><h3>${stats.totalTaxistas + stats.totalBuseros}</h3><p>Conductores activos</p><div class="trend">+3% esta semana</div></div>
                 </div>
                 
                 <div class="section">
@@ -1204,11 +1260,28 @@
                 initAlertasSistema();
                 initRendimientoApp();
                 filtrarUsuarios('todos');
+                
+                // Animación de entrada con GSAP
+                gsap.fromTo(".stat-card", 
+                    { y: 50, opacity: 0 },
+                    { y: 0, opacity: 1, duration: 0.6, stagger: 0.08, ease: "back.out(0.6)" }
+                );
+                gsap.fromTo(".section", 
+                    { y: 30, opacity: 0 },
+                    { y: 0, opacity: 1, duration: 0.5, stagger: 0.1, delay: 0.3, ease: "power2.out" }
+                );
             }, 100);
         }
         else if(seccion === 'conductores') {
             const html = `<div class="section"><h2><i class="fas fa-id-card"></i> Conductores</h2>
-                <div style="overflow-x:auto;"><table class="data-table" id="tablaConductores"><thead><tr><th>Nombre</th><th>Cédula</th><th>Email</th><th>Teléfono</th><th>Tipo</th><th>Placa</th><th>Estado</th></tr></thead><tbody>${conductoresGlobal.map(c => `<tr><td>${c.nombreCompleto || c.username}</td><td>${c.cedula || '-'}</td><td>${c.email || '-'}</td><td>${c.telefono || '-'}</td><td>${c.rol}</td><td>${c.placa || '-'}</td><td class="${c.activo ? 'status-active' : 'status-inactive'}">${c.activo ? 'Activo' : 'Inactivo'}</td></tr>`).join('')}</tbody></table></div></div>`;
+                <div style="overflow-x:auto;"><table class="data-table" id="tablaConductores"><thead><tr><th>Nombre</th><th>Cédula</th><th>Email</th><th>Teléfono</th><th>Tipo</th><th>Placa</th><th>Estado</th></tr></thead><tbody>${conductoresGlobal.map(c => `<tr><td>${c.nombreCompleto || c.username}知
+                    <td>${c.cedula || '-'}知
+                    <td>${c.email || '-'}知
+                    <td>${c.telefono || '-'}知
+                    <td>${c.rol}知
+                    <td>${c.placa || '-'}知
+                    <td class="${c.activo ? 'status-active' : 'status-inactive'}">${c.activo ? 'Activo' : 'Inactivo'}知
+                </tr>`).join('')}</tbody></table></div></div>`;
             document.getElementById('contenidoPrincipal').innerHTML = html;
         }
         else if(seccion === 'flota') {
@@ -1217,20 +1290,38 @@
         else if(seccion === 'vehiculos') {
             const vehiculos = conductoresGlobal.filter(c => c.placa).map(c => ({ placa: c.placa, modelo: c.modelo, tipo: c.rol, conductor: c.nombreCompleto, estado: c.activo ? 'Activo' : 'Inactivo' }));
             const html = `<div class="section"><h2><i class="fas fa-table"></i> Tabla Vehículos</h2>
-                <div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>Placa</th><th>Modelo</th><th>Tipo</th><th>Conductor</th><th>Estado</th></tr></thead><tbody>${vehiculos.map(v => `<tr><td>${v.placa}</td><td>${v.modelo || '-'}</td><td>${v.tipo}</td><td>${v.conductor}</td><td class="${v.estado === 'Activo' ? 'status-active' : 'status-inactive'}">${v.estado}</td></tr>`).join('')}</tbody></table></div></div>`;
+                <div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>Placa</th><th>Modelo</th><th>Tipo</th><th>Conductor</th><th>Estado</th></tr></thead><tbody>${vehiculos.map(v => `<tr><td>${v.placa}知
+                    <td>${v.modelo || '-'}知
+                    <td>${v.tipo}知
+                    <td>${v.conductor}知
+                    <td class="${v.estado === 'Activo' ? 'status-active' : 'status-inactive'}">${v.estado}知
+                </tr>`).join('')}</tbody></table></div></div>`;
             document.getElementById('contenidoPrincipal').innerHTML = html;
         }
         else if(seccion === 'usuarios') {
             const usuariosNormales = usuariosGlobal.filter(u => u.rol === 'USUARIO' || u.rol === 'ESTUDIANTE');
             const html = `<div class="section"><h2><i class="fas fa-users"></i> Usuarios</h2>
-                <div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>Nombre</th><th>Cédula</th><th>Email</th><th>Teléfono</th><th>Rol</th><th>Estado</th></tr></thead><tbody>${usuariosNormales.map(u => `<tr><td>${u.nombreCompleto || u.username}</td><td>${u.cedula || '-'}</td><td>${u.email || '-'}</td><td>${u.telefono || '-'}</td><td>${u.rol}</td><td class="${u.activo ? 'status-active' : 'status-inactive'}">${u.activo ? 'Activo' : 'Inactivo'}</td></tr>`).join('')}</tbody></table></div></div>`;
+                <div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>Nombre</th><th>Cédula</th><th>Email</th><th>Teléfono</th><th>Rol</th><th>Estado</th></tr></thead><tbody>${usuariosNormales.map(u => `<tr><td>${u.nombreCompleto || u.username}知
+                    <td>${u.cedula || '-'}知
+                    <td>${u.email || '-'}知
+                    <td>${u.telefono || '-'}知
+                    <td>${u.rol}知
+                    <td class="${u.activo ? 'status-active' : 'status-inactive'}">${u.activo ? 'Activo' : 'Inactivo'}知
+                </tr>`).join('')}</tbody></table></div></div>`;
             document.getElementById('contenidoPrincipal').innerHTML = html;
         }
         else if(seccion === 'viajes') {
             const html = `<div class="section"><h2><i class="fas fa-map-marked-alt"></i> Viajes</h2>
                 <button class="btn-excel" onclick="exportarExcelTabla('tablaViajes')">📊 Excel</button>
                 <button class="btn-pdf" onclick="exportarPDFSeccion('tablaViajes')">📄 PDF</button>
-                <div style="overflow-x:auto; margin-top:1rem;" id="tablaViajes"><table class="data-table"><thead><tr><th>ID</th><th>Origen</th><th>Destino</th><th>Tarifa</th><th>Tipo</th><th>Estado</th><th>Fecha</th></tr></thead><tbody>${viajesGlobal.map(v => `<tr><td>${v.id}</td><td>${v.origen}</td><td>${v.destino}</td><td>B/.${v.tarifa}</td><td>${v.tipoViaje}</td><td>${v.estado}</td><td>${new Date(v.fechaSolicitud).toLocaleDateString()}</td></tr>`).join('')}</tbody></table></div></div>`;
+                <div style="overflow-x:auto; margin-top:1rem;" id="tablaViajes"><table class="data-table"><thead><tr><th>ID</th><th>Origen</th><th>Destino</th><th>Tarifa</th><th>Tipo</th><th>Estado</th><th>Fecha</th></tr></thead><tbody>${viajesGlobal.map(v => `<tr><td>${v.id}知
+                    <td>${v.origen}知
+                    <td>${v.destino}知
+                    <td>B/.${v.tarifa}知
+                    <td>${v.tipoViaje}知
+                    <td>${v.estado}知
+                    <td>${new Date(v.fechaSolicitud).toLocaleDateString()}知
+                </td>`).join('')}</tbody></table></div></div>`;
             document.getElementById('contenidoPrincipal').innerHTML = html;
         }
         else if(seccion === 'reportes') {
@@ -1286,6 +1377,7 @@
             ] },
             options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { position: 'top', labels: { color: '#A8B2D1' } }, tooltip: { backgroundColor: '#1A1D2E', titleColor: '#FF6A2A', bodyColor: '#fff' } }, scales: { y: { grid: { color: '#2A2D3E' }, ticks: { color: '#A8B2D1' } }, x: { grid: { color: '#2A2D3E' }, ticks: { color: '#A8B2D1' } } } }
         });
+        gsap.fromTo("#chartViajesLineas", { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 0.8, delay: 0.3, ease: "power2.out" });
     }
     
     function actualizarGraficoLineas(periodo) {
@@ -1464,6 +1556,7 @@
     if(lightGuardado) document.body.classList.add('light-mode');
     actualizarCards(estiloGuardado);
     
+    createParticles();
     mostrarSeccion('dashboard');
     
     window.onclick = function(e) {
