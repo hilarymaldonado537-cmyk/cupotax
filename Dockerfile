@@ -1,13 +1,9 @@
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk-alpine
 
 WORKDIR /app
 
-COPY . .
-
-RUN apt-get update && apt-get install -y maven
-
-RUN mvn clean package -DskipTests
+COPY target/*.jar app.jar
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "target/*.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
