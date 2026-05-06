@@ -821,7 +821,7 @@
                 <div class="card">
                     <div class="card-title"><i class="fas fa-bell"></i> Notificaciones</div>
                     <div id="notificacionesLista"></div>
-                    <button class="btn-outline" style="margin-top:0.5rem;" onclick="mostrarSeccion('notificaciones')">Ver todas las opzioni</button>
+                    <button class="btn-outline" style="margin-top:0.5rem;" onclick="mostrarSeccion('notificaciones')">Ver todas las opciones</button>
                 </div>
                 <div class="card">
                     <div class="card-title"><i class="fas fa-gift"></i> Invita y gana</div>
@@ -837,11 +837,119 @@
                 <div class="card-title"><i class="fas fa-car"></i> Solicitar viaje</div>
                 <div class="form-group" style="margin-bottom:1rem;">
                     <label style="color:var(--accent); font-size:0.8rem;">ORIGEN</label>
-                    <input type="text" id="origenViaje" class="destino-item" style="width:100%; background:var(--input-bg);" placeholder="Ej: Changuinola Centro, Finca 6, El Empalme..." oninput="calcularTarifaReal()">
+                    <input type="text" id="origenViaje" class="destino-item" style="width:100%; background:var(--input-bg);" placeholder="Escribe o selecciona el origen" list="origenesLista" oninput="calcularTarifaReal()">
+                    <datalist id="origenesLista">
+                        <option value="Changuinola Centro">
+                        <option value="Finca 6">
+                        <option value="El Empalme">
+                        <option value="Cuadrante">
+                        <option value="Finca 15">
+                        <option value="Guabito">
+                        <option value="Almirante">
+                        <option value="David">
+                        <option value="Zona hospitalaria">
+                        <option value="Entrada a 66">
+                        <option value="Swiche 4">
+                        <option value="El Puré">
+                        <option value="Finca 12">
+                        <option value="Bda Barnet">
+                        <option value="Cuartel de Policía Fca 6">
+                        <option value="Bda villa Marina">
+                        <option value="Barriada A">
+                        <option value="Barriada B">
+                        <option value="Coibita">
+                        <option value="Lincon creek">
+                        <option value="Barriada universitaria">
+                        <option value="Villa verde">
+                        <option value="Finca 4">
+                        <option value="El Silencio">
+                        <option value="Finca 8">
+                        <option value="Finca 11">
+                        <option value="Villa Marina">
+                        <option value="Aeropuerto de Changuinola">
+                        <option value="Barriada 4 de Abril">
+                        <option value="INADEH">
+                        <option value="Las Fincas 60">
+                        <option value="Las Fincas 30">
+                        <option value="San San">
+                        <option value="Milla 21">
+                        <option value="Finca 51">
+                        <option value="Finca 52">
+                        <option value="Puente Blanco">
+                        <option value="Finca 41">
+                        <option value="California">
+                        <option value="Débora">
+                        <option value="Policlínica">
+                        <option value="Bajo Cedro">
+                        <option value="Bocas Centro">
+                        <option value="Aeropuerto">
+                        <option value="Bluff">
+                        <option value="Carolina">
+                        <option value="Big Creek">
+                        <option value="Playa Tortuga">
+                        <option value="Bocas del Drago">
+                        <option value="Colonia Santeña">
+                        <option value="Las Tablas">
+                        <option value="Tiger Hill">
+                    </datalist>
                 </div>
                 <div class="form-group" style="margin-bottom:1rem;">
                     <label style="color:var(--accent); font-size:0.8rem;">DESTINO</label>
-                    <input type="text" id="destinoSolicitud" class="destino-item" style="width:100%; background:var(--input-bg);" placeholder="Escribe el destino" oninput="calcularTarifaReal()">
+                    <input type="text" id="destinoSolicitud" class="destino-item" style="width:100%; background:var(--input-bg);" placeholder="Escribe o selecciona el destino" list="destinosLista" oninput="calcularTarifaReal()">
+                    <datalist id="destinosLista">
+                        <option value="Changuinola Centro">
+                        <option value="Finca 6">
+                        <option value="El Empalme">
+                        <option value="Cuadrante">
+                        <option value="Finca 15">
+                        <option value="Guabito">
+                        <option value="Almirante">
+                        <option value="David">
+                        <option value="Zona hospitalaria">
+                        <option value="Entrada a 66">
+                        <option value="Swiche 4">
+                        <option value="El Puré">
+                        <option value="Finca 12">
+                        <option value="Bda Barnet">
+                        <option value="Cuartel de Policía Fca 6">
+                        <option value="Bda villa Marina">
+                        <option value="Barriada A">
+                        <option value="Barriada B">
+                        <option value="Coibita">
+                        <option value="Lincon creek">
+                        <option value="Barriada universitaria">
+                        <option value="Villa verde">
+                        <option value="Finca 4">
+                        <option value="El Silencio">
+                        <option value="Finca 8">
+                        <option value="Finca 11">
+                        <option value="Villa Marina">
+                        <option value="Aeropuerto de Changuinola">
+                        <option value="Barriada 4 de Abril">
+                        <option value="INADEH">
+                        <option value="Las Fincas 60">
+                        <option value="Las Fincas 30">
+                        <option value="San San">
+                        <option value="Milla 21">
+                        <option value="Finca 51">
+                        <option value="Finca 52">
+                        <option value="Puente Blanco">
+                        <option value="Finca 41">
+                        <option value="California">
+                        <option value="Débora">
+                        <option value="Policlínica">
+                        <option value="Bajo Cedro">
+                        <option value="Bocas Centro">
+                        <option value="Aeropuerto">
+                        <option value="Bluff">
+                        <option value="Carolina">
+                        <option value="Big Creek">
+                        <option value="Playa Tortuga">
+                        <option value="Bocas del Drago">
+                        <option value="Colonia Santeña">
+                        <option value="Las Tablas">
+                        <option value="Tiger Hill">
+                    </datalist>
                 </div>
                 <div class="form-group" style="margin-bottom:1rem;">
                     <label style="color:var(--accent); font-size:0.8rem;">TIPO DE VIAJE</label>
@@ -1088,6 +1196,12 @@
         "Changuinola Centro-Las Fincas 60": 3.60,
         "Changuinola Centro-Las Fincas 30": 3.60,
         "Changuinola Centro-Aeropuerto": 1.20,
+        "Changuinola Centro-Guabito": 6.05,
+        "Guabito-Changuinola Centro": 6.05,
+        "Changuinola Centro-Almirante": 14.50,
+        "Almirante-Changuinola Centro": 14.50,
+        "Changuinola Centro-David": 25.00,
+        "David-Changuinola Centro": 25.00,
         
         // Desde Finca 6
         "Finca 6-Changuinola Centro": 0.70,
@@ -1101,6 +1215,10 @@
         "Finca 6-Villa verde": 1.10,
         "Finca 6-Finca 12": 0.90,
         "Finca 6-El Empalme": 1.10,
+        "Finca 6-Swiche 4": 0.90,
+        "Finca 6-Zona hospitalaria": 0.90,
+        "Finca 6-Entrada a 66": 0.90,
+        "Finca 6-El Puré": 0.90,
         
         // Desde El Empalme
         "El Empalme-Changuinola Centro": 0.70,
@@ -1112,6 +1230,7 @@
         "El Empalme-Cuadrante hasta la Milagrosa": 0.90,
         "El Empalme-Villa verde": 1.10,
         "El Empalme-Finca 6": 1.10,
+        "El Empalme-Swiche 4": 0.90,
         
         // Desde Cuadrante
         "Cuadrante-Entrada de Finca 11": 0.70,
@@ -1120,14 +1239,7 @@
         "Cuadrante-Changuinola Centro": 0.70,
         "Cuadrante-Finca 12": 1.10,
         "Cuadrante-El Empalme": 1.10,
-        
-        // Tarifas especiales
-        "Changuinola Centro-Guabito": 6.05,
-        "Guabito-Changuinola Centro": 6.05,
-        "Changuinola Centro-Almirante": 14.50,
-        "Almirante-Changuinola Centro": 14.50,
-        "Changuinola Centro-David": 25.00,
-        "David-Changuinola Centro": 25.00
+        "Cuadrante-Swiche 4": 0.90
     };
     
     const tarifasBus = {
