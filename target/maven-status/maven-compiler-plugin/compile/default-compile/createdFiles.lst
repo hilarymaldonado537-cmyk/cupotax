@@ -5,7 +5,6 @@ com\cupotax\config\DataLoader.class
 com\cupotax\repositories\TripRepository.class
 com\cupotax\config\CorsConfig.class
 com\cupotax\repositories\IncidentRepository.class
-com\cupotax\controllers\PageController.class
 com\cupotax\models\Trip.class
 com\cupotax\models\User.class
 com\cupotax\CupotaxApp.class
