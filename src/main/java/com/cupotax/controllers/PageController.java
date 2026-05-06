@@ -26,11 +26,6 @@ public class PageController {
         return "usuario";
     }
     
-    @GetMapping("/admin")
-    public String adminPage() {
-        return "admin";
-    }
-    
     @GetMapping("/taxista")
     public String taxistaPage() {
         return "taxista";
