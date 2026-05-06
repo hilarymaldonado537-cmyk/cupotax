@@ -54,11 +54,11 @@ public class AuthController {
     }
     
     private boolean isValidPhone(String telefono) {
-        return telefono != null && telefono.matches("^[+]?[0-9]{7,15}$");
+        return telefono != null && telefono.matches("^[+]?[0-9\\-]{7,20}$");
     }
     
     private boolean isValidCedula(String cedula) {
-        return cedula != null && cedula.matches("^[0-9]{3,15}$");
+        return cedula != null && cedula.matches("^[0-9\\-]{6,15}$");
     }
     
     @PostMapping("/register")
@@ -93,27 +93,32 @@ public class AuthController {
         
         if (!isValidEmail(email)) {
             response.put("error", "Formato de email invalido");
+            response.put("success", false);
             return response;
         }
         
         if (!isValidPhone(telefono)) {
-            response.put("error", "Formato de telefono invalido");
+            response.put("error", "Formato de telefono invalido. Ej: 6663-7549");
+            response.put("success", false);
             return response;
         }
         
         if (!isValidCedula(cedula)) {
-            response.put("error", "Formato de cedula invalido");
+            response.put("error", "Formato de cedula invalido. Ej: 1-761-1069");
+            response.put("success", false);
             return response;
         }
         
         if (!pinSeguridad.matches("\\d{6}")) {
             response.put("error", "El PIN debe ser de 6 digitos");
+            response.put("success", false);
             return response;
         }
         
         List<String> validRoles = Arrays.asList("ADMIN", "TAXISTA", "BUSERO", "USUARIO", "ESTUDIANTE");
         if (!validRoles.contains(rol)) {
             response.put("error", "Rol invalido");
+            response.put("success", false);
             return response;
         }
         
@@ -133,17 +138,20 @@ public class AuthController {
         
         if (userRepository.findByUsername(username).isPresent()) {
             response.put("error", "El nombre de usuario ya existe");
+            response.put("success", false);
             return response;
         }
         
         if (userRepository.findByEmail(email).isPresent()) {
             response.put("error", "El correo ya esta registrado");
+            response.put("success", false);
             return response;
         }
         
         String passwordError = validarPasswordFuerte(password);
         if (passwordError != null) {
             response.put("error", passwordError);
+            response.put("success", false);
             return response;
         }
         
@@ -161,6 +169,7 @@ public class AuthController {
         if (fotoPerfil != null && !fotoPerfil.isEmpty()) {
             if (fotoPerfil.getSize() > 5 * 1024 * 1024) {
                 response.put("error", "La foto no puede superar los 5MB");
+                response.put("success", false);
                 return response;
             }
             user.setFotoPerfil(fotoPerfil.getBytes());
@@ -197,6 +206,7 @@ public class AuthController {
             if (fotoVehiculo != null && !fotoVehiculo.isEmpty()) {
                 if (fotoVehiculo.getSize() > 5 * 1024 * 1024) {
                     response.put("error", "La foto del vehiculo no puede superar los 5MB");
+                    response.put("success", false);
                     return response;
                 }
                 user.setFotoBus(fotoVehiculo.getBytes());
@@ -216,8 +226,9 @@ public class AuthController {
         newSession.setAttribute("nombre", user.getNombreCompleto());
         
         response.put("success", true);
-        response.put("redirectUrl", getRedirectUrl(rol));
+        response.put("redirectUrl", getRedirectUrl(rol));  // ← CORREGIDO
         response.put("nombre", user.getNombreCompleto());
+        response.put("rol", user.getRol());
         return response;
     }
     

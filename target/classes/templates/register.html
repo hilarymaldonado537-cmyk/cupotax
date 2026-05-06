@@ -291,11 +291,11 @@
             <!-- DATOS PERSONALES -->
             <div class="form-row">
                 <div class="form-group"><label>NOMBRE COMPLETO <span class="required-star">*</span></label><input type="text" id="nombreCompleto" required></div>
-                <div class="form-group"><label>CÉDULA <span class="required-star">*</span></label><input type="text" id="cedula" required></div>
+                <div class="form-group"><label>CÉDULA <span class="required-star">*</span></label><input type="text" id="cedula" required placeholder="Ej: 1-761-1069"></div>
             </div>
             <div class="form-row">
                 <div class="form-group"><label>CORREO ELECTRÓNICO <span class="required-star">*</span></label><input type="email" id="email" required></div>
-                <div class="form-group"><label>TELÉFONO <span class="required-star">*</span></label><input type="tel" id="telefono" required></div>
+                <div class="form-group"><label>TELÉFONO <span class="required-star">*</span></label><input type="tel" id="telefono" required placeholder="Ej: 6663-7549"></div>
             </div>
             <div class="form-row">
                 <div class="form-group"><label>USUARIO <span class="required-star">*</span></label><input type="text" id="username" required></div>
@@ -363,8 +363,6 @@
                     </div>
                 </div>
                 
-                <!-- RUTA ASIGNADA (ELIMINADA - AHORA SOLO USA rutaSeleccionada) -->
-                
                 <div class="form-group">
                     <label>FOTO DEL VEHÍCULO</label>
                     <input type="file" id="fotoVehiculo" accept="image/*">
@@ -383,7 +381,7 @@
                 </div>
             </div>
             
-            <!-- SELECCIÓN DE RUTA (SOLO PARA BUSERO) - CON TODAS LAS RUTAS -->
+            <!-- SELECCIÓN DE RUTA (SOLO PARA BUSERO) -->
             <div id="campoRutaSeleccionada" style="display: none;">
                 <div class="form-group">
                     <label>🗺️ SELECCIONAR RUTA <span class="required-star">*</span></label>
@@ -439,6 +437,26 @@
 
 <script>
     const API_URL = '';
+    
+    // ========== VALIDACIONES CORREGIDAS (aceptan guiones) ==========
+    function isValidCedula(cedula) {
+        // Permite números y guiones (formato panameño: 1-761-1069)
+        const regex = /^[0-9]{1,2}-[0-9]{3,4}-[0-9]{3,5}$/;
+        if (!regex.test(cedula)) {
+            return false;
+        }
+        return true;
+    }
+    
+    function isValidPhone(telefono) {
+        // Permite números, guiones, espacios (formato: 6663-7549)
+        const regex = /^[0-9]{3,4}-[0-9]{4}$/;
+        if (!regex.test(telefono)) {
+            return false;
+        }
+        return true;
+    }
+    // ========================================================
     
     function navegarA(pagina) {
         if(pagina === '') window.location.href = API_URL + '/';
@@ -603,6 +621,28 @@
     async function register(event) {
         event.preventDefault();
         
+        // Validación de cédula
+        const cedula = document.getElementById('cedula').value.trim();
+        if (!isValidCedula(cedula)) {
+            Swal.fire({ 
+                title: 'Error', 
+                text: 'Formato de cédula inválido. Ejemplo: 1-761-1069', 
+                icon: 'error' 
+            });
+            return;
+        }
+        
+        // Validación de teléfono
+        const telefono = document.getElementById('telefono').value.trim();
+        if (!isValidPhone(telefono)) {
+            Swal.fire({ 
+                title: 'Error', 
+                text: 'Formato de teléfono inválido. Ejemplo: 6663-7549', 
+                icon: 'error' 
+            });
+            return;
+        }
+        
         // Mostrar loading
         const btn = document.querySelector('.btn-register');
         const originalText = btn.innerText;
@@ -638,9 +678,9 @@
             
             const formData = new FormData();
             formData.append('nombreCompleto', document.getElementById('nombreCompleto').value.trim());
-            formData.append('cedula', document.getElementById('cedula').value.trim());
+            formData.append('cedula', cedula);
             formData.append('email', document.getElementById('email').value.trim());
-            formData.append('telefono', document.getElementById('telefono').value.trim());
+            formData.append('telefono', telefono);
             formData.append('username', document.getElementById('username').value.trim());
             formData.append('password', password);
             formData.append('rol', document.getElementById('rol').value);
@@ -666,7 +706,6 @@
                 if (rol === 'TAXISTA') {
                     formData.append('tipoTaxi', document.getElementById('tipoTaxi').value);
                 } else {
-                    // Solo usamos rutaSeleccionada, ya no usamos rutaBusero
                     formData.append('rutaSeleccionada', document.getElementById('rutaSeleccionada').value);
                     formData.append('chasis', document.getElementById('chasis').value);
                     formData.append('fechaMatricula', document.getElementById('fechaMatricula').value);
@@ -681,7 +720,6 @@
                 body: formData
             });
             
-            // Intentar parsear como JSON
             let data;
             const responseText = await response.text();
             
