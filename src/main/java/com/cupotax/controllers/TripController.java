@@ -1,7 +1,9 @@
 package com.cupotax.controllers;
 
+import com.cupotax.models.Notificacion;
 import com.cupotax.models.Trip;
 import com.cupotax.models.User;
+import com.cupotax.repositories.NotificacionRepository;
 import com.cupotax.repositories.TripRepository;
 import com.cupotax.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class TripController {
     
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private NotificacionRepository notificacionRepository;
     
     // ========== USUARIO: Solicitar un viaje ==========
     @PostMapping("/solicitar")
@@ -78,7 +83,6 @@ public class TripController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         
-        // Obtener viajes con estado "pendiente" (sin conductor asignado)
         List<Trip> viajesPendientes = tripRepository.findByEstadoOrderByFechaSolicitudDesc("pendiente");
         return ResponseEntity.ok(viajesPendientes);
     }
@@ -108,21 +112,33 @@ public class TripController {
         
         Trip trip = tripOpt.get();
         
-        // Verificar que el viaje aún está pendiente
         if (!"pendiente".equals(trip.getEstado())) {
             response.put("error", "Este viaje ya fue aceptado o cancelado");
             return ResponseEntity.badRequest().body(response);
         }
         
-        // Asignar el taxista al viaje
-        trip.setConductor(taxistaOpt.get());
+        User taxista = taxistaOpt.get();
+        trip.setConductor(taxista);
         trip.setEstado("asignado");
         trip.setFechaInicio(LocalDateTime.now());
         tripRepository.save(trip);
         
+        // Crear notificación para el usuario
+        Notificacion notificacion = new Notificacion();
+        notificacion.setUsuario(trip.getUsuario());
+        notificacion.setTitulo("🚖 Viaje aceptado");
+        notificacion.setMensaje("Tu viaje de " + trip.getOrigen() + " a " + trip.getDestino() + 
+                                " ha sido aceptado por " + taxista.getNombreCompleto() + 
+                                " (Placa: " + (taxista.getPlaca() != null ? taxista.getPlaca() : "N/A") + ").");
+        notificacion.setLeida(false);
+        notificacion.setFecha(LocalDateTime.now());
+        notificacionRepository.save(notificacion);
+        
         response.put("success", true);
         response.put("message", "Viaje aceptado correctamente");
         response.put("tripId", trip.getId());
+        response.put("conductor", taxista.getNombreCompleto());
+        response.put("placa", taxista.getPlaca());
         
         return ResponseEntity.ok(response);
     }
@@ -154,6 +170,16 @@ public class TripController {
         trip.setEstado("rechazado");
         tripRepository.save(trip);
         
+        // Crear notificación de rechazo
+        Notificacion notificacion = new Notificacion();
+        notificacion.setUsuario(trip.getUsuario());
+        notificacion.setTitulo("❌ Viaje rechazado");
+        notificacion.setMensaje("Tu viaje de " + trip.getOrigen() + " a " + trip.getDestino() + 
+                                " fue rechazado. Por favor, solicita otro viaje.");
+        notificacion.setLeida(false);
+        notificacion.setFecha(LocalDateTime.now());
+        notificacionRepository.save(notificacion);
+        
         response.put("success", true);
         response.put("message", "Viaje rechazado");
         
@@ -176,7 +202,6 @@ public class TripController {
         User user = userOpt.get();
         List<Trip> viajes;
         
-        // Si es taxista, ver viajes como conductor; si es usuario, ver viajes como pasajero
         if ("TAXISTA".equals(user.getRol()) || "BUSERO".equals(user.getRol())) {
             viajes = tripRepository.findByConductor(user);
         } else {
@@ -222,7 +247,6 @@ public class TripController {
         
         Trip trip = tripOpt.get();
         
-        // Solo se puede cancelar si está pendiente
         if (!"pendiente".equals(trip.getEstado())) {
             response.put("error", "Solo puedes cancelar viajes pendientes");
             return ResponseEntity.badRequest().body(response);
