@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="/js/tarifas.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -822,7 +821,7 @@
                 <div class="card">
                     <div class="card-title"><i class="fas fa-bell"></i> Notificaciones</div>
                     <div id="notificacionesLista"></div>
-                    <button class="btn-outline" style="margin-top:0.5rem;" onclick="mostrarSeccion('notificaciones')">Ver todas las opciones</button>
+                    <button class="btn-outline" style="margin-top:0.5rem;" onclick="mostrarSeccion('notificaciones')">Ver todas las opzioni</button>
                 </div>
                 <div class="card">
                     <div class="card-title"><i class="fas fa-gift"></i> Invita y gana</div>
@@ -838,15 +837,7 @@
                 <div class="card-title"><i class="fas fa-car"></i> Solicitar viaje</div>
                 <div class="form-group" style="margin-bottom:1rem;">
                     <label style="color:var(--accent); font-size:0.8rem;">ORIGEN</label>
-                    <select id="origenViaje" class="destino-item" style="width:100%; background:var(--input-bg);" onchange="calcularTarifaReal()">
-                        <option value="Changuinola Centro">Changuinola Centro</option>
-                        <option value="Finca 6">Finca 6</option>
-                        <option value="El Empalme">El Empalme</option>
-                        <option value="Cuadrante">Cuadrante</option>
-                        <option value="Almirante">Almirante</option>
-                        <option value="Guabito">Guabito</option>
-                        <option value="David">David</option>
-                    </select>
+                    <input type="text" id="origenViaje" class="destino-item" style="width:100%; background:var(--input-bg);" placeholder="Ej: Changuinola Centro, Finca 6, El Empalme..." oninput="calcularTarifaReal()">
                 </div>
                 <div class="form-group" style="margin-bottom:1rem;">
                     <label style="color:var(--accent); font-size:0.8rem;">DESTINO</label>
@@ -1069,8 +1060,115 @@
     
     let notificacionesListaGlobal = [];
 
-    const tarifasTaxi = {"Changuinola Centro-Guabito":6.05,"Guabito-Changuinola Centro":6.05,"Changuinola Centro-Almirante":14.50,"Almirante-Changuinola Centro":14.50,"Changuinola Centro-Aeropuerto de Changuinola":1.20,"Changuinola Centro-El Silencio":1.20,"Finca 6 Cuartel-Changuinola Centro":0.70,"El Empalme-Changuinola Centro":0.70,"Cuadrante-Changuinola Centro":0.70};
-    const tarifasBus = {"Changuinola-Almirante":1.45,"Almirante-Changuinola":1.45,"Changuinola-David":9.65,"David-Changuinola":9.65,"Changuinola-Guabito":0.95,"Guabito-Changuinola":0.95};
+    // ========== TARIFAS DE TAXI - COMPLETAS ==========
+    const tarifasTaxi = {
+        // Zona Urbana de Changuinola
+        "Changuinola Centro-Zona hospitalaria": 0.70,
+        "Changuinola Centro-Entrada a 66": 0.70,
+        "Changuinola Centro-Swiche 4": 0.70,
+        "Changuinola Centro-El Puré": 0.70,
+        "Changuinola Centro-Finca 12": 0.90,
+        "Changuinola Centro-Fca 8": 0.90,
+        "Changuinola Centro-Bda Barnet": 0.90,
+        "Changuinola Centro-Cuartel de Policía Fca 6": 0.70,
+        "Changuinola Centro-Bda villa Marina": 0.90,
+        "Changuinola Centro-Calle Principal de El empalme hasta luzon": 0.70,
+        "Changuinola Centro-Barriada A": 0.70,
+        "Changuinola Centro-Barriada B": 0.70,
+        "Changuinola Centro-Coibita": 0.70,
+        "Changuinola Centro-Lincon creek": 0.70,
+        "Changuinola Centro-Barriada universitaria": 0.90,
+        "Changuinola Centro-Cuadrante hasta la Milagrosa": 0.70,
+        "Changuinola Centro-Villa verde": 0.90,
+        "Changuinola Centro-Finca 4": 0.90,
+        "Changuinola Centro-El Silencio": 1.20,
+        "Changuinola Centro-Aeropuerto de Changuinola": 1.20,
+        "Changuinola Centro-Barriada 4 de Abril": 3.60,
+        "Changuinola Centro-INADEH": 3.60,
+        "Changuinola Centro-Las Fincas 60": 3.60,
+        "Changuinola Centro-Las Fincas 30": 3.60,
+        "Changuinola Centro-Aeropuerto": 1.20,
+        
+        // Desde Finca 6
+        "Finca 6-Changuinola Centro": 0.70,
+        "Finca 6-Finca 8": 0.90,
+        "Finca 6-Calle principal de empalme hasta luzon": 1.10,
+        "Finca 6-Barriada A": 1.25,
+        "Finca 6-Barriada B": 1.25,
+        "Finca 6-Coibita": 1.25,
+        "Finca 6-Lincon creek": 1.25,
+        "Finca 6-Cuadrante hasta la milagrosa": 0.90,
+        "Finca 6-Villa verde": 1.10,
+        "Finca 6-Finca 12": 0.90,
+        "Finca 6-El Empalme": 1.10,
+        
+        // Desde El Empalme
+        "El Empalme-Changuinola Centro": 0.70,
+        "El Empalme-Finca 12": 0.90,
+        "El Empalme-Bda Barnet": 0.90,
+        "El Empalme-Entrada de Finca 11": 0.90,
+        "El Empalme-Cuartel de policia finca 6": 1.10,
+        "El Empalme-Villa Marina": 1.25,
+        "El Empalme-Cuadrante hasta la Milagrosa": 0.90,
+        "El Empalme-Villa verde": 1.10,
+        "El Empalme-Finca 6": 1.10,
+        
+        // Desde Cuadrante
+        "Cuadrante-Entrada de Finca 11": 0.70,
+        "Cuadrante-Cuartel de Policía Fca 6": 0.90,
+        "Cuadrante-Villa Marina": 1.10,
+        "Cuadrante-Changuinola Centro": 0.70,
+        "Cuadrante-Finca 12": 1.10,
+        "Cuadrante-El Empalme": 1.10,
+        
+        // Tarifas especiales
+        "Changuinola Centro-Guabito": 6.05,
+        "Guabito-Changuinola Centro": 6.05,
+        "Changuinola Centro-Almirante": 14.50,
+        "Almirante-Changuinola Centro": 14.50,
+        "Changuinola Centro-David": 25.00,
+        "David-Changuinola Centro": 25.00
+    };
+    
+    const tarifasBus = {
+        "Changuinola-Almirante": 1.45,
+        "Almirante-Changuinola": 1.45,
+        "Changuinola-David": 9.65,
+        "David-Changuinola": 9.65,
+        "Changuinola-Guabito": 0.95,
+        "Guabito-Changuinola": 0.95
+    };
+
+    // ========== FUNCIÓN PARA CALCULAR TARIFA REAL ==========
+    function calcularTarifaReal() {
+        const origen = document.getElementById('origenViaje')?.value?.trim();
+        const destino = document.getElementById('destinoSolicitud')?.value?.trim();
+        const tipo = document.getElementById('tipoViaje')?.value;
+        
+        if (!origen || !destino || destino === "") {
+            document.getElementById('tarifaEstimada').innerHTML = 'B/. 0.00';
+            tarifaCalculada = 0;
+            return;
+        }
+        
+        let tarifa = 0;
+        let key = origen + "-" + destino;
+        let keyReverse = destino + "-" + origen;
+        
+        if (tipo === 'TAXI') {
+            tarifa = tarifasTaxi[key] || tarifasTaxi[keyReverse] || 0;
+        } else {
+            tarifa = tarifasBus[key] || tarifasBus[keyReverse] || 0;
+        }
+        
+        if (tarifa === 0) {
+            document.getElementById('tarifaEstimada').innerHTML = 'Ruta no disponible';
+            tarifaCalculada = 0;
+        } else {
+            document.getElementById('tarifaEstimada').innerHTML = `B/. ${tarifa.toFixed(2)}`;
+            tarifaCalculada = tarifa;
+        }
+    }
 
     // ========== FUNCIÓN PARA CARGAR EMPRESA (números personalizados) ==========
     async function cargarEmpresaEmergencia() {
@@ -1259,42 +1357,6 @@
         });
     }
 
-    function calcularTarifaReal() {
-        const origen = document.getElementById('origenViaje')?.value;
-        const destino = document.getElementById('destinoSolicitud')?.value;
-        const tipo = document.getElementById('tipoViaje')?.value;
-        
-        if (!origen || !destino || destino.trim() === "") {
-            document.getElementById('tarifaEstimada').innerHTML = 'B/. 0.00';
-            tarifaCalculada = 0;
-            return;
-        }
-        
-        let tarifa = 0;
-        
-        if (window.calcularTarifa) {
-            tarifa = window.calcularTarifa(origen, destino, tipo);
-        } else {
-            let key = origen + "-" + destino;
-            if (tipo === 'TAXI') {
-                tarifa = tarifasTaxi[key] || tarifasTaxi[destino + "-" + origen] || 5.00;
-            } else {
-                tarifa = tarifasBus[key] || tarifasBus[destino + "-" + origen] || 1.45;
-            }
-        }
-        
-        tarifaCalculada = tarifa;
-        document.getElementById('tarifaEstimada').innerHTML = tarifa ? `B/. ${tarifa.toFixed(2)}` : 'Ruta no disponible';
-        
-        if (window.sugerirRutas) {
-            const sugerencias = window.sugerirRutas(origen, tipo);
-            const sugerenciasDiv = document.getElementById('sugerenciasDestinos');
-            if (sugerenciasDiv && sugerencias.length) {
-                sugerenciasDiv.innerHTML = '<div style="margin-top:0.5rem; font-size:0.7rem;">🔍 Destinos frecuentes: ' + sugerencias.map(s => `<span class="destino-item" style="display:inline-block; margin:0.2rem; padding:0.2rem 0.6rem;" onclick="document.getElementById('destinoSolicitud').value='${s}';calcularTarifaReal()">${s}</span>`).join(', ') + '</div>';
-            }
-        }
-    }
-
     function initMap() { if(map) return; map = L.map('map').setView([9.5, -82.5], 13); L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: 'OpenStreetMap, CARTO', maxZoom: 20 }).addTo(map); if(navigator.geolocation) navigator.geolocation.getCurrentPosition(pos => { L.marker([pos.coords.latitude, pos.coords.longitude]).addTo(map).bindPopup('Tu ubicacion').openPopup(); map.setView([pos.coords.latitude, pos.coords.longitude], 14); }); }
     
     async function cargarUsuario() { try { const res = await fetch(API_URL + '/api/perfil', { credentials: 'include' }); if (!res.ok) { window.location.href = API_URL + '/login'; return; } usuarioActual = await res.json(); document.getElementById('nombreUsuario').innerText = usuarioActual.nombreCompleto?.split(' ')[0] || 'Usuario'; } catch(e) { window.location.href = API_URL + '/login'; } }
@@ -1318,11 +1380,11 @@
         const tipo = document.getElementById('tipoViaje').value; 
         
         if (!destino) { 
-            SwalFire('Error', 'Ingresa un destino', 'error'); 
+            Swal.fire({ title: 'Error', text: 'Ingresa un destino', icon: 'error', background: 'var(--card-bg)', color: 'var(--text-primary)' });
             return; 
         } 
         if (tarifaCalculada === 0) { 
-            SwalFire('Error', 'Ruta no disponible', 'error'); 
+            Swal.fire({ title: 'Error', text: 'Ruta no disponible o tarifa no encontrada', icon: 'error', background: 'var(--card-bg)', color: 'var(--text-primary)' });
             return; 
         } 
         
@@ -1330,12 +1392,22 @@
         if (servicioSeleccionado === 'confort') tarifaFinal *= 1.2; 
         if (servicioSeleccionado === 'premium') tarifaFinal *= 1.5; 
         
-        SwalFire('Confirmar viaje', `<div style="text-align:left;">
-            <strong>Origen:</strong> ${origen}<br>
-            <strong>Destino:</strong> ${destino}<br>
-            <strong>Tipo:</strong> ${tipo}<br>
-            <strong>Precio:</strong> B/.${tarifaFinal.toFixed(2)}
-        </div>`, 'question').then(async (result) => { 
+        Swal.fire({
+            title: 'Confirmar viaje',
+            html: `<div style="text-align:left;">
+                <strong>🚗 Origen:</strong> ${origen}<br>
+                <strong>📍 Destino:</strong> ${destino}<br>
+                <strong>🚕 Tipo:</strong> ${tipo}<br>
+                <strong>💰 Precio:</strong> B/. ${tarifaFinal.toFixed(2)}
+            </div>`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: '✅ Solicitar viaje',
+            cancelButtonText: '❌ Cancelar',
+            background: 'var(--card-bg)',
+            color: 'var(--text-primary)',
+            confirmButtonColor: 'var(--accent)'
+        }).then(async (result) => { 
             if (result.isConfirmed) { 
                 try { 
                     const response = await fetch(API_URL + '/api/viajes/solicitar', { 
@@ -1369,11 +1441,11 @@
                             color: 'var(--text-primary)'
                         });
                     } else { 
-                        SwalFire('Error', data.error || 'No se pudo solicitar el viaje', 'error'); 
+                        Swal.fire({ title: 'Error', text: data.error || 'No se pudo solicitar el viaje', icon: 'error', background: 'var(--card-bg)', color: 'var(--text-primary)' });
                     } 
                 } catch(e) { 
                     console.error('Error:', e);
-                    SwalFire('Error', 'Error de conexión con el servidor', 'error'); 
+                    Swal.fire({ title: 'Error', text: 'Error de conexión con el servidor', icon: 'error', background: 'var(--card-bg)', color: 'var(--text-primary)' });
                 } 
             } 
         }); 
@@ -1441,13 +1513,11 @@
         }, 5000);
     }
     
-    function SwalFire(title, text, icon) { Swal.fire({ title, text, icon, background: 'var(--card-bg)', color: 'var(--text-primary)', confirmButtonColor: 'var(--accent)' }); }
-    
     function iniciarMonitoreo() { if (intervaloMonitoreo) clearInterval(intervaloMonitoreo); intervaloMonitoreo = setInterval(() => { if (!viajeActivo) return; if (Math.random() > 0.9) { Swal.fire({ title: 'Alerta de seguridad', text: 'Detectamos una desviacion en la ruta, todo esta bien?', icon: 'warning', background: 'var(--card-bg)', color: 'var(--text-primary)', confirmButtonColor: 'var(--accent)', showCancelButton: true, confirmButtonText: 'Si', cancelButtonText: 'Ayuda' }).then(result => { if (!result.isConfirmed) activarSOSInmediato(); }); } }, 30000); }
     
     function recargarSaldo() { abrirModalRecarga(); }
     function verPlanes() { mostrarSeccion('premium'); }
-    function invitarAmigos() { SwalFire('Invitar amigos', 'Comparte tu codigo: CUPOTAX2025', 'success'); }
+    function invitarAmigos() { Swal.fire({ title: 'Invitar amigos', text: 'Comparte tu codigo: CUPOTAX2025', icon: 'success', background: 'var(--card-bg)', color: 'var(--text-primary)' }); }
     function contratarPremium() { 
         Swal.fire({
             title: 'Plan Premium',
@@ -1472,7 +1542,7 @@
             }
         });
     }
-    function agregarFavorito() { SwalFire('Agregar favorito', 'Selecciona una direccion en el mapa', 'info'); }
+    function agregarFavorito() { Swal.fire({ title: 'Agregar favorito', text: 'Selecciona una direccion en el mapa', icon: 'info', background: 'var(--card-bg)', color: 'var(--text-primary)' }); }
     
     function copiarEnlace(enlace) {
         navigator.clipboard.writeText(enlace);
@@ -1557,11 +1627,11 @@
         );
     }
     
-    function chatSoporte() { SwalFire('Chat de soporte', 'Un agente se conectara contigo', 'info'); }
+    function chatSoporte() { Swal.fire({ title: 'Chat de soporte', text: 'Un agente se conectara contigo', icon: 'info', background: 'var(--card-bg)', color: 'var(--text-primary)' }); }
     function irAPerfil() { window.location.href = API_URL + '/perfil'; }
-    function cambiarPassword() { SwalFire('Cambiar contrasena', 'Recibiras un enlace de recuperacion por email', 'info'); }
+    function cambiarPassword() { Swal.fire({ title: 'Cambiar contrasena', text: 'Recibiras un enlace de recuperacion por email', icon: 'info', background: 'var(--card-bg)', color: 'var(--text-primary)' }); }
     
-    async function guardarContacto() { const contacto = document.getElementById('contactoEmergencia').value; if (!contacto) { SwalFire('Error', 'Ingresa un contacto', 'error'); return; } try { await fetch(API_URL + '/api/usuarios/contacto', { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ contacto }) }); SwalFire('Contacto guardado', contacto, 'success'); cargarContactos(); document.getElementById('contactoEmergencia').value = ''; } catch(e) { SwalFire('Error', 'No se pudo guardar', 'error'); } }
+    async function guardarContacto() { const contacto = document.getElementById('contactoEmergencia').value; if (!contacto) { Swal.fire({ title: 'Error', text: 'Ingresa un contacto', icon: 'error', background: 'var(--card-bg)', color: 'var(--text-primary)' }); return; } try { await fetch(API_URL + '/api/usuarios/contacto', { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ contacto }) }); Swal.fire({ title: 'Contacto guardado', text: contacto, icon: 'success', background: 'var(--card-bg)', color: 'var(--text-primary)' }); cargarContactos(); document.getElementById('contactoEmergencia').value = ''; } catch(e) { Swal.fire({ title: 'Error', text: 'No se pudo guardar', icon: 'error', background: 'var(--card-bg)', color: 'var(--text-primary)' }); } }
 
     async function activarSOS(tipo, descripcion) {
         const contacto = document.getElementById('contactoEmergencia').value || 'Sin contacto registrado';
@@ -1606,12 +1676,7 @@
             showCancelButton: true,
             cancelButtonText: 'Cancelar',
             background: 'var(--card-bg)',
-            color: 'var(--text-primary)',
-            didOpen: () => {
-                const style = document.createElement('style');
-                style.textContent = `.sos-option { background: var(--accent); border: none; padding: 10px; border-radius: 10px; width: 100%; cursor: pointer; color: #000; font-weight: bold; transition: all 0.3s; } .sos-option:hover { transform: scale(1.02); }`;
-                document.head.appendChild(style);
-            }
+            color: 'var(--text-primary)'
         });
     }
     
@@ -1753,7 +1818,7 @@
         cargarTransacciones(); 
         cargarContactos();
         cargarNotificaciones();
-        cargarEmpresaEmergencia(); // <-- Cargar números de emergencia de la empresa
+        cargarEmpresaEmergencia();
         initMap(); 
         mostrarSeccion('inicio'); 
         calcularTarifaReal();
