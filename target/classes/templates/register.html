@@ -7,6 +7,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Audio para notificaciones (campanita) -->
+    <audio id="campanita" preload="auto" style="display:none;">
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg">
+    </audio>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -266,7 +270,7 @@
             display: none;
         }
         .settings-panel.open { display: block !important; }
-        .settings-panel h4 { color: var(--accent); margin-bottom: 0.5rem; text-align: center; }
+        .settings-panel.h4 { color: var(--accent); margin-bottom: 0.5rem; text-align: center; }
         .theme-card { padding: 0.5rem; cursor: pointer; border-radius: 12px; margin-bottom: 0.5rem; text-align: center; transition: all 0.3s; }
         .theme-card:hover { background: rgba(255,255,255,0.1); }
         .theme-card.active { background: var(--accent); color: #000; }
@@ -287,7 +291,7 @@
         <div class="logo"><h1>CupoTax</h1><span>TRANSPORTE INTELIGENTE</span></div>
         <div class="register-title"><h2>Crear Cuenta</h2></div>
         
-        <form id="registerForm" onsubmit="register(event)">
+        <form id="registerForm" onsubmit="return false;">
             <!-- DATOS PERSONALES -->
             <div class="form-row">
                 <div class="form-group"><label>NOMBRE COMPLETO <span class="required-star">*</span></label><input type="text" id="nombreCompleto" required></div>
@@ -416,7 +420,7 @@
                 <label>Acepto los <a onclick="verTerminos()">Términos y Condiciones</a> y la <a onclick="verPrivacidad()">Política de Privacidad</a></label>
             </div>
             
-            <button type="submit" class="btn-register">REGISTRARME</button>
+            <button type="button" class="btn-register" onclick="iniciarRegistro()">REGISTRARME</button>
         </form>
         
         <div class="login-link">¿Ya tienes cuenta? <a onclick="navegarA('login')">Iniciar Sesión</a></div>
@@ -435,76 +439,298 @@
     <button class="btn-reset" onclick="resetearEstilos()">Restaurar predeterminado</button>
 </div>
 
-<script>
-    const API_URL = '';
+<script>    const API_URL = '';
     
-    // ========== VALIDACIONES CORREGIDAS (aceptan guiones) ==========
-    function isValidCedula(cedula) {
-        // Permite números y guiones (formato panameño: 1-761-1069)
-        const regex = /^[0-9]{1,2}-[0-9]{3,4}-[0-9]{3,5}$/;
-        if (!regex.test(cedula)) {
-            return false;
+    // ========== FUNCIÓN DE SONIDO CAMPANITA ==========
+    function playCampanita() {
+        const audio = document.getElementById('campanita');
+        if (audio) {
+            audio.currentTime = 0;
+            audio.play().catch(e => console.log('Error al reproducir sonido:', e));
         }
+    }
+    
+    // ========== VALIDACIÓN DE CÉDULA Y TELÉFONO ==========
+    function isValidCedula(cedula) {
+        const regex = /^[0-9]{1,2}-[0-9]{3,4}-[0-9]{3,5}$/;
+        if (!regex.test(cedula)) return false;
         return true;
     }
     
     function isValidPhone(telefono) {
-        // Permite números, guiones, espacios (formato: 6663-7549)
         const regex = /^[0-9]{3,4}-[0-9]{4}$/;
-        if (!regex.test(telefono)) {
-            return false;
-        }
+        if (!regex.test(telefono)) return false;
         return true;
     }
-    // ========================================================
     
-    function navegarA(pagina) {
-        if(pagina === '') window.location.href = API_URL + '/';
-        else window.location.href = API_URL + '/' + pagina;
-    }
-    
-    function verTerminos() {
-        Swal.fire({
-            title: 'Términos y Condiciones',
-            html: `<div style="text-align: left;">
-                        <strong>1. Aceptación</strong><br>
-                        Al registrarte en CupoTax, aceptas cumplir con estos términos.<br><br>
-                        <strong>2. Uso del servicio</strong><br>
-                        CupoTax conecta pasajeros con conductores verificados.<br><br>
-                        <strong>3. Responsabilidad</strong><br>
-                        El usuario es responsable de la información proporcionada.<br><br>
-                        <strong>4. Pagos</strong><br>
-                        Las tarifas se muestran antes de confirmar el viaje.<br><br>
-                        <strong>5. Seguridad</strong><br>
-                        CupoTax no se hace responsable por incidentes fuera de la plataforma.
-                    </div>`,
-            icon: 'info',
-            background: '#0A0A0F',
-            color: '#FF6A2A',
-            confirmButtonColor: '#FF6A2A'
+    // ========== VERIFICAR GPS OBLIGATORIO PARA CONDUCTORES ==========
+    function verificarGPS(rol) {
+        return new Promise((resolve, reject) => {
+            // Si es USUARIO o ESTUDIANTE, el GPS es opcional
+            if (rol === 'USUARIO' || rol === 'ESTUDIANTE') {
+                resolve({ success: true, message: 'GPS opcional' });
+                return;
+            }
+            
+            // Para TAXISTA o BUSERO, el GPS es OBLIGATORIO
+            if (!navigator.geolocation) {
+                Swal.fire({
+                    title: '❌ Error',
+                    text: 'Tu navegador no soporta geolocalización. No puedes registrarte como conductor.',
+                    icon: 'error'
+                });
+                reject({ success: false, message: 'Navegador sin soporte de GPS' });
+                return;
+            }
+            
+            Swal.fire({
+                title: '📍 Activar ubicación',
+                text: 'Como conductor, necesitas activar tu ubicación para recibir solicitudes y mostrar tu posición en el mapa.',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonText: '✅ Activar ubicación',
+                cancelButtonText: 'Cancelar registro',
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)',
+                confirmButtonColor: '#FF6A2A'
+            }).then((result) => {
+                if (!result.isConfirmed) {
+                    reject({ success: false, message: 'Usuario canceló la activación del GPS' });
+                    return;
+                }
+                
+                // Mostrar loading mientras obtiene ubicación
+                Swal.fire({
+                    title: 'Obteniendo ubicación...',
+                    text: 'Por favor espera mientras activamos tu GPS',
+                    allowOutsideClick: false,
+                    didOpen: () => { Swal.showLoading(); }
+                });
+                
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        Swal.close();
+                        // Guardar ubicación en localStorage (para usarla después en el mapa)
+                        localStorage.setItem('ubicacionActivada', 'true');
+                        localStorage.setItem('ultimaLat', position.coords.latitude);
+                        localStorage.setItem('ultimaLng', position.coords.longitude);
+                        
+                        // Reproducir campanita de éxito
+                        playCampanita();
+                        
+                        Swal.fire({
+                            title: '✅ Ubicación activada',
+                            text: `Tu ubicación (${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)}) ha sido registrada.`,
+                            icon: 'success',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        
+                        resolve({ success: true, lat: position.coords.latitude, lng: position.coords.longitude });
+                    },
+                    (error) => {
+                        Swal.close();
+                        let mensaje = '';
+                        switch(error.code) {
+                            case error.PERMISSION_DENIED:
+                                mensaje = 'Permiso denegado. Debes activar la ubicación en la configuración de tu navegador para registrarte como conductor.';
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                mensaje = 'Información de ubicación no disponible. Intenta de nuevo.';
+                                break;
+                            case error.TIMEOUT:
+                                mensaje = 'Tiempo de espera agotado. Verifica tu conexión e intenta de nuevo.';
+                                break;
+                            default:
+                                mensaje = 'Error desconocido al obtener la ubicación.';
+                        }
+                        Swal.fire({
+                            title: '❌ Ubicación requerida',
+                            text: mensaje,
+                            icon: 'error',
+                            confirmButtonColor: '#d33'
+                        });
+                        reject({ success: false, message: mensaje });
+                    },
+                    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+                );
+            });
         });
     }
     
-    function verPrivacidad() {
-        Swal.fire({
-            title: 'Política de Privacidad',
-            html: `<div style="text-align: left;">
-                        <strong>1. Datos personales</strong><br>
-                        Tus datos serán usados solo para operar el servicio.<br><br>
-                        <strong>2. Protección</strong><br>
-                        Implementamos medidas de seguridad para proteger tu información.<br><br>
-                        <strong>3. No compartimos</strong><br>
-                        No vendemos ni compartimos tus datos con terceros.<br><br>
-                        <strong>4. Correos</strong><br>
-                        Recibirás correos relacionados con tus viajes y promociones.
-                    </div>`,
-            icon: 'info',
-            background: '#0A0A0F',
-            color: '#FF6A2A',
-            confirmButtonColor: '#FF6A2A'
-        });
+    // ========== FUNCIÓN PRINCIPAL DE REGISTRO CON GPS ==========
+    async function iniciarRegistro() {
+        // Validar términos
+        const terminos = document.getElementById('terminos').checked;
+        if (!terminos) {
+            Swal.fire({ title: 'Acepta los términos', text: 'Debes aceptar los Términos y Condiciones para registrarte', icon: 'warning' });
+            return;
+        }
+        
+        // Validar campos básicos
+        const nombreCompleto = document.getElementById('nombreCompleto').value.trim();
+        const cedula = document.getElementById('cedula').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const telefono = document.getElementById('telefono').value.trim();
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const pin = document.getElementById('pinSeguridad').value;
+        const rol = document.getElementById('rol').value;
+        
+        if (!nombreCompleto || !cedula || !email || !telefono || !username || !password || !pin) {
+            Swal.fire({ title: 'Error', text: 'Todos los campos obligatorios deben estar llenos', icon: 'error' });
+            return;
+        }
+        
+        if (!isValidCedula(cedula)) {
+            Swal.fire({ title: 'Error', text: 'Formato de cédula inválido. Ejemplo: 1-761-1069', icon: 'error' });
+            return;
+        }
+        
+        if (!isValidPhone(telefono)) {
+            Swal.fire({ title: 'Error', text: 'Formato de teléfono inválido. Ejemplo: 6663-7549', icon: 'error' });
+            return;
+        }
+        
+        if (password !== confirmPassword) {
+            Swal.fire({ title: 'Error', text: 'Las contraseñas no coinciden', icon: 'error' });
+            return;
+        }
+        
+        if (!/^\d{6}$/.test(pin)) {
+            Swal.fire({ title: 'Error', text: 'El PIN debe ser de 6 dígitos', icon: 'error' });
+            return;
+        }
+        
+        // Validar campos de vehículo si es taxista o busero
+        if (rol === 'TAXISTA' || rol === 'BUSERO') {
+            const placa = document.getElementById('placa').value.trim();
+            const modelo = document.getElementById('modelo').value.trim();
+            const color = document.getElementById('color').value.trim();
+            const anio = document.getElementById('anio').value;
+            const capacidad = document.getElementById('capacidad').value;
+            
+            if (!placa || !modelo || !color || !anio || !capacidad) {
+                Swal.fire({ title: 'Error', text: 'Todos los campos del vehículo son obligatorios', icon: 'error' });
+                return;
+            }
+            
+            if (rol === 'BUSERO') {
+                const ruta = document.getElementById('rutaSeleccionada').value;
+                if (!ruta) {
+                    Swal.fire({ title: 'Error', text: 'Debes seleccionar una ruta para el bus', icon: 'error' });
+                    return;
+                }
+            }
+        }
+        
+        // Mostrar loading mientras verifica GPS
+        const btn = document.querySelector('.btn-register');
+        const originalText = btn.innerText;
+        btn.innerText = 'Verificando ubicación...';
+        btn.disabled = true;
+        
+        try {
+            // Verificar GPS (obligatorio para TAXISTA y BUSERO)
+            const gpsResult = await verificarGPS(rol);
+            
+            if (!gpsResult.success) {
+                btn.innerText = originalText;
+                btn.disabled = false;
+                return;
+            }
+            
+            // Continuar con el registro
+            btn.innerText = 'Registrando...';
+            
+            const formData = new FormData();
+            formData.append('nombreCompleto', nombreCompleto);
+            formData.append('cedula', cedula);
+            formData.append('email', email);
+            formData.append('telefono', telefono);
+            formData.append('username', username);
+            formData.append('password', password);
+            formData.append('rol', rol);
+            formData.append('pinSeguridad', pin);
+            
+            // Si se obtuvo ubicación, guardarla
+            if (gpsResult.lat && gpsResult.lng) {
+                formData.append('latitud', gpsResult.lat);
+                formData.append('longitud', gpsResult.lng);
+            }
+            
+            // Foto de perfil
+            const fotoPerfil = document.getElementById('fotoPerfil').files[0];
+            if (fotoPerfil) formData.append('fotoPerfil', fotoPerfil);
+            
+            // Campos de vehículo
+            if (rol === 'TAXISTA' || rol === 'BUSERO') {
+                formData.append('placa', document.getElementById('placa').value.trim());
+                formData.append('modelo', document.getElementById('modelo').value.trim());
+                formData.append('color', document.getElementById('color').value.trim());
+                formData.append('anio', document.getElementById('anio').value);
+                formData.append('capacidad', document.getElementById('capacidad').value);
+                formData.append('numeroVehiculo', document.getElementById('numeroVehiculo').value.trim());
+                
+                const fotoVehiculo = document.getElementById('fotoVehiculo').files[0];
+                if (fotoVehiculo) formData.append('fotoVehiculo', fotoVehiculo);
+                
+                if (rol === 'TAXISTA') {
+                    formData.append('tipoTaxi', document.getElementById('tipoTaxi').value);
+                } else {
+                    formData.append('rutaSeleccionada', document.getElementById('rutaSeleccionada').value);
+                    formData.append('chasis', document.getElementById('chasis').value);
+                    formData.append('fechaMatricula', document.getElementById('fechaMatricula').value);
+                    formData.append('ultimaRevision', document.getElementById('ultimaRevision').value);
+                    formData.append('proximaRevision', document.getElementById('proximaRevision').value);
+                }
+            }
+            
+            const response = await fetch(API_URL + '/register', {
+                method: 'POST',
+                credentials: 'include',
+                body: formData
+            });
+            
+            let data;
+            const responseText = await response.text();
+            
+            try {
+                data = JSON.parse(responseText);
+            } catch (e) {
+                console.error('Respuesta no es JSON:', responseText);
+                throw new Error('El servidor respondió con un error inesperado');
+            }
+            
+            if (data.success) {
+                playCampanita(); // Sonido de éxito
+                Swal.fire({
+                    title: '🎉 Registro exitoso',
+                    text: '¡Bienvenido a CupoTax! Serás redirigido...',
+                    icon: 'success',
+                    timer: 2500,
+                    showConfirmButton: false,
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)'
+                });
+                setTimeout(() => {
+                    window.location.href = API_URL + (data.redirectUrl || '/');
+                }, 2500);
+            } else {
+                Swal.fire({ title: 'Error', text: data.error || 'Error en el registro', icon: 'error', background: 'var(--card-bg)', color: 'var(--text-primary)' });
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }
+        } catch (error) {
+            console.error('Error en registro:', error);
+            Swal.fire({ title: 'Error de conexión', text: 'No se pudo conectar con el servidor. Intenta de nuevo.', icon: 'error', background: 'var(--card-bg)', color: 'var(--text-primary)' });
+            btn.innerText = originalText;
+            btn.disabled = false;
+        }
     }
     
+    // ========== VALIDACIONES DE CONTRASEÑA ==========
     function validarPassword() {
         const password = document.getElementById('password').value;
         const strengthDiv = document.getElementById('passwordStrength');
@@ -551,7 +777,7 @@
         }
     }
     
-    // Mostrar/ocultar campos según rol
+    // ========== MOSTRAR/OCULTAR CAMPOS SEGÚN ROL ==========
     document.getElementById('rol').addEventListener('change', function() {
         const rol = this.value;
         const camposVehiculo = document.getElementById('camposVehiculo');
@@ -573,41 +799,34 @@
             campoTipoTaxi.style.display = 'block';
             infoBusExtra.style.display = 'none';
             campoRutaSeleccionada.style.display = 'none';
-            
             numeroVehiculoLabel.textContent = 'NÚMERO DE TAXI';
             numeroVehiculoInput.placeholder = 'Ej: T-001';
             numeroVehiculoInput.required = true;
-            
             placa.required = true;
             modelo.required = true;
             color.required = true;
             anio.required = true;
             capacidad.required = true;
             rutaSeleccionadaSelect.required = false;
-            
         } else if (rol === 'BUSERO') {
             camposVehiculo.style.display = 'block';
             campoTipoTaxi.style.display = 'none';
             infoBusExtra.style.display = 'block';
             campoRutaSeleccionada.style.display = 'block';
-            
             numeroVehiculoLabel.textContent = 'NÚMERO DE BUS';
             numeroVehiculoInput.placeholder = 'Ej: B-001';
             numeroVehiculoInput.required = true;
-            
             placa.required = true;
             modelo.required = true;
             color.required = true;
             anio.required = true;
             capacidad.required = true;
             rutaSeleccionadaSelect.required = true;
-            
         } else {
             camposVehiculo.style.display = 'none';
             campoTipoTaxi.style.display = 'none';
             infoBusExtra.style.display = 'none';
             campoRutaSeleccionada.style.display = 'none';
-            
             placa.required = false;
             modelo.required = false;
             color.required = false;
@@ -618,144 +837,55 @@
         }
     });
     
-    async function register(event) {
-        event.preventDefault();
-        
-        // Validación de cédula
-        const cedula = document.getElementById('cedula').value.trim();
-        if (!isValidCedula(cedula)) {
-            Swal.fire({ 
-                title: 'Error', 
-                text: 'Formato de cédula inválido. Ejemplo: 1-761-1069', 
-                icon: 'error' 
-            });
-            return;
-        }
-        
-        // Validación de teléfono
-        const telefono = document.getElementById('telefono').value.trim();
-        if (!isValidPhone(telefono)) {
-            Swal.fire({ 
-                title: 'Error', 
-                text: 'Formato de teléfono inválido. Ejemplo: 6663-7549', 
-                icon: 'error' 
-            });
-            return;
-        }
-        
-        // Mostrar loading
-        const btn = document.querySelector('.btn-register');
-        const originalText = btn.innerText;
-        btn.innerText = 'Registrando...';
-        btn.disabled = true;
-        
-        try {
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            const pin = document.getElementById('pinSeguridad').value;
-            const terminos = document.getElementById('terminos').checked;
-            
-            if (!terminos) {
-                Swal.fire({ title: 'Acepta los términos', text: 'Debes aceptar los Términos y Condiciones para registrarte', icon: 'warning' });
-                btn.innerText = originalText;
-                btn.disabled = false;
-                return;
-            }
-            
-            if (password !== confirmPassword) {
-                Swal.fire({ title: 'Error', text: 'Las contraseñas no coinciden', icon: 'error' });
-                btn.innerText = originalText;
-                btn.disabled = false;
-                return;
-            }
-            
-            if (!/^\d{6}$/.test(pin)) {
-                Swal.fire({ title: 'Error', text: 'El PIN debe ser de 6 dígitos', icon: 'error' });
-                btn.innerText = originalText;
-                btn.disabled = false;
-                return;
-            }
-            
-            const formData = new FormData();
-            formData.append('nombreCompleto', document.getElementById('nombreCompleto').value.trim());
-            formData.append('cedula', cedula);
-            formData.append('email', document.getElementById('email').value.trim());
-            formData.append('telefono', telefono);
-            formData.append('username', document.getElementById('username').value.trim());
-            formData.append('password', password);
-            formData.append('rol', document.getElementById('rol').value);
-            formData.append('pinSeguridad', pin);
-            
-            const rol = document.getElementById('rol').value;
-            
-            // Foto de perfil (opcional)
-            const fotoPerfil = document.getElementById('fotoPerfil').files[0];
-            if (fotoPerfil) formData.append('fotoPerfil', fotoPerfil);
-            
-            if (rol === 'TAXISTA' || rol === 'BUSERO') {
-                formData.append('placa', document.getElementById('placa').value.trim());
-                formData.append('modelo', document.getElementById('modelo').value.trim());
-                formData.append('color', document.getElementById('color').value.trim());
-                formData.append('anio', document.getElementById('anio').value);
-                formData.append('capacidad', document.getElementById('capacidad').value);
-                formData.append('numeroVehiculo', document.getElementById('numeroVehiculo').value.trim());
-                
-                const fotoVehiculo = document.getElementById('fotoVehiculo').files[0];
-                if (fotoVehiculo) formData.append('fotoVehiculo', fotoVehiculo);
-                
-                if (rol === 'TAXISTA') {
-                    formData.append('tipoTaxi', document.getElementById('tipoTaxi').value);
-                } else {
-                    formData.append('rutaSeleccionada', document.getElementById('rutaSeleccionada').value);
-                    formData.append('chasis', document.getElementById('chasis').value);
-                    formData.append('fechaMatricula', document.getElementById('fechaMatricula').value);
-                    formData.append('ultimaRevision', document.getElementById('ultimaRevision').value);
-                    formData.append('proximaRevision', document.getElementById('proximaRevision').value);
-                }
-            }
-            
-            const response = await fetch(API_URL + '/register', {
-                method: 'POST',
-                credentials: 'include',
-                body: formData
-            });
-            
-            let data;
-            const responseText = await response.text();
-            
-            try {
-                data = JSON.parse(responseText);
-            } catch (e) {
-                console.error('Respuesta no es JSON:', responseText);
-                throw new Error('El servidor respondió con un error inesperado');
-            }
-            
-            if (data.success) {
-                Swal.fire({
-                    title: 'Registro exitoso',
-                    text: '¡Bienvenido a CupoTax! Serás redirigido...',
-                    icon: 'success',
-                    timer: 2000,
-                    showConfirmButton: false
-                });
-                setTimeout(() => {
-                    window.location.href = API_URL + (data.redirectUrl || '/');
-                }, 2000);
-            } else {
-                Swal.fire({ title: 'Error', text: data.error || 'Error en el registro', icon: 'error' });
-            }
-        } catch (error) {
-            console.error('Error en registro:', error);
-            Swal.fire({ title: 'Error de conexión', text: 'No se pudo conectar con el servidor. Intenta de nuevo.', icon: 'error' });
-        } finally {
-            btn.innerText = originalText;
-            btn.disabled = false;
-        }
+    // ========== FUNCIONES DE NAVEGACIÓN Y UTILIDADES ==========
+    function navegarA(pagina) {
+        if(pagina === '') window.location.href = API_URL + '/';
+        else window.location.href = API_URL + '/' + pagina;
     }
     
-    function toggleSettingsPanel() {
-        document.getElementById('settingsPanel').classList.toggle('open');
+    function verTerminos() {
+        Swal.fire({
+            title: 'Términos y Condiciones',
+            html: `<div style="text-align: left;">
+                        <strong>1. Aceptación</strong><br>
+                        Al registrarte en CupoTax, aceptas cumplir con estos términos.<br><br>
+                        <strong>2. Uso del servicio</strong><br>
+                        CupoTax conecta pasajeros con conductores verificados.<br><br>
+                        <strong>3. Responsabilidad</strong><br>
+                        El usuario es responsable de la información proporcionada.<br><br>
+                        <strong>4. Pagos</strong><br>
+                        Las tarifas se muestran antes de confirmar el viaje.<br><br>
+                        <strong>5. Seguridad</strong><br>
+                        CupoTax no se hace responsable por incidentes fuera de la plataforma.
+                    </div>`,
+            icon: 'info',
+            background: 'var(--card-bg)',
+            color: 'var(--text-primary)',
+            confirmButtonColor: 'var(--accent)'
+        });
     }
+    
+    function verPrivacidad() {
+        Swal.fire({
+            title: 'Política de Privacidad',
+            html: `<div style="text-align: left;">
+                        <strong>1. Datos personales</strong><br>
+                        Tus datos serán usados solo para operar el servicio.<br><br>
+                        <strong>2. Protección</strong><br>
+                        Implementamos medidas de seguridad para proteger tu información.<br><br>
+                        <strong>3. No compartimos</strong><br>
+                        No vendemos ni compartimos tus datos con terceros.<br><br>
+                        <strong>4. Ubicación</strong><br>
+                        Para los conductores, la ubicación es obligatoria y se comparte durante los viajes.
+                    </div>`,
+            icon: 'info',
+            background: 'var(--card-bg)',
+            color: 'var(--text-primary)',
+            confirmButtonColor: 'var(--accent)'
+        });
+    }
+    
+    function toggleSettingsPanel() { document.getElementById('settingsPanel').classList.toggle('open'); }
     
     function setEstilo(estilo) {
         document.body.classList.remove('style-fire', 'style-glass', 'style-neon', 'style-crimson', 'light-mode');
@@ -766,7 +896,7 @@
         localStorage.setItem('cupotax-register-estilo', estilo);
         localStorage.removeItem('cupotax-register-light');
         actualizarCards(estilo);
-        Swal.fire({ title: `Estilo aplicado`, icon: 'success', timer: 1500, showConfirmButton: false });
+        Swal.fire({ title: `Estilo aplicado`, icon: 'success', timer: 1500, showConfirmButton: false, background: 'var(--card-bg)', color: 'var(--text-primary)' });
     }
     
     function toggleLightMode() {
@@ -782,7 +912,7 @@
             document.body.classList.add('light-mode');
             localStorage.setItem('cupotax-register-light', 'true');
         }
-        Swal.fire({ title: document.body.classList.contains('light-mode') ? 'Modo claro' : 'Modo oscuro', icon: 'success', timer: 1500, showConfirmButton: false });
+        Swal.fire({ title: document.body.classList.contains('light-mode') ? 'Modo claro' : 'Modo oscuro', icon: 'success', timer: 1500, showConfirmButton: false, background: 'var(--card-bg)', color: 'var(--text-primary)' });
     }
     
     function resetearEstilos() {
@@ -791,7 +921,7 @@
         localStorage.setItem('cupotax-register-estilo', 'fire');
         localStorage.removeItem('cupotax-register-light');
         actualizarCards('fire');
-        Swal.fire({ title: 'Estilos restaurados', icon: 'success', timer: 1500, showConfirmButton: false });
+        Swal.fire({ title: 'Estilos restaurados', icon: 'success', timer: 1500, showConfirmButton: false, background: 'var(--card-bg)', color: 'var(--text-primary)' });
     }
     
     function actualizarCards(estilo) {
@@ -806,7 +936,7 @@
         else if(estilo === 'crimson') document.getElementById('cardCrimson')?.classList.add('active');
     }
     
-    // Cargar tema guardado
+    // Inicializar tema guardado
     const estiloGuardado = localStorage.getItem('cupotax-register-estilo') || 'fire';
     const lightGuardado = localStorage.getItem('cupotax-register-light') === 'true';
     if(estiloGuardado === 'glass') document.body.classList.add('style-glass');
@@ -816,6 +946,9 @@
     if(lightGuardado) document.body.classList.add('light-mode');
     actualizarCards(estiloGuardado);
     
+    // Disparar evento change para inicializar campos ocultos
+    document.getElementById('rol').dispatchEvent(new Event('change'));
+    
     window.onclick = function(e) {
         const panel = document.getElementById('settingsPanel');
         const btn = document.querySelector('.settings-toggle');
@@ -823,9 +956,6 @@
             panel.classList.remove('open');
         }
     }
-    
-    // Disparar evento change para inicializar campos ocultos
-    document.getElementById('rol').dispatchEvent(new Event('change'));
 </script>
 </body>
 </html>

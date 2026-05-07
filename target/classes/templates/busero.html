@@ -11,7 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* ========== TODOS TUS ESTILOS EXISTENTES AQUÍ ========== */
+        /* ========== TODOS TUS ESTILOS EXISTENTES AQUÍ (los mismos) ========== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body.style-fire {
@@ -155,24 +155,6 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 20% 30%, rgba(123, 47, 247, 0.15), transparent 60%),
-                        radial-gradient(circle at 80% 70%, rgba(255, 46, 216, 0.12), transparent 50%);
-            pointer-events: none;
-            z-index: 0;
-        }
-        
-        body.light-mode::before {
-            background: radial-gradient(circle at 20% 30%, rgba(79, 172, 254, 0.12), transparent 60%),
-                        radial-gradient(circle at 80% 70%, rgba(67, 233, 123, 0.1), transparent 50%);
-        }
-        
-        body::after {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
             background-image: url('https://i.ibb.co/pBSfBsYF/Whats-App-Image-2026-04-28-at-12-20-21-AM.jpg');
             background-size: cover;
             background-position: center;
@@ -180,10 +162,9 @@
             background-attachment: fixed;
             opacity: 0.15;
             z-index: -1;
-            pointer-events: none;
         }
         
-        .app-container { display: flex; min-height: 100vh; position: relative; z-index: 2; }
+        .app-container { display: flex; min-height: 100vh; position: relative; z-index: 1; }
         
         .sidebar {
             width: 280px;
@@ -235,36 +216,13 @@
             overflow: hidden;
         }
         
-        .sidebar-avatar i {
-            font-size: 2.5rem;
-            color: #fff;
-        }
+        .sidebar-avatar i { font-size: 2.5rem; color: #fff; }
+        .sidebar-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .sidebar-profile h3 { font-size: 1rem; background: var(--glow-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .sidebar-profile p { font-size: 0.7rem; color: var(--text-secondary); }
         
-        .sidebar-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .sidebar-profile h3 {
-            font-size: 1rem;
-            background: var(--glow-gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        
-        .sidebar-profile p {
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-        }
-        
-        .sidebar-menu {
-            list-style: none;
-        }
-        
+        .sidebar-menu { list-style: none; }
         .sidebar-menu li { margin-bottom: 0.3rem; }
-        
         .sidebar-menu a {
             display: flex;
             align-items: center;
@@ -277,14 +235,7 @@
             font-size: 0.85rem;
             cursor: pointer;
         }
-        
-        .sidebar-menu a:hover,
-        .sidebar-menu a.active {
-            background: var(--accent);
-            color: #000;
-            box-shadow: var(--accent-glow);
-        }
-        
+        .sidebar-menu a:hover, .sidebar-menu a.active { background: var(--accent); color: #000; box-shadow: var(--accent-glow); }
         .sidebar-menu a i { width: 24px; }
         
         .menu-toggle {
@@ -331,19 +282,8 @@
             gap: 0.5rem;
             font-size: 0.8rem;
         }
-        
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            background: var(--success);
-            border-radius: 50%;
-            animation: blink 1.5s infinite;
-        }
-        
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
+        .status-dot { width: 10px; height: 10px; background: var(--success); border-radius: 50%; animation: blink 1.5s infinite; }
+        @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
         
         .btn-toggle {
             background: transparent;
@@ -354,12 +294,7 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-        
-        .btn-toggle:hover {
-            background: var(--accent);
-            color: #000;
-            box-shadow: var(--accent-glow);
-        }
+        .btn-toggle:hover { background: var(--accent); color: #000; box-shadow: var(--accent-glow); }
         
         .kpi-grid {
             display: grid;
@@ -377,29 +312,9 @@
             border: 1px solid var(--glass-border);
             transition: all 0.3s;
         }
-        
-        .kpi-card i {
-            font-size: 1.5rem;
-            background: var(--glow-gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 0.5rem;
-        }
-        
-        .kpi-value {
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: var(--glow-gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        
-        .kpi-label {
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-        }
+        .kpi-card i { font-size: 1.5rem; background: var(--glow-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 0.5rem; }
+        .kpi-value { font-size: 1.8rem; font-weight: 800; background: var(--glow-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .kpi-label { font-size: 0.7rem; color: var(--text-secondary); }
         
         .two-columns {
             display: grid;
@@ -416,29 +331,15 @@
             border: 1px solid var(--glass-border);
             transition: all 0.3s;
         }
-        
-        .card:hover {
-            border-color: var(--accent);
-            box-shadow: var(--accent-glow);
-        }
-        
-        .card-title {
-            font-size: 0.9rem;
-            color: var(--accent);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            border-left: 3px solid var(--accent);
-            padding-left: 0.7rem;
-        }
+        .card:hover { border-color: var(--accent); box-shadow: var(--accent-glow); }
+        .card-title { color: var(--accent); font-size: 0.9rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; border-left: 3px solid var(--accent); padding-left: 0.7rem; }
         
         #map {
             width: 100%;
             height: 280px;
             border-radius: 16px;
             margin-top: 0.5rem;
-            z-index: 1;
+            border: 1px solid var(--glass-border);
         }
         
         .ruta-item {
@@ -869,10 +770,10 @@
         .btn-reset:hover { background: var(--accent); color: #000; }
         
         /* Estilos para el mapa Mapbox */
-        .vehicle-dot {
+        .vehicle-dot, .stop-marker, .gas-marker {
             transition: transform 0.2s ease;
         }
-        .vehicle-dot:hover {
+        .vehicle-dot:hover, .stop-marker:hover, .gas-marker:hover {
             transform: scale(1.5);
         }
         .mapboxgl-popup-content {
@@ -1134,6 +1035,8 @@
     let distribucionChart, ingresosChart;
     let busMarker = null;
     let routeLayer = null;
+    let stopsMarkers = [];
+    let gasStationsMarkers = [];
     
     const API_URL = '';
     let notificacionesListaGlobal = [];
@@ -1144,6 +1047,24 @@
     let viajesCompletados = 8;
     let recaudacionTotal = 128.50;
     let enServicio = true;
+    
+    // ========== PARADAS DEL BUS (con nombres y coordenadas reales de Changuinola) ==========
+    const busStops = [
+        { name: "Terminal de Changuinola", lat: 9.4333, lng: -82.5167, type: "terminal" },
+        { name: "Parada Finca 6", lat: 9.4400, lng: -82.5120, type: "stop" },
+        { name: "Parada El Empalme", lat: 9.4480, lng: -82.5070, type: "stop" },
+        { name: "Parada Cuadrante", lat: 9.4560, lng: -82.5020, type: "stop" },
+        { name: "Parada Finca 15", lat: 9.4640, lng: -82.4970, type: "stop" },
+        { name: "Terminal de Almirante", lat: 9.4750, lng: -82.4900, type: "terminal" }
+    ];
+    
+    // ========== GASOLINERAS EN CHANGUINOLA ==========
+    const gasStations = [
+        { name: "Gasolinera Terpel - Changuinola", lat: 9.4350, lng: -82.5140 },
+        { name: "Gasolinera Puma - Salida a Almirante", lat: 9.4450, lng: -82.5080 },
+        { name: "Gasolinera Delta - Finca 6", lat: 9.4420, lng: -82.5100 },
+        { name: "Gasolinera Texaco - El Empalme", lat: 9.4500, lng: -82.5050 }
+    ];
     
     // ========== INICIALIZAR MAPA MAPBOX ==========
     function initMapboxMap() {
@@ -1159,25 +1080,24 @@
         mapboxMap.addControl(new mapboxgl.NavigationControl());
         
         mapboxMap.on('load', () => {
-            // Agregar marcador del bus (color rojo para busero)
+            // ========== 1. MARCADOR DEL BUS (ROJO CON ICONO) ==========
             const busEl = document.createElement('div');
-            busEl.innerHTML = `<div style="background: #FF3D2E; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 0 10px #FF3D2E; cursor: pointer;"><i class="fas fa-bus" style="font-size: 14px; color: white;"></i></div>`;
+            busEl.innerHTML = `<div style="background: #FF3D2E; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 0 10px #FF3D2E; cursor: pointer;"><i class="fas fa-bus" style="font-size: 16px; color: white;"></i></div>`;
             busMarker = new mapboxgl.Marker(busEl)
                 .setLngLat([changuinola.lng + 0.01, changuinola.lat + 0.005])
                 .setPopup(new mapboxgl.Popup().setHTML('<strong>🚍 Tu bus (CH-1842)</strong><br>En servicio - Ruta Changuinola → Almirante'))
                 .addTo(mapboxMap);
             
-            // Agregar la ruta fija (línea roja)
+            // ========== 2. RUTA FIJA (LÍNEA ROJA) ==========
             const routeCoordinates = [
-                [-82.5217, 9.4333],  // Changuinola Centro
+                [-82.5217, 9.4333],  // Changuinola Centro - Terminal
                 [-82.5200, 9.4350],  // Parada 1
                 [-82.5180, 9.4380],  // Parada 2
                 [-82.5150, 9.4450],  // Finca 6
                 [-82.5100, 9.4550],  // El Empalme
                 [-82.5000, 9.4650],  // Cuadrante
                 [-82.4900, 9.4750],  // Finca 15
-                [-82.4800, 9.4850],  // Almirante
-                [-82.4700, 9.5000]   // David
+                [-82.4800, 9.4850]   // Almirante
             ];
             
             routeLayer = {
@@ -1209,26 +1129,46 @@
             mapboxMap.addSource('route', routeLayer.source);
             mapboxMap.addLayer(routeLayer);
             
-            // Agregar marcadores de paradas
-            const stops = [
-                { name: "Terminal Changuinola", lng: -82.5217, lat: 9.4333 },
-                { name: "Parada Finca 6", lng: -82.5150, lat: 9.4450 },
-                { name: "Parada El Empalme", lng: -82.5100, lat: 9.4550 },
-                { name: "Parada Cuadrante", lng: -82.5000, lat: 9.4650 },
-                { name: "Terminal Almirante", lng: -82.4800, lat: 9.4850 }
-            ];
-            
-            stops.forEach(stop => {
+            // ========== 3. PARADAS DEL BUS (CÍRCULOS VERDES) ==========
+            busStops.forEach(stop => {
                 const stopEl = document.createElement('div');
-                stopEl.innerHTML = `<div style="background: #43E97B; width: 12px; height: 12px; border-radius: 50%; border: 2px solid white; cursor: pointer;"></div>`;
-                new mapboxgl.Marker(stopEl)
+                stopEl.className = 'stop-marker';
+                stopEl.innerHTML = `<div style="background: #2ecc71; width: 14px; height: 14px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 8px #2ecc71; cursor: pointer;"></div>`;
+                
+                const marker = new mapboxgl.Marker(stopEl)
                     .setLngLat([stop.lng, stop.lat])
-                    .setPopup(new mapboxgl.Popup().setHTML(`<strong>🚏 ${stop.name}</strong>`))
+                    .setPopup(new mapboxgl.Popup().setHTML(`
+                        <div style="font-family: Inter;">
+                            <strong>🚏 ${stop.name}</strong><br>
+                            <span style="font-size: 0.7rem;">${stop.type === 'terminal' ? '📍 Terminal' : '🟢 Parada de bus'}</span>
+                        </div>
+                    `))
                     .addTo(mapboxMap);
+                
+                stopsMarkers.push(marker);
+            });
+            
+            // ========== 4. GASOLINERAS (CÍRCULOS VERDES CLAROS) ==========
+            gasStations.forEach(gas => {
+                const gasEl = document.createElement('div');
+                gasEl.className = 'gas-marker';
+                gasEl.innerHTML = `<div style="background: #27ae60; width: 12px; height: 12px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 6px #27ae60; cursor: pointer;"></div>`;
+                
+                const marker = new mapboxgl.Marker(gasEl)
+                    .setLngLat([gas.lng, gas.lat])
+                    .setPopup(new mapboxgl.Popup().setHTML(`
+                        <div style="font-family: Inter;">
+                            <strong>⛽ ${gas.name}</strong><br>
+                            <span style="font-size: 0.7rem;">Gasolinera cercana</span>
+                        </div>
+                    `))
+                    .addTo(mapboxMap);
+                
+                gasStationsMarkers.push(marker);
             });
         });
         
-        // Obtener ubicación del usuario (bus) para centrar el mapa
+        // Obtener ubicación real del bus para centrar el mapa
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
@@ -1244,27 +1184,7 @@
             );
         }
         
-        console.log('Mapa Mapbox inicializado para Busero');
-    }
-    
-    // ========== INICIALIZAR GRÁFICOS ==========
-    function initCharts() {
-        const ctxDist = document.getElementById('distribucionChart');
-        if(ctxDist) {
-            distribucionChart = new Chart(ctxDist, {
-                type: 'doughnut',
-                data: { labels: ['Taxis (68%)', 'Buses (32%)'], datasets: [{ data: [68, 32], backgroundColor: ['#4FACFE', '#43E97B'], borderWidth: 0 }] },
-                options: { responsive: true, plugins: { legend: { labels: { color: '#A8B2D1', font: { size: 10 } } } } }
-            });
-        }
-        const ctxIng = document.getElementById('ingresosChartCanvas');
-        if(ctxIng) {
-            ingresosChart = new Chart(ctxIng, {
-                type: 'bar',
-                data: { labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'], datasets: [{ label: 'Ingresos (B/.)', data: [1850, 2100, 2250, 2430, 2680, 2750, 128], backgroundColor: '#4FACFE', borderRadius: 8 }] },
-                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { labels: { color: '#A8B2D1' } } }, scales: { y: { ticks: { color: '#A8B2D1' } }, x: { ticks: { color: '#A8B2D1' } } } }
-            });
-        }
+        console.log('Mapa Mapbox inicializado para Busero con paradas y gasolineras');
     }
     
     // ========== FUNCIONES DE PERFIL Y VEHÍCULO ==========
@@ -1447,6 +1367,25 @@
         }
     }
     
+    function initCharts() {
+        const ctxDist = document.getElementById('distribucionChart');
+        if(ctxDist) {
+            distribucionChart = new Chart(ctxDist, {
+                type: 'doughnut',
+                data: { labels: ['Taxis (68%)', 'Buses (32%)'], datasets: [{ data: [68, 32], backgroundColor: ['#4FACFE', '#43E97B'], borderWidth: 0 }] },
+                options: { responsive: true, plugins: { legend: { labels: { color: '#A8B2D1', font: { size: 10 } } } } }
+            });
+        }
+        const ctxIng = document.getElementById('ingresosChartCanvas');
+        if(ctxIng) {
+            ingresosChart = new Chart(ctxIng, {
+                type: 'bar',
+                data: { labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'], datasets: [{ label: 'Ingresos (B/.)', data: [1850, 2100, 2250, 2430, 2680, 2750, 128], backgroundColor: '#4FACFE', borderRadius: 8 }] },
+                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { labels: { color: '#A8B2D1' } } }, scales: { y: { ticks: { color: '#A8B2D1' } }, x: { ticks: { color: '#A8B2D1' } } } }
+            });
+        }
+    }
+    
     function generarRutasPopulares() {
         const rutas = [
             { nombre: "Changuinola → David", viajes: 58 },
@@ -1472,8 +1411,8 @@
     
     function generarViajesProgramados() {
         const viajes = [
-            { ruta: "Changuinola → David", fecha: "2026-05-02", hora: "6:00 AM", tarifa: 9.65 },
-            { ruta: "Changuinola → Almirante", fecha: "2026-05-02", hora: "10:00 AM", tarifa: 1.45 }
+            { ruta: "Changuinola → David", fecha: "2026-05-07", hora: "6:00 AM", tarifa: 9.65 },
+            { ruta: "Changuinola → Almirante", fecha: "2026-05-07", hora: "10:00 AM", tarifa: 1.45 }
         ];
         document.getElementById('viajesProgramados').innerHTML = viajes.map(v => `
             <div class="viaje-proximo">
@@ -1534,7 +1473,7 @@
         secciones.forEach(s => { let el = document.getElementById(`seccion-${s}`); if(el) el.style.display = 'none'; });
         document.getElementById(`seccion-${seccion}`).style.display = 'block';
         if(seccion === 'viajes') generarViajesProgramados();
-        if(seccion === 'historial') document.getElementById('historialViajes').innerHTML = '<div class="viaje-proximo">01/05/2026 - Changuinola → David - B/.9.65<br>30/04/2026 - Changuinola → Almirante - B/.1.45</div>';
+        if(seccion === 'historial') document.getElementById('historialViajes').innerHTML = '<div class="viaje-proximo">06/05/2026 - Changuinola → David - B/.9.65<br>05/05/2026 - Changuinola → Almirante - B/.1.45</div>';
         if(seccion === 'calificaciones') document.getElementById('calificacionesInfo').innerHTML = '<div style="text-align:center;"><div style="font-size:3rem;">⭐ 4.8</div><div>Basado en 342 viajes</div><div>95% positivas</div></div>';
         if(seccion === 'ingresos' && ingresosChart) ingresosChart.update();
         if(seccion === 'billetera') cargarTransaccionesBilletera();
