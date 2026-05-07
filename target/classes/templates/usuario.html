@@ -1057,6 +1057,12 @@
                     <i class="fas fa-exclamation-triangle"></i> SOS - EMERGENCIA
                 </button>
                 <p style="font-size:0.7rem; text-align:center; margin-bottom:1rem;">⚠️ 1 clic = seleccionar tipo de emergencia | 2 clics = alerta inmediata</p>
+                <!-- ========== INPUT PARA SUBIR FOTO EN SOS ========== -->
+<div class="card" style="margin-bottom:1rem; padding: 1rem;">
+    <div class="card-title"><i class="fas fa-camera"></i> Adjuntar evidencia (opcional)</div>
+    <input type="file" id="sosFoto" accept="image/*" style="width:100%; background:var(--input-bg); padding:0.5rem; border-radius:12px; color:var(--text-primary);">
+    <p style="font-size:0.65rem; margin-top:0.3rem; color:var(--text-secondary);">📸 Puedes adjuntar una foto de la situación (máx 5MB)</p>
+</div>
                 
                 <div class="card" style="margin-bottom:1rem;">
                     <div class="card-title"><i class="fas fa-share-alt"></i> Compartir viaje</div>
@@ -1746,27 +1752,51 @@
     async function guardarContacto() { const contacto = document.getElementById('contactoEmergencia').value; if (!contacto) { Swal.fire({ title: 'Error', text: 'Ingresa un contacto', icon: 'error', background: 'var(--card-bg)', color: 'var(--text-primary)' }); return; } try { await fetch(API_URL + '/api/usuarios/contacto', { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ contacto }) }); Swal.fire({ title: 'Contacto guardado', text: contacto, icon: 'success', background: 'var(--card-bg)', color: 'var(--text-primary)' }); cargarContactos(); document.getElementById('contactoEmergencia').value = ''; } catch(e) { Swal.fire({ title: 'Error', text: 'No se pudo guardar', icon: 'error', background: 'var(--card-bg)', color: 'var(--text-primary)' }); } }
 
     async function activarSOS(tipo, descripcion) {
-        const contacto = document.getElementById('contactoEmergencia').value || 'Sin contacto registrado';
-        const ubicacion = "Changuinola, Panamá";
-        
-        try {
-            await fetch(API_URL + '/api/incidentes/reportar', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
-                body: JSON.stringify({ tipo, descripcion, contacto, ubicacion, timestamp: new Date().toISOString() })
-            });
-        } catch(e) {}
-        
-        Swal.fire({
-            title: '🚨 ALERTA DE EMERGENCIA ENVIADA',
-            html: `<strong>Tipo:</strong> ${tipo}<br><strong>Descripción:</strong> ${descripcion}<br><strong>Ubicación:</strong> ${ubicacion}<br><strong>Contacto:</strong> ${contacto}`,
-            icon: 'error',
-            background: '#0A0A0F',
-            color: '#FF6A2A',
-            confirmButtonColor: '#d33'
-        });
+    const contacto = document.getElementById('contactoEmergencia').value || 'Sin contacto registrado';
+    const ubicacion = "Changuinola, Panamá";
+    const fotoInput = document.getElementById('sosFoto');
+    const foto = fotoInput ? fotoInput.files[0] : null;
+    
+    const formData = new FormData();
+    formData.append('tipo', tipo);
+    formData.append('descripcion', descripcion);
+    formData.append('ubicacion', ubicacion);
+    formData.append('contacto', contacto);
+    if (foto) {
+        if (foto.size > 5 * 1024 * 1024) {
+            Swal.fire({ title: 'Error', text: 'La foto no puede superar los 5MB', icon: 'error' });
+            return;
+        }
+        formData.append('foto', foto);
     }
+    
+    try {
+        const response = await fetch(API_URL + '/api/incidentes/reportar', {
+            method: 'POST',
+            credentials: 'include',
+            body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            Swal.fire({
+                title: '🚨 ALERTA DE EMERGENCIA ENVIADA',
+                html: `<strong>Tipo:</strong> ${tipo}<br><strong>Descripción:</strong> ${descripcion}<br><strong>Ubicación:</strong> ${ubicacion}<br><strong>Contacto:</strong> ${contacto}${foto ? '<br><strong>📸 Foto adjunta</strong>' : ''}`,
+                icon: 'error',
+                background: '#0A0A0F',
+                color: '#FF6A2A',
+                confirmButtonColor: '#d33'
+            });
+            if (fotoInput) fotoInput.value = '';
+        } else {
+            Swal.fire({ title: 'Error', text: data.error || 'No se pudo enviar la alerta', icon: 'error' });
+        }
+    } catch(e) {
+        console.error('Error:', e);
+        Swal.fire({ title: 'Error', text: 'Error de conexión', icon: 'error' });
+    }
+}
     
     function activarSOSInmediato() {
         activarSOS('EMERGENCIA MÁXIMA', 'Alerta inmediata por doble clic - Se requiere asistencia urgente');

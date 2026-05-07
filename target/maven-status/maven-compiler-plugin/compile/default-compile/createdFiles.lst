@@ -12,6 +12,7 @@ com\cupotax\controllers\ApiController.class
 com\cupotax\security\JwtUtil.class
 com\cupotax\controllers\NotificacionController.class
 com\cupotax\models\AuditLog.class
+com\cupotax\controllers\MapaController.class
 com\cupotax\controllers\WebController.class
 com\cupotax\repositories\UserRepository.class
 com\cupotax\repositories\EmpresaRepository.class

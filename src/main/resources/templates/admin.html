@@ -13,7 +13,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css' rel='stylesheet' />
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -801,7 +804,7 @@
 </div>
 
 <script>
-    const API_URL = '';
+        const API_URL = '';
     let chartViajes, chartIngresos, chartPolar, chartSpline, chart3DRing, chartStackedBar;
     let alertasSOS = [];
     let usuariosGlobal = [];
@@ -810,6 +813,12 @@
     let currentUserFilter = "todos";
     let currentServiceFilter = "semana";
     let flotaFiltro = 'BUSERO';
+    
+    // MAPBOX TOKEN
+    mapboxgl.accessToken = 'pk.eyJ1IjoiY3Vwb3RheCIsImEiOiJjbW91OWR4OXAwNDIxMnNxMTVlbzdkOGFkIn0.qVOJg2P9CzlD8aLladqjtg';
+    let mapaAdmin;
+    let marcadoresVehiculos = {};
+    let intervaloMapa;
     
     // Crear partículas
     function createParticles() {
@@ -828,7 +837,6 @@
         }
     }
     
-    // ========== FUNCIÓN DE CIERRE DE SESIÓN (SALIR) ==========
     function cerrarSesion() {
         Swal.fire({
             title: '¿Cerrar sesión?',
@@ -874,41 +882,41 @@
     }
     
     // ========== FLOTA DE VEHÍCULOS ==========
- async function cargarFlotaVehiculos() {
-    const container = document.getElementById('flotaVehiculos');
-    if (!container) return;
-    
-    const vehiculosFiltrados = conductoresGlobal.filter(c => c.rol === flotaFiltro);
-    
-    if (vehiculosFiltrados.length === 0) {
-        container.innerHTML = `<div class="section" style="text-align:center; padding:2rem;">
-            <i class="fas fa-truck" style="font-size:3rem; opacity:0.5;"></i>
-            <p>No hay ${flotaFiltro === 'BUSERO' ? 'buses' : 'taxis'} registrados</p>
-        </div>`;
-        return;
+    async function cargarFlotaVehiculos() {
+        const container = document.getElementById('flotaVehiculos');
+        if (!container) return;
+        
+        const vehiculosFiltrados = conductoresGlobal.filter(c => c.rol === flotaFiltro);
+        
+        if (vehiculosFiltrados.length === 0) {
+            container.innerHTML = `<div class="section" style="text-align:center; padding:2rem;">
+                <i class="fas fa-truck" style="font-size:3rem; opacity:0.5;"></i>
+                <p>No hay ${flotaFiltro === 'BUSERO' ? 'buses' : 'taxis'} registrados</p>
+            </div>`;
+            return;
+        }
+        
+        container.innerHTML = vehiculosFiltrados.map(v => `
+            <div class="vehiculo-card" onclick="verDetalleVehiculo(${v.id})">
+                <div class="vehiculo-foto">
+                    ${(v.fotoVehiculo || (v.rol === 'BUSERO' && v.fotoBus)) ? 
+                        `<img src="data:image/jpeg;base64,${v.fotoVehiculo || v.fotoBus}" alt="Foto del vehículo">` : 
+                        `<i class="fas ${v.rol === 'BUSERO' ? 'fa-bus' : 'fa-taxi'}"></i>`
+                    }
+                </div>
+                <div class="vehiculo-info">
+                    <h4>${v.placa || 'Sin placa'}</h4>
+                    <p><strong>Conductor:</strong> ${v.nombreCompleto || v.username}</p>
+                    <p><strong>Modelo:</strong> ${v.modelo || 'N/A'}</p>
+                    <p><strong>Capacidad:</strong> ${v.capacidad || 'N/A'} pasajeros</p>
+                    <p><strong>Estado:</strong> <span class="${v.activo ? 'estado-activo' : 'estado-inactivo'}">${v.activo ? 'Activo' : 'Inactivo'}</span></p>
+                    <button class="btn-toggle-vehiculo" onclick="event.stopPropagation(); toggleVehiculoEstado(${v.id})">
+                        ${v.activo ? 'Desactivar' : 'Activar'}
+                    </button>
+                </div>
+            </div>
+        `).join('');
     }
-    
-    container.innerHTML = vehiculosFiltrados.map(v => `
-        <div class="vehiculo-card" onclick="verDetalleVehiculo(${v.id})">
-            <div class="vehiculo-foto">
-                ${(v.fotoVehiculo || (v.rol === 'BUSERO' && v.fotoBus)) ? 
-                    `<img src="data:image/jpeg;base64,${v.fotoVehiculo || v.fotoBus}" alt="Foto del vehículo">` : 
-                    `<i class="fas ${v.rol === 'BUSERO' ? 'fa-bus' : 'fa-taxi'}"></i>`
-                }
-            </div>
-            <div class="vehiculo-info">
-                <h4>${v.placa || 'Sin placa'}</h4>
-                <p><strong>Conductor:</strong> ${v.nombreCompleto || v.username}</p>
-                <p><strong>Modelo:</strong> ${v.modelo || 'N/A'}</p>
-                <p><strong>Capacidad:</strong> ${v.capacidad || 'N/A'} pasajeros</p>
-                <p><strong>Estado:</strong> <span class="${v.activo ? 'estado-activo' : 'estado-inactivo'}">${v.activo ? 'Activo' : 'Inactivo'}</span></p>
-                <button class="btn-toggle-vehiculo" onclick="event.stopPropagation(); toggleVehiculoEstado(${v.id})">
-                    ${v.activo ? 'Desactivar' : 'Activar'}
-                </button>
-            </div>
-        </div>
-    `).join('');
-}
     
     async function verDetalleVehiculo(id) {
         const vehiculo = conductoresGlobal.find(c => c.id === id);
@@ -1018,38 +1026,24 @@
     }
     
     function actualizarListaAlertasSOS() {
-    const container = document.getElementById('listaAlertasSOS');
-    if (!container) return;
-    if (alertasSOS.length === 0) {
-        container.innerHTML = '<div class="info-card">✅ No hay alertas SOS activas</div>';
-        return;
+        const container = document.getElementById('listaAlertasSOS');
+        if (!container) return;
+        if (alertasSOS.length === 0) {
+            container.innerHTML = '<div class="info-card">✅ No hay alertas SOS activas</div>';
+            return;
+        }
+        
+        container.innerHTML = alertasSOS.map(a => `
+            <div class="alerta-sos-item">
+                <div><strong>🚨 ${a.tipo}</strong> - ${a.fecha}</div>
+                <div>👤 ${a.usuario}</div>
+                <div>📝 ${a.descripcion}</div>
+                <div>📍 ${a.ubicacion}</div>
+                <div>📞 ${a.contacto}</div>
+                <button class="btn-atender" onclick="atenderAlertaSOS(${a.id})">✅ Marcar atendida</button>
+            </div>
+        `).join('');
     }
-    
-    container.innerHTML = alertasSOS.map(a => `
-        <div class="alerta-sos-item">
-            <div><strong>🚨 ${a.tipo}</strong> - ${a.fecha}</div>
-            <div>👤 ${a.usuario}</div>
-            <div>📝 ${a.descripcion}</div>
-            <div>📍 ${a.ubicacion}</div>
-            <div>📞 ${a.contacto}</div>
-            ${a.fotoIncidente ? `<div><img src="data:image/jpeg;base64,${a.fotoIncidente}" style="max-width:100%; max-height:150px; border-radius:8px; margin-top:0.5rem; cursor:pointer;" onclick="verFotoIncidente('${a.fotoIncidente}')"></div>` : ''}
-            <button class="btn-atender" onclick="atenderAlertaSOS(${a.id})">✅ Marcar atendida</button>
-        </div>
-    `).join('');
-}
-
-// Función para ver foto en grande
-function verFotoIncidente(fotoBase64) {
-    Swal.fire({
-        title: 'Evidencia del incidente',
-        imageUrl: 'data:image/jpeg;base64,' + fotoBase64,
-        imageWidth: '90%',
-        imageAlt: 'Foto del incidente',
-        background: 'var(--card-bg)',
-        color: 'var(--text-primary)',
-        confirmButtonColor: 'var(--accent)'
-    });
-}
     
     async function atenderAlertaSOS(id) {
         try {
@@ -1115,10 +1109,10 @@ function verFotoIncidente(fotoBase64) {
                 <tbody>
                     ${vehiculos.map(v => `
                         <tr>
-                            <td>${v.placa || 'N/A'}知
-                            <td>${v.nombreCompleto || v.username}知
-                            <td>${v.modelo || 'N/A'}知
-                            <td>${v.activo ? 'Activo' : 'Inactivo'}知
+                            <td>${v.placa || 'N/A'}</td>
+                            <td>${v.nombreCompleto || v.username}</td>
+                            <td>${v.modelo || 'N/A'}</td>
+                            <td>${v.activo ? 'Activo' : 'Inactivo'}</td>
                         </tr>
                     `).join('')}
                 </tbody>
@@ -1149,11 +1143,11 @@ function verFotoIncidente(fotoBase64) {
         if (tbody) {
             tbody.innerHTML = usuariosFiltrados.map(u => `
                 <tr>
-                    <td>${u.nombreCompleto || u.username}知
-                    <td>${u.rol}知
-                    <td><span class="status-badge ${u.activo ? 'status-active' : 'status-inactive'}">${u.activo ? 'Activo' : 'Inactivo'}</span>知
-                    <td>${u.viajesRealizados || 0}知
-                    <td>${u.ultimaActividad ? new Date(u.ultimaActividad).toLocaleDateString() : '-'}知
+                    <td>${u.nombreCompleto || u.username}</td>
+                    <td>${u.rol}</td>
+                    <td><span class="status-badge ${u.activo ? 'status-active' : 'status-inactive'}">${u.activo ? 'Activo' : 'Inactivo'}</span></td>
+                    <td>${u.viajesRealizados || 0}</td>
+                    <td>${u.ultimaActividad ? new Date(u.ultimaActividad).toLocaleDateString() : '-'}</td>
                 </tr>
             `).join('');
         }
@@ -1162,6 +1156,110 @@ function verFotoIncidente(fotoBase64) {
         if(event && event.currentTarget) event.currentTarget.classList.add('active');
     }
     
+    // ========== MAPBOX ==========
+    function initAdminMap() {
+        const changuinola = { lat: 9.4333, lng: -82.5167 };
+        
+        mapaAdmin = new mapboxgl.Map({
+            container: 'mapaAdmin',
+            style: 'mapbox://styles/mapbox/dark-v11',
+            center: [changuinola.lng, changuinola.lat],
+            zoom: 13
+        });
+        
+        mapaAdmin.addControl(new mapboxgl.NavigationControl());
+        
+        mapaAdmin.on('load', () => {
+            new mapboxgl.Marker({ color: '#FF6A2A' })
+                .setLngLat([changuinola.lng, changuinola.lat])
+                .setPopup(new mapboxgl.Popup().setHTML('<strong>🏢 Central CupoTax</strong><br>Changuinola, Panamá'))
+                .addTo(mapaAdmin);
+        });
+        
+        console.log('Mapa Mapbox inicializado');
+    }
+    
+    function generarUbicacionesDemo() {
+        const changuinola = { lat: 9.4333, lng: -82.5167 };
+        const vehiculos = [];
+        for (let i = 0; i < 15; i++) {
+            vehiculos.push({
+                id: i + 1,
+                tipo: i < 8 ? 'TAXISTA' : 'BUSERO',
+                placa: `${i < 8 ? 'T' : 'B'}-${100 + i}`,
+                conductor: `Conductor ${i + 1}`,
+                lat: changuinola.lat + (Math.random() - 0.5) * 0.1,
+                lng: changuinola.lng + (Math.random() - 0.5) * 0.1,
+                estado: Math.random() > 0.2 ? 'activo' : 'inactivo',
+                velocidad: Math.floor(Math.random() * 60) + 10,
+                ultimaActualizacion: new Date().toLocaleTimeString()
+            });
+        }
+        return vehiculos;
+    }
+    
+    async function obtenerUbicacionesVehiculos() {
+        try {
+            const response = await fetch(API_URL + '/api/vehiculos/ubicaciones', { credentials: 'include' });
+            if (response.ok) return await response.json();
+            return generarUbicacionesDemo();
+        } catch(e) {
+            return generarUbicacionesDemo();
+        }
+    }
+    
+    function actualizarMapaConVehiculos(vehiculos) {
+        if (!mapaAdmin) return;
+        
+        Object.values(marcadoresVehiculos).forEach(marcador => marcador.remove());
+        marcadoresVehiculos = {};
+        
+        vehiculos.forEach(vehiculo => {
+            if (!vehiculo.lat || !vehiculo.lng) return;
+            if (vehiculo.estado === 'inactivo') return;
+            
+            const color = vehiculo.tipo === 'TAXISTA' ? '#FF6A2A' : '#3A86FF';
+            const icono = vehiculo.tipo === 'TAXISTA' ? '🚕' : '🚌';
+            
+            const el = document.createElement('div');
+            el.innerHTML = `<div style="background: ${color}; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 0 10px ${color}; font-size: 18px; cursor: pointer;">${icono}</div>`;
+            
+            const marker = new mapboxgl.Marker(el)
+                .setLngLat([vehiculo.lng, vehiculo.lat])
+                .setPopup(new mapboxgl.Popup().setHTML(`
+                    <div style="font-family: Inter;">
+                        <strong style="color: ${color};">${vehiculo.tipo === 'TAXISTA' ? '🚕 Taxi' : '🚌 Bus'}</strong><br>
+                        <strong>Placa:</strong> ${vehiculo.placa}<br>
+                        <strong>Conductor:</strong> ${vehiculo.conductor}<br>
+                        <strong>Velocidad:</strong> ${vehiculo.velocidad} km/h<br>
+                        <strong>Estado:</strong> <span style="color: #2ecc71;">✅ Activo</span><br>
+                        <small>🕐 ${vehiculo.ultimaActualizacion}</small>
+                    </div>
+                `))
+                .addTo(mapaAdmin);
+            
+            marcadoresVehiculos[vehiculo.id] = marker;
+        });
+        
+        const activos = vehiculos.filter(v => v.estado === 'activo').length;
+        const mapInfo = document.getElementById('mapInfo');
+        if (mapInfo) {
+            mapInfo.innerHTML = `<span style="color: #2ecc71;">● Activos: ${activos}</span> | <span style="color: #6c757d;">● Inactivos: ${vehiculos.length - activos}</span> | 🕐 ${new Date().toLocaleTimeString()}`;
+        }
+    }
+    
+    async function actualizarUbicaciones() {
+        const vehiculos = await obtenerUbicacionesVehiculos();
+        actualizarMapaConVehiculos(vehiculos);
+    }
+    
+    async function iniciarActualizacionMapa() {
+        if (intervaloMapa) clearInterval(intervaloMapa);
+        await actualizarUbicaciones();
+        intervaloMapa = setInterval(actualizarUbicaciones, 10000);
+    }
+    
+    // ========== DASHBOARD ==========
     async function mostrarSeccion(seccion) {
         document.getElementById('contenidoPrincipal').innerHTML = '<div class="section" style="text-align:center;">Cargando...</div>';
         
@@ -1181,6 +1279,16 @@ function verFotoIncidente(fotoBase64) {
                     <div class="stat-card" style="--i:6"><i class="fas fa-dollar-sign"></i><h3 id="ingresosHoy">B/. 245.50</h3><p>Ingresos hoy</p><div class="trend">+12% vs ayer</div></div>
                     <div class="stat-card" style="--i:7"><i class="fas fa-user-check"></i><h3>${stats.totalUsuarios}</h3><p>Usuarios activos</p><div class="trend">+5% esta semana</div></div>
                     <div class="stat-card" style="--i:8"><i class="fas fa-user-clock"></i><h3>${stats.totalTaxistas + stats.totalBuseros}</h3><p>Conductores activos</p><div class="trend">+3% esta semana</div></div>
+                </div>
+                
+                <!-- MAPA EN TIEMPO REAL -->
+                <div class="section">
+                    <h2><i class="fas fa-map-marked-alt"></i> Ubicación de Vehículos en Tiempo Real</h2>
+                    <div id="mapInfo" style="margin-bottom: 10px; font-size: 0.7rem; color: var(--text-secondary);"></div>
+                    <div id="mapaAdmin" style="height: 400px; width: 100%; border-radius: 16px; overflow: hidden; border: 1px solid var(--glass-border);"></div>
+                    <p style="font-size: 0.6rem; margin-top: 8px; text-align: center; color: var(--text-secondary);">
+                        <i class="fas fa-sync-alt"></i> Actualización cada 10 segundos | 🟠 Taxis | 🔵 Buses
+                    </p>
                 </div>
                 
                 <div class="section">
@@ -1276,7 +1384,9 @@ function verFotoIncidente(fotoBase64) {
                 initRendimientoApp();
                 filtrarUsuarios('todos');
                 
-                // Animación de entrada con GSAP
+                initAdminMap();
+                iniciarActualizacionMapa();
+                
                 gsap.fromTo(".stat-card", 
                     { y: 50, opacity: 0 },
                     { y: 0, opacity: 1, duration: 0.6, stagger: 0.08, ease: "back.out(0.6)" }
@@ -1289,14 +1399,7 @@ function verFotoIncidente(fotoBase64) {
         }
         else if(seccion === 'conductores') {
             const html = `<div class="section"><h2><i class="fas fa-id-card"></i> Conductores</h2>
-                <div style="overflow-x:auto;"><table class="data-table" id="tablaConductores"><thead><tr><th>Nombre</th><th>Cédula</th><th>Email</th><th>Teléfono</th><th>Tipo</th><th>Placa</th><th>Estado</th></tr></thead><tbody>${conductoresGlobal.map(c => `<tr><td>${c.nombreCompleto || c.username}知
-                    <td>${c.cedula || '-'}知
-                    <td>${c.email || '-'}知
-                    <td>${c.telefono || '-'}知
-                    <td>${c.rol}知
-                    <td>${c.placa || '-'}知
-                    <td class="${c.activo ? 'status-active' : 'status-inactive'}">${c.activo ? 'Activo' : 'Inactivo'}知
-                </tr>`).join('')}</tbody></table></div></div>`;
+                <div style="overflow-x:auto;"><table class="data-table" id="tablaConductores"><thead><tr><th>Nombre</th><th>Cédula</th><th>Email</th><th>Teléfono</th><th>Tipo</th><th>Placa</th><th>Estado</th></tr></thead><tbody>${conductoresGlobal.map(c => `<tr><td>${c.nombreCompleto || c.username}</td><td>${c.cedula || '-'}</td><td>${c.email || '-'}</td><td>${c.telefono || '-'}</td><td>${c.rol}</td><td>${c.placa || '-'}</td><td class="${c.activo ? 'status-active' : 'status-inactive'}">${c.activo ? 'Activo' : 'Inactivo'}</td></tr>`).join('')}</tbody></table></div></div>`;
             document.getElementById('contenidoPrincipal').innerHTML = html;
         }
         else if(seccion === 'flota') {
@@ -1305,38 +1408,27 @@ function verFotoIncidente(fotoBase64) {
         else if(seccion === 'vehiculos') {
             const vehiculos = conductoresGlobal.filter(c => c.placa).map(c => ({ placa: c.placa, modelo: c.modelo, tipo: c.rol, conductor: c.nombreCompleto, estado: c.activo ? 'Activo' : 'Inactivo' }));
             const html = `<div class="section"><h2><i class="fas fa-table"></i> Tabla Vehículos</h2>
-                <div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>Placa</th><th>Modelo</th><th>Tipo</th><th>Conductor</th><th>Estado</th></tr></thead><tbody>${vehiculos.map(v => `<tr><td>${v.placa}知
-                    <td>${v.modelo || '-'}知
-                    <td>${v.tipo}知
-                    <td>${v.conductor}知
-                    <td class="${v.estado === 'Activo' ? 'status-active' : 'status-inactive'}">${v.estado}知
-                </tr>`).join('')}</tbody></table></div></div>`;
+                <div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>Placa</th><th>Modelo</th><th>Tipo</th><th>Conductor</th><th>Estado</th></tr></thead><tbody>${vehiculos.map(v => `<tr><td>${v.placa}</td><td>${v.modelo || '-'}</td><td>${v.tipo}</td><td>${v.conductor}</td><td class="${v.estado === 'Activo' ? 'status-active' : 'status-inactive'}">${v.estado}</td></tr>`).join('')}</tbody></table></div></div>`;
             document.getElementById('contenidoPrincipal').innerHTML = html;
         }
         else if(seccion === 'usuarios') {
             const usuariosNormales = usuariosGlobal.filter(u => u.rol === 'USUARIO' || u.rol === 'ESTUDIANTE');
             const html = `<div class="section"><h2><i class="fas fa-users"></i> Usuarios</h2>
-                <div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>Nombre</th><th>Cédula</th><th>Email</th><th>Teléfono</th><th>Rol</th><th>Estado</th></tr></thead><tbody>${usuariosNormales.map(u => `<tr><td>${u.nombreCompleto || u.username}知
-                    <td>${u.cedula || '-'}知
-                    <td>${u.email || '-'}知
-                    <td>${u.telefono || '-'}知
-                    <td>${u.rol}知
-                    <td class="${u.activo ? 'status-active' : 'status-inactive'}">${u.activo ? 'Activo' : 'Inactivo'}知
-                </tr>`).join('')}</tbody></table></div></div>`;
+                <div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>Nombre</th><th>Cédula</th><th>Email</th><th>Teléfono</th><th>Rol</th><th>Estado</th></tr></thead><tbody>${usuariosNormales.map(u => `<tr><td>${u.nombreCompleto || u.username}</td><td>${u.cedula || '-'}</td><td>${u.email || '-'}</td><td>${u.telefono || '-'}</td><td>${u.rol}</td><td class="${u.activo ? 'status-active' : 'status-inactive'}">${u.activo ? 'Activo' : 'Inactivo'}</td><tr>`).join('')}</tbody></table></div></div>`;
             document.getElementById('contenidoPrincipal').innerHTML = html;
         }
         else if(seccion === 'viajes') {
             const html = `<div class="section"><h2><i class="fas fa-map-marked-alt"></i> Viajes</h2>
                 <button class="btn-excel" onclick="exportarExcelTabla('tablaViajes')">📊 Excel</button>
                 <button class="btn-pdf" onclick="exportarPDFSeccion('tablaViajes')">📄 PDF</button>
-                <div style="overflow-x:auto; margin-top:1rem;" id="tablaViajes"><table class="data-table"><thead><tr><th>ID</th><th>Origen</th><th>Destino</th><th>Tarifa</th><th>Tipo</th><th>Estado</th><th>Fecha</th></tr></thead><tbody>${viajesGlobal.map(v => `<tr><td>${v.id}知
+                <div style="overflow-x:auto; margin-top:1rem;" id="tablaViajes"><table class="data-table"><thead><tr><th>ID</th><th>Origen</th><th>Destino</th><th>Tarifa</th><th>Tipo</th><th>Estado</th><th>Fecha</th></tr></thead><tbody>${viajesGlobal.map(v => `<td>${v.id}知
                     <td>${v.origen}知
                     <td>${v.destino}知
                     <td>B/.${v.tarifa}知
                     <td>${v.tipoViaje}知
                     <td>${v.estado}知
                     <td>${new Date(v.fechaSolicitud).toLocaleDateString()}知
-                </td>`).join('')}</tbody></table></div></div>`;
+                </tr>`).join('')}</tbody></table></div></div>`;
             document.getElementById('contenidoPrincipal').innerHTML = html;
         }
         else if(seccion === 'reportes') {
@@ -1585,6 +1677,3 @@ function verFotoIncidente(fotoBase64) {
             modal.classList.remove('active');
         }
     }
-</script>
-</body>
-</html>

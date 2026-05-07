@@ -874,41 +874,41 @@
     }
     
     // ========== FLOTA DE VEHÍCULOS ==========
-    async function cargarFlotaVehiculos() {
-        const container = document.getElementById('flotaVehiculos');
-        if (!container) return;
-        
-        const vehiculosFiltrados = conductoresGlobal.filter(c => c.rol === flotaFiltro);
-        
-        if (vehiculosFiltrados.length === 0) {
-            container.innerHTML = `<div class="section" style="text-align:center; padding:2rem;">
-                <i class="fas fa-truck" style="font-size:3rem; opacity:0.5;"></i>
-                <p>No hay ${flotaFiltro === 'BUSERO' ? 'buses' : 'taxis'} registrados</p>
-            </div>`;
-            return;
-        }
-        
-        container.innerHTML = vehiculosFiltrados.map(v => `
-            <div class="vehiculo-card" onclick="verDetalleVehiculo(${v.id})">
-                <div class="vehiculo-foto">
-                    ${v.fotoVehiculo ? 
-                        `<img src="data:image/jpeg;base64,${v.fotoVehiculo}" alt="Foto del vehículo">` : 
-                        `<i class="fas ${v.rol === 'BUSERO' ? 'fa-bus' : 'fa-taxi'}"></i>`
-                    }
-                </div>
-                <div class="vehiculo-info">
-                    <h4>${v.placa || 'Sin placa'}</h4>
-                    <p><strong>Conductor:</strong> ${v.nombreCompleto || v.username}</p>
-                    <p><strong>Modelo:</strong> ${v.modelo || 'N/A'}</p>
-                    <p><strong>Capacidad:</strong> ${v.capacidad || 'N/A'} pasajeros</p>
-                    <p><strong>Estado:</strong> <span class="${v.activo ? 'estado-activo' : 'estado-inactivo'}">${v.activo ? 'Activo' : 'Inactivo'}</span></p>
-                    <button class="btn-toggle-vehiculo" onclick="event.stopPropagation(); toggleVehiculoEstado(${v.id})">
-                        ${v.activo ? 'Desactivar' : 'Activar'}
-                    </button>
-                </div>
-            </div>
-        `).join('');
+ async function cargarFlotaVehiculos() {
+    const container = document.getElementById('flotaVehiculos');
+    if (!container) return;
+    
+    const vehiculosFiltrados = conductoresGlobal.filter(c => c.rol === flotaFiltro);
+    
+    if (vehiculosFiltrados.length === 0) {
+        container.innerHTML = `<div class="section" style="text-align:center; padding:2rem;">
+            <i class="fas fa-truck" style="font-size:3rem; opacity:0.5;"></i>
+            <p>No hay ${flotaFiltro === 'BUSERO' ? 'buses' : 'taxis'} registrados</p>
+        </div>`;
+        return;
     }
+    
+    container.innerHTML = vehiculosFiltrados.map(v => `
+        <div class="vehiculo-card" onclick="verDetalleVehiculo(${v.id})">
+            <div class="vehiculo-foto">
+                ${(v.fotoVehiculo || (v.rol === 'BUSERO' && v.fotoBus)) ? 
+                    `<img src="data:image/jpeg;base64,${v.fotoVehiculo || v.fotoBus}" alt="Foto del vehículo">` : 
+                    `<i class="fas ${v.rol === 'BUSERO' ? 'fa-bus' : 'fa-taxi'}"></i>`
+                }
+            </div>
+            <div class="vehiculo-info">
+                <h4>${v.placa || 'Sin placa'}</h4>
+                <p><strong>Conductor:</strong> ${v.nombreCompleto || v.username}</p>
+                <p><strong>Modelo:</strong> ${v.modelo || 'N/A'}</p>
+                <p><strong>Capacidad:</strong> ${v.capacidad || 'N/A'} pasajeros</p>
+                <p><strong>Estado:</strong> <span class="${v.activo ? 'estado-activo' : 'estado-inactivo'}">${v.activo ? 'Activo' : 'Inactivo'}</span></p>
+                <button class="btn-toggle-vehiculo" onclick="event.stopPropagation(); toggleVehiculoEstado(${v.id})">
+                    ${v.activo ? 'Desactivar' : 'Activar'}
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
     
     async function verDetalleVehiculo(id) {
         const vehiculo = conductoresGlobal.find(c => c.id === id);
@@ -1018,23 +1018,38 @@
     }
     
     function actualizarListaAlertasSOS() {
-        const container = document.getElementById('listaAlertasSOS');
-        if (!container) return;
-        if (alertasSOS.length === 0) {
-            container.innerHTML = '<div class="info-card">✅ No hay alertas SOS activas</div>';
-            return;
-        }
-        container.innerHTML = alertasSOS.map(a => `
-            <div class="alerta-sos-item">
-                <div><strong>🚨 ${a.tipo}</strong> - ${a.fecha}</div>
-                <div>👤 ${a.usuario}</div>
-                <div>📝 ${a.descripcion}</div>
-                <div>📍 ${a.ubicacion}</div>
-                <div>📞 ${a.contacto}</div>
-                <button class="btn-atender" onclick="atenderAlertaSOS(${a.id})">✅ Marcar atendida</button>
-            </div>
-        `).join('');
+    const container = document.getElementById('listaAlertasSOS');
+    if (!container) return;
+    if (alertasSOS.length === 0) {
+        container.innerHTML = '<div class="info-card">✅ No hay alertas SOS activas</div>';
+        return;
     }
+    
+    container.innerHTML = alertasSOS.map(a => `
+        <div class="alerta-sos-item">
+            <div><strong>🚨 ${a.tipo}</strong> - ${a.fecha}</div>
+            <div>👤 ${a.usuario}</div>
+            <div>📝 ${a.descripcion}</div>
+            <div>📍 ${a.ubicacion}</div>
+            <div>📞 ${a.contacto}</div>
+            ${a.fotoIncidente ? `<div><img src="data:image/jpeg;base64,${a.fotoIncidente}" style="max-width:100%; max-height:150px; border-radius:8px; margin-top:0.5rem; cursor:pointer;" onclick="verFotoIncidente('${a.fotoIncidente}')"></div>` : ''}
+            <button class="btn-atender" onclick="atenderAlertaSOS(${a.id})">✅ Marcar atendida</button>
+        </div>
+    `).join('');
+}
+
+// Función para ver foto en grande
+function verFotoIncidente(fotoBase64) {
+    Swal.fire({
+        title: 'Evidencia del incidente',
+        imageUrl: 'data:image/jpeg;base64,' + fotoBase64,
+        imageWidth: '90%',
+        imageAlt: 'Foto del incidente',
+        background: 'var(--card-bg)',
+        color: 'var(--text-primary)',
+        confirmButtonColor: 'var(--accent)'
+    });
+}
     
     async function atenderAlertaSOS(id) {
         try {
