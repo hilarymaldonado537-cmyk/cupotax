@@ -1,11 +1,11 @@
-FROM eclipse-temurin:17-jdk-alpine AS builder
+FROM eclipse-temurin:17-jdk-alpine
+
+# Instalar Maven en el contenedor
+RUN apk add --no-cache maven
 
 WORKDIR /app
 COPY . .
-RUN ./mvnw clean package -DskipTests
+RUN mvn clean package -DskipTests
 
-FROM eclipse-temurin:17-jdk-alpine
-WORKDIR /app
-COPY --from=builder /app/target/*.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "target/CupoTax-1.0-SNAPSHOT.jar"]
