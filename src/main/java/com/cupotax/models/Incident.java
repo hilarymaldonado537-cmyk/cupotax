@@ -22,6 +22,11 @@ public class Incident {
     private boolean atendido = false;
     private LocalDateTime fecha = LocalDateTime.now();
     
+    // ========== NUEVO CAMPO PARA FOTO DEL INCIDENTE ==========
+    @Lob
+    private byte[] fotoIncidente;
+    // ========================================================
+    
     // Getters y Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -46,4 +51,9 @@ public class Incident {
     
     public LocalDateTime getFecha() { return fecha; }
     public void setFecha(LocalDateTime fecha) { this.fecha = fecha; }
+    
+    // ========== GETTER Y SETTER PARA FOTO ==========
+    public byte[] getFotoIncidente() { return fotoIncidente; }
+    public void setFotoIncidente(byte[] fotoIncidente) { this.fotoIncidente = fotoIncidente; }
+    // ===============================================
 }

@@ -226,7 +226,7 @@ public class AuthController {
         newSession.setAttribute("nombre", user.getNombreCompleto());
         
         response.put("success", true);
-        response.put("redirectUrl", getRedirectUrl(rol));  // ← CORREGIDO
+        response.put("redirectUrl", getRedirectUrl(rol));
         response.put("nombre", user.getNombreCompleto());
         response.put("rol", user.getRol());
         return response;
@@ -515,6 +515,12 @@ public class AuthController {
             response.put("fotoPerfil", Base64.getEncoder().encodeToString(user.getFotoPerfil()));
         }
         
+        // ========== AGREGAR FOTO DEL VEHÍCULO ==========
+        if (user.getFotoBus() != null) {
+            response.put("fotoVehiculo", Base64.getEncoder().encodeToString(user.getFotoBus()));
+        }
+        // ==============================================
+        
         return ResponseEntity.ok(response);
     }
     
@@ -626,9 +632,16 @@ public class AuthController {
         }
     }
     
+    // ========== MÉTODO REPORTAR INCIDENTE CON FOTO (CORREGIDO) ==========
     @PostMapping("/api/incidentes/reportar")
-    public ResponseEntity<Map<String, Object>> reportarIncidente(@RequestBody Map<String, Object> request, 
-                                                                  HttpSession session) {
+    public ResponseEntity<Map<String, Object>> reportarIncidente(
+            @RequestParam("tipo") String tipo,
+            @RequestParam("descripcion") String descripcion,
+            @RequestParam("ubicacion") String ubicacion,
+            @RequestParam("contacto") String contacto,
+            @RequestParam(value = "foto", required = false) MultipartFile foto,
+            HttpSession session) throws IOException {
+        
         Map<String, Object> response = new HashMap<>();
         Long userId = (Long) session.getAttribute("userId");
         
@@ -643,11 +656,6 @@ public class AuthController {
             return ResponseEntity.badRequest().body(response);
         }
         
-        String tipo = (String) request.get("tipo");
-        String descripcion = (String) request.get("descripcion");
-        String ubicacion = (String) request.get("ubicacion");
-        String contacto = (String) request.get("contacto");
-        
         tipo = sanitizar(tipo);
         descripcion = sanitizar(descripcion);
         ubicacion = sanitizar(ubicacion);
@@ -660,12 +668,24 @@ public class AuthController {
         incident.setUbicacion(ubicacion);
         incident.setContacto(contacto);
         incident.setAtendido(false);
+        incident.setFecha(LocalDateTime.now());
+        
+        // Guardar foto si viene
+        if (foto != null && !foto.isEmpty()) {
+            if (foto.getSize() > 5 * 1024 * 1024) {
+                response.put("error", "La foto no puede superar los 5MB");
+                return ResponseEntity.badRequest().body(response);
+            }
+            incident.setFotoIncidente(foto.getBytes());
+        }
+        
         incidentRepository.save(incident);
         
         response.put("success", true);
         response.put("message", "Alerta SOS enviada correctamente");
         return ResponseEntity.ok(response);
     }
+    // =====================================================================
     
     @GetMapping("/api/incidentes/no-atendidos")
     public ResponseEntity<List<Incident>> getIncidentesNoAtendidos() {
