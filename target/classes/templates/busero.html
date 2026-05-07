@@ -6,12 +6,12 @@
     <title>CupoTax - Panel Busero</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css' rel='stylesheet' />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
-        /* MANTÉN TODOS TUS ESTILOS EXISTENTES AQUÍ - SON LOS MISMOS QUE YA TIENES */
+        /* ========== TODOS TUS ESTILOS EXISTENTES AQUÍ ========== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body.style-fire {
@@ -71,7 +71,6 @@
             --glow-gradient: linear-gradient(135deg, #FF4ECD, #9D4EDD);
         }
         
-        /* ========== MODO 4: CRIMSON GLASS (ROJO OSCURO) ========== */
         body.style-crimson {
             --bg-gradient-start: #1A0A0A;
             --bg-gradient-end: #2D1515;
@@ -217,16 +216,6 @@
             font-weight: 800;
         }
         
-        .sidebar-logo i {
-            animation: spinNeon 4s linear infinite;
-            display: inline-block;
-        }
-        
-        @keyframes spinNeon {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
         .sidebar-profile {
             text-align: center;
             margin-bottom: 1.5rem;
@@ -249,7 +238,6 @@
         .sidebar-avatar i {
             font-size: 2.5rem;
             color: #fff;
-            text-shadow: 0 0 5px rgba(0,0,0,0.3);
         }
         
         .sidebar-avatar img {
@@ -332,153 +320,6 @@
             gap: 1rem;
         }
         
-        /* ========== NOTIFICACIONES ========== */
-        .notificacion-icono {
-            position: relative;
-            cursor: pointer;
-            background: rgba(255,255,255,0.08);
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-        
-        .notificacion-icono:hover {
-            background: var(--accent);
-            box-shadow: var(--accent-glow);
-        }
-        
-        .notificacion-icono i {
-            font-size: 1.3rem;
-            color: var(--accent);
-        }
-        
-        .notificacion-icono:hover i {
-            color: #000;
-        }
-        
-        .notificacion-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: var(--danger);
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 0.65rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            animation: pulse 1s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-        
-        /* Panel de notificaciones */
-        .notificaciones-panel {
-            display: none;
-            position: absolute;
-            top: 60px;
-            right: 0;
-            width: 350px;
-            max-height: 450px;
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            border: 1px solid var(--accent);
-            box-shadow: var(--accent-glow);
-            z-index: 1000;
-            overflow: hidden;
-        }
-        
-        .notificaciones-panel.open {
-            display: block;
-            animation: slideDown 0.3s ease;
-        }
-        
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .notificaciones-header {
-            padding: 1rem;
-            border-bottom: 1px solid var(--glass-border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .notificaciones-header h4 {
-            color: var(--accent);
-            font-size: 1rem;
-        }
-        
-        .btn-marcar-todas {
-            background: transparent;
-            border: none;
-            color: var(--accent);
-            font-size: 0.7rem;
-            cursor: pointer;
-        }
-        
-        .btn-marcar-todas:hover {
-            text-decoration: underline;
-        }
-        
-        .notificaciones-lista {
-            max-height: 350px;
-            overflow-y: auto;
-        }
-        
-        .notificacion-item-panel {
-            padding: 0.8rem 1rem;
-            border-bottom: 1px solid var(--glass-border);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .notificacion-item-panel:hover {
-            background: rgba(255,255,255,0.05);
-        }
-        
-        .notificacion-item-panel.no-leida {
-            background: rgba(255, 106, 42, 0.1);
-            border-left: 3px solid var(--accent);
-        }
-        
-        .notificacion-titulo {
-            font-weight: 700;
-            font-size: 0.8rem;
-            margin-bottom: 0.2rem;
-        }
-        
-        .notificacion-mensaje {
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-        }
-        
-        .notificacion-fecha {
-            font-size: 0.6rem;
-            color: var(--text-secondary);
-            margin-top: 0.3rem;
-        }
-        
-        .notificacion-vacia {
-            padding: 2rem;
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-        }
-        
         .status-badge {
             background: rgba(67, 233, 123, 0.15);
             backdrop-filter: blur(8px);
@@ -489,7 +330,6 @@
             align-items: center;
             gap: 0.5rem;
             font-size: 0.8rem;
-            box-shadow: 0 0 10px rgba(67, 233, 123, 0.3);
         }
         
         .status-dot {
@@ -498,7 +338,6 @@
             background: var(--success);
             border-radius: 50%;
             animation: blink 1.5s infinite;
-            box-shadow: 0 0 5px var(--success);
         }
         
         @keyframes blink {
@@ -520,7 +359,6 @@
             background: var(--accent);
             color: #000;
             box-shadow: var(--accent-glow);
-            transform: scale(1.02);
         }
         
         .kpi-grid {
@@ -538,13 +376,6 @@
             text-align: center;
             border: 1px solid var(--glass-border);
             transition: all 0.3s;
-            animation: pulseLight 3s infinite;
-        }
-        
-        @keyframes pulseLight {
-            0% { transform: translateY(0); box-shadow: 0 0 0 rgba(79, 172, 254, 0); }
-            50% { transform: translateY(-3px); box-shadow: var(--accent-glow); }
-            100% { transform: translateY(0); box-shadow: 0 0 0 rgba(79, 172, 254, 0); }
         }
         
         .kpi-card i {
@@ -646,7 +477,6 @@
             font-weight: 600;
             cursor: pointer;
             margin-right: 0.5rem;
-            box-shadow: 0 0 8px rgba(67, 233, 123, 0.5);
         }
         
         .btn-rechazar {
@@ -694,7 +524,141 @@
         
         .pro-item span { font-size: 0.7rem; }
         
-        /* ========== MODAL DE RECARGA ========== */
+        .notificacion-icono {
+            position: relative;
+            cursor: pointer;
+            background: rgba(255,255,255,0.08);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .notificacion-icono:hover {
+            background: var(--accent);
+            box-shadow: var(--accent-glow);
+        }
+        
+        .notificacion-icono i {
+            font-size: 1.3rem;
+            color: var(--accent);
+        }
+        
+        .notificacion-icono:hover i {
+            color: #000;
+        }
+        
+        .notificacion-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.65rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        .notificaciones-panel {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 0;
+            width: 350px;
+            max-height: 450px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid var(--accent);
+            box-shadow: var(--accent-glow);
+            z-index: 1000;
+            overflow: hidden;
+        }
+        
+        .notificaciones-panel.open { display: block; animation: slideDown 0.3s ease; }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .notificaciones-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .notificaciones-header h4 { color: var(--accent); font-size: 1rem; }
+        
+        .btn-marcar-todas {
+            background: transparent;
+            border: none;
+            color: var(--accent);
+            font-size: 0.7rem;
+            cursor: pointer;
+        }
+        
+        .notificaciones-lista {
+            max-height: 350px;
+            overflow-y: auto;
+        }
+        
+        .notificacion-item-panel {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid var(--glass-border);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .notificacion-item-panel:hover {
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .notificacion-item-panel.no-leida {
+            background: rgba(255, 106, 42, 0.1);
+            border-left: 3px solid var(--accent);
+        }
+        
+        .notificacion-titulo {
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-bottom: 0.2rem;
+        }
+        
+        .notificacion-mensaje {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+        
+        .notificacion-fecha {
+            font-size: 0.6rem;
+            color: var(--text-secondary);
+            margin-top: 0.3rem;
+        }
+        
+        .notificacion-vacia {
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+        
         .modal-recarga {
             display: none;
             position: fixed;
@@ -775,6 +739,38 @@
         
         .btn-copiar:hover { background: var(--accent); color: #000; }
         
+        .funcion-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .funcion-modal {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 28px;
+            border: 2px solid var(--accent);
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        .funcion-modal h3 { color: var(--accent); margin-bottom: 1rem; font-size: 1.3rem; }
+        .funcion-modal .detalle { color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.6; }
+        .funcion-modal .stats { background: rgba(0,0,0,0.3); border-radius: 16px; padding: 1rem; margin: 1rem 0; text-align: left; }
+        .funcion-modal .stats p { margin: 0.5rem 0; display: flex; justify-content: space-between; }
+        .funcion-modal .btn-cerrar-modal { background: var(--accent); border: none; padding: 0.6rem 1.5rem; border-radius: 30px; color: #000; font-weight: bold; cursor: pointer; margin-top: 1rem; }
+        
         .floating-wheel {
             position: fixed;
             bottom: 24px;
@@ -801,10 +797,7 @@
             100% { transform: scale(1); box-shadow: 0 0 0 var(--accent); }
         }
         
-        .floating-wheel i {
-            font-size: 1.5rem;
-            animation: spin 3s linear infinite;
-        }
+        .floating-wheel i { font-size: 1.5rem; animation: spin 3s linear infinite; }
         
         @keyframes spin {
             from { transform: rotate(0deg); }
@@ -875,68 +868,19 @@
         
         .btn-reset:hover { background: var(--accent); color: #000; }
         
-        /* Modal de función extra */
-        .funcion-modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(12px);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
+        /* Estilos para el mapa Mapbox */
+        .vehicle-dot {
+            transition: transform 0.2s ease;
         }
-        
-        .funcion-modal {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border-radius: 28px;
-            border: 2px solid var(--accent);
-            padding: 2rem;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-            animation: modalFadeIn 0.3s ease;
+        .vehicle-dot:hover {
+            transform: scale(1.5);
         }
-        
-        .funcion-modal h3 {
-            color: var(--accent);
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-        }
-        
-        .funcion-modal .detalle {
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            line-height: 1.6;
-        }
-        
-        .funcion-modal .stats {
-            background: rgba(0,0,0,0.3);
-            border-radius: 16px;
-            padding: 1rem;
-            margin: 1rem 0;
-            text-align: left;
-        }
-        
-        .funcion-modal .stats p {
-            margin: 0.5rem 0;
-            display: flex;
-            justify-content: space-between;
-        }
-        
-        .funcion-modal .btn-cerrar-modal {
-            background: var(--accent);
-            border: none;
-            padding: 0.6rem 1.5rem;
-            border-radius: 30px;
-            color: #000;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 1rem;
+        .mapboxgl-popup-content {
+            background: var(--card-bg) !important;
+            backdrop-filter: blur(10px);
+            border-radius: 16px !important;
+            border: 1px solid var(--accent);
+            color: var(--text-primary);
         }
         
         @media (max-width: 1024px) {
@@ -947,7 +891,6 @@
             .kpi-grid { grid-template-columns: repeat(2, 1fr); }
             .two-columns { grid-template-columns: 1fr; }
             .pro-grid { grid-template-columns: repeat(2, 1fr); }
-            .notificaciones-panel { width: 320px; right: -80px; }
         }
         
         @media (max-width: 768px) {
@@ -992,7 +935,6 @@
             <li><a href="#" onclick="mostrarSeccion('vehiculo'); cerrarSidebar()"><i class="fas fa-truck"></i> <span>Vehículo</span></a></li>
             <li><a href="#" onclick="mostrarSeccion('calificaciones'); cerrarSidebar()"><i class="fas fa-star"></i> <span>Calificaciones</span></a></li>
             <li><a href="#" onclick="mostrarSeccion('billetera'); cerrarSidebar()"><i class="fas fa-wallet"></i> <span>Billetera</span></a></li>
-            <!-- ========== MI PERFIL ========== -->
             <li><a href="#" onclick="irAPerfil(); cerrarSidebar()"><i class="fas fa-user-circle"></i> <span>Mi Perfil</span></a></li>
             <li><a href="#" onclick="cerrarSesion(); cerrarSidebar()"><i class="fas fa-sign-out-alt"></i> <span>Salir</span></a></li>
         </ul>
@@ -1002,13 +944,11 @@
         <div class="top-bar">
             <div class="status-badge"><div class="status-dot"></div> <span>Ruta activa - En servicio</span></div>
             
-            <!-- ========== ICONO DE NOTIFICACIONES CON CONTADOR ========== -->
             <div class="notificacion-icono" onclick="toggleNotificacionesPanel(event)">
                 <i class="fas fa-bell"></i>
                 <span id="notificacionesContador" class="notificacion-badge" style="display: none;">0</span>
             </div>
             
-            <!-- Panel desplegable de notificaciones -->
             <div id="notificacionesPanel" class="notificaciones-panel">
                 <div class="notificaciones-header">
                     <h4><i class="fas fa-bell"></i> Notificaciones</h4>
@@ -1023,7 +963,6 @@
             <button class="btn-toggle" onclick="abrirModalRecarga()"><i class="fas fa-wallet"></i> Recargar saldo</button>
         </div>
 
-        <!-- Resto del contenido igual... -->
         <div id="seccion-inicio">
             <div class="kpi-grid">
                 <div class="kpi-card"><i class="fas fa-bus"></i><div class="kpi-value" id="viajesHoy">8</div><div class="kpi-label">Viajes hoy</div></div>
@@ -1089,7 +1028,6 @@
             </div>
         </div>
 
-        <!-- ========== SECCIÓN VEHÍCULO CON FOTO ========== -->
         <div id="seccion-vehiculo" style="display:none;">
             <div class="card">
                 <div class="card-title"><i class="fas fa-truck"></i> Información del bus</div>
@@ -1105,7 +1043,6 @@
             <div class="card"><div class="card-title"><i class="fas fa-star"></i> Calificaciones</div><div id="calificacionesInfo"></div></div>
         </div>
 
-        <!-- SECCIÓN BILLETERA -->
         <div id="seccion-billetera" style="display:none;">
             <div class="card">
                 <div class="card-title"><i class="fas fa-wallet"></i> Mi Billetera</div>
@@ -1119,7 +1056,6 @@
     </div>
 </div>
 
-<!-- ========== MODAL DE RECARGA ========== -->
 <div id="modalRecarga" class="modal-recarga">
     <div class="modal-content">
         <div class="modal-header">
@@ -1172,7 +1108,6 @@
     </div>
 </div>
 
-<!-- Modal de función extra -->
 <div id="funcionModal" class="funcion-modal-overlay">
     <div class="funcion-modal">
         <h3 id="modalTitulo">Título</h3>
@@ -1194,21 +1129,148 @@
     <button class="btn-reset" onclick="resetearEstilos()">Restaurar predeterminado</button>
 </div>
 
-<script>
-    let map, distribucionChart, ingresosChart;
+<script>    // ========== VARIABLES GLOBALES ==========
+    let mapboxMap;
+    let distribucionChart, ingresosChart;
+    let busMarker = null;
+    let routeLayer = null;
     
-    // ========== VARIABLES GLOBALES ==========
     const API_URL = '';
     let notificacionesListaGlobal = [];
     
-    // ========== FUNCIÓN PARA CARGAR PERFIL REAL ==========
+    // MAPBOX TOKEN
+    mapboxgl.accessToken = 'pk.eyJ1IjoiY3Vwb3RheCIsImEiOiJjbW91OWR4OXAwNDIxMnNxMTVlbzdkOGFkIn0.qVOJg2P9CzlD8aLladqjtg';
+    
+    let viajesCompletados = 8;
+    let recaudacionTotal = 128.50;
+    let enServicio = true;
+    
+    // ========== INICIALIZAR MAPA MAPBOX ==========
+    function initMapboxMap() {
+        const changuinola = { lat: 9.4333, lng: -82.5167 };
+        
+        mapboxMap = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/standard',
+            center: [changuinola.lng, changuinola.lat],
+            zoom: 12
+        });
+        
+        mapboxMap.addControl(new mapboxgl.NavigationControl());
+        
+        mapboxMap.on('load', () => {
+            // Agregar marcador del bus (color rojo para busero)
+            const busEl = document.createElement('div');
+            busEl.innerHTML = `<div style="background: #FF3D2E; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 0 10px #FF3D2E; cursor: pointer;"><i class="fas fa-bus" style="font-size: 14px; color: white;"></i></div>`;
+            busMarker = new mapboxgl.Marker(busEl)
+                .setLngLat([changuinola.lng + 0.01, changuinola.lat + 0.005])
+                .setPopup(new mapboxgl.Popup().setHTML('<strong>🚍 Tu bus (CH-1842)</strong><br>En servicio - Ruta Changuinola → Almirante'))
+                .addTo(mapboxMap);
+            
+            // Agregar la ruta fija (línea roja)
+            const routeCoordinates = [
+                [-82.5217, 9.4333],  // Changuinola Centro
+                [-82.5200, 9.4350],  // Parada 1
+                [-82.5180, 9.4380],  // Parada 2
+                [-82.5150, 9.4450],  // Finca 6
+                [-82.5100, 9.4550],  // El Empalme
+                [-82.5000, 9.4650],  // Cuadrante
+                [-82.4900, 9.4750],  // Finca 15
+                [-82.4800, 9.4850],  // Almirante
+                [-82.4700, 9.5000]   // David
+            ];
+            
+            routeLayer = {
+                id: 'route',
+                type: 'line',
+                source: {
+                    type: 'geojson',
+                    data: {
+                        type: 'Feature',
+                        properties: {},
+                        geometry: {
+                            type: 'LineString',
+                            coordinates: routeCoordinates
+                        }
+                    }
+                },
+                layout: {
+                    'line-join': 'round',
+                    'line-cap': 'round'
+                },
+                paint: {
+                    'line-color': '#FF3D2E',
+                    'line-width': 4,
+                    'line-opacity': 0.8,
+                    'line-dasharray': [2, 2]
+                }
+            };
+            
+            mapboxMap.addSource('route', routeLayer.source);
+            mapboxMap.addLayer(routeLayer);
+            
+            // Agregar marcadores de paradas
+            const stops = [
+                { name: "Terminal Changuinola", lng: -82.5217, lat: 9.4333 },
+                { name: "Parada Finca 6", lng: -82.5150, lat: 9.4450 },
+                { name: "Parada El Empalme", lng: -82.5100, lat: 9.4550 },
+                { name: "Parada Cuadrante", lng: -82.5000, lat: 9.4650 },
+                { name: "Terminal Almirante", lng: -82.4800, lat: 9.4850 }
+            ];
+            
+            stops.forEach(stop => {
+                const stopEl = document.createElement('div');
+                stopEl.innerHTML = `<div style="background: #43E97B; width: 12px; height: 12px; border-radius: 50%; border: 2px solid white; cursor: pointer;"></div>`;
+                new mapboxgl.Marker(stopEl)
+                    .setLngLat([stop.lng, stop.lat])
+                    .setPopup(new mapboxgl.Popup().setHTML(`<strong>🚏 ${stop.name}</strong>`))
+                    .addTo(mapboxMap);
+            });
+        });
+        
+        // Obtener ubicación del usuario (bus) para centrar el mapa
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    if (busMarker) {
+                        busMarker.setLngLat([position.coords.longitude, position.coords.latitude]);
+                    }
+                    mapboxMap.setCenter([position.coords.longitude, position.coords.latitude]);
+                    mapboxMap.setZoom(13);
+                },
+                (error) => {
+                    console.log('Error obteniendo ubicación:', error);
+                }
+            );
+        }
+        
+        console.log('Mapa Mapbox inicializado para Busero');
+    }
+    
+    // ========== INICIALIZAR GRÁFICOS ==========
+    function initCharts() {
+        const ctxDist = document.getElementById('distribucionChart');
+        if(ctxDist) {
+            distribucionChart = new Chart(ctxDist, {
+                type: 'doughnut',
+                data: { labels: ['Taxis (68%)', 'Buses (32%)'], datasets: [{ data: [68, 32], backgroundColor: ['#4FACFE', '#43E97B'], borderWidth: 0 }] },
+                options: { responsive: true, plugins: { legend: { labels: { color: '#A8B2D1', font: { size: 10 } } } } }
+            });
+        }
+        const ctxIng = document.getElementById('ingresosChartCanvas');
+        if(ctxIng) {
+            ingresosChart = new Chart(ctxIng, {
+                type: 'bar',
+                data: { labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'], datasets: [{ label: 'Ingresos (B/.)', data: [1850, 2100, 2250, 2430, 2680, 2750, 128], backgroundColor: '#4FACFE', borderRadius: 8 }] },
+                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { labels: { color: '#A8B2D1' } } }, scales: { y: { ticks: { color: '#A8B2D1' } }, x: { ticks: { color: '#A8B2D1' } } } }
+            });
+        }
+    }
+    
+    // ========== FUNCIONES DE PERFIL Y VEHÍCULO ==========
     async function cargarPerfilUsuario() {
         try {
-            const response = await fetch(API_URL + '/api/perfil', {
-                method: 'GET',
-                credentials: 'include'
-            });
-            
+            const response = await fetch(API_URL + '/api/perfil', { credentials: 'include' });
             if (response.ok) {
                 const data = await response.json();
                 const nombreElement = document.getElementById('sidebarNombre');
@@ -1217,39 +1279,23 @@
                 const fotoIcon = document.getElementById('iconoPerfilSidebar');
                 
                 if (nombreElement) nombreElement.innerText = data.nombreCompleto;
-                if (rolElement) {
-                    let rolTexto = '';
-                    if (data.rol === 'BUSERO') rolTexto = 'Busero PRO';
-                    else if (data.rol === 'TAXISTA') rolTexto = 'Taxista PRO';
-                    else rolTexto = data.rol;
-                    rolElement.innerText = rolTexto;
-                }
+                if (rolElement) rolElement.innerText = data.rol === 'BUSERO' ? 'Busero PRO' : data.rol;
                 
                 if (data.fotoPerfil && fotoImg) {
                     fotoImg.src = 'data:image/jpeg;base64,' + data.fotoPerfil;
                     fotoImg.style.display = 'block';
                     if (fotoIcon) fotoIcon.style.display = 'none';
                 }
-            } else {
-                console.log('No se pudo cargar el perfil');
             }
-        } catch (error) {
-            console.error('Error cargando perfil:', error);
-        }
+        } catch (error) { console.error('Error cargando perfil:', error); }
     }
     
-    // ========== FUNCIÓN PARA CARGAR FOTO DEL VEHÍCULO ==========
     async function cargarFotoVehiculo() {
         try {
-            const response = await fetch(API_URL + '/api/perfil', {
-                method: 'GET',
-                credentials: 'include'
-            });
-            
+            const response = await fetch(API_URL + '/api/perfil', { credentials: 'include' });
             if (response.ok) {
                 const data = await response.json();
                 const fotoImg = document.getElementById('fotoVehiculoPerfil');
-                
                 if (data.fotoVehiculo && fotoImg) {
                     fotoImg.src = 'data:image/jpeg;base64,' + data.fotoVehiculo;
                     fotoImg.style.display = 'block';
@@ -1257,32 +1303,20 @@
                     fotoImg.src = 'data:image/jpeg;base64,' + data.fotoBus;
                     fotoImg.style.display = 'block';
                 }
-            } else {
-                console.log('No se pudo cargar la foto del vehículo');
             }
-        } catch (error) {
-            console.error('Error cargando foto del vehículo:', error);
-        }
+        } catch (error) { console.error('Error cargando foto del vehículo:', error); }
     }
     
-    // ========== FUNCIÓN IR A PERFIL ==========
-    function irAPerfil() {
-        window.location.href = API_URL + '/perfil';
-    }
+    function irAPerfil() { window.location.href = API_URL + '/perfil'; }
     
     // ========== FUNCIONES DE NOTIFICACIONES ==========
     async function cargarNotificaciones() {
         try {
-            const response = await fetch(API_URL + '/api/notificaciones', {
-                method: 'GET',
-                credentials: 'include'
-            });
-            
+            const response = await fetch(API_URL + '/api/notificaciones', { method: 'GET', credentials: 'include' });
             if (response.ok) {
                 const data = await response.json();
                 notificacionesListaGlobal = data.notificaciones || [];
                 const noLeidas = data.noLeidas || 0;
-                
                 const contadorSpan = document.getElementById('notificacionesContador');
                 if (noLeidas > 0) {
                     contadorSpan.style.display = 'flex';
@@ -1290,10 +1324,8 @@
                 } else {
                     contadorSpan.style.display = 'none';
                 }
-                
                 mostrarNotificacionesEnPanel();
             } else {
-                console.error('Error al cargar notificaciones');
                 notificacionesListaGlobal = [
                     { id: 1, titulo: "Bienvenido", mensaje: "Bienvenido a CupoTax", leida: false, fecha: new Date().toISOString() },
                     { id: 2, titulo: "Viaje completado", mensaje: "Has completado un viaje exitosamente", leida: false, fecha: new Date().toISOString() }
@@ -1302,27 +1334,16 @@
                 document.getElementById('notificacionesContador').style.display = 'flex';
                 document.getElementById('notificacionesContador').textContent = '2';
             }
-        } catch (error) {
-            console.error('Error:', error);
-            notificacionesListaGlobal = [
-                { id: 1, titulo: "Bienvenido", mensaje: "Bienvenido a CupoTax", leida: false, fecha: new Date().toISOString() },
-                { id: 2, titulo: "Viaje completado", mensaje: "Has completado un viaje exitosamente", leida: false, fecha: new Date().toISOString() }
-            ];
-            mostrarNotificacionesEnPanel();
-            document.getElementById('notificacionesContador').style.display = 'flex';
-            document.getElementById('notificacionesContador').textContent = '2';
-        }
+        } catch (error) { console.error('Error:', error); }
     }
     
     function mostrarNotificacionesEnPanel() {
         const container = document.getElementById('notificacionesListaPanel');
         if (!container) return;
-        
         if (notificacionesListaGlobal.length === 0) {
             container.innerHTML = '<div class="notificacion-vacia">✨ No tienes notificaciones</div>';
             return;
         }
-        
         container.innerHTML = notificacionesListaGlobal.map(notif => `
             <div class="notificacion-item-panel ${!notif.leida ? 'no-leida' : ''}" onclick="marcarNotificacionLeida(${notif.id})">
                 <div class="notificacion-titulo">${notif.titulo || 'Notificación'}</div>
@@ -1340,7 +1361,6 @@
         const diffMin = Math.floor(diffMs / 60000);
         const diffHoras = Math.floor(diffMin / 60);
         const diffDias = Math.floor(diffHoras / 24);
-        
         if (diffMin < 1) return 'Justo ahora';
         if (diffMin < 60) return `Hace ${diffMin} min`;
         if (diffHoras < 24) return `Hace ${diffHoras} h`;
@@ -1350,10 +1370,7 @@
     
     async function marcarNotificacionLeida(id) {
         try {
-            await fetch(API_URL + `/api/notificaciones/${id}/leer`, {
-                method: 'PUT',
-                credentials: 'include'
-            });
+            await fetch(API_URL + `/api/notificaciones/${id}/leer`, { method: 'PUT', credentials: 'include' });
             await cargarNotificaciones();
         } catch (error) {
             const notif = notificacionesListaGlobal.find(n => n.id === id);
@@ -1370,10 +1387,7 @@
     
     async function marcarTodasLeidas() {
         try {
-            await fetch(API_URL + '/api/notificaciones/marcar-todas', {
-                method: 'PUT',
-                credentials: 'include'
-            });
+            await fetch(API_URL + '/api/notificaciones/marcar-todas', { method: 'PUT', credentials: 'include' });
             await cargarNotificaciones();
             Swal.fire('Listo', 'Todas las notificaciones marcadas como leídas', 'success');
         } catch (error) {
@@ -1406,35 +1420,21 @@
         }
     });
     
-    // ========== FUNCIONES DEL MODAL DE RECARGA ==========
-    function abrirModalRecarga() {
-        document.getElementById('modalRecarga').classList.add('active');
-    }
-    
-    function cerrarModalRecarga() {
-        document.getElementById('modalRecarga').classList.remove('active');
-    }
+    // ========== FUNCIONES DE RECARGA ==========
+    function abrirModalRecarga() { document.getElementById('modalRecarga').classList.add('active'); }
+    function cerrarModalRecarga() { document.getElementById('modalRecarga').classList.remove('active'); }
     
     function copiarTexto(elementoId) {
         const texto = document.getElementById(elementoId).innerText;
         navigator.clipboard.writeText(texto);
-        Swal.fire({
-            title: 'Copiado',
-            text: 'Información copiada al portapapeles',
-            icon: 'success',
-            timer: 1500,
-            showConfirmButton: false,
-            background: 'var(--card-bg)',
-            color: 'var(--text-primary)'
-        });
+        Swal.fire({ title: 'Copiado', text: 'Información copiada al portapapeles', icon: 'success', timer: 1500, showConfirmButton: false, background: 'var(--card-bg)', color: 'var(--text-primary)' });
     }
     
     function cargarTransaccionesBilletera() {
         const transacciones = [
             { fecha: "01/05/2026", concepto: "Pago por viajes", monto: "+ B/. 850.00", tipo: "ingreso" },
             { fecha: "28/04/2026", concepto: "Retiro", monto: "- B/. 200.00", tipo: "egreso" },
-            { fecha: "25/04/2026", concepto: "Pago por viajes", monto: "+ B/. 720.00", tipo: "ingreso" },
-            { fecha: "20/04/2026", concepto: "Recarga", monto: "+ B/. 100.00", tipo: "ingreso" }
+            { fecha: "25/04/2026", concepto: "Pago por viajes", monto: "+ B/. 720.00", tipo: "ingreso" }
         ];
         const container = document.getElementById('transaccionesBilletera');
         if(container) {
@@ -1444,32 +1444,6 @@
                     <div style="color: ${t.tipo === 'ingreso' ? '#43E97B' : '#FF6A2A'};">${t.monto}</div>
                 </div>
             `).join('');
-        }
-    }
-    
-    function initMap() {
-        if(map) return;
-        map = L.map('map').setView([9.5, -82.5], 12);
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: 'OpenStreetMap, CARTO', maxZoom: 20 }).addTo(map);
-        L.marker([9.5, -82.5], { icon: L.divIcon({ html: '<i class="fas fa-bus" style="font-size: 28px; color: var(--accent); filter: drop-shadow(0 0 5px var(--accent));"></i>', iconSize: [30, 30] }) }).addTo(map).bindPopup('🚍 Bus en servicio');
-    }
-    
-    function initCharts() {
-        const ctxDist = document.getElementById('distribucionChart');
-        if(ctxDist) {
-            distribucionChart = new Chart(ctxDist, {
-                type: 'doughnut',
-                data: { labels: ['Taxis (68%)', 'Buses (32%)'], datasets: [{ data: [68, 32], backgroundColor: ['#4FACFE', '#43E97B'], borderWidth: 0 }] },
-                options: { responsive: true, plugins: { legend: { labels: { color: '#A8B2D1', font: { size: 10 } } } } }
-            });
-        }
-        const ctxIng = document.getElementById('ingresosChartCanvas');
-        if(ctxIng) {
-            ingresosChart = new Chart(ctxIng, {
-                type: 'bar',
-                data: { labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'], datasets: [{ label: 'Ingresos (B/.)', data: [1850, 2100, 2250, 2430, 2680, 2750, 128], backgroundColor: '#4FACFE', borderRadius: 8 }] },
-                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { labels: { color: '#A8B2D1' } } }, scales: { y: { ticks: { color: '#A8B2D1' } }, x: { ticks: { color: '#A8B2D1' } } } }
-            });
         }
     }
     
@@ -1510,9 +1484,6 @@
         `).join('');
     }
     
-    let viajesCompletados = 8;
-    let recaudacionTotal = 128.50;
-    
     function aceptarViaje(btn) {
         Swal.fire('¡Ruta aceptada!', '', 'success');
         btn.closest('.viaje-proximo').remove();
@@ -1526,7 +1497,6 @@
     
     function rechazarViaje(btn) { Swal.fire('Ruta rechazada', '', 'info'); btn.closest('.viaje-proximo').remove(); }
     
-    let enServicio = true;
     function toggleServicio() {
         enServicio = !enServicio;
         const badgeSpan = document.querySelector('.status-badge span');
@@ -1536,83 +1506,15 @@
     
     function mostrarFuncionExtra(tipo) {
         const data = {
-            capacidad: {
-                titulo: 'Control de Capacidad Legal',
-                detalle: 'Monitoreo en tiempo real del aforo permitido en el bus. Cumple con las normativas de seguridad vial.',
-                stats: [
-                    { label: 'Capacidad máxima', value: '42 pasajeros' },
-                    { label: 'Pasajeros actuales', value: '35' },
-                    { label: 'Asientos disponibles', value: '7' },
-                    { label: 'Cumplimiento normativo', value: '100%' }
-                ]
-            },
-            qr: {
-                titulo: 'Código QR para Abordar',
-                detalle: 'Sistema de validación de pasaje mediante código QR. Los pasajeros escanean su QR digital al subir al bus.',
-                stats: [
-                    { label: 'Pasajes validados hoy', value: '128' },
-                    { label: 'Validaciones en tiempo real', value: 'Activado' },
-                    { label: 'Última validación', value: 'Hace 2 min' }
-                ]
-            },
-            ruta: {
-                titulo: 'Cambio de Ruta Dinámico',
-                detalle: 'Permite modificar la ruta en tiempo real según condiciones de tráfico, cierres viales o eventos especiales.',
-                stats: [
-                    { label: 'Ruta actual', value: 'Changuinola → Almirante' },
-                    { label: 'Alternativas disponibles', value: '2' },
-                    { label: 'Tiempo estimado actual', value: '45 min' }
-                ]
-            },
-            clima: {
-                titulo: 'Conexión con Clima',
-                detalle: 'Información meteorológica en tiempo real para planificar la ruta y evitar zonas con mal clima.',
-                stats: [
-                    { label: 'Temperatura actual', value: '28°C' },
-                    { label: 'Condiciones', value: 'Parcialmente nublado' },
-                    { label: 'Pronóstico próximo', value: 'Lluvia ligera en 2h' },
-                    { label: 'Zona con alerta', value: 'David' }
-                ]
-            },
-            alertas: {
-                titulo: 'Alertas de Carretera',
-                detalle: 'Notificaciones sobre accidentes, cierres viales, manifestaciones o condiciones peligrosas en la ruta.',
-                stats: [
-                    { label: 'Alertas activas', value: '1' },
-                    { label: 'Tipo de alerta', value: 'Cierre parcial en vía Changuinola-David' },
-                    { label: 'Distancia', value: '15 km' }
-                ]
-            },
-            repetir: {
-                titulo: 'Repetir Rutas Exitosas',
-                detalle: 'Análisis de rutas con mayor demanda y eficiencia para repetir horarios o trayectos exitosos.',
-                stats: [
-                    { label: 'Ruta con más demanda', value: 'Changuinola → David' },
-                    { label: 'Mejor horario', value: '6:00 AM - 8:00 AM' },
-                    { label: 'Ingresos ayer', value: 'B/. 2,845' },
-                    { label: 'Efectividad', value: '94%' }
-                ]
-            },
-            compartido: {
-                titulo: 'Viajes Compartidos',
-                detalle: 'Modalidad de viaje donde varios pasajeros comparten el mismo bus optimizando rutas y reduciendo costos.',
-                stats: [
-                    { label: 'Viajes compartidos hoy', value: '12' },
-                    { label: 'Pasajeros en modo compartido', value: '45' },
-                    { label: 'Ahorro estimado por pasajero', value: 'B/. 2.50' }
-                ]
-            },
-            propina: {
-                titulo: 'Control de Propinas',
-                detalle: 'Registro de propinas recibidas por los pasajeros al finalizar el viaje, con reporte detallado.',
-                stats: [
-                    { label: 'Propinas hoy', value: 'B/. 142.50' },
-                    { label: 'Promedio por viaje', value: 'B/. 8.50' },
-                    { label: 'Pasajeros que dejaron propina', value: '28' }
-                ]
-            }
+            capacidad: { titulo: 'Control de Capacidad Legal', detalle: 'Monitoreo en tiempo real del aforo permitido en el bus.', stats: [{ label: 'Capacidad máxima', value: '42 pasajeros' }, { label: 'Pasajeros actuales', value: '35' }, { label: 'Asientos disponibles', value: '7' }] },
+            qr: { titulo: 'Código QR para Abordar', detalle: 'Sistema de validación de pasaje mediante código QR.', stats: [{ label: 'Pasajes validados hoy', value: '128' }, { label: 'Validaciones en tiempo real', value: 'Activado' }] },
+            ruta: { titulo: 'Cambio de Ruta Dinámico', detalle: 'Permite modificar la ruta en tiempo real.', stats: [{ label: 'Ruta actual', value: 'Changuinola → Almirante' }, { label: 'Alternativas disponibles', value: '2' }] },
+            clima: { titulo: 'Conexión con Clima', detalle: 'Información meteorológica en tiempo real.', stats: [{ label: 'Temperatura actual', value: '28°C' }, { label: 'Condiciones', value: 'Parcialmente nublado' }] },
+            alertas: { titulo: 'Alertas de Carretera', detalle: 'Notificaciones sobre accidentes o cierres viales.', stats: [{ label: 'Alertas activas', value: '1' }, { label: 'Tipo de alerta', value: 'Cierre parcial en vía Changuinola-David' }] },
+            repetir: { titulo: 'Repetir Rutas Exitosas', detalle: 'Análisis de rutas con mayor demanda.', stats: [{ label: 'Ruta con más demanda', value: 'Changuinola → David' }, { label: 'Efectividad', value: '94%' }] },
+            compartido: { titulo: 'Viajes Compartidos', detalle: 'Modalidad de viaje compartido optimizando rutas.', stats: [{ label: 'Viajes compartidos hoy', value: '12' }, { label: 'Ahorro estimado por pasajero', value: 'B/. 2.50' }] },
+            propina: { titulo: 'Control de Propinas', detalle: 'Registro de propinas recibidas.', stats: [{ label: 'Propinas hoy', value: 'B/. 142.50' }, { label: 'Promedio por viaje', value: 'B/. 8.50' }] }
         };
-        
         const info = data[tipo];
         if(info) {
             document.getElementById('modalTitulo').innerHTML = `<i class="fas ${tipo === 'capacidad' ? 'fa-users' : tipo === 'qr' ? 'fa-qrcode' : tipo === 'ruta' ? 'fa-route' : tipo === 'clima' ? 'fa-cloud-sun' : tipo === 'alertas' ? 'fa-exclamation-triangle' : tipo === 'repetir' ? 'fa-repeat' : tipo === 'compartido' ? 'fa-users' : 'fa-coins'}"></i> ${info.titulo}`;
@@ -1623,13 +1525,8 @@
     }
     
     function cerrarFuncionModal() { document.getElementById('funcionModal').style.display = 'none'; }
-    
-    function mostrarSeguridad() {
-        Swal.fire({ title: '🛡️ Seguridad para Buseros', html: '<strong>Protección activa:</strong><br>✅ Verificación de identidad<br>✅ Certificado de bus<br>✅ Bloquear pasajeros conflictivos<br>✅ Reportar incidentes en ruta', icon: 'success' });
-    }
-    
+    function mostrarSeguridad() { Swal.fire({ title: '🛡️ Seguridad para Buseros', html: '<strong>Protección activa:</strong><br>✅ Verificación de identidad<br>✅ Certificado de bus<br>✅ Bloquear pasajeros conflictivos', icon: 'success' }); }
     function verDetallesVehiculo() { Swal.fire('🚌 Información del bus', 'Mercedes-Benz Sprinter 2023\nPlaca: CH-1842\nCapacidad: 42 pasajeros\nDocumentos al día', 'info'); }
-    
     function cargarDatosVehiculo() { document.getElementById('vehiculoInfo').innerHTML = '<strong>Mercedes-Benz Sprinter 2023</strong><br>Placa: CH-1842 | Capacidad: 42 pasajeros<br>Documentos al día | SOAT vigente'; }
     
     function mostrarSeccion(seccion) {
@@ -1643,6 +1540,8 @@
         if(seccion === 'billetera') cargarTransaccionesBilletera();
     }
     
+    function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+    function cerrarSidebar() { if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open'); }
     function toggleSettingsPanel() { document.getElementById('settingsPanel').classList.toggle('open'); }
     
     function setEstilo(estilo) {
@@ -1680,7 +1579,7 @@
         localStorage.setItem('cupotax-busero-estilo', 'fire');
         localStorage.removeItem('cupotax-busero-light');
         actualizarCards('fire');
-        Swal.fire({ title: 'Estilos restaurados', text: 'Volviste a Naranja Fuego', icon: 'success', timer: 1500, showConfirmButton: false });
+        Swal.fire({ title: 'Estilos restaurados', icon: 'success', timer: 1500, showConfirmButton: false });
     }
     
     function actualizarCards(estilo) {
@@ -1695,102 +1594,6 @@
         else if(estilo === 'crimson') document.getElementById('cardCrimson')?.classList.add('active');
     }
     
-    // ========== FUNCIONES DE COMPARTIR UBICACIÓN ==========
-    function copiarEnlace(enlace) {
-        navigator.clipboard.writeText(enlace);
-        Swal.fire({
-            title: '✅ Enlace copiado',
-            text: 'Pégalo donde quieras compartir',
-            icon: 'success',
-            timer: 1500,
-            showConfirmButton: false,
-            background: 'var(--card-bg)',
-            color: 'var(--text-primary)'
-        });
-    }
-    
-    function compartirViaje() {
-        Swal.fire({
-            title: 'Obteniendo ubicación...',
-            text: 'Por favor espera',
-            allowOutsideClick: false,
-            didOpen: () => { Swal.showLoading(); }
-        });
-        
-        if (!navigator.geolocation) {
-            Swal.close();
-            Swal.fire('Error', 'Tu navegador no soporta geolocalización', 'error');
-            return;
-        }
-        
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                Swal.close();
-                const lat = position.coords.latitude;
-                const lng = position.coords.longitude;
-                const mapsLink = `https://maps.google.com/?q=${lat},${lng}`;
-                const mensaje = `Hola, estoy en ${mapsLink} - Compartido desde CupoTax`;
-                
-                Swal.fire({
-                    title: 'Compartir ubicación en vivo',
-                    html: `
-                        <div style="text-align: left;">
-                            <p><strong>📍 Enlace de Google Maps:</strong></p>
-                            <p style="font-size: 0.8rem; word-break: break-all;">${mapsLink}</p>
-                            <hr style="margin: 1rem 0;">
-                            <button class="btn-compartir" onclick="window.open('https://wa.me/?text=${encodeURIComponent(mensaje)}', '_blank')" style="background: #25D366; width: 100%; margin-bottom: 0.5rem; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">
-                                📱 Compartir por WhatsApp
-                            </button>
-                            <button class="btn-compartir" onclick="window.location.href='mailto:?subject=Mi ubicación en vivo&body=${encodeURIComponent(mensaje)}'" style="background: #3A86FF; width: 100%; margin-bottom: 0.5rem; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">
-                                📧 Enviar por Correo
-                            </button>
-                            <button class="btn-compartir" onclick="copiarEnlace('${mapsLink}')" style="background: #6C6F93; width: 100%; margin-bottom: 0.5rem; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">
-                                🔗 Copiar enlace
-                            </button>
-                            <button class="btn-compartir" onclick="Swal.fire('Instagram', 'Toma una captura de pantalla del enlace y compártela en tu historia o mensaje directo.', 'info')" style="background: #E1306C; width: 100%; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">
-                                📸 Compartir en Instagram
-                            </button>
-                        </div>
-                    `,
-                    showConfirmButton: false,
-                    showCloseButton: true,
-                    background: 'var(--card-bg)',
-                    color: 'var(--text-primary)'
-                });
-            },
-            (error) => {
-                Swal.close();
-                let mensajeError = 'No se pudo obtener tu ubicación. ';
-                switch(error.code) {
-                    case error.PERMISSION_DENIED:
-                        mensajeError += 'Permiso denegado. Activa la ubicación en tu dispositivo.';
-                        break;
-                    case error.POSITION_UNAVAILABLE:
-                        mensajeError += 'Información de ubicación no disponible.';
-                        break;
-                    case error.TIMEOUT:
-                        mensajeError += 'Tiempo de espera agotado.';
-                        break;
-                    default:
-                        mensajeError += 'Error desconocido.';
-                }
-                Swal.fire('Error', mensajeError, 'error');
-            }
-        );
-    }
-    
-    // ========== FUNCIONES DE SIDEBAR ==========
-    function toggleSidebar() {
-        document.getElementById('sidebar').classList.toggle('open');
-    }
-    
-    function cerrarSidebar() {
-        if (window.innerWidth <= 768) {
-            document.getElementById('sidebar').classList.remove('open');
-        }
-    }
-    
-    // ========== FUNCIÓN CERRAR SESIÓN MEJORADA ==========
     function cerrarSesion() {
         Swal.fire({
             title: '¿Cerrar sesión?',
@@ -1804,11 +1607,39 @@
             confirmButtonColor: 'var(--accent)'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(API_URL + '/logout', { method: 'POST', credentials: 'include' })
-                    .catch(e => console.error('Error:', e));
+                fetch(API_URL + '/logout', { method: 'POST', credentials: 'include' }).catch(e => console.error('Error:', e));
                 window.location.href = API_URL + '/';
             }
         });
+    }
+    
+    // ========== COMPARTIR UBICACIÓN ==========
+    function copiarEnlace(enlace) {
+        navigator.clipboard.writeText(enlace);
+        Swal.fire({ title: '✅ Enlace copiado', text: 'Pégalo donde quieras compartir', icon: 'success', timer: 1500, showConfirmButton: false });
+    }
+    
+    function compartirViaje() {
+        Swal.fire({ title: 'Obteniendo ubicación...', text: 'Por favor espera', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+        if (!navigator.geolocation) { Swal.close(); Swal.fire('Error', 'Tu navegador no soporta geolocalización', 'error'); return; }
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                Swal.close();
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                const mapsLink = `https://maps.google.com/?q=${lat},${lng}`;
+                const mensaje = `Hola, estoy en ${mapsLink} - Compartido desde CupoTax`;
+                Swal.fire({
+                    title: 'Compartir ubicación en vivo',
+                    html: `<div style="text-align: left;"><p><strong>📍 Enlace de Google Maps:</strong></p><p style="font-size: 0.8rem; word-break: break-all;">${mapsLink}</p><hr style="margin: 1rem 0;"><button class="btn-compartir" onclick="window.open('https://wa.me/?text=${encodeURIComponent(mensaje)}', '_blank')" style="background: #25D366; width: 100%; margin-bottom: 0.5rem; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">📱 Compartir por WhatsApp</button><button class="btn-compartir" onclick="window.location.href='mailto:?subject=Mi ubicación en vivo&body=${encodeURIComponent(mensaje)}'" style="background: #3A86FF; width: 100%; margin-bottom: 0.5rem; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">📧 Enviar por Correo</button><button class="btn-compartir" onclick="copiarEnlace('${mapsLink}')" style="background: #6C6F93; width: 100%; margin-bottom: 0.5rem; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">🔗 Copiar enlace</button></div>`,
+                    showConfirmButton: false,
+                    showCloseButton: true,
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)'
+                });
+            },
+            (error) => { Swal.close(); Swal.fire('Error', 'No se pudo obtener tu ubicación', 'error'); }
+        );
     }
     
     const estiloGuardado = localStorage.getItem('cupotax-busero-estilo') || 'fire';
@@ -1821,7 +1652,7 @@
     actualizarCards(estiloGuardado);
     
     window.onload = () => {
-        initMap();
+        initMapboxMap();
         initCharts();
         generarRutasPopulares();
         generarViajesProximos();
@@ -1830,7 +1661,7 @@
         cargarTransaccionesBilletera();
         cargarNotificaciones();
         cargarPerfilUsuario();
-        cargarFotoVehiculo();  // <-- CARGAR FOTO DEL VEHÍCULO
+        cargarFotoVehiculo();
         mostrarSeccion('inicio');
     };
     

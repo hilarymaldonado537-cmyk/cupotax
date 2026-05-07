@@ -6,14 +6,14 @@
     <title>CupoTax - Panel Administrador</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css' rel='stylesheet' />
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -165,7 +165,6 @@
             z-index: -1;
         }
         
-        /* Fondo animado premium */
         .animated-bg {
             position: fixed;
             top: 0;
@@ -192,7 +191,6 @@
             50% { transform: scale(1.2) rotate(5deg); opacity: 1; }
         }
         
-        /* Partículas sutiles */
         .particles {
             position: fixed;
             top: 0;
@@ -575,7 +573,6 @@
             color: var(--accent);
         }
         
-        /* Estilos flota de vehículos */
         .flota-tabs {
             display: flex;
             gap: 1rem;
@@ -738,11 +735,24 @@
             .vehiculos-grid { grid-template-columns: 1fr; }
             .detalle-info { grid-template-columns: 1fr; }
         }
+        
+        .vehicle-dot {
+            transition: transform 0.2s ease;
+        }
+        .vehicle-dot:hover {
+            transform: scale(1.5);
+        }
+        .mapboxgl-popup-content {
+            background: var(--card-bg) !important;
+            backdrop-filter: blur(10px);
+            border-radius: 16px !important;
+            border: 1px solid var(--accent);
+            color: var(--text-primary);
+        }
     </style>
 </head>
 <body>
 
-<!-- Fondo animado premium -->
 <div class="animated-bg"></div>
 <div class="particles" id="particles"></div>
 
@@ -789,7 +799,6 @@
     <button class="btn-reset" onclick="resetearEstilos()">Restaurar</button>
 </div>
 
-<!-- Modal de detalle -->
 <div id="detailModal" class="detail-modal">
     <div class="detail-modal-content">
         <div class="detail-modal-header">
@@ -800,8 +809,7 @@
     </div>
 </div>
 
-<script>
-    const API_URL = '';
+<script>    const API_URL = '';
     let chartViajes, chartIngresos, chartPolar, chartSpline, chart3DRing, chartStackedBar;
     let alertasSOS = [];
     let usuariosGlobal = [];
@@ -811,7 +819,14 @@
     let currentServiceFilter = "semana";
     let flotaFiltro = 'BUSERO';
     
-    // Crear partículas
+    // MAPBOX TOKEN y variables
+    mapboxgl.accessToken = 'pk.eyJ1IjoiY3Vwb3RheCIsImEiOiJjbW91OWR4OXAwNDIxMnNxMTVlbzdkOGFkIn0.qVOJg2P9CzlD8aLladqjtg';
+    let mapaAdmin;
+    let marcadoresVehiculos = {};
+    let intervaloMapa;
+    let vehiculosSimulados = [];
+    let intervalosMovimiento = [];
+    
     function createParticles() {
         const particlesContainer = document.getElementById('particles');
         for (let i = 0; i < 60; i++) {
@@ -828,7 +843,6 @@
         }
     }
     
-    // ========== FUNCIÓN DE CIERRE DE SESIÓN (SALIR) ==========
     function cerrarSesion() {
         Swal.fire({
             title: '¿Cerrar sesión?',
@@ -874,41 +888,41 @@
     }
     
     // ========== FLOTA DE VEHÍCULOS ==========
- async function cargarFlotaVehiculos() {
-    const container = document.getElementById('flotaVehiculos');
-    if (!container) return;
-    
-    const vehiculosFiltrados = conductoresGlobal.filter(c => c.rol === flotaFiltro);
-    
-    if (vehiculosFiltrados.length === 0) {
-        container.innerHTML = `<div class="section" style="text-align:center; padding:2rem;">
-            <i class="fas fa-truck" style="font-size:3rem; opacity:0.5;"></i>
-            <p>No hay ${flotaFiltro === 'BUSERO' ? 'buses' : 'taxis'} registrados</p>
-        </div>`;
-        return;
+    async function cargarFlotaVehiculos() {
+        const container = document.getElementById('flotaVehiculos');
+        if (!container) return;
+        
+        const vehiculosFiltrados = conductoresGlobal.filter(c => c.rol === flotaFiltro);
+        
+        if (vehiculosFiltrados.length === 0) {
+            container.innerHTML = `<div class="section" style="text-align:center; padding:2rem;">
+                <i class="fas fa-truck" style="font-size:3rem; opacity:0.5;"></i>
+                <p>No hay ${flotaFiltro === 'BUSERO' ? 'buses' : 'taxis'} registrados</p>
+            </div>`;
+            return;
+        }
+        
+        container.innerHTML = vehiculosFiltrados.map(v => `
+            <div class="vehiculo-card" onclick="verDetalleVehiculo(${v.id})">
+                <div class="vehiculo-foto">
+                    ${(v.fotoVehiculo || (v.rol === 'BUSERO' && v.fotoBus)) ? 
+                        `<img src="data:image/jpeg;base64,${v.fotoVehiculo || v.fotoBus}" alt="Foto del vehículo">` : 
+                        `<i class="fas ${v.rol === 'BUSERO' ? 'fa-bus' : 'fa-taxi'}"></i>`
+                    }
+                </div>
+                <div class="vehiculo-info">
+                    <h4>${v.placa || 'Sin placa'}</h4>
+                    <p><strong>Conductor:</strong> ${v.nombreCompleto || v.username}</p>
+                    <p><strong>Modelo:</strong> ${v.modelo || 'N/A'}</p>
+                    <p><strong>Capacidad:</strong> ${v.capacidad || 'N/A'} pasajeros</p>
+                    <p><strong>Estado:</strong> <span class="${v.activo ? 'estado-activo' : 'estado-inactivo'}">${v.activo ? 'Activo' : 'Inactivo'}</span></p>
+                    <button class="btn-toggle-vehiculo" onclick="event.stopPropagation(); toggleVehiculoEstado(${v.id})">
+                        ${v.activo ? 'Desactivar' : 'Activar'}
+                    </button>
+                </div>
+            </div>
+        `).join('');
     }
-    
-    container.innerHTML = vehiculosFiltrados.map(v => `
-        <div class="vehiculo-card" onclick="verDetalleVehiculo(${v.id})">
-            <div class="vehiculo-foto">
-                ${(v.fotoVehiculo || (v.rol === 'BUSERO' && v.fotoBus)) ? 
-                    `<img src="data:image/jpeg;base64,${v.fotoVehiculo || v.fotoBus}" alt="Foto del vehículo">` : 
-                    `<i class="fas ${v.rol === 'BUSERO' ? 'fa-bus' : 'fa-taxi'}"></i>`
-                }
-            </div>
-            <div class="vehiculo-info">
-                <h4>${v.placa || 'Sin placa'}</h4>
-                <p><strong>Conductor:</strong> ${v.nombreCompleto || v.username}</p>
-                <p><strong>Modelo:</strong> ${v.modelo || 'N/A'}</p>
-                <p><strong>Capacidad:</strong> ${v.capacidad || 'N/A'} pasajeros</p>
-                <p><strong>Estado:</strong> <span class="${v.activo ? 'estado-activo' : 'estado-inactivo'}">${v.activo ? 'Activo' : 'Inactivo'}</span></p>
-                <button class="btn-toggle-vehiculo" onclick="event.stopPropagation(); toggleVehiculoEstado(${v.id})">
-                    ${v.activo ? 'Desactivar' : 'Activar'}
-                </button>
-            </div>
-        </div>
-    `).join('');
-}
     
     async function verDetalleVehiculo(id) {
         const vehiculo = conductoresGlobal.find(c => c.id === id);
@@ -1018,38 +1032,23 @@
     }
     
     function actualizarListaAlertasSOS() {
-    const container = document.getElementById('listaAlertasSOS');
-    if (!container) return;
-    if (alertasSOS.length === 0) {
-        container.innerHTML = '<div class="info-card">✅ No hay alertas SOS activas</div>';
-        return;
+        const container = document.getElementById('listaAlertasSOS');
+        if (!container) return;
+        if (alertasSOS.length === 0) {
+            container.innerHTML = '<div class="info-card">✅ No hay alertas SOS activas</div>';
+            return;
+        }
+        container.innerHTML = alertasSOS.map(a => `
+            <div class="alerta-sos-item">
+                <div><strong>🚨 ${a.tipo}</strong> - ${a.fecha}</div>
+                <div>👤 ${a.usuario}</div>
+                <div>📝 ${a.descripcion}</div>
+                <div>📍 ${a.ubicacion}</div>
+                <div>📞 ${a.contacto}</div>
+                <button class="btn-atender" onclick="atenderAlertaSOS(${a.id})">✅ Marcar atendida</button>
+            </div>
+        `).join('');
     }
-    
-    container.innerHTML = alertasSOS.map(a => `
-        <div class="alerta-sos-item">
-            <div><strong>🚨 ${a.tipo}</strong> - ${a.fecha}</div>
-            <div>👤 ${a.usuario}</div>
-            <div>📝 ${a.descripcion}</div>
-            <div>📍 ${a.ubicacion}</div>
-            <div>📞 ${a.contacto}</div>
-            ${a.fotoIncidente ? `<div><img src="data:image/jpeg;base64,${a.fotoIncidente}" style="max-width:100%; max-height:150px; border-radius:8px; margin-top:0.5rem; cursor:pointer;" onclick="verFotoIncidente('${a.fotoIncidente}')"></div>` : ''}
-            <button class="btn-atender" onclick="atenderAlertaSOS(${a.id})">✅ Marcar atendida</button>
-        </div>
-    `).join('');
-}
-
-// Función para ver foto en grande
-function verFotoIncidente(fotoBase64) {
-    Swal.fire({
-        title: 'Evidencia del incidente',
-        imageUrl: 'data:image/jpeg;base64,' + fotoBase64,
-        imageWidth: '90%',
-        imageAlt: 'Foto del incidente',
-        background: 'var(--card-bg)',
-        color: 'var(--text-primary)',
-        confirmButtonColor: 'var(--accent)'
-    });
-}
     
     async function atenderAlertaSOS(id) {
         try {
@@ -1148,9 +1147,9 @@ function verFotoIncidente(fotoBase64) {
         const tbody = document.getElementById('tablaUsuariosBody');
         if (tbody) {
             tbody.innerHTML = usuariosFiltrados.map(u => `
-                <tr>
+                <td>
                     <td>${u.nombreCompleto || u.username}知
-                    <td>${u.rol}知
+                    <table>${u.rol}知
                     <td><span class="status-badge ${u.activo ? 'status-active' : 'status-inactive'}">${u.activo ? 'Activo' : 'Inactivo'}</span>知
                     <td>${u.viajesRealizados || 0}知
                     <td>${u.ultimaActividad ? new Date(u.ultimaActividad).toLocaleDateString() : '-'}知
@@ -1162,6 +1161,189 @@ function verFotoIncidente(fotoBase64) {
         if(event && event.currentTarget) event.currentTarget.classList.add('active');
     }
     
+    // ========== MAPBOX con estilo STANDARD ==========
+    function initAdminMap() {
+        const changuinola = { lat: 9.4333, lng: -82.5167 };
+        
+        mapaAdmin = new mapboxgl.Map({
+            container: 'mapaAdmin',
+            style: 'mapbox://styles/mapbox/standard',  // Estilo bonito como el que mostraste
+            center: [changuinola.lng, changuinola.lat],
+            zoom: 13.5
+        });
+        
+        mapaAdmin.addControl(new mapboxgl.NavigationControl());
+        
+        mapaAdmin.on('load', () => {
+            new mapboxgl.Marker({ color: '#FF6A2A' })
+                .setLngLat([changuinola.lng, changuinola.lat])
+                .setPopup(new mapboxgl.Popup().setHTML('<strong>🏢 Central CupoTax</strong><br>Changuinola, Panamá'))
+                .addTo(mapaAdmin);
+        });
+        
+        console.log('Mapa Mapbox con estilo Standard inicializado');
+        
+        iniciarSimulacionVehiculos();
+    }
+    
+    function iniciarSimulacionVehiculos() {
+        const changuinola = { lat: 9.4333, lng: -82.5167 };
+        vehiculosSimulados = [];
+        
+        // Taxis (amarillos)
+        for (let i = 0; i < 8; i++) {
+            vehiculosSimulados.push({
+                id: i + 1,
+                tipo: 'TAXISTA',
+                placa: `T-${100 + i}`,
+                conductor: `Taxista ${i + 1}`,
+                lat: changuinola.lat + (Math.random() - 0.5) * 0.05,
+                lng: changuinola.lng + (Math.random() - 0.5) * 0.05,
+                velocidad: 0.0001 + Math.random() * 0.0003,
+                direccionLat: (Math.random() - 0.5) * 0.01,
+                direccionLng: (Math.random() - 0.5) * 0.01,
+                estado: 'activo',
+                ultimaActualizacion: new Date().toLocaleTimeString()
+            });
+        }
+        
+        // Buses (rojos)
+        for (let i = 0; i < 5; i++) {
+            vehiculosSimulados.push({
+                id: i + 9,
+                tipo: 'BUSERO',
+                placa: `B-${100 + i}`,
+                conductor: `Busero ${i + 1}`,
+                lat: changuinola.lat + (Math.random() - 0.5) * 0.05,
+                lng: changuinola.lng + (Math.random() - 0.5) * 0.05,
+                velocidad: 0.0001 + Math.random() * 0.0002,
+                direccionLat: (Math.random() - 0.5) * 0.01,
+                direccionLng: (Math.random() - 0.5) * 0.01,
+                estado: 'activo',
+                ultimaActualizacion: new Date().toLocaleTimeString()
+            });
+        }
+        
+        actualizarMapaConVehiculos(vehiculosSimulados);
+        
+        if (intervalosMovimiento.length) {
+            intervalosMovimiento.forEach(interval => clearInterval(interval));
+            intervalosMovimiento = [];
+        }
+        
+        const intervaloMovimiento = setInterval(() => {
+            moverVehiculos();
+            actualizarMapaConVehiculos(vehiculosSimulados);
+        }, 2000);
+        
+        intervalosMovimiento.push(intervaloMovimiento);
+    }
+    
+    function moverVehiculos() {
+        vehiculosSimulados.forEach(vehiculo => {
+            if (Math.random() < 0.3) {
+                vehiculo.direccionLat = (Math.random() - 0.5) * 0.01;
+                vehiculo.direccionLng = (Math.random() - 0.5) * 0.01;
+            }
+            
+            vehiculo.lat += vehiculo.direccionLat * vehiculo.velocidad * 10;
+            vehiculo.lng += vehiculo.direccionLng * vehiculo.velocidad * 10;
+            
+            vehiculo.lat = Math.min(9.46, Math.max(9.40, vehiculo.lat));
+            vehiculo.lng = Math.min(-82.48, Math.max(-82.55, vehiculo.lng));
+            
+            vehiculo.ultimaActualizacion = new Date().toLocaleTimeString();
+        });
+    }
+    
+    async function obtenerUbicacionesVehiculos() {
+        try {
+            const response = await fetch(API_URL + '/api/vehiculos/ubicaciones', { credentials: 'include' });
+            if (response.ok) {
+                const reales = await response.json();
+                if (reales && reales.length > 0) {
+                    if (intervalosMovimiento.length) {
+                        intervalosMovimiento.forEach(interval => clearInterval(interval));
+                        intervalosMovimiento = [];
+                    }
+                    return reales;
+                }
+            }
+            return vehiculosSimulados;
+        } catch(e) {
+            return vehiculosSimulados;
+        }
+    }
+    
+    function actualizarMapaConVehiculos(vehiculos) {
+        if (!mapaAdmin) return;
+        
+        Object.values(marcadoresVehiculos).forEach(marcador => marcador.remove());
+        marcadoresVehiculos = {};
+        
+        vehiculos.forEach(vehiculo => {
+            if (!vehiculo.lat || !vehiculo.lng) return;
+            if (vehiculo.estado === 'inactivo') return;
+            
+            const color = vehiculo.tipo === 'TAXISTA' ? '#FFD700' : '#FF3D2E';
+            
+            const el = document.createElement('div');
+            el.className = 'vehicle-dot';
+            el.style.cssText = `
+                background: ${color};
+                width: 14px;
+                height: 14px;
+                border-radius: 50%;
+                border: 2px solid white;
+                box-shadow: 0 0 8px ${color};
+                cursor: pointer;
+                transition: transform 0.2s ease;
+            `;
+            
+            const marker = new mapboxgl.Marker(el)
+                .setLngLat([vehiculo.lng, vehiculo.lat])
+                .setPopup(new mapboxgl.Popup().setHTML(`
+                    <div style="font-family: Inter;">
+                        <strong style="color: ${color};">${vehiculo.tipo === 'TAXISTA' ? '🚕 Taxi' : '🚌 Bus'}</strong><br>
+                        <strong>Placa:</strong> ${vehiculo.placa}<br>
+                        <strong>Conductor:</strong> ${vehiculo.conductor}<br>
+                        <small>🕐 ${vehiculo.ultimaActualizacion}</small>
+                    </div>
+                `))
+                .addTo(mapaAdmin);
+            
+            el.addEventListener('mouseenter', () => { el.style.transform = 'scale(1.5)'; });
+            el.addEventListener('mouseleave', () => { el.style.transform = 'scale(1)'; });
+            
+            marcadoresVehiculos[vehiculo.id] = marker;
+        });
+        
+        const activos = vehiculos.filter(v => v.estado === 'activo').length;
+        const taxis = vehiculos.filter(v => v.tipo === 'TAXISTA' && v.estado === 'activo').length;
+        const buses = vehiculos.filter(v => v.tipo === 'BUSERO' && v.estado === 'activo').length;
+        const mapInfo = document.getElementById('mapInfo');
+        if (mapInfo) {
+            mapInfo.innerHTML = `
+                <span style="color: #FFD700;">🟡 Taxis activos: ${taxis}</span> | 
+                <span style="color: #FF3D2E;">🔴 Buses activos: ${buses}</span> | 
+                <span style="color: #2ecc71;">● Total: ${activos}</span> | 
+                🕐 ${new Date().toLocaleTimeString()}
+            `;
+        }
+    }
+    
+    async function actualizarUbicaciones() {
+        const vehiculos = await obtenerUbicacionesVehiculos();
+        actualizarMapaConVehiculos(vehiculos);
+    }
+    
+    async function iniciarActualizacionMapa() {
+        if (intervaloMapa) clearInterval(intervaloMapa);
+        await actualizarUbicaciones();
+        intervaloMapa = setInterval(actualizarUbicaciones, 5000);
+    }
+    
+    // ========== DASHBOARD ==========
     async function mostrarSeccion(seccion) {
         document.getElementById('contenidoPrincipal').innerHTML = '<div class="section" style="text-align:center;">Cargando...</div>';
         
@@ -1181,6 +1363,15 @@ function verFotoIncidente(fotoBase64) {
                     <div class="stat-card" style="--i:6"><i class="fas fa-dollar-sign"></i><h3 id="ingresosHoy">B/. 245.50</h3><p>Ingresos hoy</p><div class="trend">+12% vs ayer</div></div>
                     <div class="stat-card" style="--i:7"><i class="fas fa-user-check"></i><h3>${stats.totalUsuarios}</h3><p>Usuarios activos</p><div class="trend">+5% esta semana</div></div>
                     <div class="stat-card" style="--i:8"><i class="fas fa-user-clock"></i><h3>${stats.totalTaxistas + stats.totalBuseros}</h3><p>Conductores activos</p><div class="trend">+3% esta semana</div></div>
+                </div>
+                
+                <div class="section">
+                    <h2><i class="fas fa-map-marked-alt"></i> Ubicación de Vehículos en Tiempo Real</h2>
+                    <div id="mapInfo" style="margin-bottom: 10px; font-size: 0.7rem; color: var(--text-secondary);"></div>
+                    <div id="mapaAdmin" style="height: 400px; width: 100%; border-radius: 16px; overflow: hidden; border: 1px solid var(--glass-border);"></div>
+                    <p style="font-size: 0.6rem; margin-top: 8px; text-align: center; color: var(--text-secondary);">
+                        <i class="fas fa-sync-alt"></i> Actualización cada 5 segundos | 🟡 Taxis | 🔴 Buses
+                    </p>
                 </div>
                 
                 <div class="section">
@@ -1276,7 +1467,9 @@ function verFotoIncidente(fotoBase64) {
                 initRendimientoApp();
                 filtrarUsuarios('todos');
                 
-                // Animación de entrada con GSAP
+                initAdminMap();
+                iniciarActualizacionMapa();
+                
                 gsap.fromTo(".stat-card", 
                     { y: 50, opacity: 0 },
                     { y: 0, opacity: 1, duration: 0.6, stagger: 0.08, ease: "back.out(0.6)" }
@@ -1329,14 +1522,15 @@ function verFotoIncidente(fotoBase64) {
             const html = `<div class="section"><h2><i class="fas fa-map-marked-alt"></i> Viajes</h2>
                 <button class="btn-excel" onclick="exportarExcelTabla('tablaViajes')">📊 Excel</button>
                 <button class="btn-pdf" onclick="exportarPDFSeccion('tablaViajes')">📄 PDF</button>
-                <div style="overflow-x:auto; margin-top:1rem;" id="tablaViajes"><table class="data-table"><thead><tr><th>ID</th><th>Origen</th><th>Destino</th><th>Tarifa</th><th>Tipo</th><th>Estado</th><th>Fecha</th></tr></thead><tbody>${viajesGlobal.map(v => `<tr><td>${v.id}知
+                <div style="overflow-x:auto; margin-top:1rem;" id="tablaViajes"><table class="data-table"><thead><tr><th>ID</th><th>Origen</th><th>Destino</th><th>Tarifa</th><th>Tipo</th><th>Estado</th><th>Fecha</th></tr></thead><tbody>${viajesGlobal.map(v => `<table>
+                    <td>${v.id}知
                     <td>${v.origen}知
                     <td>${v.destino}知
                     <td>B/.${v.tarifa}知
                     <td>${v.tipoViaje}知
                     <td>${v.estado}知
                     <td>${new Date(v.fechaSolicitud).toLocaleDateString()}知
-                </td>`).join('')}</tbody></table></div></div>`;
+                </tr>`).join('')}</tbody></table></div></div>`;
             document.getElementById('contenidoPrincipal').innerHTML = html;
         }
         else if(seccion === 'reportes') {

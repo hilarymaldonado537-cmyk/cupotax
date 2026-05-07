@@ -6,9 +6,9 @@
     <title>CupoTax - Viaje Seguro</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css' rel='stylesheet' />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -709,6 +709,21 @@
             font-size: 1.2rem;
         }
         
+        /* Estilos para el mapa Mapbox */
+        .vehicle-dot {
+            transition: transform 0.2s ease;
+        }
+        .vehicle-dot:hover {
+            transform: scale(1.5);
+        }
+        .mapboxgl-popup-content {
+            background: var(--card-bg) !important;
+            backdrop-filter: blur(10px);
+            border-radius: 16px !important;
+            border: 1px solid var(--accent);
+            color: var(--text-primary);
+        }
+        
         @media (max-width: 1000px) {
             .sidebar { width: 70px; }
             .sidebar span { display: none; }
@@ -1025,7 +1040,6 @@
             <div class="card">
                 <div class="card-title"><i class="fas fa-shield-alt"></i> Centro de seguridad</div>
                 
-                <!-- ========== NÚMEROS DE EMERGENCIA AGREGADOS ========== -->
                 <div style="margin-bottom: 1.5rem;">
                     <div class="card-title"><i class="fas fa-phone-alt" style="color: #e74c3c;"></i> 📞 NÚMEROS DE EMERGENCIA - Panamá</div>
                     <div class="emergencia-grid">
@@ -1057,12 +1071,12 @@
                     <i class="fas fa-exclamation-triangle"></i> SOS - EMERGENCIA
                 </button>
                 <p style="font-size:0.7rem; text-align:center; margin-bottom:1rem;">⚠️ 1 clic = seleccionar tipo de emergencia | 2 clics = alerta inmediata</p>
-                <!-- ========== INPUT PARA SUBIR FOTO EN SOS ========== -->
-<div class="card" style="margin-bottom:1rem; padding: 1rem;">
-    <div class="card-title"><i class="fas fa-camera"></i> Adjuntar evidencia (opcional)</div>
-    <input type="file" id="sosFoto" accept="image/*" style="width:100%; background:var(--input-bg); padding:0.5rem; border-radius:12px; color:var(--text-primary);">
-    <p style="font-size:0.65rem; margin-top:0.3rem; color:var(--text-secondary);">📸 Puedes adjuntar una foto de la situación (máx 5MB)</p>
-</div>
+                
+                <div class="card" style="margin-bottom:1rem; padding: 1rem;">
+                    <div class="card-title"><i class="fas fa-camera"></i> Adjuntar evidencia (opcional)</div>
+                    <input type="file" id="sosFoto" accept="image/*" style="width:100%; background:var(--input-bg); padding:0.5rem; border-radius:12px; color:var(--text-primary);">
+                    <p style="font-size:0.65rem; margin-top:0.3rem; color:var(--text-secondary);">📸 Puedes adjuntar una foto de la situación (máx 5MB)</p>
+                </div>
                 
                 <div class="card" style="margin-bottom:1rem;">
                     <div class="card-title"><i class="fas fa-share-alt"></i> Compartir viaje</div>
@@ -1158,12 +1172,11 @@
     <button class="btn-reset" onclick="resetearEstilos()">Restaurar predeterminado</button>
 </div>
 
-<script>
-    const API_URL = '';
+<script>    const API_URL = '';
     let usuarioActual = null;
     let pressTimer;
-    let map;
-    let servicioSeleccionado = 'estandar';
+    let mapboxMap;
+    let serviceType = 'estandar';
     let viajeActivo = false;
     let intervaloMonitoreo = null;
     let tarifaCalculada = 0;
@@ -1173,10 +1186,12 @@
     let intervaloVerificacionViaje = null;
     
     let notificacionesListaGlobal = [];
-
-    // ========== TARIFAS DE TAXI - COMPLETAS ==========
+    
+    // MAPBOX TOKEN
+    mapboxgl.accessToken = 'pk.eyJ1IjoiY3Vwb3RheCIsImEiOiJjbW91OWR4OXAwNDIxMnNxMTVlbzdkOGFkIn0.qVOJg2P9CzlD8aLladqjtg';
+    
+    // ========== TARIFAS DE TAXI ==========
     const tarifasTaxi = {
-        // Zona Urbana de Changuinola
         "Changuinola Centro-Zona hospitalaria": 0.70,
         "Changuinola Centro-Entrada a 66": 0.70,
         "Changuinola Centro-Swiche 4": 0.70,
@@ -1208,8 +1223,6 @@
         "Almirante-Changuinola Centro": 14.50,
         "Changuinola Centro-David": 25.00,
         "David-Changuinola Centro": 25.00,
-        
-        // Desde Finca 6
         "Finca 6-Changuinola Centro": 0.70,
         "Finca 6-Finca 8": 0.90,
         "Finca 6-Calle principal de empalme hasta luzon": 1.10,
@@ -1225,8 +1238,6 @@
         "Finca 6-Zona hospitalaria": 0.90,
         "Finca 6-Entrada a 66": 0.90,
         "Finca 6-El Puré": 0.90,
-        
-        // Desde El Empalme
         "El Empalme-Changuinola Centro": 0.70,
         "El Empalme-Finca 12": 0.90,
         "El Empalme-Bda Barnet": 0.90,
@@ -1237,8 +1248,6 @@
         "El Empalme-Villa verde": 1.10,
         "El Empalme-Finca 6": 1.10,
         "El Empalme-Swiche 4": 0.90,
-        
-        // Desde Cuadrante
         "Cuadrante-Entrada de Finca 11": 0.70,
         "Cuadrante-Cuartel de Policía Fca 6": 0.90,
         "Cuadrante-Villa Marina": 1.10,
@@ -1256,8 +1265,38 @@
         "Changuinola-Guabito": 0.95,
         "Guabito-Changuinola": 0.95
     };
-
-    // ========== FUNCIÓN PARA CALCULAR TARIFA REAL ==========
+    
+    // Inicializar mapa Mapbox
+    function initMapboxMap() {
+        const changuinola = { lat: 9.4333, lng: -82.5167 };
+        
+        mapboxMap = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/standard',
+            center: [changuinola.lng, changuinola.lat],
+            zoom: 13
+        });
+        
+        mapboxMap.addControl(new mapboxgl.NavigationControl());
+        
+        // Agregar marcador de la ubicación del usuario
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    new mapboxgl.Marker({ color: '#3A86FF' })
+                        .setLngLat([position.coords.longitude, position.coords.latitude])
+                        .setPopup(new mapboxgl.Popup().setHTML('<strong>📍 Tu ubicación</strong>'))
+                        .addTo(mapboxMap);
+                    mapboxMap.setCenter([position.coords.longitude, position.coords.latitude]);
+                    mapboxMap.setZoom(14);
+                },
+                (error) => {
+                    console.log('Error obteniendo ubicación:', error);
+                }
+            );
+        }
+    }
+    
     function calcularTarifaReal() {
         const origen = document.getElementById('origenViaje')?.value?.trim();
         const destino = document.getElementById('destinoSolicitud')?.value?.trim();
@@ -1287,44 +1326,29 @@
             tarifaCalculada = tarifa;
         }
     }
-
-    // ========== FUNCIÓN PARA CARGAR EMPRESA (números personalizados) ==========
+    
     async function cargarEmpresaEmergencia() {
         try {
-            const response = await fetch(API_URL + '/api/mapa/empresa/mis-datos', {
-                credentials: 'include'
-            });
-            
+            const response = await fetch(API_URL + '/api/mapa/empresa/mis-datos', { credentials: 'include' });
             if (response.ok) {
                 const data = await response.json();
                 const container = document.getElementById('emergenciaEmpresaContainer');
                 if (container && data.telefonoEmergencia && data.telefonoEmergencia !== '911') {
-                    container.innerHTML = `
-                        <button class="btn-emergencia btn-empresa" onclick="window.location.href='tel:${data.telefonoEmergencia}'">
-                            <i class="fas fa-building"></i> 🏢 ${data.nombre}<br>${data.telefonoEmergencia}
-                        </button>
-                    `;
+                    container.innerHTML = `<button class="btn-emergencia btn-empresa" onclick="window.location.href='tel:${data.telefonoEmergencia}'"><i class="fas fa-building"></i> 🏢 ${data.nombre}<br>${data.telefonoEmergencia}</button>`;
                 } else if (container) {
                     container.innerHTML = '';
                 }
             }
-        } catch(error) {
-            console.error('Error cargando empresa:', error);
-        }
+        } catch(error) { console.error('Error cargando empresa:', error); }
     }
-
+    
     async function cargarNotificaciones() {
         try {
-            const response = await fetch(API_URL + '/api/notificaciones', {
-                method: 'GET',
-                credentials: 'include'
-            });
-            
+            const response = await fetch(API_URL + '/api/notificaciones', { method: 'GET', credentials: 'include' });
             if (response.ok) {
                 const data = await response.json();
                 notificacionesListaGlobal = data.notificaciones || [];
                 const noLeidas = data.noLeidas || 0;
-                
                 const contadorSpan = document.getElementById('notificacionesContador');
                 if (noLeidas > 0) {
                     contadorSpan.style.display = 'flex';
@@ -1332,7 +1356,6 @@
                 } else {
                     contadorSpan.style.display = 'none';
                 }
-                
                 mostrarNotificacionesEnPanel();
             } else {
                 notificacionesListaGlobal = [
@@ -1345,25 +1368,16 @@
             }
         } catch (error) {
             console.error('Error:', error);
-            notificacionesListaGlobal = [
-                { id: 1, titulo: "Bienvenido", mensaje: "Bienvenido a CupoTax", leida: false, fecha: new Date().toISOString() },
-                { id: 2, titulo: "Viaje completado", mensaje: "Has completado un viaje exitosamente", leida: false, fecha: new Date().toISOString() }
-            ];
-            mostrarNotificacionesEnPanel();
-            document.getElementById('notificacionesContador').style.display = 'flex';
-            document.getElementById('notificacionesContador').textContent = '2';
         }
     }
     
     function mostrarNotificacionesEnPanel() {
         const container = document.getElementById('notificacionesListaPanel');
         if (!container) return;
-        
         if (notificacionesListaGlobal.length === 0) {
             container.innerHTML = '<div class="notificacion-vacia">✨ No tienes notificaciones</div>';
             return;
         }
-        
         container.innerHTML = notificacionesListaGlobal.map(notif => `
             <div class="notificacion-item-panel ${!notif.leida ? 'no-leida' : ''}" onclick="marcarNotificacionLeida(${notif.id})">
                 <div class="notificacion-titulo">${notif.titulo || 'Notificación'}</div>
@@ -1381,7 +1395,6 @@
         const diffMin = Math.floor(diffMs / 60000);
         const diffHoras = Math.floor(diffMin / 60);
         const diffDias = Math.floor(diffHoras / 24);
-        
         if (diffMin < 1) return 'Justo ahora';
         if (diffMin < 60) return `Hace ${diffMin} min`;
         if (diffHoras < 24) return `Hace ${diffHoras} h`;
@@ -1391,10 +1404,7 @@
     
     async function marcarNotificacionLeida(id) {
         try {
-            await fetch(API_URL + `/api/notificaciones/${id}/leer`, {
-                method: 'PUT',
-                credentials: 'include'
-            });
+            await fetch(API_URL + `/api/notificaciones/${id}/leer`, { method: 'PUT', credentials: 'include' });
             await cargarNotificaciones();
         } catch (error) {
             const notif = notificacionesListaGlobal.find(n => n.id === id);
@@ -1411,10 +1421,7 @@
     
     async function marcarTodasLeidas() {
         try {
-            await fetch(API_URL + '/api/notificaciones/marcar-todas', {
-                method: 'PUT',
-                credentials: 'include'
-            });
+            await fetch(API_URL + '/api/notificaciones/marcar-todas', { method: 'PUT', credentials: 'include' });
             notificacionesListaGlobal.forEach(n => n.leida = true);
             mostrarNotificacionesEnPanel();
             const contadorSpan = document.getElementById('notificacionesContador');
@@ -1422,10 +1429,6 @@
             Swal.fire('Listo', 'Todas las notificaciones marcadas como leídas', 'success');
         } catch (error) {
             console.error('Error al marcar todas como leídas:', error);
-            notificacionesListaGlobal.forEach(n => n.leida = true);
-            mostrarNotificacionesEnPanel();
-            document.getElementById('notificacionesContador').style.display = 'none';
-            Swal.fire('Listo', 'Todas las notificaciones marcadas como leídas', 'success');
         }
     }
     
@@ -1434,7 +1437,6 @@
         event.stopPropagation();
         const panel = document.getElementById('notificacionesPanel');
         notificacionesPanelAbierto = !notificacionesPanelAbierto;
-        
         if (notificacionesPanelAbierto) {
             panel.classList.add('open');
             cargarNotificaciones();
@@ -1452,72 +1454,149 @@
             notificacionesPanelAbierto = false;
         }
     });
-
-    function abrirModalRecarga() {
-        document.getElementById('modalRecarga').classList.add('active');
-    }
     
-    function cerrarModalRecarga() {
-        document.getElementById('modalRecarga').classList.remove('active');
-    }
+    function abrirModalRecarga() { document.getElementById('modalRecarga').classList.add('active'); }
+    function cerrarModalRecarga() { document.getElementById('modalRecarga').classList.remove('active'); }
     
     function copiarTexto(elementoId) {
         const texto = document.getElementById(elementoId).innerText;
         navigator.clipboard.writeText(texto);
-        Swal.fire({
-            title: 'Copiado',
-            text: 'Información copiada al portapapeles',
-            icon: 'success',
-            timer: 1500,
-            showConfirmButton: false,
-            background: 'var(--card-bg)',
-            color: 'var(--text-primary)'
-        });
+        Swal.fire({ title: 'Copiado', text: 'Información copiada al portapapeles', icon: 'success', timer: 1500, showConfirmButton: false, background: 'var(--card-bg)', color: 'var(--text-primary)' });
     }
-
-    function initMap() { if(map) return; map = L.map('map').setView([9.5, -82.5], 13); L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: 'OpenStreetMap, CARTO', maxZoom: 20 }).addTo(map); if(navigator.geolocation) navigator.geolocation.getCurrentPosition(pos => { L.marker([pos.coords.latitude, pos.coords.longitude]).addTo(map).bindPopup('Tu ubicacion').openPopup(); map.setView([pos.coords.latitude, pos.coords.longitude], 14); }); }
     
-    async function cargarUsuario() { try { const res = await fetch(API_URL + '/api/perfil', { credentials: 'include' }); if (!res.ok) { window.location.href = API_URL + '/login'; return; } usuarioActual = await res.json(); document.getElementById('nombreUsuario').innerText = usuarioActual.nombreCompleto?.split(' ')[0] || 'Usuario'; } catch(e) { window.location.href = API_URL + '/login'; } }
-    async function cargarSaldo() { try { const res = await fetch(API_URL + '/api/billetera/saldo', { credentials: 'include' }); if (res.ok) { const data = await res.json(); document.getElementById('saldoBilletera').innerHTML = `B/. ${data.saldo || 45.30}`; document.getElementById('saldoBilletera2').innerHTML = `B/. ${data.saldo || 45.30}`; } else { document.getElementById('saldoBilletera').innerHTML = 'B/. 45.30'; } } catch(e) { console.error(e); } }
-    async function cargarViajesRecientes() { try { const res = await fetch(API_URL + '/api/viajes/historial?limite=3', { credentials: 'include' }); if (res.ok) { const viajes = await res.json(); const container = document.getElementById('viajesRecientes'); if (!viajes.length) { container.innerHTML = '<div class="viaje-item">No hay viajes recientes</div>'; return; } container.innerHTML = ''; viajes.forEach(v => { const div = document.createElement('div'); div.className = 'viaje-item'; div.innerHTML = `<div class="viaje-info"><h4>${v.tipoViaje || 'Viaje'}</h4><p>${v.origen || 'Changuinola'} → ${v.destino}</p></div><div class="viaje-precio">B/.${v.tarifa || 0}</div>`; container.appendChild(div); }); } else { document.getElementById('viajesRecientes').innerHTML = '<div class="viaje-item">No hay viajes recientes</div>'; } } catch(e) { console.error(e); } }
-    async function cargarHistorialCompleto() { try { const res = await fetch(API_URL + '/api/viajes/historial', { credentials: 'include' }); if (res.ok) { const viajes = await res.json(); const container = document.getElementById('historialCompleto'); if (!viajes.length) { container.innerHTML = '<div class="viaje-item">No hay viajes registrados</div>'; return; } container.innerHTML = ''; viajes.forEach(v => { const div = document.createElement('div'); div.className = 'viaje-item'; div.innerHTML = `<div class="viaje-info"><h4>${v.tipoViaje || 'Viaje'}</h4><p>${v.origen || 'Changuinola'} → ${v.destino}</p><p class="viaje-estado">${new Date(v.fechaSolicitud).toLocaleDateString()} - ${v.estado || 'pendiente'}</p></div><div class="viaje-precio">B/.${v.tarifa || 0}</div>`; container.appendChild(div); }); } } catch(e) { console.error(e); } }
-    async function cargarRutasPopulares() { const rutas = [{ origen: "Changuinola", destino: "Almirante", tarifa: 1.45 }, { origen: "Changuinola", destino: "David", tarifa: 9.65 }, { origen: "Changuinola", destino: "Guabito", tarifa: 0.95 }]; const container = document.getElementById('rutasPopulares'); if(container) { container.innerHTML = ''; rutas.forEach(r => { const div = document.createElement('div'); div.className = 'viaje-item'; div.innerHTML = `<div>${r.origen} → ${r.destino}</div><div class="viaje-precio">B/.${r.tarifa.toFixed(2)}</div>`; container.appendChild(div); }); } }
-    async function cargarNotificacionesLista() { const container = document.getElementById('notificacionesLista'); if(container) container.innerHTML = '<div class="notificacion-item"><strong>¡Bienvenido a CupoTax!</strong><p>Disfruta de tus viajes con nosotros</p></div>'; }
-    async function cargarDestinosRapidos() { const destinos = [{ nombre: "Casa", direccion: "Changuinola Centro" }, { nombre: "Trabajo", direccion: "David" }, { nombre: "Aeropuerto", direccion: "Aeropuerto de Changuinola" }]; const container = document.getElementById('destinosRapidos'); if(container) { container.innerHTML = ''; destinos.forEach(f => { const div = document.createElement('div'); div.className = 'destino-item'; div.onclick = () => { if(document.getElementById('destinoSolicitud')) document.getElementById('destinoSolicitud').value = f.direccion; calcularTarifaReal(); mostrarSeccion('solicitar'); }; div.innerHTML = `<strong>${f.nombre}</strong><span>${f.direccion}</span>`; container.appendChild(div); }); } }
+    async function cargarUsuario() {
+        try {
+            const res = await fetch(API_URL + '/api/perfil', { credentials: 'include' });
+            if (!res.ok) { window.location.href = API_URL + '/login'; return; }
+            usuarioActual = await res.json();
+            document.getElementById('nombreUsuario').innerText = usuarioActual.nombreCompleto?.split(' ')[0] || 'Usuario';
+        } catch(e) { window.location.href = API_URL + '/login'; }
+    }
+    
+    async function cargarSaldo() {
+        try {
+            const res = await fetch(API_URL + '/api/billetera/saldo', { credentials: 'include' });
+            if (res.ok) {
+                const data = await res.json();
+                document.getElementById('saldoBilletera').innerHTML = `B/. ${data.saldo || 45.30}`;
+                document.getElementById('saldoBilletera2').innerHTML = `B/. ${data.saldo || 45.30}`;
+            } else {
+                document.getElementById('saldoBilletera').innerHTML = 'B/. 45.30';
+            }
+        } catch(e) { console.error(e); }
+    }
+    
+    async function cargarViajesRecientes() {
+        try {
+            const res = await fetch(API_URL + '/api/viajes/historial?limite=3', { credentials: 'include' });
+            if (res.ok) {
+                const viajes = await res.json();
+                const container = document.getElementById('viajesRecientes');
+                if (!viajes.length) { container.innerHTML = '<div class="viaje-item">No hay viajes recientes</div>'; return; }
+                container.innerHTML = '';
+                viajes.forEach(v => {
+                    const div = document.createElement('div');
+                    div.className = 'viaje-item';
+                    div.innerHTML = `<div class="viaje-info"><h4>${v.tipoViaje || 'Viaje'}</h4><p>${v.origen || 'Changuinola'} → ${v.destino}</p></div><div class="viaje-precio">B/.${v.tarifa || 0}</div>`;
+                    container.appendChild(div);
+                });
+            } else {
+                document.getElementById('viajesRecientes').innerHTML = '<div class="viaje-item">No hay viajes recientes</div>';
+            }
+        } catch(e) { console.error(e); }
+    }
+    
+    async function cargarHistorialCompleto() {
+        try {
+            const res = await fetch(API_URL + '/api/viajes/historial', { credentials: 'include' });
+            if (res.ok) {
+                const viajes = await res.json();
+                const container = document.getElementById('historialCompleto');
+                if (!viajes.length) { container.innerHTML = '<div class="viaje-item">No hay viajes registrados</div>'; return; }
+                container.innerHTML = '';
+                viajes.forEach(v => {
+                    const div = document.createElement('div');
+                    div.className = 'viaje-item';
+                    div.innerHTML = `<div class="viaje-info"><h4>${v.tipoViaje || 'Viaje'}</h4><p>${v.origen || 'Changuinola'} → ${v.destino}</p><p class="viaje-estado">${new Date(v.fechaSolicitud).toLocaleDateString()} - ${v.estado || 'pendiente'}</p></div><div class="viaje-precio">B/.${v.tarifa || 0}</div>`;
+                    container.appendChild(div);
+                });
+            }
+        } catch(e) { console.error(e); }
+    }
+    
+    async function cargarRutasPopulares() {
+        const rutas = [{ origen: "Changuinola", destino: "Almirante", tarifa: 1.45 }, { origen: "Changuinola", destino: "David", tarifa: 9.65 }, { origen: "Changuinola", destino: "Guabito", tarifa: 0.95 }];
+        const container = document.getElementById('rutasPopulares');
+        if(container) {
+            container.innerHTML = '';
+            rutas.forEach(r => {
+                const div = document.createElement('div');
+                div.className = 'viaje-item';
+                div.innerHTML = `<div>${r.origen} → ${r.destino}</div><div class="viaje-precio">B/.${r.tarifa.toFixed(2)}</div>`;
+                container.appendChild(div);
+            });
+        }
+    }
+    
+    async function cargarNotificacionesLista() {
+        const container = document.getElementById('notificacionesLista');
+        if(container) container.innerHTML = '<div class="notificacion-item"><strong>¡Bienvenido a CupoTax!</strong><p>Disfruta de tus viajes con nosotros</p></div>';
+    }
+    
+    async function cargarDestinosRapidos() {
+        const destinos = [{ nombre: "Casa", direccion: "Changuinola Centro" }, { nombre: "Trabajo", direccion: "David" }, { nombre: "Aeropuerto", direccion: "Aeropuerto de Changuinola" }];
+        const container = document.getElementById('destinosRapidos');
+        if(container) {
+            container.innerHTML = '';
+            destinos.forEach(f => {
+                const div = document.createElement('div');
+                div.className = 'destino-item';
+                div.onclick = () => {
+                    if(document.getElementById('destinoSolicitud')) document.getElementById('destinoSolicitud').value = f.direccion;
+                    calcularTarifaReal();
+                    mostrarSeccion('solicitar');
+                };
+                div.innerHTML = `<strong>${f.nombre}</strong><span>${f.direccion}</span>`;
+                container.appendChild(div);
+            });
+        }
+    }
+    
     async function cargarReservas() { const container = document.getElementById('reservasLista'); if(container) container.innerHTML = '<div class="viaje-item">No hay reservas activas</div>'; }
     async function cargarFavoritos() { const container = document.getElementById('favoritosLista'); if(container) container.innerHTML = '<div class="viaje-item">No hay favoritos</div>'; }
     async function cargarTransacciones() { const container = document.getElementById('transaccionesLista'); if(container) container.innerHTML = '<div class="viaje-item">No hay transacciones</div>'; }
     async function cargarContactos() { const container = document.getElementById('contactosLista'); if(container) container.innerHTML = '<div class="viaje-item">No hay contactos guardados</div>'; }
     async function cargarPlanPremium() { const desc = document.getElementById('planPremiumDesc'); if(desc) desc.innerHTML = 'Mejora tu experiencia con beneficios exclusivos'; }
-
-    function seleccionarServicio(tipo) { servicioSeleccionado = tipo; document.querySelectorAll('.service-buttons .btn-outline').forEach(btn => btn.style.background = 'transparent'); const idMap = { estandar: 'servicioEstandar', confort: 'servicioConfort', premium: 'servicioPremium' }; const btn = document.getElementById(idMap[tipo]); if(btn) btn.style.background = 'rgba(255,255,255,0.2)'; }
     
-    async function solicitarViaje() { 
-        const origen = document.getElementById('origenViaje').value; 
-        const destino = document.getElementById('destinoSolicitud').value; 
-        const tipo = document.getElementById('tipoViaje').value; 
+    function seleccionarServicio(tipo) {
+        serviceType = tipo;
+        document.querySelectorAll('.service-buttons .btn-outline').forEach(btn => btn.style.background = 'transparent');
+        const idMap = { estandar: 'servicioEstandar', confort: 'servicioConfort', premium: 'servicioPremium' };
+        const btn = document.getElementById(idMap[tipo]);
+        if(btn) btn.style.background = 'rgba(255,255,255,0.2)';
+    }
+    
+    async function solicitarViaje() {
+        const origen = document.getElementById('origenViaje').value;
+        const destino = document.getElementById('destinoSolicitud').value;
+        const tipo = document.getElementById('tipoViaje').value;
         
-        if (!destino) { 
+        if (!destino) {
             Swal.fire({ title: 'Error', text: 'Ingresa un destino', icon: 'error', background: 'var(--card-bg)', color: 'var(--text-primary)' });
-            return; 
-        } 
-        if (tarifaCalculada === 0) { 
+            return;
+        }
+        if (tarifaCalculada === 0) {
             Swal.fire({ title: 'Error', text: 'Ruta no disponible o tarifa no encontrada', icon: 'error', background: 'var(--card-bg)', color: 'var(--text-primary)' });
-            return; 
-        } 
+            return;
+        }
         
-        let tarifaFinal = tarifaCalculada; 
-        if (servicioSeleccionado === 'confort') tarifaFinal *= 1.2; 
-        if (servicioSeleccionado === 'premium') tarifaFinal *= 1.5; 
+        let tarifaFinal = tarifaCalculada;
+        if (serviceType === 'confort') tarifaFinal *= 1.2;
+        if (serviceType === 'premium') tarifaFinal *= 1.5;
         
         Swal.fire({
             title: 'Confirmar viaje',
-            html: `<div style="text-align:left;">
-                <strong>🚗 Origen:</strong> ${origen}<br>
-                <strong>📍 Destino:</strong> ${destino}<br>
-                <strong>🚕 Tipo:</strong> ${tipo}<br>
-                <strong>💰 Precio:</strong> B/. ${tarifaFinal.toFixed(2)}
-            </div>`,
+            html: `<div style="text-align:left;"><strong>🚗 Origen:</strong> ${origen}<br><strong>📍 Destino:</strong> ${destino}<br><strong>🚕 Tipo:</strong> ${tipo}<br><strong>💰 Precio:</strong> B/. ${tarifaFinal.toFixed(2)}</div>`,
             icon: 'question',
             showCancelButton: true,
             confirmButtonText: '✅ Solicitar viaje',
@@ -1525,118 +1604,80 @@
             background: 'var(--card-bg)',
             color: 'var(--text-primary)',
             confirmButtonColor: 'var(--accent)'
-        }).then(async (result) => { 
-            if (result.isConfirmed) { 
-                try { 
-                    const response = await fetch(API_URL + '/api/viajes/solicitar', { 
-                        method: 'POST', 
-                        headers: { 'Content-Type': 'application/json' }, 
-                        credentials: 'include', 
-                        body: JSON.stringify({ 
-                            origen: origen, 
-                            destino: destino, 
-                            tipoServicio: servicioSeleccionado, 
-                            tipoViaje: tipo, 
-                            tarifaEstimada: tarifaFinal 
-                        }) 
-                    }); 
-                    
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await fetch(API_URL + '/api/viajes/solicitar', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
+                        body: JSON.stringify({ origen: origen, destino: destino, tipoServicio: serviceType, tipoViaje: tipo, tarifaEstimada: tarifaFinal })
+                    });
                     const data = await response.json();
-                    
-                    if (response.ok && data.success) { 
-                        viajeActivo = true; 
+                    if (response.ok && data.success) {
+                        viajeActivo = true;
                         viajeSolicitadoId = data.tripId;
-                        iniciarMonitoreo(); 
+                        iniciarMonitoreo();
                         iniciarVerificacionViaje();
-                        
-                        Swal.fire({
-                            title: '✅ Viaje solicitado',
-                            text: 'Buscando conductor disponible...',
-                            icon: 'info',
-                            timer: 2000,
-                            showConfirmButton: false,
-                            background: 'var(--card-bg)',
-                            color: 'var(--text-primary)'
-                        });
-                    } else { 
+                        Swal.fire({ title: '✅ Viaje solicitado', text: 'Buscando conductor disponible...', icon: 'info', timer: 2000, showConfirmButton: false, background: 'var(--card-bg)', color: 'var(--text-primary)' });
+                    } else {
                         Swal.fire({ title: 'Error', text: data.error || 'No se pudo solicitar el viaje', icon: 'error', background: 'var(--card-bg)', color: 'var(--text-primary)' });
-                    } 
-                } catch(e) { 
+                    }
+                } catch(e) {
                     console.error('Error:', e);
                     Swal.fire({ title: 'Error', text: 'Error de conexión con el servidor', icon: 'error', background: 'var(--card-bg)', color: 'var(--text-primary)' });
-                } 
-            } 
-        }); 
+                }
+            }
+        });
     }
     
     async function verificarEstadoViaje() {
         try {
-            const response = await fetch(API_URL + '/api/viajes/historial', {
-                method: 'GET',
-                credentials: 'include'
-            });
-            
+            const response = await fetch(API_URL + '/api/viajes/historial', { method: 'GET', credentials: 'include' });
             if (response.ok) {
                 const viajes = await response.json();
                 const viajePendiente = viajes.find(v => v.id === viajeSolicitadoId);
-                
                 if (viajePendiente && viajePendiente.estado === 'asignado') {
                     if (intervaloVerificacionViaje) clearInterval(intervaloVerificacionViaje);
                     viajeActivo = false;
-                    Swal.fire({
-                        title: '🚖 Viaje aceptado',
-                        text: `Tu conductor se dirige a tu ubicación`,
-                        icon: 'success',
-                        background: 'var(--card-bg)',
-                        color: 'var(--text-primary)',
-                        confirmButtonColor: 'var(--accent)'
-                    });
+                    Swal.fire({ title: '🚖 Viaje aceptado', text: `Tu conductor se dirige a tu ubicación`, icon: 'success', background: 'var(--card-bg)', color: 'var(--text-primary)', confirmButtonColor: 'var(--accent)' });
                     cargarHistorialCompleto();
                     cargarViajesRecientes();
                 } else if (viajePendiente && viajePendiente.estado === 'rechazado') {
                     if (intervaloVerificacionViaje) clearInterval(intervaloVerificacionViaje);
                     viajeActivo = false;
-                    Swal.fire({
-                        title: '❌ Viaje rechazado',
-                        text: 'Tu viaje fue rechazado. Intenta nuevamente.',
-                        icon: 'warning',
-                        background: 'var(--card-bg)',
-                        color: 'var(--text-primary)',
-                        confirmButtonColor: 'var(--accent)'
-                    });
+                    Swal.fire({ title: '❌ Viaje rechazado', text: 'Tu viaje fue rechazado. Intenta nuevamente.', icon: 'warning', background: 'var(--card-bg)', color: 'var(--text-primary)', confirmButtonColor: 'var(--accent)' });
                 } else if (viajePendiente && viajePendiente.estado === 'completado') {
                     if (intervaloVerificacionViaje) clearInterval(intervaloVerificacionViaje);
                     viajeActivo = false;
-                    Swal.fire({
-                        title: '✅ Viaje completado',
-                        text: 'Gracias por viajar con CupoTax',
-                        icon: 'success',
-                        background: 'var(--card-bg)',
-                        color: 'var(--text-primary)',
-                        confirmButtonColor: 'var(--accent)'
-                    });
+                    Swal.fire({ title: '✅ Viaje completado', text: 'Gracias por viajar con CupoTax', icon: 'success', background: 'var(--card-bg)', color: 'var(--text-primary)', confirmButtonColor: 'var(--accent)' });
                     cargarHistorialCompleto();
                     cargarViajesRecientes();
                 }
             }
-        } catch(e) {
-            console.error('Error verificando viaje:', e);
-        }
+        } catch(e) { console.error('Error verificando viaje:', e); }
     }
     
     function iniciarVerificacionViaje() {
         if (intervaloVerificacionViaje) clearInterval(intervaloVerificacionViaje);
-        intervaloVerificacionViaje = setInterval(() => {
-            verificarEstadoViaje();
-        }, 5000);
+        intervaloVerificacionViaje = setInterval(() => { verificarEstadoViaje(); }, 5000);
     }
     
-    function iniciarMonitoreo() { if (intervaloMonitoreo) clearInterval(intervaloMonitoreo); intervaloMonitoreo = setInterval(() => { if (!viajeActivo) return; if (Math.random() > 0.9) { Swal.fire({ title: 'Alerta de seguridad', text: 'Detectamos una desviacion en la ruta, todo esta bien?', icon: 'warning', background: 'var(--card-bg)', color: 'var(--text-primary)', confirmButtonColor: 'var(--accent)', showCancelButton: true, confirmButtonText: 'Si', cancelButtonText: 'Ayuda' }).then(result => { if (!result.isConfirmed) activarSOSInmediato(); }); } }, 30000); }
+    function iniciarMonitoreo() {
+        if (intervaloMonitoreo) clearInterval(intervaloMonitoreo);
+        intervaloMonitoreo = setInterval(() => {
+            if (!viajeActivo) return;
+            if (Math.random() > 0.9) {
+                Swal.fire({ title: 'Alerta de seguridad', text: 'Detectamos una desviacion en la ruta, todo esta bien?', icon: 'warning', background: 'var(--card-bg)', color: 'var(--text-primary)', confirmButtonColor: 'var(--accent)', showCancelButton: true, confirmButtonText: 'Si', cancelButtonText: 'Ayuda' }).then(result => { if (!result.isConfirmed) activarSOSInmediato(); });
+            }
+        }, 30000);
+    }
     
     function recargarSaldo() { abrirModalRecarga(); }
     function verPlanes() { mostrarSeccion('premium'); }
     function invitarAmigos() { Swal.fire({ title: 'Invitar amigos', text: 'Comparte tu codigo: CUPOTAX2025', icon: 'success', background: 'var(--card-bg)', color: 'var(--text-primary)' }); }
-    function contratarPremium() { 
+    
+    function contratarPremium() {
         Swal.fire({
             title: 'Plan Premium',
             text: '¿Deseas contratar el Plan Premium por B/. 19.90/mes?',
@@ -1649,75 +1690,34 @@
             confirmButtonColor: 'var(--accent)'
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire({
-                    title: '¡Premium activado!',
-                    text: 'Ahora disfrutas de todos los beneficios exclusivos. Tu membresía se renovará automáticamente cada mes.',
-                    icon: 'success',
-                    background: 'var(--card-bg)',
-                    color: 'var(--text-primary)',
-                    confirmButtonColor: 'var(--accent)'
-                });
+                Swal.fire({ title: '¡Premium activado!', text: 'Ahora disfrutas de todos los beneficios exclusivos. Tu membresía se renovará automáticamente cada mes.', icon: 'success', background: 'var(--card-bg)', color: 'var(--text-primary)', confirmButtonColor: 'var(--accent)' });
             }
         });
     }
+    
     function agregarFavorito() { Swal.fire({ title: 'Agregar favorito', text: 'Selecciona una direccion en el mapa', icon: 'info', background: 'var(--card-bg)', color: 'var(--text-primary)' }); }
     
     function copiarEnlace(enlace) {
         navigator.clipboard.writeText(enlace);
-        Swal.fire({
-            title: '✅ Enlace copiado',
-            text: 'Pégalo donde quieras compartir',
-            icon: 'success',
-            timer: 1500,
-            showConfirmButton: false,
-            background: 'var(--card-bg)',
-            color: 'var(--text-primary)'
-        });
+        Swal.fire({ title: '✅ Enlace copiado', text: 'Pégalo donde quieras compartir', icon: 'success', timer: 1500, showConfirmButton: false, background: 'var(--card-bg)', color: 'var(--text-primary)' });
     }
     
     function compartirViaje() {
-        Swal.fire({
-            title: 'Obteniendo ubicación...',
-            text: 'Por favor espera',
-            allowOutsideClick: false,
-            didOpen: () => { Swal.showLoading(); }
-        });
-        
+        Swal.fire({ title: 'Obteniendo ubicación...', text: 'Por favor espera', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
         if (!navigator.geolocation) {
             Swal.close();
             Swal.fire('Error', 'Tu navegador no soporta geolocalización', 'error');
             return;
         }
-        
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 Swal.close();
                 const lat = position.coords.latitude;
                 const lng = position.coords.longitude;
                 const mapsLink = `https://maps.google.com/?q=${lat},${lng}`;
-                const mensaje = `Hola, estoy en ${mapsLink} - Compartido desde CupoTax`;
-                
                 Swal.fire({
                     title: 'Compartir ubicación en vivo',
-                    html: `
-                        <div style="text-align: left;">
-                            <p><strong>📍 Enlace de Google Maps:</strong></p>
-                            <p style="font-size: 0.8rem; word-break: break-all;">${mapsLink}</p>
-                            <hr style="margin: 1rem 0;">
-                            <button class="btn-compartir" onclick="window.open('https://wa.me/?text=${encodeURIComponent(mensaje)}', '_blank')" style="background: #25D366; width: 100%; margin-bottom: 0.5rem; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">
-                                📱 Compartir por WhatsApp
-                            </button>
-                            <button class="btn-compartir" onclick="window.location.href='mailto:?subject=Mi ubicación en vivo&body=${encodeURIComponent(mensaje)}'" style="background: #3A86FF; width: 100%; margin-bottom: 0.5rem; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">
-                                📧 Enviar por Correo
-                            </button>
-                            <button class="btn-compartir" onclick="copiarEnlace('${mapsLink}')" style="background: #6C6F93; width: 100%; margin-bottom: 0.5rem; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">
-                                🔗 Copiar enlace
-                            </button>
-                            <button class="btn-compartir" onclick="Swal.fire('Instagram', 'Toma una captura de pantalla del enlace y compártela en tu historia o mensaje directo.', 'info')" style="background: #E1306C; width: 100%; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">
-                                📸 Compartir en Instagram
-                            </button>
-                        </div>
-                    `,
+                    html: `<div style="text-align: left;"><p><strong>📍 Enlace de Google Maps:</strong></p><p style="font-size: 0.8rem; word-break: break-all;">${mapsLink}</p><hr style="margin: 1rem 0;"><button class="btn-compartir" onclick="window.open('https://wa.me/?text=${encodeURIComponent(mensaje)}', '_blank')" style="background: #25D366; width: 100%; margin-bottom: 0.5rem; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">📱 Compartir por WhatsApp</button><button class="btn-compartir" onclick="window.location.href='mailto:?subject=Mi ubicación en vivo&body=${encodeURIComponent(mensaje)}'" style="background: #3A86FF; width: 100%; margin-bottom: 0.5rem; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">📧 Enviar por Correo</button><button class="btn-compartir" onclick="copiarEnlace('${mapsLink}')" style="background: #6C6F93; width: 100%; margin-bottom: 0.5rem; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">🔗 Copiar enlace</button><button class="btn-compartir" onclick="Swal.fire('Instagram', 'Toma una captura de pantalla del enlace y compártela en tu historia o mensaje directo.', 'info')" style="background: #E1306C; width: 100%; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">📸 Compartir en Instagram</button></div>`,
                     showConfirmButton: false,
                     showCloseButton: true,
                     background: 'var(--card-bg)',
@@ -1728,17 +1728,10 @@
                 Swal.close();
                 let mensajeError = 'No se pudo obtener tu ubicación. ';
                 switch(error.code) {
-                    case error.PERMISSION_DENIED:
-                        mensajeError += 'Permiso denegado. Activa la ubicación en tu dispositivo.';
-                        break;
-                    case error.POSITION_UNAVAILABLE:
-                        mensajeError += 'Información de ubicación no disponible.';
-                        break;
-                    case error.TIMEOUT:
-                        mensajeError += 'Tiempo de espera agotado.';
-                        break;
-                    default:
-                        mensajeError += 'Error desconocido.';
+                    case error.PERMISSION_DENIED: mensajeError += 'Permiso denegado. Activa la ubicación en tu dispositivo.'; break;
+                    case error.POSITION_UNAVAILABLE: mensajeError += 'Información de ubicación no disponible.'; break;
+                    case error.TIMEOUT: mensajeError += 'Tiempo de espera agotado.'; break;
+                    default: mensajeError += 'Error desconocido.';
                 }
                 Swal.fire('Error', mensajeError, 'error');
             }
@@ -1749,71 +1742,49 @@
     function irAPerfil() { window.location.href = API_URL + '/perfil'; }
     function cambiarPassword() { Swal.fire({ title: 'Cambiar contrasena', text: 'Recibiras un enlace de recuperacion por email', icon: 'info', background: 'var(--card-bg)', color: 'var(--text-primary)' }); }
     
-    async function guardarContacto() { const contacto = document.getElementById('contactoEmergencia').value; if (!contacto) { Swal.fire({ title: 'Error', text: 'Ingresa un contacto', icon: 'error', background: 'var(--card-bg)', color: 'var(--text-primary)' }); return; } try { await fetch(API_URL + '/api/usuarios/contacto', { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ contacto }) }); Swal.fire({ title: 'Contacto guardado', text: contacto, icon: 'success', background: 'var(--card-bg)', color: 'var(--text-primary)' }); cargarContactos(); document.getElementById('contactoEmergencia').value = ''; } catch(e) { Swal.fire({ title: 'Error', text: 'No se pudo guardar', icon: 'error', background: 'var(--card-bg)', color: 'var(--text-primary)' }); } }
-
+    async function guardarContacto() {
+        const contacto = document.getElementById('contactoEmergencia').value;
+        if (!contacto) { Swal.fire({ title: 'Error', text: 'Ingresa un contacto', icon: 'error', background: 'var(--card-bg)', color: 'var(--text-primary)' }); return; }
+        try {
+            await fetch(API_URL + '/api/usuarios/contacto', { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ contacto }) });
+            Swal.fire({ title: 'Contacto guardado', text: contacto, icon: 'success', background: 'var(--card-bg)', color: 'var(--text-primary)' });
+            cargarContactos();
+            document.getElementById('contactoEmergencia').value = '';
+        } catch(e) { Swal.fire({ title: 'Error', text: 'No se pudo guardar', icon: 'error', background: 'var(--card-bg)', color: 'var(--text-primary)' }); }
+    }
+    
     async function activarSOS(tipo, descripcion) {
-    const contacto = document.getElementById('contactoEmergencia').value || 'Sin contacto registrado';
-    const ubicacion = "Changuinola, Panamá";
-    const fotoInput = document.getElementById('sosFoto');
-    const foto = fotoInput ? fotoInput.files[0] : null;
-    
-    const formData = new FormData();
-    formData.append('tipo', tipo);
-    formData.append('descripcion', descripcion);
-    formData.append('ubicacion', ubicacion);
-    formData.append('contacto', contacto);
-    if (foto) {
-        if (foto.size > 5 * 1024 * 1024) {
-            Swal.fire({ title: 'Error', text: 'La foto no puede superar los 5MB', icon: 'error' });
-            return;
+        const contacto = document.getElementById('contactoEmergencia').value || 'Sin contacto registrado';
+        const ubicacion = "Changuinola, Panamá";
+        const fotoInput = document.getElementById('sosFoto');
+        const foto = fotoInput ? fotoInput.files[0] : null;
+        const formData = new FormData();
+        formData.append('tipo', tipo);
+        formData.append('descripcion', descripcion);
+        formData.append('ubicacion', ubicacion);
+        formData.append('contacto', contacto);
+        if (foto) {
+            if (foto.size > 5 * 1024 * 1024) { Swal.fire({ title: 'Error', text: 'La foto no puede superar los 5MB', icon: 'error' }); return; }
+            formData.append('foto', foto);
         }
-        formData.append('foto', foto);
+        try {
+            const response = await fetch(API_URL + '/api/incidentes/reportar', { method: 'POST', credentials: 'include', body: formData });
+            const data = await response.json();
+            if (response.ok) {
+                Swal.fire({ title: '🚨 ALERTA DE EMERGENCIA ENVIADA', html: `<strong>Tipo:</strong> ${tipo}<br><strong>Descripción:</strong> ${descripcion}<br><strong>Ubicación:</strong> ${ubicacion}<br><strong>Contacto:</strong> ${contacto}${foto ? '<br><strong>📸 Foto adjunta</strong>' : ''}`, icon: 'error', background: '#0A0A0F', color: '#FF6A2A', confirmButtonColor: '#d33' });
+                if (fotoInput) fotoInput.value = '';
+            } else {
+                Swal.fire({ title: 'Error', text: data.error || 'No se pudo enviar la alerta', icon: 'error' });
+            }
+        } catch(e) { console.error('Error:', e); Swal.fire({ title: 'Error', text: 'Error de conexión', icon: 'error' }); }
     }
     
-    try {
-        const response = await fetch(API_URL + '/api/incidentes/reportar', {
-            method: 'POST',
-            credentials: 'include',
-            body: formData
-        });
-        
-        const data = await response.json();
-        
-        if (response.ok) {
-            Swal.fire({
-                title: '🚨 ALERTA DE EMERGENCIA ENVIADA',
-                html: `<strong>Tipo:</strong> ${tipo}<br><strong>Descripción:</strong> ${descripcion}<br><strong>Ubicación:</strong> ${ubicacion}<br><strong>Contacto:</strong> ${contacto}${foto ? '<br><strong>📸 Foto adjunta</strong>' : ''}`,
-                icon: 'error',
-                background: '#0A0A0F',
-                color: '#FF6A2A',
-                confirmButtonColor: '#d33'
-            });
-            if (fotoInput) fotoInput.value = '';
-        } else {
-            Swal.fire({ title: 'Error', text: data.error || 'No se pudo enviar la alerta', icon: 'error' });
-        }
-    } catch(e) {
-        console.error('Error:', e);
-        Swal.fire({ title: 'Error', text: 'Error de conexión', icon: 'error' });
-    }
-}
-    
-    function activarSOSInmediato() {
-        activarSOS('EMERGENCIA MÁXIMA', 'Alerta inmediata por doble clic - Se requiere asistencia urgente');
-    }
+    function activarSOSInmediato() { activarSOS('EMERGENCIA MÁXIMA', 'Alerta inmediata por doble clic - Se requiere asistencia urgente'); }
     
     function mostrarOpcionesSOS() {
         Swal.fire({
             title: '🆘 ¿Qué está sucediendo?',
-            html: `
-                <div style="text-align:left;">
-                    <button class="sos-option" onclick="seleccionarSOS('Accidente de tránsito', 'Se ha producido un accidente vehicular')">🚗 Accidente de tránsito</button><br><br>
-                    <button class="sos-option" onclick="seleccionarSOS('Asalto / Robo', 'Estoy siendo víctima de un asalto')">🔫 Asalto / Robo</button><br><br>
-                    <button class="sos-option" onclick="seleccionarSOS('Problema médico', 'Necesito asistencia médica urgente')">🏥 Problema médico</button><br><br>
-                    <button class="sos-option" onclick="seleccionarSOS('Conductor sospechoso', 'El conductor tiene una actitud sospechosa')">⚠️ Conductor sospechoso</button><br><br>
-                    <button class="sos-option" onclick="seleccionarSOS('Otro', 'Describir situación')">📝 Otro</button>
-                </div>
-            `,
+            html: `<div style="text-align:left;"><button class="sos-option" onclick="seleccionarSOS('Accidente de tránsito', 'Se ha producido un accidente vehicular')">🚗 Accidente de tránsito</button><br><br><button class="sos-option" onclick="seleccionarSOS('Asalto / Robo', 'Estoy siendo víctima de un asalto')">🔫 Asalto / Robo</button><br><br><button class="sos-option" onclick="seleccionarSOS('Problema médico', 'Necesito asistencia médica urgente')">🏥 Problema médico</button><br><br><button class="sos-option" onclick="seleccionarSOS('Conductor sospechoso', 'El conductor tiene una actitud sospechosa')">⚠️ Conductor sospechoso</button><br><br><button class="sos-option" onclick="seleccionarSOS('Otro', 'Describir situación')">📝 Otro</button></div>`,
             showConfirmButton: false,
             showCancelButton: true,
             cancelButtonText: 'Cancelar',
@@ -1835,9 +1806,7 @@
                 color: 'var(--text-primary)',
                 confirmButtonColor: '#d33'
             }).then(result => {
-                if (result.isConfirmed && result.value) {
-                    activarSOS(tipo, result.value);
-                }
+                if (result.isConfirmed && result.value) { activarSOS(tipo, result.value); }
             });
         } else {
             activarSOS(tipo, descripcion);
@@ -1847,11 +1816,7 @@
     function iniciarSOS() {
         clickCount++;
         if (clickCount === 1) {
-            sosTimeout = setTimeout(() => {
-                mostrarOpcionesSOS();
-                clickCount = 0;
-                sosTimeout = null;
-            }, 300);
+            sosTimeout = setTimeout(() => { mostrarOpcionesSOS(); clickCount = 0; sosTimeout = null; }, 300);
         } else if (clickCount === 2) {
             if (sosTimeout) clearTimeout(sosTimeout);
             activarSOSInmediato();
@@ -1862,11 +1827,22 @@
     }
     
     document.getElementById('btnSOS')?.addEventListener('click', iniciarSOS);
-
-    function mostrarSeccion(seccion) { const secciones = ['inicio', 'solicitar', 'reservas', 'favoritos', 'billetera', 'historial', 'premium', 'notificaciones', 'seguridad', 'ayuda', 'configuracion']; secciones.forEach(s => { const el = document.getElementById(`seccion-${s}`); if (el) el.style.display = 'none'; }); document.getElementById(`seccion-${seccion}`).style.display = 'block'; if (seccion === 'solicitar') { setTimeout(() => initMap(), 100); calcularTarifaReal(); } if (seccion === 'historial') cargarHistorialCompleto(); if (seccion === 'reservas') cargarReservas(); if (seccion === 'favoritos') cargarFavoritos(); if (seccion === 'billetera') { cargarSaldo(); cargarTransacciones(); } if (seccion === 'notificaciones') cargarNotificacionesLista(); if (seccion === 'seguridad') cargarContactos(); }
+    
+    function mostrarSeccion(seccion) {
+        const secciones = ['inicio', 'solicitar', 'reservas', 'favoritos', 'billetera', 'historial', 'premium', 'notificaciones', 'seguridad', 'ayuda', 'configuracion'];
+        secciones.forEach(s => { const el = document.getElementById(`seccion-${s}`); if (el) el.style.display = 'none'; });
+        document.getElementById(`seccion-${seccion}`).style.display = 'block';
+        if (seccion === 'solicitar') { setTimeout(() => initMapboxMap(), 100); calcularTarifaReal(); }
+        if (seccion === 'historial') cargarHistorialCompleto();
+        if (seccion === 'reservas') cargarReservas();
+        if (seccion === 'favoritos') cargarFavoritos();
+        if (seccion === 'billetera') { cargarSaldo(); cargarTransacciones(); }
+        if (seccion === 'notificaciones') cargarNotificacionesLista();
+        if (seccion === 'seguridad') cargarContactos();
+    }
+    
     function toggleSidebarMenu() { document.getElementById('sidebar').classList.toggle('open'); }
     function cerrarSidebar() { if (window.innerWidth <= 700) document.getElementById('sidebar').classList.remove('open'); }
-    
     function toggleSettingsPanel() { document.getElementById('settingsPanel').classList.toggle('open'); }
     
     function setEstilo(estilo) {
@@ -1931,8 +1907,7 @@
             confirmButtonColor: 'var(--accent)'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(API_URL + '/logout', { method: 'POST', credentials: 'include' })
-                    .catch(e => console.error('Error:', e));
+                fetch(API_URL + '/logout', { method: 'POST', credentials: 'include' }).catch(e => console.error('Error:', e));
                 window.location.href = API_URL + '/';
             }
         });
@@ -1948,21 +1923,21 @@
     actualizarCards(estiloGuardado);
     
     window.onload = () => {
-        cargarUsuario(); 
-        cargarSaldo(); 
-        cargarViajesRecientes(); 
-        cargarRutasPopulares(); 
-        cargarNotificacionesLista(); 
-        cargarPlanPremium(); 
-        cargarDestinosRapidos(); 
-        cargarReservas(); 
-        cargarFavoritos(); 
-        cargarTransacciones(); 
+        cargarUsuario();
+        cargarSaldo();
+        cargarViajesRecientes();
+        cargarRutasPopulares();
+        cargarNotificacionesLista();
+        cargarPlanPremium();
+        cargarDestinosRapidos();
+        cargarReservas();
+        cargarFavoritos();
+        cargarTransacciones();
         cargarContactos();
         cargarNotificaciones();
         cargarEmpresaEmergencia();
-        initMap(); 
-        mostrarSeccion('inicio'); 
+        initMapboxMap();
+        mostrarSeccion('inicio');
         calcularTarifaReal();
     };
     

@@ -6,10 +6,10 @@
     <title>CupoTax - Panel Taxista</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css' rel='stylesheet' />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -70,13 +70,12 @@
             --glow-gradient: linear-gradient(135deg, #FF4ECD, #9D4EDD);
         }
         
-        /* ========== MODO 4: CRIMSON GLASS (ROJO OSCURO) ========== */
         body.style-crimson {
             --bg-gradient-start: #1A0A0A;
             --bg-gradient-end: #2D1515;
             --glass-bg: rgba(45, 21, 21, 0.55);
             --glass-border: rgba(255, 100, 100, 0.15);
-            --navbar-bg: rgba(26, 14, 14, 0.9);
+            --navbar-bg: rgba(26, 14, 14, 0.8);
             --text-primary: #FFFFFF;
             --text-secondary: #D1A8A8;
             --accent: #E63946;
@@ -243,7 +242,7 @@
             position: fixed;
             top: 15px;
             left: 15px;
-            z-index: 101;
+            z-index: 100;
             background: var(--card-bg);
             backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
@@ -457,7 +456,6 @@
             border: 1px solid var(--glass-border);
             transition: all 0.3s;
         }
-        .kpi-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: var(--accent-glow); }
         .kpi-card i { font-size: 1.5rem; background: var(--glow-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 0.5rem; }
         .kpi-value { font-size: 1.6rem; font-weight: 800; background: var(--glow-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
         .kpi-label { font-size: 0.7rem; color: var(--text-secondary); }
@@ -647,11 +645,26 @@
             display: none;
         }
         .settings-panel.open { display: block !important; }
-        .settings-panel h4 { color: var(--accent); text-align: center; margin-bottom: 0.5rem; }
+        .settings-panel.h4 { color: var(--accent); text-align: center; margin-bottom: 0.5rem; }
         .theme-card { padding: 0.5rem; cursor: pointer; border-radius: 12px; margin-bottom: 0.5rem; text-align: center; }
         .theme-card:hover { background: rgba(255,255,255,0.1); }
         .theme-card.active { background: var(--accent); color: #000; }
         .btn-reset { width: 100%; padding: 0.5rem; background: transparent; border: 1px solid var(--accent); color: var(--accent); border-radius: 30px; cursor: pointer; margin-top: 0.5rem; }
+        
+        /* Estilos para el mapa Mapbox */
+        .vehicle-dot {
+            transition: transform 0.2s ease;
+        }
+        .vehicle-dot:hover {
+            transform: scale(1.5);
+        }
+        .mapboxgl-popup-content {
+            background: var(--card-bg) !important;
+            backdrop-filter: blur(10px);
+            border-radius: 16px !important;
+            border: 1px solid var(--accent);
+            color: var(--text-primary);
+        }
         
         @media (max-width: 1024px) {
             .sidebar { width: 80px; }
@@ -704,7 +717,6 @@
             <li><a href="#" onclick="mostrarSeccion('ingresos'); cerrarSidebar()"><i class="fas fa-dollar-sign"></i> <span>Ingresos</span></a></li>
             <li><a href="#" onclick="mostrarSeccion('vehiculo'); cerrarSidebar()"><i class="fas fa-car"></i> <span>Vehículo</span></a></li>
             <li><a href="#" onclick="mostrarSeccion('billetera'); cerrarSidebar()"><i class="fas fa-wallet"></i> <span>Billetera</span></a></li>
-            <!-- ========== MI PERFIL ========== -->
             <li><a href="#" onclick="irAPerfil(); cerrarSidebar()"><i class="fas fa-user-circle"></i> <span>Mi Perfil</span></a></li>
             <li><a href="#" onclick="cerrarSesion(); cerrarSidebar()"><i class="fas fa-sign-out-alt"></i> <span>Salir</span></a></li>
         </ul>
@@ -779,7 +791,6 @@
             </div>
         </div>
 
-        <!-- ========== SECCIÓN VEHÍCULO CON FOTO ========== -->
         <div id="seccion-vehiculo" style="display:none;">
             <div class="card">
                 <div class="card-title"><i class="fas fa-car"></i> Información del vehículo</div>
@@ -876,23 +887,81 @@
     <button class="btn-reset" onclick="resetearEstilos()">Restaurar</button>
 </div>
 
-<script>
-    let map, ingresosChart;
+<script>    // ========== VARIABLES GLOBALES ==========
+    let mapboxMap;
+    let taxiMarker = null;
+    let ingresosChart;
     let enServicio = true;
     let viajesHoy = 12;
     let gananciasHoy = 156.00;
+    let solicitudesMarkers = [];
     
     const API_URL = '';
     let notificacionesListaGlobal = [];
     
-    // ========== FUNCIÓN PARA CARGAR PERFIL REAL ==========
+    // MAPBOX TOKEN
+    mapboxgl.accessToken = 'pk.eyJ1IjoiY3Vwb3RheCIsImEiOiJjbW91OWR4OXAwNDIxMnNxMTVlbzdkOGFkIn0.qVOJg2P9CzlD8aLladqjtg';
+    
+    // ========== INICIALIZAR MAPA MAPBOX ==========
+    function initMapboxMap() {
+        const changuinola = { lat: 9.4333, lng: -82.5167 };
+        
+        mapboxMap = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/standard',
+            center: [changuinola.lng, changuinola.lat],
+            zoom: 13
+        });
+        
+        mapboxMap.addControl(new mapboxgl.NavigationControl());
+        
+        mapboxMap.on('load', () => {
+            // Agregar marcador del taxi (color amarillo)
+            const taxiEl = document.createElement('div');
+            taxiEl.innerHTML = `<div style="background: #FFD700; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 0 10px #FFD700; cursor: pointer;"><i class="fas fa-taxi" style="font-size: 16px; color: #333;"></i></div>`;
+            taxiMarker = new mapboxgl.Marker(taxiEl)
+                .setLngLat([changuinola.lng, changuinola.lat])
+                .setPopup(new mapboxgl.Popup().setHTML('<strong>🚕 Tu taxi (AF6339)</strong><br>En servicio - Changuinola Centro'))
+                .addTo(mapboxMap);
+        });
+        
+        // Obtener ubicación real del taxista
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    if (taxiMarker) {
+                        taxiMarker.setLngLat([position.coords.longitude, position.coords.latitude]);
+                    }
+                    mapboxMap.setCenter([position.coords.longitude, position.coords.latitude]);
+                    mapboxMap.setZoom(14);
+                },
+                (error) => {
+                    console.log('Error obteniendo ubicación:', error);
+                }
+            );
+            
+            // Actualizar ubicación cada 10 segundos
+            setInterval(() => {
+                if (enServicio) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            if (taxiMarker) {
+                                taxiMarker.setLngLat([position.coords.longitude, position.coords.latitude]);
+                            }
+                        },
+                        (error) => {}
+                    );
+                }
+            }, 10000);
+        }
+        
+        console.log('Mapa Mapbox inicializado para Taxista');
+    }
+    
+    // ========== FUNCIONES DE PERFIL Y VEHÍCULO ==========
     async function cargarPerfilUsuario() {
         try {
-            const response = await fetch(API_URL + '/api/perfil', {
-                method: 'GET',
-                credentials: 'include'
-            });
-            
+            const response = await fetch(API_URL + '/api/perfil', { credentials: 'include' });
             if (response.ok) {
                 const data = await response.json();
                 const nombreElement = document.getElementById('sidebarNombre');
@@ -901,72 +970,43 @@
                 const fotoIcon = document.getElementById('iconoPerfilSidebar');
                 
                 if (nombreElement) nombreElement.innerText = data.nombreCompleto;
-                if (rolElement) {
-                    let rolTexto = '';
-                    if (data.rol === 'TAXISTA') rolTexto = 'Taxista PRO';
-                    else if (data.rol === 'BUSERO') rolTexto = 'Busero PRO';
-                    else rolTexto = data.rol;
-                    rolElement.innerText = rolTexto;
-                }
+                if (rolElement) rolElement.innerText = data.rol === 'TAXISTA' ? 'Taxista PRO' : data.rol;
                 
                 if (data.fotoPerfil && fotoImg) {
                     fotoImg.src = 'data:image/jpeg;base64,' + data.fotoPerfil;
                     fotoImg.style.display = 'block';
                     if (fotoIcon) fotoIcon.style.display = 'none';
                 }
-            } else {
-                console.log('No se pudo cargar el perfil');
             }
-        } catch (error) {
-            console.error('Error cargando perfil:', error);
-        }
+        } catch (error) { console.error('Error cargando perfil:', error); }
     }
     
-    // ========== FUNCIÓN PARA CARGAR FOTO DEL VEHÍCULO ==========
     async function cargarFotoVehiculo() {
         try {
-            const response = await fetch(API_URL + '/api/perfil', {
-                method: 'GET',
-                credentials: 'include'
-            });
-            
+            const response = await fetch(API_URL + '/api/perfil', { credentials: 'include' });
             if (response.ok) {
                 const data = await response.json();
                 const fotoImg = document.getElementById('fotoVehiculoPerfil');
-                
                 if (data.fotoVehiculo && fotoImg) {
                     fotoImg.src = 'data:image/jpeg;base64,' + data.fotoVehiculo;
                     fotoImg.style.display = 'block';
-                } else if (data.fotoBus && fotoImg) {
-                    fotoImg.src = 'data:image/jpeg;base64,' + data.fotoBus;
-                    fotoImg.style.display = 'block';
                 }
-            } else {
-                console.log('No se pudo cargar la foto del vehículo');
             }
-        } catch (error) {
-            console.error('Error cargando foto del vehículo:', error);
-        }
+        } catch (error) { console.error('Error cargando foto del vehículo:', error); }
     }
     
-    // ========== FUNCIÓN IR A PERFIL ==========
-    function irAPerfil() {
-        window.location.href = API_URL + '/perfil';
-    }
+    function irAPerfil() { window.location.href = API_URL + '/perfil'; }
+    function cargarDatosVehiculo() { document.getElementById('vehiculoInfo').innerHTML = '<strong>Toyota Corolla 2023</strong><br>Placa: AF6339<br>Color: Blanco<br>Documentos al día'; }
+    function verDetallesVehiculo() { Swal.fire('Detalles del vehículo', 'Toyota Corolla 2023\nPlaca: AF6339\nPróximo mantenimiento: 5,000 km', 'info'); }
     
     // ========== FUNCIONES DE NOTIFICACIONES ==========
     async function cargarNotificaciones() {
         try {
-            const response = await fetch(API_URL + '/api/notificaciones', {
-                method: 'GET',
-                credentials: 'include'
-            });
-            
+            const response = await fetch(API_URL + '/api/notificaciones', { method: 'GET', credentials: 'include' });
             if (response.ok) {
                 const data = await response.json();
                 notificacionesListaGlobal = data.notificaciones || [];
                 const noLeidas = data.noLeidas || 0;
-                
                 const contadorSpan = document.getElementById('notificacionesContador');
                 if (noLeidas > 0) {
                     contadorSpan.style.display = 'flex';
@@ -974,7 +1014,6 @@
                 } else {
                     contadorSpan.style.display = 'none';
                 }
-                
                 mostrarNotificacionesEnPanel();
             } else {
                 notificacionesListaGlobal = [
@@ -985,27 +1024,16 @@
                 document.getElementById('notificacionesContador').style.display = 'flex';
                 document.getElementById('notificacionesContador').textContent = '2';
             }
-        } catch (error) {
-            console.error('Error:', error);
-            notificacionesListaGlobal = [
-                { id: 1, titulo: "Bienvenido", mensaje: "Bienvenido a CupoTax", leida: false, fecha: new Date().toISOString() },
-                { id: 2, titulo: "Nueva solicitud", mensaje: "Tienes una nueva solicitud de viaje", leida: false, fecha: new Date().toISOString() }
-            ];
-            mostrarNotificacionesEnPanel();
-            document.getElementById('notificacionesContador').style.display = 'flex';
-            document.getElementById('notificacionesContador').textContent = '2';
-        }
+        } catch (error) { console.error('Error:', error); }
     }
     
     function mostrarNotificacionesEnPanel() {
         const container = document.getElementById('notificacionesListaPanel');
         if (!container) return;
-        
         if (notificacionesListaGlobal.length === 0) {
             container.innerHTML = '<div class="notificacion-vacia">✨ No tienes notificaciones</div>';
             return;
         }
-        
         container.innerHTML = notificacionesListaGlobal.map(notif => `
             <div class="notificacion-item-panel ${!notif.leida ? 'no-leida' : ''}" onclick="marcarNotificacionLeida(${notif.id})">
                 <div class="notificacion-titulo">${notif.titulo || 'Notificación'}</div>
@@ -1023,7 +1051,6 @@
         const diffMin = Math.floor(diffMs / 60000);
         const diffHoras = Math.floor(diffMin / 60);
         const diffDias = Math.floor(diffHoras / 24);
-        
         if (diffMin < 1) return 'Justo ahora';
         if (diffMin < 60) return `Hace ${diffMin} min`;
         if (diffHoras < 24) return `Hace ${diffHoras} h`;
@@ -1033,10 +1060,7 @@
     
     async function marcarNotificacionLeida(id) {
         try {
-            await fetch(API_URL + `/api/notificaciones/${id}/leer`, {
-                method: 'PUT',
-                credentials: 'include'
-            });
+            await fetch(API_URL + `/api/notificaciones/${id}/leer`, { method: 'PUT', credentials: 'include' });
             await cargarNotificaciones();
         } catch (error) {
             const notif = notificacionesListaGlobal.find(n => n.id === id);
@@ -1053,17 +1077,10 @@
     
     async function marcarTodasLeidas() {
         try {
-            await fetch(API_URL + '/api/notificaciones/marcar-todas', {
-                method: 'PUT',
-                credentials: 'include'
-            });
-            notificacionesListaGlobal.forEach(n => n.leida = true);
-            mostrarNotificacionesEnPanel();
-            const contadorSpan = document.getElementById('notificacionesContador');
-            if (contadorSpan) contadorSpan.style.display = 'none';
+            await fetch(API_URL + '/api/notificaciones/marcar-todas', { method: 'PUT', credentials: 'include' });
+            await cargarNotificaciones();
             Swal.fire('Listo', 'Todas las notificaciones marcadas como leídas', 'success');
         } catch (error) {
-            console.error('Error:', error);
             notificacionesListaGlobal.forEach(n => n.leida = true);
             mostrarNotificacionesEnPanel();
             document.getElementById('notificacionesContador').style.display = 'none';
@@ -1076,11 +1093,9 @@
         event.stopPropagation();
         const panel = document.getElementById('notificacionesPanel');
         notificacionesPanelAbierto = !notificacionesPanelAbierto;
-        
         if (notificacionesPanelAbierto) {
             panel.classList.add('open');
             cargarNotificaciones();
-            marcarTodasLeidas();
         } else {
             panel.classList.remove('open');
         }
@@ -1095,37 +1110,21 @@
         }
     });
     
-    function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
-    function cerrarSidebar() { if(window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open'); }
-    
-    function abrirModalRecarga() {
-        document.getElementById('modalRecarga').classList.add('active');
-    }
-    
-    function cerrarModalRecarga() {
-        document.getElementById('modalRecarga').classList.remove('active');
-    }
+    // ========== FUNCIONES DE RECARGA ==========
+    function abrirModalRecarga() { document.getElementById('modalRecarga').classList.add('active'); }
+    function cerrarModalRecarga() { document.getElementById('modalRecarga').classList.remove('active'); }
     
     function copiarTexto(elementoId) {
         const texto = document.getElementById(elementoId).innerText;
         navigator.clipboard.writeText(texto);
-        Swal.fire({
-            title: 'Copiado',
-            text: 'Información copiada al portapapeles',
-            icon: 'success',
-            timer: 1500,
-            showConfirmButton: false,
-            background: 'var(--card-bg)',
-            color: 'var(--text-primary)'
-        });
+        Swal.fire({ title: 'Copiado', text: 'Información copiada al portapapeles', icon: 'success', timer: 1500, showConfirmButton: false, background: 'var(--card-bg)', color: 'var(--text-primary)' });
     }
     
     function cargarTransaccionesBilletera() {
         const transacciones = [
             { fecha: "01/05/2026", concepto: "Pago por viajes", monto: "+ B/. 850.00", tipo: "ingreso" },
             { fecha: "28/04/2026", concepto: "Retiro", monto: "- B/. 200.00", tipo: "egreso" },
-            { fecha: "25/04/2026", concepto: "Pago por viajes", monto: "+ B/. 720.00", tipo: "ingreso" },
-            { fecha: "20/04/2026", concepto: "Recarga", monto: "+ B/. 100.00", tipo: "ingreso" }
+            { fecha: "25/04/2026", concepto: "Pago por viajes", monto: "+ B/. 720.00", tipo: "ingreso" }
         ];
         const container = document.getElementById('transaccionesBilletera');
         if(container) {
@@ -1138,23 +1137,32 @@
         }
     }
     
-    function initMap() {
-        if(map) return;
-        map = L.map('map').setView([9.5, -82.5], 13);
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: 'OpenStreetMap' }).addTo(map);
-        L.marker([9.5, -82.5], { icon: L.divIcon({ html: '<i class="fas fa-taxi" style="font-size: 28px; color: var(--accent); filter: drop-shadow(0 0 5px var(--accent));"></i>', iconSize: [30, 30] }) }).addTo(map).bindPopup('🚕 Taxi en servicio');
+    // ========== FUNCIONES DE SOLICITUDES ==========
+    function mostrarSolicitudEnMapa(origenLat, origenLng, solicitudId) {
+        if (!mapboxMap) return;
+        
+        const el = document.createElement('div');
+        el.innerHTML = `<div style="background: #FF6A2A; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white; cursor: pointer;"><i class="fas fa-map-marker-alt" style="font-size: 12px; color: white;"></i></div>`;
+        
+        const marker = new mapboxgl.Marker(el)
+            .setLngLat([origenLng, origenLat])
+            .setPopup(new mapboxgl.Popup().setHTML(`<strong>📍 Solicitud #${solicitudId}</strong><br>Esperando asignación`))
+            .addTo(mapboxMap);
+        
+        solicitudesMarkers.push(marker);
     }
     
     async function generarSolicitudes() {
         try {
-            const response = await fetch(API_URL + '/api/viajes/pendientes', {
-                method: 'GET',
-                credentials: 'include'
-            });
+            const response = await fetch(API_URL + '/api/viajes/pendientes', { method: 'GET', credentials: 'include' });
             
             if (response.ok) {
                 const viajes = await response.json();
                 const container = document.getElementById('solicitudesLista');
+                
+                // Limpiar marcadores anteriores
+                solicitudesMarkers.forEach(marker => marker.remove());
+                solicitudesMarkers = [];
                 
                 if (!viajes || viajes.length === 0) {
                     container.innerHTML = '<div class="solicitud-item">📭 No hay solicitudes pendientes</div>';
@@ -1173,6 +1181,13 @@
                         </div>
                     </div>
                 `).join('');
+                
+                // Mostrar solicitudes en mapa (si tienen coordenadas)
+                viajes.forEach(v => {
+                    if (v.origenLat && v.origenLng) {
+                        mostrarSolicitudEnMapa(v.origenLat, v.origenLng, v.id);
+                    }
+                });
             } else {
                 console.error('Error al cargar solicitudes');
                 document.getElementById('solicitudesLista').innerHTML = '<div class="solicitud-item">❌ Error al cargar solicitudes</div>';
@@ -1185,10 +1200,7 @@
     
     async function aceptarViaje(viajeId, tarifa) {
         try {
-            const response = await fetch(API_URL + `/api/viajes/${viajeId}/aceptar`, {
-                method: 'PUT',
-                credentials: 'include'
-            });
+            const response = await fetch(API_URL + `/api/viajes/${viajeId}/aceptar`, { method: 'PUT', credentials: 'include' });
             
             if (response.ok) {
                 Swal.fire('¡Viaje aceptado!', 'Te diriges al punto de recogida', 'success');
@@ -1201,16 +1213,6 @@
                     ingresosChart.data.datasets[0].data[6] = gananciasHoy;
                     ingresosChart.update();
                 }
-                
-                await fetch(API_URL + '/api/notificaciones/crear', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    credentials: 'include',
-                    body: new URLSearchParams({
-                        titulo: 'Viaje aceptado',
-                        mensaje: 'Tu viaje ha sido aceptado por un conductor'
-                    })
-                });
             } else {
                 const error = await response.json();
                 Swal.fire('Error', error.error || 'No se pudo aceptar el viaje', 'error');
@@ -1223,11 +1225,7 @@
     
     async function rechazarViaje(viajeId) {
         try {
-            const response = await fetch(API_URL + `/api/viajes/${viajeId}/rechazar`, {
-                method: 'PUT',
-                credentials: 'include'
-            });
-            
+            const response = await fetch(API_URL + `/api/viajes/${viajeId}/rechazar`, { method: 'PUT', credentials: 'include' });
             if (response.ok) {
                 Swal.fire('Viaje rechazado', '', 'info');
                 document.getElementById(`solicitud-${viajeId}`)?.remove();
@@ -1253,24 +1251,7 @@
         }
     }
     
-    function mostrarFuncionExtra(tipo) {
-        const data = {
-            camara: { titulo: '📹 Cámara de seguridad', detalle: 'Tu cámara está transmitiendo en vivo. Esto ayuda a protegerte y generar confianza con los pasajeros.', stats: [{ label: 'Estado', value: '🟢 En línea' }, { label: 'Calidad', value: '1080p' }, { label: 'Almacenamiento', value: 'Cloud activo' }] },
-            sos: { titulo: '🆘 Botón de Pánico', detalle: 'Al activar esta alerta, se notificará a las autoridades y a tu contacto de emergencia con tu ubicación exacta.', stats: [{ label: 'Contacto de emergencia', value: '+507 6000-1111' }, { label: 'Ubicación compartida', value: 'Enviada al momento' }, { label: 'Tiempo de respuesta', value: '3-5 min' }] },
-            cliente: { titulo: '👤 Verificar cliente', detalle: 'Verifica la identidad del pasajero antes de iniciar el viaje. Escanea su QR o valida sus datos.', stats: [{ label: 'Pasajeros verificados hoy', value: '8' }, { label: 'Tasa de confianza', value: '100%' }] },
-            ruta: { titulo: '🗺️ Mejor ruta', detalle: 'Ruta óptima para tu próximo viaje. Evita tráfico y reduce tiempo de desplazamiento.', stats: [{ label: 'Distancia', value: '12.5 km' }, { label: 'Tiempo estimado', value: '25 min' }, { label: 'Ahorro de combustible', value: '15%' }] }
-        };
-        const info = data[tipo];
-        if(info) {
-            document.getElementById('modalTitulo').innerHTML = info.titulo;
-            document.getElementById('modalDetalle').innerHTML = info.detalle;
-            document.getElementById('modalStats').innerHTML = info.stats.map(s => `<p><strong>${s.label}:</strong> ${s.value}</p>`).join('');
-            document.getElementById('funcionModal').style.display = 'flex';
-        }
-    }
-    
-    function cerrarModal() { document.getElementById('funcionModal').style.display = 'none'; }
-    
+    // ========== CHART Y OTRAS FUNCIONES ==========
     function initCharts() {
         const ctx = document.getElementById('ingresosChart');
         if(ctx) {
@@ -1284,10 +1265,7 @@
     
     async function generarHistorial() {
         try {
-            const response = await fetch(API_URL + '/api/viajes/mis-viajes', {
-                method: 'GET',
-                credentials: 'include'
-            });
+            const response = await fetch(API_URL + '/api/viajes/mis-viajes', { method: 'GET', credentials: 'include' });
             if (response.ok) {
                 const viajes = await response.json();
                 if (!viajes || viajes.length === 0) {
@@ -1301,16 +1279,26 @@
                     </div>
                 `).join('');
             }
-        } catch(e) {
-            console.error(e);
+        } catch(e) { console.error(e); }
+    }
+    
+    function mostrarFuncionExtra(tipo) {
+        const data = {
+            camara: { titulo: '📹 Cámara de seguridad', detalle: 'Tu cámara está transmitiendo en vivo.', stats: [{ label: 'Estado', value: '🟢 En línea' }, { label: 'Calidad', value: '1080p' }] },
+            sos: { titulo: '🆘 Botón de Pánico', detalle: 'Al activar esta alerta, se notificará a las autoridades.', stats: [{ label: 'Contacto de emergencia', value: '+507 6000-1111' }, { label: 'Tiempo de respuesta', value: '3-5 min' }] },
+            cliente: { titulo: '👤 Verificar cliente', detalle: 'Verifica la identidad del pasajero antes de iniciar el viaje.', stats: [{ label: 'Pasajeros verificados hoy', value: '8' }] },
+            ruta: { titulo: '🗺️ Mejor ruta', detalle: 'Ruta óptima para tu próximo viaje.', stats: [{ label: 'Distancia', value: '12.5 km' }, { label: 'Tiempo estimado', value: '25 min' }] }
+        };
+        const info = data[tipo];
+        if(info) {
+            document.getElementById('modalTitulo').innerHTML = info.titulo;
+            document.getElementById('modalDetalle').innerHTML = info.detalle;
+            document.getElementById('modalStats').innerHTML = info.stats.map(s => `<p><strong>${s.label}:</strong> ${s.value}</p>`).join('');
+            document.getElementById('funcionModal').style.display = 'flex';
         }
     }
     
-    function cargarDatosVehiculo() {
-        document.getElementById('vehiculoInfo').innerHTML = '<strong>Toyota Corolla 2023</strong><br>Placa: AF6339<br>Color: Blanco<br>Documentos al día';
-    }
-    
-    function verDetallesVehiculo() { Swal.fire('Detalles del vehículo', 'Toyota Corolla 2023\nPlaca: AF6339\nPróximo mantenimiento: 5,000 km', 'info'); }
+    function cerrarModal() { document.getElementById('funcionModal').style.display = 'none'; }
     
     function mostrarSeccion(seccion) {
         const secciones = ['inicio', 'historial', 'ingresos', 'vehiculo', 'billetera'];
@@ -1321,6 +1309,8 @@
         if(seccion === 'billetera') cargarTransaccionesBilletera();
     }
     
+    function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+    function cerrarSidebar() { if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open'); }
     function toggleSettingsPanel() { document.getElementById('settingsPanel').classList.toggle('open'); }
     
     function setEstilo(estilo) {
@@ -1372,91 +1362,6 @@
         else if(estilo === 'crimson') document.getElementById('cardCrimson')?.classList.add('active');
     }
     
-    // ========== COMPARTIR UBICACIÓN ==========
-    function copiarEnlace(enlace) {
-        navigator.clipboard.writeText(enlace);
-        Swal.fire({
-            title: '✅ Enlace copiado',
-            text: 'Pégalo donde quieras compartir',
-            icon: 'success',
-            timer: 1500,
-            showConfirmButton: false,
-            background: 'var(--card-bg)',
-            color: 'var(--text-primary)'
-        });
-    }
-    
-    function compartirViaje() {
-        Swal.fire({
-            title: 'Obteniendo ubicación...',
-            text: 'Por favor espera',
-            allowOutsideClick: false,
-            didOpen: () => { Swal.showLoading(); }
-        });
-        
-        if (!navigator.geolocation) {
-            Swal.close();
-            Swal.fire('Error', 'Tu navegador no soporta geolocalización', 'error');
-            return;
-        }
-        
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                Swal.close();
-                const lat = position.coords.latitude;
-                const lng = position.coords.longitude;
-                const mapsLink = `https://maps.google.com/?q=${lat},${lng}`;
-                const mensaje = `Hola, estoy en ${mapsLink} - Compartido desde CupoTax`;
-                
-                Swal.fire({
-                    title: 'Compartir ubicación en vivo',
-                    html: `
-                        <div style="text-align: left;">
-                            <p><strong>📍 Enlace de Google Maps:</strong></p>
-                            <p style="font-size: 0.8rem; word-break: break-all;">${mapsLink}</p>
-                            <hr style="margin: 1rem 0;">
-                            <button class="btn-compartir" onclick="window.open('https://wa.me/?text=${encodeURIComponent(mensaje)}', '_blank')" style="background: #25D366; width: 100%; margin-bottom: 0.5rem; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">
-                                📱 Compartir por WhatsApp
-                            </button>
-                            <button class="btn-compartir" onclick="window.location.href='mailto:?subject=Mi ubicación en vivo&body=${encodeURIComponent(mensaje)}'" style="background: #3A86FF; width: 100%; margin-bottom: 0.5rem; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">
-                                📧 Enviar por Correo
-                            </button>
-                            <button class="btn-compartir" onclick="copiarEnlace('${mapsLink}')" style="background: #6C6F93; width: 100%; margin-bottom: 0.5rem; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">
-                                🔗 Copiar enlace
-                            </button>
-                            <button class="btn-compartir" onclick="Swal.fire('Instagram', 'Toma una captura de pantalla del enlace y compártela en tu historia o mensaje directo.', 'info')" style="background: #E1306C; width: 100%; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">
-                                📸 Compartir en Instagram
-                            </button>
-                        </div>
-                    `,
-                    showConfirmButton: false,
-                    showCloseButton: true,
-                    background: 'var(--card-bg)',
-                    color: 'var(--text-primary)'
-                });
-            },
-            (error) => {
-                Swal.close();
-                let mensajeError = 'No se pudo obtener tu ubicación. ';
-                switch(error.code) {
-                    case error.PERMISSION_DENIED:
-                        mensajeError += 'Permiso denegado. Activa la ubicación en tu dispositivo.';
-                        break;
-                    case error.POSITION_UNAVAILABLE:
-                        mensajeError += 'Información de ubicación no disponible.';
-                        break;
-                    case error.TIMEOUT:
-                        mensajeError += 'Tiempo de espera agotado.';
-                        break;
-                    default:
-                        mensajeError += 'Error desconocido.';
-                }
-                Swal.fire('Error', mensajeError, 'error');
-            }
-        );
-    }
-    
-    // ========== FUNCIÓN CERRAR SESIÓN MEJORADA ==========
     function cerrarSesion() {
         Swal.fire({
             title: '¿Cerrar sesión?',
@@ -1470,11 +1375,39 @@
             confirmButtonColor: 'var(--accent)'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(API_URL + '/logout', { method: 'POST', credentials: 'include' })
-                    .catch(e => console.error('Error:', e));
+                fetch(API_URL + '/logout', { method: 'POST', credentials: 'include' }).catch(e => console.error('Error:', e));
                 window.location.href = API_URL + '/';
             }
         });
+    }
+    
+    // ========== COMPARTIR UBICACIÓN ==========
+    function copiarEnlace(enlace) {
+        navigator.clipboard.writeText(enlace);
+        Swal.fire({ title: '✅ Enlace copiado', text: 'Pégalo donde quieras compartir', icon: 'success', timer: 1500, showConfirmButton: false });
+    }
+    
+    function compartirViaje() {
+        Swal.fire({ title: 'Obteniendo ubicación...', text: 'Por favor espera', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+        if (!navigator.geolocation) { Swal.close(); Swal.fire('Error', 'Tu navegador no soporta geolocalización', 'error'); return; }
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                Swal.close();
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                const mapsLink = `https://maps.google.com/?q=${lat},${lng}`;
+                const mensaje = `Hola, estoy en ${mapsLink} - Compartido desde CupoTax`;
+                Swal.fire({
+                    title: 'Compartir ubicación en vivo',
+                    html: `<div style="text-align: left;"><p><strong>📍 Enlace de Google Maps:</strong></p><p style="font-size: 0.8rem; word-break: break-all;">${mapsLink}</p><hr style="margin: 1rem 0;"><button class="btn-compartir" onclick="window.open('https://wa.me/?text=${encodeURIComponent(mensaje)}', '_blank')" style="background: #25D366; width: 100%; margin-bottom: 0.5rem; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">📱 Compartir por WhatsApp</button><button class="btn-compartir" onclick="window.location.href='mailto:?subject=Mi ubicación en vivo&body=${encodeURIComponent(mensaje)}'" style="background: #3A86FF; width: 100%; margin-bottom: 0.5rem; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">📧 Enviar por Correo</button><button class="btn-compartir" onclick="copiarEnlace('${mapsLink}')" style="background: #6C6F93; width: 100%; margin-bottom: 0.5rem; padding: 0.6rem; border: none; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">🔗 Copiar enlace</button></div>`,
+                    showConfirmButton: false,
+                    showCloseButton: true,
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)'
+                });
+            },
+            (error) => { Swal.close(); Swal.fire('Error', 'No se pudo obtener tu ubicación', 'error'); }
+        );
     }
     
     const estiloGuardado = localStorage.getItem('cupotax-taxista-estilo') || 'fire';
@@ -1489,14 +1422,14 @@
     let intervaloActualizar = null;
     
     window.onload = () => {
-        initMap();
+        initMapboxMap();
         generarSolicitudes();
         initCharts();
         cargarDatosVehiculo();
         cargarTransaccionesBilletera();
         cargarNotificaciones();
         cargarPerfilUsuario();
-        cargarFotoVehiculo();  // <-- CARGAR FOTO DEL VEHÍCULO
+        cargarFotoVehiculo();
         mostrarSeccion('inicio');
         
         intervaloActualizar = setInterval(() => {

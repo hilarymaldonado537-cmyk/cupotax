@@ -6,14 +6,11 @@
     <title>CupoTax - Panel Administrador</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css' rel='stylesheet' />
@@ -168,7 +165,6 @@
             z-index: -1;
         }
         
-        /* Fondo animado premium */
         .animated-bg {
             position: fixed;
             top: 0;
@@ -195,7 +191,6 @@
             50% { transform: scale(1.2) rotate(5deg); opacity: 1; }
         }
         
-        /* Partículas sutiles */
         .particles {
             position: fixed;
             top: 0;
@@ -578,7 +573,6 @@
             color: var(--accent);
         }
         
-        /* Estilos flota de vehículos */
         .flota-tabs {
             display: flex;
             gap: 1rem;
@@ -741,11 +735,24 @@
             .vehiculos-grid { grid-template-columns: 1fr; }
             .detalle-info { grid-template-columns: 1fr; }
         }
+        
+        .vehicle-dot {
+            transition: transform 0.2s ease;
+        }
+        .vehicle-dot:hover {
+            transform: scale(1.5);
+        }
+        .mapboxgl-popup-content {
+            background: var(--card-bg) !important;
+            backdrop-filter: blur(10px);
+            border-radius: 16px !important;
+            border: 1px solid var(--accent);
+            color: var(--text-primary);
+        }
     </style>
 </head>
 <body>
 
-<!-- Fondo animado premium -->
 <div class="animated-bg"></div>
 <div class="particles" id="particles"></div>
 
@@ -792,7 +799,6 @@
     <button class="btn-reset" onclick="resetearEstilos()">Restaurar</button>
 </div>
 
-<!-- Modal de detalle -->
 <div id="detailModal" class="detail-modal">
     <div class="detail-modal-content">
         <div class="detail-modal-header">
@@ -803,8 +809,7 @@
     </div>
 </div>
 
-<script>
-        const API_URL = '';
+<script>    const API_URL = '';
     let chartViajes, chartIngresos, chartPolar, chartSpline, chart3DRing, chartStackedBar;
     let alertasSOS = [];
     let usuariosGlobal = [];
@@ -814,13 +819,14 @@
     let currentServiceFilter = "semana";
     let flotaFiltro = 'BUSERO';
     
-    // MAPBOX TOKEN
-    //mapboxgl.accessToken = 'pk.eyJ1IjoiY3Vwb3RheCIsImEiOiJjbW91OWR4OXAwNDIxMnNxMTVlbzdkOGFkIn0.qVOJg2P9CzlD8aLladqjtg';
+    // MAPBOX TOKEN y variables
+    mapboxgl.accessToken = 'pk.eyJ1IjoiY3Vwb3RheCIsImEiOiJjbW91OWR4OXAwNDIxMnNxMTVlbzdkOGFkIn0.qVOJg2P9CzlD8aLladqjtg';
     let mapaAdmin;
     let marcadoresVehiculos = {};
     let intervaloMapa;
+    let vehiculosSimulados = [];
+    let intervalosMovimiento = [];
     
-    // Crear partículas
     function createParticles() {
         const particlesContainer = document.getElementById('particles');
         for (let i = 0; i < 60; i++) {
@@ -1032,7 +1038,6 @@
             container.innerHTML = '<div class="info-card">✅ No hay alertas SOS activas</div>';
             return;
         }
-        
         container.innerHTML = alertasSOS.map(a => `
             <div class="alerta-sos-item">
                 <div><strong>🚨 ${a.tipo}</strong> - ${a.fecha}</div>
@@ -1109,10 +1114,10 @@
                 <tbody>
                     ${vehiculos.map(v => `
                         <tr>
-                            <td>${v.placa || 'N/A'}</td>
-                            <td>${v.nombreCompleto || v.username}</td>
-                            <td>${v.modelo || 'N/A'}</td>
-                            <td>${v.activo ? 'Activo' : 'Inactivo'}</td>
+                            <td>${v.placa || 'N/A'}知
+                            <td>${v.nombreCompleto || v.username}知
+                            <td>${v.modelo || 'N/A'}知
+                            <td>${v.activo ? 'Activo' : 'Inactivo'}知
                         </tr>
                     `).join('')}
                 </tbody>
@@ -1142,12 +1147,12 @@
         const tbody = document.getElementById('tablaUsuariosBody');
         if (tbody) {
             tbody.innerHTML = usuariosFiltrados.map(u => `
-                <tr>
-                    <td>${u.nombreCompleto || u.username}</td>
-                    <td>${u.rol}</td>
-                    <td><span class="status-badge ${u.activo ? 'status-active' : 'status-inactive'}">${u.activo ? 'Activo' : 'Inactivo'}</span></td>
-                    <td>${u.viajesRealizados || 0}</td>
-                    <td>${u.ultimaActividad ? new Date(u.ultimaActividad).toLocaleDateString() : '-'}</td>
+                <td>
+                    <td>${u.nombreCompleto || u.username}知
+                    <table>${u.rol}知
+                    <td><span class="status-badge ${u.activo ? 'status-active' : 'status-inactive'}">${u.activo ? 'Activo' : 'Inactivo'}</span>知
+                    <td>${u.viajesRealizados || 0}知
+                    <td>${u.ultimaActividad ? new Date(u.ultimaActividad).toLocaleDateString() : '-'}知
                 </tr>
             `).join('');
         }
@@ -1156,15 +1161,15 @@
         if(event && event.currentTarget) event.currentTarget.classList.add('active');
     }
     
-    // ========== MAPBOX ==========
+    // ========== MAPBOX con estilo STANDARD ==========
     function initAdminMap() {
         const changuinola = { lat: 9.4333, lng: -82.5167 };
         
         mapaAdmin = new mapboxgl.Map({
             container: 'mapaAdmin',
-            style: 'mapbox://styles/mapbox/dark-v11',
+            style: 'mapbox://styles/mapbox/standard',  // Estilo bonito como el que mostraste
             center: [changuinola.lng, changuinola.lat],
-            zoom: 13
+            zoom: 13.5
         });
         
         mapaAdmin.addControl(new mapboxgl.NavigationControl());
@@ -1176,35 +1181,97 @@
                 .addTo(mapaAdmin);
         });
         
-        console.log('Mapa Mapbox inicializado');
+        console.log('Mapa Mapbox con estilo Standard inicializado');
+        
+        iniciarSimulacionVehiculos();
     }
     
-    function generarUbicacionesDemo() {
+    function iniciarSimulacionVehiculos() {
         const changuinola = { lat: 9.4333, lng: -82.5167 };
-        const vehiculos = [];
-        for (let i = 0; i < 15; i++) {
-            vehiculos.push({
+        vehiculosSimulados = [];
+        
+        // Taxis (amarillos)
+        for (let i = 0; i < 8; i++) {
+            vehiculosSimulados.push({
                 id: i + 1,
-                tipo: i < 8 ? 'TAXISTA' : 'BUSERO',
-                placa: `${i < 8 ? 'T' : 'B'}-${100 + i}`,
-                conductor: `Conductor ${i + 1}`,
-                lat: changuinola.lat + (Math.random() - 0.5) * 0.1,
-                lng: changuinola.lng + (Math.random() - 0.5) * 0.1,
-                estado: Math.random() > 0.2 ? 'activo' : 'inactivo',
-                velocidad: Math.floor(Math.random() * 60) + 10,
+                tipo: 'TAXISTA',
+                placa: `T-${100 + i}`,
+                conductor: `Taxista ${i + 1}`,
+                lat: changuinola.lat + (Math.random() - 0.5) * 0.05,
+                lng: changuinola.lng + (Math.random() - 0.5) * 0.05,
+                velocidad: 0.0001 + Math.random() * 0.0003,
+                direccionLat: (Math.random() - 0.5) * 0.01,
+                direccionLng: (Math.random() - 0.5) * 0.01,
+                estado: 'activo',
                 ultimaActualizacion: new Date().toLocaleTimeString()
             });
         }
-        return vehiculos;
+        
+        // Buses (rojos)
+        for (let i = 0; i < 5; i++) {
+            vehiculosSimulados.push({
+                id: i + 9,
+                tipo: 'BUSERO',
+                placa: `B-${100 + i}`,
+                conductor: `Busero ${i + 1}`,
+                lat: changuinola.lat + (Math.random() - 0.5) * 0.05,
+                lng: changuinola.lng + (Math.random() - 0.5) * 0.05,
+                velocidad: 0.0001 + Math.random() * 0.0002,
+                direccionLat: (Math.random() - 0.5) * 0.01,
+                direccionLng: (Math.random() - 0.5) * 0.01,
+                estado: 'activo',
+                ultimaActualizacion: new Date().toLocaleTimeString()
+            });
+        }
+        
+        actualizarMapaConVehiculos(vehiculosSimulados);
+        
+        if (intervalosMovimiento.length) {
+            intervalosMovimiento.forEach(interval => clearInterval(interval));
+            intervalosMovimiento = [];
+        }
+        
+        const intervaloMovimiento = setInterval(() => {
+            moverVehiculos();
+            actualizarMapaConVehiculos(vehiculosSimulados);
+        }, 2000);
+        
+        intervalosMovimiento.push(intervaloMovimiento);
+    }
+    
+    function moverVehiculos() {
+        vehiculosSimulados.forEach(vehiculo => {
+            if (Math.random() < 0.3) {
+                vehiculo.direccionLat = (Math.random() - 0.5) * 0.01;
+                vehiculo.direccionLng = (Math.random() - 0.5) * 0.01;
+            }
+            
+            vehiculo.lat += vehiculo.direccionLat * vehiculo.velocidad * 10;
+            vehiculo.lng += vehiculo.direccionLng * vehiculo.velocidad * 10;
+            
+            vehiculo.lat = Math.min(9.46, Math.max(9.40, vehiculo.lat));
+            vehiculo.lng = Math.min(-82.48, Math.max(-82.55, vehiculo.lng));
+            
+            vehiculo.ultimaActualizacion = new Date().toLocaleTimeString();
+        });
     }
     
     async function obtenerUbicacionesVehiculos() {
         try {
             const response = await fetch(API_URL + '/api/vehiculos/ubicaciones', { credentials: 'include' });
-            if (response.ok) return await response.json();
-            return generarUbicacionesDemo();
+            if (response.ok) {
+                const reales = await response.json();
+                if (reales && reales.length > 0) {
+                    if (intervalosMovimiento.length) {
+                        intervalosMovimiento.forEach(interval => clearInterval(interval));
+                        intervalosMovimiento = [];
+                    }
+                    return reales;
+                }
+            }
+            return vehiculosSimulados;
         } catch(e) {
-            return generarUbicacionesDemo();
+            return vehiculosSimulados;
         }
     }
     
@@ -1218,11 +1285,20 @@
             if (!vehiculo.lat || !vehiculo.lng) return;
             if (vehiculo.estado === 'inactivo') return;
             
-            const color = vehiculo.tipo === 'TAXISTA' ? '#FF6A2A' : '#3A86FF';
-            const icono = vehiculo.tipo === 'TAXISTA' ? '🚕' : '🚌';
+            const color = vehiculo.tipo === 'TAXISTA' ? '#FFD700' : '#FF3D2E';
             
             const el = document.createElement('div');
-            el.innerHTML = `<div style="background: ${color}; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 0 10px ${color}; font-size: 18px; cursor: pointer;">${icono}</div>`;
+            el.className = 'vehicle-dot';
+            el.style.cssText = `
+                background: ${color};
+                width: 14px;
+                height: 14px;
+                border-radius: 50%;
+                border: 2px solid white;
+                box-shadow: 0 0 8px ${color};
+                cursor: pointer;
+                transition: transform 0.2s ease;
+            `;
             
             const marker = new mapboxgl.Marker(el)
                 .setLngLat([vehiculo.lng, vehiculo.lat])
@@ -1231,20 +1307,28 @@
                         <strong style="color: ${color};">${vehiculo.tipo === 'TAXISTA' ? '🚕 Taxi' : '🚌 Bus'}</strong><br>
                         <strong>Placa:</strong> ${vehiculo.placa}<br>
                         <strong>Conductor:</strong> ${vehiculo.conductor}<br>
-                        <strong>Velocidad:</strong> ${vehiculo.velocidad} km/h<br>
-                        <strong>Estado:</strong> <span style="color: #2ecc71;">✅ Activo</span><br>
                         <small>🕐 ${vehiculo.ultimaActualizacion}</small>
                     </div>
                 `))
                 .addTo(mapaAdmin);
             
+            el.addEventListener('mouseenter', () => { el.style.transform = 'scale(1.5)'; });
+            el.addEventListener('mouseleave', () => { el.style.transform = 'scale(1)'; });
+            
             marcadoresVehiculos[vehiculo.id] = marker;
         });
         
         const activos = vehiculos.filter(v => v.estado === 'activo').length;
+        const taxis = vehiculos.filter(v => v.tipo === 'TAXISTA' && v.estado === 'activo').length;
+        const buses = vehiculos.filter(v => v.tipo === 'BUSERO' && v.estado === 'activo').length;
         const mapInfo = document.getElementById('mapInfo');
         if (mapInfo) {
-            mapInfo.innerHTML = `<span style="color: #2ecc71;">● Activos: ${activos}</span> | <span style="color: #6c757d;">● Inactivos: ${vehiculos.length - activos}</span> | 🕐 ${new Date().toLocaleTimeString()}`;
+            mapInfo.innerHTML = `
+                <span style="color: #FFD700;">🟡 Taxis activos: ${taxis}</span> | 
+                <span style="color: #FF3D2E;">🔴 Buses activos: ${buses}</span> | 
+                <span style="color: #2ecc71;">● Total: ${activos}</span> | 
+                🕐 ${new Date().toLocaleTimeString()}
+            `;
         }
     }
     
@@ -1256,7 +1340,7 @@
     async function iniciarActualizacionMapa() {
         if (intervaloMapa) clearInterval(intervaloMapa);
         await actualizarUbicaciones();
-        intervaloMapa = setInterval(actualizarUbicaciones, 10000);
+        intervaloMapa = setInterval(actualizarUbicaciones, 5000);
     }
     
     // ========== DASHBOARD ==========
@@ -1281,13 +1365,12 @@
                     <div class="stat-card" style="--i:8"><i class="fas fa-user-clock"></i><h3>${stats.totalTaxistas + stats.totalBuseros}</h3><p>Conductores activos</p><div class="trend">+3% esta semana</div></div>
                 </div>
                 
-                <!-- MAPA EN TIEMPO REAL -->
                 <div class="section">
                     <h2><i class="fas fa-map-marked-alt"></i> Ubicación de Vehículos en Tiempo Real</h2>
                     <div id="mapInfo" style="margin-bottom: 10px; font-size: 0.7rem; color: var(--text-secondary);"></div>
                     <div id="mapaAdmin" style="height: 400px; width: 100%; border-radius: 16px; overflow: hidden; border: 1px solid var(--glass-border);"></div>
                     <p style="font-size: 0.6rem; margin-top: 8px; text-align: center; color: var(--text-secondary);">
-                        <i class="fas fa-sync-alt"></i> Actualización cada 10 segundos | 🟠 Taxis | 🔵 Buses
+                        <i class="fas fa-sync-alt"></i> Actualización cada 5 segundos | 🟡 Taxis | 🔴 Buses
                     </p>
                 </div>
                 
@@ -1399,7 +1482,14 @@
         }
         else if(seccion === 'conductores') {
             const html = `<div class="section"><h2><i class="fas fa-id-card"></i> Conductores</h2>
-                <div style="overflow-x:auto;"><table class="data-table" id="tablaConductores"><thead><tr><th>Nombre</th><th>Cédula</th><th>Email</th><th>Teléfono</th><th>Tipo</th><th>Placa</th><th>Estado</th></tr></thead><tbody>${conductoresGlobal.map(c => `<tr><td>${c.nombreCompleto || c.username}</td><td>${c.cedula || '-'}</td><td>${c.email || '-'}</td><td>${c.telefono || '-'}</td><td>${c.rol}</td><td>${c.placa || '-'}</td><td class="${c.activo ? 'status-active' : 'status-inactive'}">${c.activo ? 'Activo' : 'Inactivo'}</td></tr>`).join('')}</tbody></table></div></div>`;
+                <div style="overflow-x:auto;"><table class="data-table" id="tablaConductores"><thead><tr><th>Nombre</th><th>Cédula</th><th>Email</th><th>Teléfono</th><th>Tipo</th><th>Placa</th><th>Estado</th></tr></thead><tbody>${conductoresGlobal.map(c => `<tr><td>${c.nombreCompleto || c.username}知
+                    <td>${c.cedula || '-'}知
+                    <td>${c.email || '-'}知
+                    <td>${c.telefono || '-'}知
+                    <td>${c.rol}知
+                    <td>${c.placa || '-'}知
+                    <td class="${c.activo ? 'status-active' : 'status-inactive'}">${c.activo ? 'Activo' : 'Inactivo'}知
+                </tr>`).join('')}</tbody></table></div></div>`;
             document.getElementById('contenidoPrincipal').innerHTML = html;
         }
         else if(seccion === 'flota') {
@@ -1408,20 +1498,32 @@
         else if(seccion === 'vehiculos') {
             const vehiculos = conductoresGlobal.filter(c => c.placa).map(c => ({ placa: c.placa, modelo: c.modelo, tipo: c.rol, conductor: c.nombreCompleto, estado: c.activo ? 'Activo' : 'Inactivo' }));
             const html = `<div class="section"><h2><i class="fas fa-table"></i> Tabla Vehículos</h2>
-                <div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>Placa</th><th>Modelo</th><th>Tipo</th><th>Conductor</th><th>Estado</th></tr></thead><tbody>${vehiculos.map(v => `<tr><td>${v.placa}</td><td>${v.modelo || '-'}</td><td>${v.tipo}</td><td>${v.conductor}</td><td class="${v.estado === 'Activo' ? 'status-active' : 'status-inactive'}">${v.estado}</td></tr>`).join('')}</tbody></table></div></div>`;
+                <div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>Placa</th><th>Modelo</th><th>Tipo</th><th>Conductor</th><th>Estado</th></tr></thead><tbody>${vehiculos.map(v => `<tr><td>${v.placa}知
+                    <td>${v.modelo || '-'}知
+                    <td>${v.tipo}知
+                    <td>${v.conductor}知
+                    <td class="${v.estado === 'Activo' ? 'status-active' : 'status-inactive'}">${v.estado}知
+                </tr>`).join('')}</tbody></table></div></div>`;
             document.getElementById('contenidoPrincipal').innerHTML = html;
         }
         else if(seccion === 'usuarios') {
             const usuariosNormales = usuariosGlobal.filter(u => u.rol === 'USUARIO' || u.rol === 'ESTUDIANTE');
             const html = `<div class="section"><h2><i class="fas fa-users"></i> Usuarios</h2>
-                <div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>Nombre</th><th>Cédula</th><th>Email</th><th>Teléfono</th><th>Rol</th><th>Estado</th></tr></thead><tbody>${usuariosNormales.map(u => `<tr><td>${u.nombreCompleto || u.username}</td><td>${u.cedula || '-'}</td><td>${u.email || '-'}</td><td>${u.telefono || '-'}</td><td>${u.rol}</td><td class="${u.activo ? 'status-active' : 'status-inactive'}">${u.activo ? 'Activo' : 'Inactivo'}</td><tr>`).join('')}</tbody></table></div></div>`;
+                <div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>Nombre</th><th>Cédula</th><th>Email</th><th>Teléfono</th><th>Rol</th><th>Estado</th></tr></thead><tbody>${usuariosNormales.map(u => `<tr><td>${u.nombreCompleto || u.username}知
+                    <td>${u.cedula || '-'}知
+                    <td>${u.email || '-'}知
+                    <td>${u.telefono || '-'}知
+                    <td>${u.rol}知
+                    <td class="${u.activo ? 'status-active' : 'status-inactive'}">${u.activo ? 'Activo' : 'Inactivo'}知
+                </tr>`).join('')}</tbody></table></div></div>`;
             document.getElementById('contenidoPrincipal').innerHTML = html;
         }
         else if(seccion === 'viajes') {
             const html = `<div class="section"><h2><i class="fas fa-map-marked-alt"></i> Viajes</h2>
                 <button class="btn-excel" onclick="exportarExcelTabla('tablaViajes')">📊 Excel</button>
                 <button class="btn-pdf" onclick="exportarPDFSeccion('tablaViajes')">📄 PDF</button>
-                <div style="overflow-x:auto; margin-top:1rem;" id="tablaViajes"><table class="data-table"><thead><tr><th>ID</th><th>Origen</th><th>Destino</th><th>Tarifa</th><th>Tipo</th><th>Estado</th><th>Fecha</th></tr></thead><tbody>${viajesGlobal.map(v => `<td>${v.id}知
+                <div style="overflow-x:auto; margin-top:1rem;" id="tablaViajes"><table class="data-table"><thead><tr><th>ID</th><th>Origen</th><th>Destino</th><th>Tarifa</th><th>Tipo</th><th>Estado</th><th>Fecha</th></tr></thead><tbody>${viajesGlobal.map(v => `<table>
+                    <td>${v.id}知
                     <td>${v.origen}知
                     <td>${v.destino}知
                     <td>B/.${v.tarifa}知
@@ -1677,3 +1779,6 @@
             modal.classList.remove('active');
         }
     }
+</script>
+</body>
+</html>
