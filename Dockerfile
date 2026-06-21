@@ -1,4 +1,4 @@
-# Usar imagen con Maven y JDK 17
+# Build stage
 FROM maven:3.9.6-eclipse-temurin-17 AS build
 
 WORKDIR /app
@@ -7,23 +7,23 @@ WORKDIR /app
 COPY pom.xml .
 RUN mvn dependency:go-offline -B
 
-# Copiar el código fuente
+# Copiar código fuente
 COPY src ./src
 
-# Construir el proyecto
+# Construir el JAR
 RUN mvn clean package -DskipTests -B
 
 # ------------------------------------------------------------
-# Segunda etapa: imagen ligera para ejecutar
+# Run stage
 FROM eclipse-temurin:17-jre-alpine
 
 WORKDIR /app
 
-# Copiar el JAR desde la etapa de build
+# Copiar el JAR generado
 COPY --from=build /app/target/*.jar app.jar
 
 # Exponer el puerto
 EXPOSE 8080
 
-# Comando para ejecutar la aplicación
+# Ejecutar la aplicación
 ENTRYPOINT ["java", "-jar", "app.jar"]
