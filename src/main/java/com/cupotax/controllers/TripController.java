@@ -16,35 +16,7 @@ public class TripController {
     @Autowired
     private DatabaseReference database;
 
-    @GetMapping("/user/{uid}")
-    public ResponseEntity<?> getUserTrips(@PathVariable String uid) {
-        try {
-            CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
-            database.child("viajes").orderByChild("usuarioId").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot snapshot) {
-                    List<Map<String, Object>> trips = new ArrayList<>();
-                    for (DataSnapshot child : snapshot.getChildren()) {
-                        Map<String, Object> trip = new HashMap<>();
-                        trip.put("id", child.getKey());
-                        if (child.getValue() != null) {
-                            trip.putAll((Map<String, Object>) child.getValue());
-                        }
-                        trips.add(trip);
-                    }
-                    future.complete(trips);
-                }
-
-                @Override
-                public void onCancelled(DatabaseError error) {
-                    future.completeExceptionally(error.toException());
-                }
-            });
-            return ResponseEntity.ok(future.get());
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
-        }
-    }
+    // ========== ELIMINADO: getUserTrips (DUPLICADO EN ApiController) ==========
 
     @GetMapping("/driver/{uid}")
     public ResponseEntity<?> getDriverTrips(@PathVariable String uid) {
