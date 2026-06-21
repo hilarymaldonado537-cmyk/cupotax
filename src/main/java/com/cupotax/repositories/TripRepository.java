@@ -1,34 +1,51 @@
 package com.cupotax.repositories;
 
+import com.google.firebase.database.*;
 import com.cupotax.models.Trip;
-import com.cupotax.models.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import java.time.LocalDateTime;
-import java.util.List;
+
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 @Repository
-public interface TripRepository extends JpaRepository<Trip, Long> {
-    
-    List<Trip> findByUsuario(User usuario);
-    List<Trip> findByConductor(User conductor);
-    List<Trip> findByEstado(String estado);
-    List<Trip> findByEstadoOrderByFechaSolicitudDesc(String estado);
-    
-    @Query("SELECT t FROM Trip t WHERE t.conductor = :conductor AND t.estado = 'pendiente'")
-    List<Trip> findPendingTripsByConductor(@Param("conductor") User conductor);
-    
-    @Query("SELECT t FROM Trip t WHERE t.usuario = :usuario ORDER BY t.fechaSolicitud DESC")
-    List<Trip> findRecentTripsByUser(@Param("usuario") User usuario);
-    
-    @Query("SELECT COUNT(t) FROM Trip t WHERE t.conductor = :conductor AND t.estado = 'completado'")
-    long countCompletedTripsByConductor(@Param("conductor") User conductor);
-    
-    @Query("SELECT SUM(t.tarifa) FROM Trip t WHERE t.conductor = :conductor AND t.estado = 'completado'")
-    Double sumEarningsByConductor(@Param("conductor") User conductor);
-    
-    @Query("SELECT t FROM Trip t WHERE t.fechaSolicitud BETWEEN :start AND :end")
-    List<Trip> findTripsBetweenDates(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+public class TripRepository {
+
+    @Autowired
+    private DatabaseReference database;
+    private static final String COLLECTION = "viajes";
+
+    public CompletableFuture<String> save(Trip trip) {
+        CompletableFuture<String> future = new CompletableFuture<>();
+        String id = database.child(COLLECTION).push().getKey();
+        trip.setId(id);
+        database.child(COLLECTION).child(id).setValue(trip, (error, ref) -> {
+            if (error != null) future.completeExceptionally(error.toException());
+            else future.complete(id);
+        });
+        return future;
+    }
+
+    public CompletableFuture<List<Trip>> findByUsuarioId(String usuarioId) {
+        CompletableFuture<List<Trip>> future = new CompletableFuture<>();
+        database.child(COLLECTION).orderByChild("usuarioId").equalTo(usuarioId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                List<Trip> trips = new ArrayList<>();
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    Trip trip = child.getValue(Trip.class);
+                    if (trip != null) { 
+                        trip.setId(child.getKey()); 
+                        trips.add(trip); 
+                    }
+                }
+                future.complete(trips);
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                future.completeExceptionally(error.toException());
+            }
+        });
+        return future;
+    }
 }

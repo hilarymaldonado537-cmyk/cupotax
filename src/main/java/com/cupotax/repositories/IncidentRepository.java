@@ -1,23 +1,51 @@
 package com.cupotax.repositories;
 
+import com.google.firebase.database.*;
 import com.cupotax.models.Incident;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
+
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 @Repository
-public interface IncidentRepository extends JpaRepository<Incident, Long> {
-    
-    List<Incident> findByAtendidoOrderByFechaDesc(boolean atendido);
-    
-    List<Incident> findAllByOrderByFechaDesc();
-    
-    @Modifying
-    @Transactional
-    @Query("UPDATE Incident i SET i.atendido = true WHERE i.id = :id")
-    void marcarComoAtendido(@Param("id") Long id);
+public class IncidentRepository {
+
+    @Autowired
+    private DatabaseReference database;
+    private static final String COLLECTION = "incidentes";
+
+    public CompletableFuture<String> save(Incident incident) {
+        CompletableFuture<String> future = new CompletableFuture<>();
+        String id = database.child(COLLECTION).push().getKey();
+        incident.setId(id);
+        database.child(COLLECTION).child(id).setValue(incident, (error, ref) -> {
+            if (error != null) future.completeExceptionally(error.toException());
+            else future.complete(id);
+        });
+        return future;
+    }
+
+    public CompletableFuture<List<Incident>> findByUsuarioId(String usuarioId) {
+        CompletableFuture<List<Incident>> future = new CompletableFuture<>();
+        database.child(COLLECTION).orderByChild("usuarioId").equalTo(usuarioId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                List<Incident> incidents = new ArrayList<>();
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    Incident i = child.getValue(Incident.class);
+                    if (i != null) { 
+                        i.setId(child.getKey()); 
+                        incidents.add(i); 
+                    }
+                }
+                future.complete(incidents);
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                future.completeExceptionally(error.toException());
+            }
+        });
+        return future;
+    }
 }

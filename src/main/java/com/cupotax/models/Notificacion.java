@@ -1,42 +1,52 @@
 package com.cupotax.models;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 
-@Entity
-@Table(name = "notifications")
 public class Notificacion {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
+    private String id;
+    private String usuarioId;
+    private String taxistaId;
+    private String buseroId;
     private String titulo;
     private String mensaje;
-    private LocalDateTime fecha;
-    private Boolean leida = false;
-    
-    @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private User usuario;
-    
+    private String tipo;
+    private Date fecha;
+    private boolean leida;
+    private String tripId;
+    private String data;
+
     public Notificacion() {}
-    
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    
+
+    public Notificacion(String usuarioId, String titulo, String mensaje, String tipo) {
+        this.usuarioId = usuarioId;
+        this.titulo = titulo;
+        this.mensaje = mensaje;
+        this.tipo = tipo;
+        this.fecha = new Date();
+        this.leida = false;
+    }
+
+    // Getters y Setters
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getUsuarioId() { return usuarioId; }
+    public void setUsuarioId(String usuarioId) { this.usuarioId = usuarioId; }
+    public String getTaxistaId() { return taxistaId; }
+    public void setTaxistaId(String taxistaId) { this.taxistaId = taxistaId; }
+    public String getBuseroId() { return buseroId; }
+    public void setBuseroId(String buseroId) { this.buseroId = buseroId; }
     public String getTitulo() { return titulo; }
     public void setTitulo(String titulo) { this.titulo = titulo; }
-    
     public String getMensaje() { return mensaje; }
     public void setMensaje(String mensaje) { this.mensaje = mensaje; }
-    
-    public LocalDateTime getFecha() { return fecha; }
-    public void setFecha(LocalDateTime fecha) { this.fecha = fecha; }
-    
-    public Boolean getLeida() { return leida; }
-    public void setLeida(Boolean leida) { this.leida = leida; }
-    
-    public User getUsuario() { return usuario; }
-    public void setUsuario(User usuario) { this.usuario = usuario; }
+    public String getTipo() { return tipo; }
+    public void setTipo(String tipo) { this.tipo = tipo; }
+    public Date getFecha() { return fecha; }
+    public void setFecha(Date fecha) { this.fecha = fecha; }
+    public boolean isLeida() { return leida; }
+    public void setLeida(boolean leida) { this.leida = leida; }
+    public String getTripId() { return tripId; }
+    public void setTripId(String tripId) { this.tripId = tripId; }
+    public String getData() { return data; }
+    public void setData(String data) { this.data = data; }
 }

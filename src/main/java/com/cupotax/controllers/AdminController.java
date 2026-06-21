@@ -1,84 +1,179 @@
 package com.cupotax.controllers;
 
-import com.cupotax.models.Trip;
-import com.cupotax.models.User;
-import com.cupotax.repositories.TripRepository;
-import com.cupotax.repositories.UserRepository;
+import com.google.firebase.database.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
-@Controller
-@RequestMapping("/admin")
+@RestController
+@RequestMapping("/api/admin")
+@CrossOrigin(origins = "*")
 public class AdminController {
-    
+
     @Autowired
-    private UserRepository userRepository;
-    
-    @Autowired
-    private TripRepository tripRepository;
-    
-    @GetMapping("")
-    public String adminPanel() {
-        return "admin";
-    }
-    
+    private DatabaseReference database;
+
     @GetMapping("/users")
-    @ResponseBody
-    public List<User> getUsers() {
-        return userRepository.findAll();
-    }
-    
-    @GetMapping("/lista-conductores")
-    @ResponseBody
-    public List<User> getDrivers() {
-        return userRepository.findAllDrivers();
-    }
-    
-    @GetMapping("/trips")
-    @ResponseBody
-    public List<Trip> getAllTrips() {
-        return tripRepository.findAll();
-    }
-    
-    @GetMapping("/stats")
-    @ResponseBody
-    public Map<String, Object> getStats() {
-        Map<String, Object> stats = new HashMap<>();
-        stats.put("totalUsuarios", userRepository.count());
-        stats.put("totalTaxistas", userRepository.findByRol("TAXISTA").size());
-        stats.put("totalBuseros", userRepository.findByRol("BUSERO").size());
-        stats.put("totalViajes", tripRepository.count());
-        
-        Double ingresos = tripRepository.findAll().stream()
-                .mapToDouble(Trip::getTarifa)
-                .sum();
-        stats.put("totalIngresos", ingresos);
-        
-        return stats;
-    }
-    
-    @GetMapping("/user/{id}")
-    @ResponseBody
-    public Optional<User> getUser(@PathVariable Long id) {
-        return userRepository.findById(id);
-    }
-    
-    @PostMapping("/user/toggle/{id}")
-    @ResponseBody
-    public String toggleUserStatus(@PathVariable Long id) {
-        Optional<User> userOpt = userRepository.findById(id);
-        if (userOpt.isPresent()) {
-            User user = userOpt.get();
-            user.setActivo(!user.isActivo());
-            userRepository.save(user);
-            return "Usuario actualizado";
+    public ResponseEntity<?> getAllUsers() {
+        try {
+            CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
+            database.child("usuarios").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    List<Map<String, Object>> users = new ArrayList<>();
+                    for (DataSnapshot child : snapshot.getChildren()) {
+                        Map<String, Object> user = new HashMap<>();
+                        user.put("uid", child.getKey());
+                        if (child.getValue() != null) {
+                            user.putAll((Map<String, Object>) child.getValue());
+                        }
+                        users.add(user);
+                    }
+                    future.complete(users);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    future.completeExceptionally(error.toException());
+                }
+            });
+            return ResponseEntity.ok(future.get());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
         }
-        return "Usuario no encontrado";
+    }
+
+    @GetMapping("/stats")
+    public ResponseEntity<?> getStats() {
+        try {
+            CompletableFuture<Map<String, Object>> future = new CompletableFuture<>();
+            Map<String, Object> stats = new HashMap<>();
+            
+            database.child("usuarios").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    int total = 0, taxistas = 0, buseros = 0, admins = 0, usuarios = 0;
+                    for (DataSnapshot child : snapshot.getChildren()) {
+                        total++;
+                        Map<String, Object> data = (Map<String, Object>) child.getValue();
+                        if (data != null) {
+                            String role = (String) data.get("rol");
+                            if ("TAXISTA".equals(role)) taxistas++;
+                            else if ("BUSERO".equals(role)) buseros++;
+                            else if ("ADMIN".equals(role)) admins++;
+                            else if ("USUARIO".equals(role)) usuarios++;
+                        }
+                    }
+                    stats.put("totalUsuarios", total);
+                    stats.put("taxistas", taxistas);
+                    stats.put("buseros", buseros);
+                    stats.put("admins", admins);
+                    stats.put("usuarios", usuarios);
+                    future.complete(stats);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    future.completeExceptionally(error.toException());
+                }
+            });
+            
+            return ResponseEntity.ok(future.get());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @GetMapping("/viajes")
+    public ResponseEntity<?> getAllViajes() {
+        try {
+            CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
+            database.child("viajes").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    List<Map<String, Object>> viajes = new ArrayList<>();
+                    for (DataSnapshot child : snapshot.getChildren()) {
+                        Map<String, Object> viaje = new HashMap<>();
+                        viaje.put("id", child.getKey());
+                        if (child.getValue() != null) {
+                            viaje.putAll((Map<String, Object>) child.getValue());
+                        }
+                        viajes.add(viaje);
+                    }
+                    future.complete(viajes);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    future.completeExceptionally(error.toException());
+                }
+            });
+            return ResponseEntity.ok(future.get());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @GetMapping("/notificaciones")
+    public ResponseEntity<?> getAdminNotifications() {
+        try {
+            CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
+            database.child("admin").child("notificaciones").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    List<Map<String, Object>> notifs = new ArrayList<>();
+                    for (DataSnapshot child : snapshot.getChildren()) {
+                        Map<String, Object> n = new HashMap<>();
+                        n.put("id", child.getKey());
+                        if (child.getValue() != null) {
+                            n.putAll((Map<String, Object>) child.getValue());
+                        }
+                        notifs.add(n);
+                    }
+                    future.complete(notifs);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    future.completeExceptionally(error.toException());
+                }
+            });
+            return ResponseEntity.ok(future.get());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @GetMapping("/incidentes")
+    public ResponseEntity<?> getAllIncidentes() {
+        try {
+            CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
+            database.child("incidentes").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    List<Map<String, Object>> incidentes = new ArrayList<>();
+                    for (DataSnapshot child : snapshot.getChildren()) {
+                        Map<String, Object> incidente = new HashMap<>();
+                        incidente.put("id", child.getKey());
+                        if (child.getValue() != null) {
+                            incidente.putAll((Map<String, Object>) child.getValue());
+                        }
+                        incidentes.add(incidente);
+                    }
+                    future.complete(incidentes);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    future.completeExceptionally(error.toException());
+                }
+            });
+            return ResponseEntity.ok(future.get());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
+        }
     }
 }

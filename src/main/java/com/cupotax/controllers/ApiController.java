@@ -1,46 +1,90 @@
 package com.cupotax.controllers;
 
-import com.cupotax.models.User;
-import com.cupotax.repositories.UserRepository;
+import com.google.firebase.database.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "*")
 public class ApiController {
-    
+
     @Autowired
-    private UserRepository userRepository;
-    
-    @PostMapping("/reservas")
-    public ResponseEntity<Map<String, Object>> guardarReserva(@RequestBody Map<String, Object> reserva) {
-        System.out.println("Reserva recibida: " + reserva);
-        Map<String, Object> respuesta = new HashMap<>();
-        respuesta.put("exito", true);
-        respuesta.put("mensaje", "Reserva confirmada");
-        respuesta.put("codigo", reserva.get("codigo"));
-        return ResponseEntity.ok(respuesta);
+    private DatabaseReference database;
+
+    @GetMapping("/users/{uid}")
+    public ResponseEntity<?> getUser(@PathVariable String uid) {
+        try {
+            CompletableFuture<Map<String, Object>> future = new CompletableFuture<>();
+            database.child("usuarios").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("uid", snapshot.getKey());
+                    if (snapshot.getValue() != null) {
+                        data.putAll((Map<String, Object>) snapshot.getValue());
+                    }
+                    future.complete(data);
+                }
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    future.completeExceptionally(error.toException());
+                }
+            });
+            return ResponseEntity.ok(future.get());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
+        }
     }
-    
-    @GetMapping("/drivers")
-    public List<User> getAllDrivers() {
-        return userRepository.findAllDrivers();
+
+    @GetMapping("/trips/user/{uid}")
+    public ResponseEntity<?> getUserTrips(@PathVariable String uid) {
+        try {
+            CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
+            database.child("viajes").orderByChild("usuarioId").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    List<Map<String, Object>> trips = new ArrayList<>();
+                    for (DataSnapshot child : snapshot.getChildren()) {
+                        Map<String, Object> trip = new HashMap<>();
+                        trip.put("id", child.getKey());
+                        if (child.getValue() != null) {
+                            trip.putAll((Map<String, Object>) child.getValue());
+                        }
+                        trips.add(trip);
+                    }
+                    future.complete(trips);
+                }
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    future.completeExceptionally(error.toException());
+                }
+            });
+            return ResponseEntity.ok(future.get());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
+        }
     }
-    
-    @GetMapping("/driver/{id}")
-    public ResponseEntity<User> getDriver(@PathVariable Long id) {
-        return userRepository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-    }
-    
-    @PostMapping("/ayuda")
-    public ResponseEntity<Map<String, String>> enviarAyuda(@RequestBody Map<String, String> reporte) {
-        System.out.println("Reporte de ayuda: " + reporte);
-        Map<String, String> respuesta = new HashMap<>();
-        respuesta.put("status", "recibido");
-        return ResponseEntity.ok(respuesta);
+
+    @PostMapping("/trips")
+    public ResponseEntity<?> createTrip(@RequestBody Map<String, Object> tripData) {
+        try {
+            String tripId = database.child("viajes").push().getKey();
+            tripData.put("fechaCreacion", new Date().toString());
+            tripData.put("estado", "pendiente");
+            CompletableFuture<Void> future = new CompletableFuture<>();
+            database.child("viajes").child(tripId).setValue(tripData, (error, ref) -> {
+                if (error != null) future.completeExceptionally(error.toException());
+                else future.complete(null);
+            });
+            future.get();
+            return ResponseEntity.ok(Map.of("message", "Viaje creado", "tripId", tripId));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
+        }
     }
 }

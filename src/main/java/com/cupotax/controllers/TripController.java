@@ -1,282 +1,211 @@
 package com.cupotax.controllers;
 
-import com.cupotax.models.Trip;
-import com.cupotax.models.User;
-import com.cupotax.repositories.TripRepository;
-import com.cupotax.repositories.UserRepository;
+import com.google.firebase.database.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
-@RequestMapping("/api/viajes")
+@RequestMapping("/api/trips")
+@CrossOrigin(origins = "*")
 public class TripController {
-    
+
     @Autowired
-    private TripRepository tripRepository;
-    
-    @Autowired
-    private UserRepository userRepository;
-    
-    // ========== USUARIO: Solicitar un viaje ==========
-    @PostMapping("/solicitar")
-    public ResponseEntity<Map<String, Object>> solicitarViaje(@RequestBody Map<String, Object> request, HttpSession session) {
-        Map<String, Object> response = new HashMap<>();
-        
-        Long userId = (Long) session.getAttribute("userId");
-        if (userId == null) {
-            response.put("error", "No autorizado");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    private DatabaseReference database;
+
+    @GetMapping("/user/{uid}")
+    public ResponseEntity<?> getUserTrips(@PathVariable String uid) {
+        try {
+            CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
+            database.child("viajes").orderByChild("usuarioId").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    List<Map<String, Object>> trips = new ArrayList<>();
+                    for (DataSnapshot child : snapshot.getChildren()) {
+                        Map<String, Object> trip = new HashMap<>();
+                        trip.put("id", child.getKey());
+                        if (child.getValue() != null) {
+                            trip.putAll((Map<String, Object>) child.getValue());
+                        }
+                        trips.add(trip);
+                    }
+                    future.complete(trips);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    future.completeExceptionally(error.toException());
+                }
+            });
+            return ResponseEntity.ok(future.get());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
         }
-        
-        Optional<User> userOpt = userRepository.findById(userId);
-        if (userOpt.isEmpty()) {
-            response.put("error", "Usuario no encontrado");
-            return ResponseEntity.badRequest().body(response);
-        }
-        
-        User usuario = userOpt.get();
-        
-        String origen = (String) request.get("origen");
-        String destino = (String) request.get("destino");
-        Double tarifa = ((Number) request.get("tarifaEstimada")).doubleValue();
-        String tipoServicio = (String) request.get("tipoServicio");
-        String tipoViaje = (String) request.get("tipoViaje");
-        
-        Trip trip = new Trip();
-        trip.setUsuario(usuario);
-        trip.setOrigen(origen);
-        trip.setDestino(destino);
-        trip.setTarifa(tarifa);
-        trip.setTipoServicio(tipoServicio);
-        trip.setTipoViaje(tipoViaje);
-        trip.setEstado("pendiente");
-        trip.setFechaSolicitud(LocalDateTime.now());
-        
-        tripRepository.save(trip);
-        
-        response.put("success", true);
-        response.put("message", "Viaje solicitado correctamente");
-        response.put("tripId", trip.getId());
-        
-        return ResponseEntity.ok(response);
     }
-    
-    // ========== TAXISTA: Obtener viajes pendientes ==========
+
+    @GetMapping("/driver/{uid}")
+    public ResponseEntity<?> getDriverTrips(@PathVariable String uid) {
+        try {
+            CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
+            database.child("viajes").orderByChild("taxistaId").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    List<Map<String, Object>> trips = new ArrayList<>();
+                    for (DataSnapshot child : snapshot.getChildren()) {
+                        Map<String, Object> trip = new HashMap<>();
+                        trip.put("id", child.getKey());
+                        if (child.getValue() != null) {
+                            trip.putAll((Map<String, Object>) child.getValue());
+                        }
+                        trips.add(trip);
+                    }
+                    future.complete(trips);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    future.completeExceptionally(error.toException());
+                }
+            });
+            return ResponseEntity.ok(future.get());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @GetMapping("/busero/{uid}")
+    public ResponseEntity<?> getBuseroTrips(@PathVariable String uid) {
+        try {
+            CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
+            database.child("viajes").orderByChild("buseroId").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    List<Map<String, Object>> trips = new ArrayList<>();
+                    for (DataSnapshot child : snapshot.getChildren()) {
+                        Map<String, Object> trip = new HashMap<>();
+                        trip.put("id", child.getKey());
+                        if (child.getValue() != null) {
+                            trip.putAll((Map<String, Object>) child.getValue());
+                        }
+                        trips.add(trip);
+                    }
+                    future.complete(trips);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    future.completeExceptionally(error.toException());
+                }
+            });
+            return ResponseEntity.ok(future.get());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<?> createTrip(@RequestBody Map<String, Object> tripData) {
+        try {
+            String tripId = database.child("viajes").push().getKey();
+            tripData.put("fechaCreacion", new Date().toString());
+            tripData.put("estado", "pendiente");
+            
+            CompletableFuture<Void> future = new CompletableFuture<>();
+            database.child("viajes").child(tripId).setValue(tripData, (error, ref) -> {
+                if (error != null) future.completeExceptionally(error.toException());
+                else future.complete(null);
+            });
+            future.get();
+
+            // Crear notificación
+            Map<String, Object> notificacion = new HashMap<>();
+            notificacion.put("usuarioId", tripData.get("usuarioId"));
+            notificacion.put("titulo", "🚗 Viaje solicitado");
+            notificacion.put("mensaje", "Tu viaje ha sido registrado. Buscando conductor...");
+            notificacion.put("fecha", new Date().toString());
+            notificacion.put("leida", false);
+            notificacion.put("tripId", tripId);
+            database.child("notificaciones").push().setValueAsync(notificacion);
+
+            return ResponseEntity.ok(Map.of("message", "Viaje creado", "tripId", tripId));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @PutMapping("/{tripId}")
+    public ResponseEntity<?> updateTrip(@PathVariable String tripId, @RequestBody Map<String, Object> updates) {
+        try {
+            updates.put("fechaActualizacion", new Date().toString());
+            
+            CompletableFuture<Void> future = new CompletableFuture<>();
+            database.child("viajes").child(tripId).updateChildren(updates, (error, ref) -> {
+                if (error != null) future.completeExceptionally(error.toException());
+                else future.complete(null);
+            });
+            future.get();
+            return ResponseEntity.ok(Map.of("message", "Viaje actualizado"));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @GetMapping("/{tripId}")
+    public ResponseEntity<?> getTrip(@PathVariable String tripId) {
+        try {
+            CompletableFuture<Map<String, Object>> future = new CompletableFuture<>();
+            database.child("viajes").child(tripId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    Map<String, Object> trip = new HashMap<>();
+                    trip.put("id", snapshot.getKey());
+                    if (snapshot.getValue() != null) {
+                        trip.putAll((Map<String, Object>) snapshot.getValue());
+                    }
+                    future.complete(trip);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    future.completeExceptionally(error.toException());
+                }
+            });
+            return ResponseEntity.ok(future.get());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
+        }
+    }
+
     @GetMapping("/pendientes")
-    public ResponseEntity<List<Trip>> getViajesPendientes(HttpSession session) {
-        Long userId = (Long) session.getAttribute("userId");
-        if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<?> getPendingTrips() {
+        try {
+            CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
+            database.child("viajes").orderByChild("estado").equalTo("pendiente").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    List<Map<String, Object>> trips = new ArrayList<>();
+                    for (DataSnapshot child : snapshot.getChildren()) {
+                        Map<String, Object> trip = new HashMap<>();
+                        trip.put("id", child.getKey());
+                        if (child.getValue() != null) {
+                            trip.putAll((Map<String, Object>) child.getValue());
+                        }
+                        trips.add(trip);
+                    }
+                    future.complete(trips);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    future.completeExceptionally(error.toException());
+                }
+            });
+            return ResponseEntity.ok(future.get());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
         }
-        
-        // Obtener viajes con estado "pendiente" (sin conductor asignado)
-        List<Trip> viajesPendientes = tripRepository.findByEstadoOrderByFechaSolicitudDesc("pendiente");
-        return ResponseEntity.ok(viajesPendientes);
-    }
-    
-    // ========== TAXISTA: Aceptar un viaje ==========
-    @PutMapping("/{id}/aceptar")
-    public ResponseEntity<Map<String, Object>> aceptarViaje(@PathVariable Long id, HttpSession session) {
-        Map<String, Object> response = new HashMap<>();
-        
-        Long userId = (Long) session.getAttribute("userId");
-        if (userId == null) {
-            response.put("error", "No autorizado");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-        }
-        
-        Optional<User> taxistaOpt = userRepository.findById(userId);
-        if (taxistaOpt.isEmpty()) {
-            response.put("error", "Taxista no encontrado");
-            return ResponseEntity.badRequest().body(response);
-        }
-        
-        Optional<Trip> tripOpt = tripRepository.findById(id);
-        if (tripOpt.isEmpty()) {
-            response.put("error", "Viaje no encontrado");
-            return ResponseEntity.badRequest().body(response);
-        }
-        
-        Trip trip = tripOpt.get();
-        
-        // Verificar que el viaje aún está pendiente
-        if (!"pendiente".equals(trip.getEstado())) {
-            response.put("error", "Este viaje ya fue aceptado o cancelado");
-            return ResponseEntity.badRequest().body(response);
-        }
-        
-        // Asignar el taxista al viaje
-        trip.setConductor(taxistaOpt.get());
-        trip.setEstado("asignado");
-        trip.setFechaInicio(LocalDateTime.now());
-        tripRepository.save(trip);
-        
-        response.put("success", true);
-        response.put("message", "Viaje aceptado correctamente");
-        response.put("tripId", trip.getId());
-        
-        return ResponseEntity.ok(response);
-    }
-    
-    // ========== TAXISTA: Rechazar un viaje ==========
-    @PutMapping("/{id}/rechazar")
-    public ResponseEntity<Map<String, Object>> rechazarViaje(@PathVariable Long id, HttpSession session) {
-        Map<String, Object> response = new HashMap<>();
-        
-        Long userId = (Long) session.getAttribute("userId");
-        if (userId == null) {
-            response.put("error", "No autorizado");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-        }
-        
-        Optional<Trip> tripOpt = tripRepository.findById(id);
-        if (tripOpt.isEmpty()) {
-            response.put("error", "Viaje no encontrado");
-            return ResponseEntity.badRequest().body(response);
-        }
-        
-        Trip trip = tripOpt.get();
-        
-        if (!"pendiente".equals(trip.getEstado())) {
-            response.put("error", "Este viaje ya fue aceptado o cancelado");
-            return ResponseEntity.badRequest().body(response);
-        }
-        
-        trip.setEstado("rechazado");
-        tripRepository.save(trip);
-        
-        response.put("success", true);
-        response.put("message", "Viaje rechazado");
-        
-        return ResponseEntity.ok(response);
-    }
-    
-    // ========== USUARIO/TAXISTA: Historial de viajes ==========
-    @GetMapping("/historial")
-    public ResponseEntity<List<Trip>> getHistorialViajes(HttpSession session) {
-        Long userId = (Long) session.getAttribute("userId");
-        if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        
-        Optional<User> userOpt = userRepository.findById(userId);
-        if (userOpt.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        
-        User user = userOpt.get();
-        List<Trip> viajes;
-        
-        // Si es taxista, ver viajes como conductor; si es usuario, ver viajes como pasajero
-        if ("TAXISTA".equals(user.getRol()) || "BUSERO".equals(user.getRol())) {
-            viajes = tripRepository.findByConductor(user);
-        } else {
-            viajes = tripRepository.findByUsuario(user);
-        }
-        
-        return ResponseEntity.ok(viajes);
-    }
-    
-    // ========== TAXISTA: Obtener viajes asignados a él ==========
-    @GetMapping("/mis-viajes")
-    public ResponseEntity<List<Trip>> getMisViajesAsignados(HttpSession session) {
-        Long userId = (Long) session.getAttribute("userId");
-        if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        
-        Optional<User> taxistaOpt = userRepository.findById(userId);
-        if (taxistaOpt.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        
-        List<Trip> viajes = tripRepository.findByConductor(taxistaOpt.get());
-        return ResponseEntity.ok(viajes);
-    }
-    
-    // ========== USUARIO: Cancelar un viaje pendiente ==========
-    @PutMapping("/{id}/cancelar")
-    public ResponseEntity<Map<String, Object>> cancelarViaje(@PathVariable Long id, HttpSession session) {
-        Map<String, Object> response = new HashMap<>();
-        
-        Long userId = (Long) session.getAttribute("userId");
-        if (userId == null) {
-            response.put("error", "No autorizado");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-        }
-        
-        Optional<Trip> tripOpt = tripRepository.findById(id);
-        if (tripOpt.isEmpty()) {
-            response.put("error", "Viaje no encontrado");
-            return ResponseEntity.badRequest().body(response);
-        }
-        
-        Trip trip = tripOpt.get();
-        
-        // Solo se puede cancelar si está pendiente
-        if (!"pendiente".equals(trip.getEstado())) {
-            response.put("error", "Solo puedes cancelar viajes pendientes");
-            return ResponseEntity.badRequest().body(response);
-        }
-        
-        trip.setEstado("cancelado");
-        tripRepository.save(trip);
-        
-        response.put("success", true);
-        response.put("message", "Viaje cancelado correctamente");
-        
-        return ResponseEntity.ok(response);
-    }
-    
-    // ========== TAXISTA: Completar un viaje (con calificación) ==========
-    @PutMapping("/{id}/completar")
-    public ResponseEntity<Map<String, Object>> completarViaje(@PathVariable Long id, 
-                                                               @RequestParam(required = false) Integer calificacion,
-                                                               @RequestParam(required = false) String comentario,
-                                                               HttpSession session) {
-        Map<String, Object> response = new HashMap<>();
-        
-        Long userId = (Long) session.getAttribute("userId");
-        if (userId == null) {
-            response.put("error", "No autorizado");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-        }
-        
-        Optional<Trip> tripOpt = tripRepository.findById(id);
-        if (tripOpt.isEmpty()) {
-            response.put("error", "Viaje no encontrado");
-            return ResponseEntity.badRequest().body(response);
-        }
-        
-        Trip trip = tripOpt.get();
-        
-        if (!"asignado".equals(trip.getEstado())) {
-            response.put("error", "Solo puedes completar viajes asignados");
-            return ResponseEntity.badRequest().body(response);
-        }
-        
-        trip.setEstado("completado");
-        trip.setFechaFin(LocalDateTime.now());
-        if (calificacion != null) {
-            trip.setCalificacion(calificacion);
-        }
-        if (comentario != null) {
-            trip.setComentario(comentario);
-        }
-        tripRepository.save(trip);
-        
-        response.put("success", true);
-        response.put("message", "Viaje completado correctamente");
-        
-        return ResponseEntity.ok(response);
     }
 }
