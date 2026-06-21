@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CupoTax - Registro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body.style-fire {
+            --bg-gradient-start: #0A0A0A;
+            --bg-gradient-end: #1E1E1E;
+            --glass-bg: rgba(30, 30, 30, 0.85);
+            --glass-border: rgba(255, 106, 42, 0.3);
+            --navbar-bg: rgba(10, 10, 10, 0.9);
+            --text-primary: #FFFFFF;
+            --text-secondary: #B3B3B3;
+            --accent: #FF6A2A;
+            --accent-neon: #FF8C42;
+            --accent-glow: 0 0 15px rgba(255, 106, 42, 0.4);
+            --card-bg: rgba(30, 30, 30, 0.85);
+            --input-bg: rgba(255, 255, 255, 0.08);
+            --success: #FFA15C;
+            --danger: #FF3D2E;
+        }
+        
+        body.style-glass {
+            --bg-gradient-start: #0B1220;
+            --bg-gradient-end: #0A2540;
+            --glass-bg: rgba(22, 38, 58, 0.55);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --navbar-bg: rgba(16, 26, 43, 0.6);
+            --text-primary: #FFFFFF;
+            --text-secondary: #A8B2D1;
+            --accent: #3A86FF;
+            --accent-neon: #4FACFE;
+            --accent-glow: 0 0 15px rgba(58, 134, 255, 0.3);
+            --card-bg: rgba(22, 38, 58, 0.55);
+            --input-bg: rgba(255, 255, 255, 0.08);
+            --success: #43E97B;
+            --danger: #e74c3c;
+        }
+        
+        body.style-neon {
+            --bg-gradient-start: #0B0B12;
+            --bg-gradient-end: #1A1D2E;
+            --glass-bg: rgba(26, 29, 46, 0.7);
+            --glass-border: rgba(255, 76, 205, 0.3);
+            --navbar-bg: rgba(16, 18, 30, 0.8);
+            --text-primary: #FFFFFF;
+            --text-secondary: #A0A3BD;
+            --accent: #FF4ECD;
+            --accent-neon: #9D4EDD;
+            --accent-glow: 0 0 15px rgba(255, 76, 205, 0.4);
+            --card-bg: rgba(26, 29, 46, 0.7);
+            --input-bg: rgba(255, 255, 255, 0.08);
+            --success: #C77DFF;
+            --danger: #FF2FD8;
+        }
+        
+        /* ========== MODO 4: CRIMSON GLASS (ROJO OSCURO) ========== */
+        body.style-crimson {
+            --bg-gradient-start: #1A0A0A;
+            --bg-gradient-end: #2D1515;
+            --glass-bg: rgba(45, 21, 21, 0.55);
+            --glass-border: rgba(255, 100, 100, 0.15);
+            --navbar-bg: rgba(26, 14, 14, 0.9);
+            --text-primary: #FFFFFF;
+            --text-secondary: #D1A8A8;
+            --accent: #E63946;
+            --accent-neon: #FF6B6B;
+            --accent-glow: 0 0 15px rgba(230, 57, 70, 0.4);
+            --card-bg: rgba(45, 21, 21, 0.55);
+            --input-bg: rgba(255, 255, 255, 0.08);
+            --success: #FF6B6B;
+            --danger: #E63946;
+        }
+        
+        body.style-crimson::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(230, 57, 70, 0.12), rgba(255, 100, 100, 0.05), transparent);
+            pointer-events: none;
+            z-index: -2;
+        }
+        
+        body.style-crimson .btn-register {
+            background: linear-gradient(135deg, #E63946, #FF6B6B);
+        }
+        
+        body.style-crimson .btn-register:hover {
+            box-shadow: 0 0 15px rgba(230, 57, 70, 0.4);
+        }
+        
+        body.style-crimson .terminos-checkbox a,
+        body.style-crimson .login-link a,
+        body.style-crimson .back-link a {
+            color: #E63946;
+        }
+        
+        body.light-mode {
+            --bg-gradient-start: #F5F5F7;
+            --bg-gradient-end: #FFFFFF;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --navbar-bg: #FFFFFF;
+            --text-primary: #000000;
+            --text-secondary: #555555;
+            --accent: #FF6A2A;
+            --accent-neon: #FF8C42;
+            --accent-glow: 0 0 10px rgba(255, 106, 42, 0.2);
+            --card-bg: #FFFFFF;
+            --input-bg: #F5F5F5;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 2rem;
+        }
+        
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://i.ibb.co/pBSfBsYF/Whats-App-Image-2026-04-28-at-12-20-21-AM.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 0.25;
+            z-index: -2;
+        }
+        
+        body.light-mode::before { opacity: 0.6; }
+        
+        .register-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+        
+        .register-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+        
+        .logo { text-align: center; margin-bottom: 1rem; }
+        .logo h1 { font-size: 1.8rem; background: linear-gradient(135deg, var(--accent), var(--accent-neon)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .logo span { font-size: 0.7rem; color: var(--text-secondary); letter-spacing: 2px; }
+        .register-title { text-align: center; margin-bottom: 1.5rem; }
+        .register-title h2 { color: var(--accent); font-size: 1.3rem; }
+        
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; color: var(--accent); font-size: 0.7rem; margin-bottom: 0.3rem; letter-spacing: 0.5px; }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.7rem;
+            background: var(--input-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 8px var(--accent-glow);
+        }
+        
+        .password-strength {
+            height: 4px;
+            margin-top: 0.3rem;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        .password-strength.weak { background: #e74c3c; width: 33%; }
+        .password-strength.medium { background: #f39c12; width: 66%; }
+        .password-strength.strong { background: #2ecc71; width: 100%; }
+        .password-hint { font-size: 0.6rem; margin-top: 0.2rem; color: var(--text-secondary); }
+        
+        .required-star { color: var(--danger); margin-left: 2px; }
+        
+        .btn-register {
+            background: linear-gradient(135deg, var(--accent), var(--accent-neon));
+            border: none;
+            padding: 0.8rem;
+            border-radius: 40px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+            color: #000;
+            transition: all 0.3s;
+        }
+        .btn-register:hover { transform: translateY(-2px); box-shadow: var(--accent-glow); }
+        
+        .login-link { text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-secondary); }
+        .login-link a { color: var(--accent); text-decoration: none; font-weight: 600; cursor: pointer; }
+        .back-link { text-align: center; margin-top: 1rem; }
+        .back-link a { color: var(--text-secondary); text-decoration: none; font-size: 0.8rem; cursor: pointer; }
+        
+        .pin-helper { font-size: 0.65rem; color: var(--text-secondary); margin-top: 0.2rem; }
+        
+        .terminos-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin: 1.5rem 0 1rem;
+            flex-wrap: wrap;
+        }
+        .terminos-checkbox input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        .terminos-checkbox label {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+        .terminos-checkbox a {
+            color: var(--accent);
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .terminos-checkbox a:hover {
+            text-decoration: underline;
+        }
+        
+        .settings-toggle {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            cursor: pointer;
+            z-index: 1000;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            transition: all 0.3s;
+        }
+        .settings-toggle:hover { transform: scale(1.1); box-shadow: var(--accent-glow); }
+        
+        .settings-panel {
+            position: fixed;
+            bottom: 90px;
+            right: 24px;
+            width: 280px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid var(--accent);
+            padding: 1rem;
+            z-index: 10000;
+            display: none;
+        }
+        .settings-panel.open { display: block !important; }
+        .settings-panel h4 { color: var(--accent); margin-bottom: 0.5rem; text-align: center; }
+        .theme-card { padding: 0.5rem; cursor: pointer; border-radius: 12px; margin-bottom: 0.5rem; text-align: center; transition: all 0.3s; }
+        .theme-card:hover { background: rgba(255,255,255,0.1); }
+        .theme-card.active { background: var(--accent); color: #000; }
+        .btn-reset { width: 100%; padding: 0.5rem; background: transparent; border: 1px solid var(--accent); color: var(--accent); border-radius: 30px; cursor: pointer; margin-top: 0.5rem; }
+        .btn-reset:hover { background: var(--accent); color: #000; }
+        
+        @media (max-width: 750px) {
+            .form-row { grid-template-columns: 1fr; gap: 0; }
+            .register-container { margin: 1rem; }
+            .register-card { padding: 1.5rem; }
+            .settings-panel { width: 260px; right: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="register-container">
+    <div class="register-card">
+        <div class="logo"><h1>CupoTax</h1><span>TRANSPORTE INTELIGENTE</span></div>
+        <div class="register-title"><h2>Crear Cuenta</h2></div>
+        
+        <form id="registerForm" onsubmit="register(event)">
+            <!-- DATOS PERSONALES -->
+            <div class="form-row">
+                <div class="form-group"><label>NOMBRE COMPLETO <span class="required-star">*</span></label><input type="text" id="nombreCompleto" required></div>
+                <div class="form-group"><label>CÉDULA <span class="required-star">*</span></label><input type="text" id="cedula" required></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>CORREO ELECTRÓNICO <span class="required-star">*</span></label><input type="email" id="email" required></div>
+                <div class="form-group"><label>TELÉFONO <span class="required-star">*</span></label><input type="tel" id="telefono" required></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>USUARIO <span class="required-star">*</span></label><input type="text" id="username" required></div>
+                <div class="form-group"><label>ROL <span class="required-star">*</span></label>
+                    <select id="rol" required>
+                        <option value="USUARIO">Pasajero</option>
+                        <option value="ESTUDIANTE">Estudiante</option>
+                        <option value="TAXISTA">Taxista</option>
+                        <option value="BUSERO">Busero</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- CONTRASEÑA -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label>CONTRASEÑA <span class="required-star">*</span></label>
+                    <input type="password" id="password" oninput="validarPassword()" required>
+                    <div id="passwordStrength" class="password-strength"></div>
+                    <div id="passwordHint" class="password-hint"></div>
+                </div>
+                <div class="form-group">
+                    <label>CONFIRMAR CONTRASEÑA <span class="required-star">*</span></label>
+                    <input type="password" id="confirmPassword" oninput="validarConfirmacion()" required>
+                    <div id="confirmHint" class="password-hint"></div>
+                </div>
+            </div>
+            
+            <!-- PIN DE SEGURIDAD -->
+            <div class="form-group">
+                <label>PIN DE SEGURIDAD (6 dígitos) <span class="required-star">*</span></label>
+                <input type="password" id="pinSeguridad" maxlength="6" pattern="[0-9]{6}" placeholder="Ej: 123456" required>
+                <div class="pin-helper">🔐 Guarda este PIN. Lo necesitarás para recuperar tu contraseña.</div>
+            </div>
+            
+            <!-- FOTO DE PERFIL -->
+            <div class="form-group">
+                <label>FOTO DE PERFIL</label>
+                <input type="file" id="fotoPerfil" accept="image/*">
+                <div class="pin-helper">Sube una foto para tu perfil (opcional)</div>
+            </div>
+            
+            <!-- ========== CAMPOS PARA TAXISTA / BUSERO ========== -->
+            <div id="camposVehiculo" style="display: none;">
+                <div class="form-row">
+                    <div class="form-group"><label>PLACA <span class="required-star">*</span></label><input type="text" id="placa" placeholder="Ej: AF6339"></div>
+                    <div class="form-group"><label>MODELO <span class="required-star">*</span></label><input type="text" id="modelo" placeholder="Ej: Toyota Hiace"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>COLOR <span class="required-star">*</span></label><input type="text" id="color" placeholder="Ej: Blanco"></div>
+                    <div class="form-group"><label>AÑO DEL VEHÍCULO <span class="required-star">*</span></label><input type="number" id="anio" placeholder="Ej: 2023"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>CAPACIDAD <span class="required-star">*</span></label><input type="number" id="capacidad" placeholder="Número de pasajeros"></div>
+                    <div class="form-group"><label id="numeroVehiculoLabel">NÚMERO DE VEHÍCULO</label><input type="text" id="numeroVehiculo" placeholder=""></div>
+                </div>
+                
+                <!-- TIPO DE TAXI (solo para TAXISTA) -->
+                <div id="campoTipoTaxi" style="display: none;">
+                    <div class="form-group">
+                        <label>TIPO DE TAXI <span class="required-star">*</span></label>
+                        <select id="tipoTaxi">
+                            <option value="URBANO">Urbano</option>
+                            <option value="GUABITO">Taxi de Guabito</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- RUTA ASIGNADA (solo para BUSERO - 3 opciones fijas) -->
+                <div id="campoRutaBusero" style="display: none;">
+                    <div class="form-group">
+                        <label>RUTA ASIGNADA <span class="required-star">*</span></label>
+                        <select id="rutaBusero">
+                            <option value="">-- Selecciona una ruta --</option>
+                            <option value="Changuinola - Almirante">Changuinola - Almirante</option>
+                            <option value="Changuinola - David">Changuinola - David</option>
+                            <option value="Changuinola - Guabito">Changuinola - Guabito</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- FOTO DEL VEHÍCULO -->
+                <div class="form-group">
+                    <label>FOTO DEL VEHÍCULO</label>
+                    <input type="file" id="fotoVehiculo" accept="image/*">
+                    <div class="pin-helper">Sube una foto del vehículo (opcional)</div>
+                </div>
+                
+                <!-- INFORMACIÓN ADICIONAL DEL BUS (solo para BUSERO) -->
+                <div id="infoBusExtra" style="display: none;">
+                    <div class="form-row">
+                        <div class="form-group"><label>NÚMERO DE CHASIS</label><input type="text" id="chasis" placeholder="Número de chasis"></div>
+                        <div class="form-group"><label>FECHA DE MATRÍCULA</label><input type="date" id="fechaMatricula"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>ÚLTIMA REVISIÓN</label><input type="date" id="ultimaRevision"></div>
+                        <div class="form-group"><label>PRÓXIMA REVISIÓN</label><input type="date" id="proximaRevision"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ========== SELECCIÓN DE RUTA (SOLO PARA BUSERO - TODAS LAS RUTAS) ========== -->
+            <div id="campoRutaSeleccionada" style="display: none;">
+                <div class="form-group">
+                    <label>🗺️ SELECCIONAR RUTA <span class="required-star">*</span></label>
+                    <select id="rutaSeleccionada" style="width:100%; padding:0.7rem; background:var(--input-bg); border:1px solid var(--glass-border); border-radius:12px; color:var(--text-primary);" required>
+                        <option value="">-- Selecciona una ruta --</option>
+                        <option value="Changuinola - Almirante">Changuinola ↔ Almirante</option>
+                        <option value="Almirante - Changuinola">Almirante ↔ Changuinola</option>
+                        <option value="Changuinola - Guabito">Changuinola ↔ Guabito</option>
+                        <option value="Changuinola - Las Tablas">Changuinola ↔ Las Tablas</option>
+                        <option value="Changuinola - Tiger Hill">Changuinola ↔ Tiger Hill</option>
+                        <option value="Ruta Urbana">Ruta Urbana</option>
+                        <option value="Changuinola - El Silencio">Changuinola ↔ El Silencio</option>
+                        <option value="Changuinola - Fincas 4">Changuinola ↔ Fincas 4</option>
+                        <option value="Changuinola - Theobroma">Changuinola ↔ Theobroma</option>
+                        <option value="Changuinola - Fincas 30's">Changuinola ↔ Fincas 30's</option>
+                        <option value="Changuinola - Fincas 60's">Changuinola ↔ Fincas 60's</option>
+                        <option value="Changuinola - Finca 44">Changuinola ↔ Finca 44</option>
+                        <option value="Changuinola - Chiriquí Grande">Changuinola ↔ Chiriquí Grande</option>
+                        <option value="Changuinola - David">Changuinola ↔ David</option>
+                        <option value="Panamá - Changuinola">Panamá ↔ Changuinola</option>
+                        <option value="Changuinola - Las Delicias">Changuinola ↔ Las Delicias</option>
+                        <option value="Changuinola - Los Almacenes">Changuinola ↔ Los Almacenes</option>
+                        <option value="Changuinola - Puente Blanco">Changuinola ↔ Puente Blanco</option>
+                    </select>
+                    <div class="pin-helper">Selecciona la ruta que vas a cubrir</div>
+                </div>
+            </div>
+            
+            <!-- TÉRMINOS Y CONDICIONES -->
+            <div class="terminos-checkbox">
+                <input type="checkbox" id="terminos" required>
+                <label>Acepto los <a onclick="verTerminos()">Términos y Condiciones</a> y la <a onclick="verPrivacidad()">Política de Privacidad</a></label>
+            </div>
+            
+            <button type="submit" class="btn-register">REGISTRARME</button>
+        </form>
+        
+        <div class="login-link">¿Ya tienes cuenta? <a onclick="navegarA('login')">Iniciar Sesión</a></div>
+        <div class="back-link"><a onclick="navegarA('')">← Volver al inicio</a></div>
+    </div>
+</div>
+
+<div class="settings-toggle" onclick="toggleSettingsPanel()"><i class="fas fa-palette"></i></div>
+<div id="settingsPanel" class="settings-panel">
+    <h4>Personalizar interfaz</h4>
+    <div class="theme-card" onclick="setEstilo('fire')" id="cardFire">🔥 Naranja Fuego</div>
+    <div class="theme-card" onclick="setEstilo('glass')" id="cardGlass">🌀 Glass Azul</div>
+    <div class="theme-card" onclick="setEstilo('neon')" id="cardNeon">🎨 Neon Glow</div>
+    <div class="theme-card" onclick="setEstilo('crimson')" id="cardCrimson">🔴 Crimson Glass</div>
+    <div class="theme-card" onclick="toggleLightMode()" id="cardLight">☀️ Claro / Oscuro</div>
+    <button class="btn-reset" onclick="resetearEstilos()">Restaurar predeterminado</button>
+</div>
+
+<script>
+    const API_URL = '';
+    
+    function navegarA(pagina) {
+        if(pagina === '') window.location.href = API_URL + '/';
+        else window.location.href = API_URL + '/' + pagina;
+    }
+    
+    function verTerminos() {
+        Swal.fire({
+            title: 'Términos y Condiciones',
+            html: `<div style="text-align: left;">
+                        <strong>1. Aceptación</strong><br>
+                        Al registrarte en CupoTax, aceptas cumplir con estos términos.<br><br>
+                        <strong>2. Uso del servicio</strong><br>
+                        CupoTax conecta pasajeros con conductores verificados.<br><br>
+                        <strong>3. Responsabilidad</strong><br>
+                        El usuario es responsable de la información proporcionada.<br><br>
+                        <strong>4. Pagos</strong><br>
+                        Las tarifas se muestran antes de confirmar el viaje.<br><br>
+                        <strong>5. Seguridad</strong><br>
+                        CupoTax no se hace responsable por incidentes fuera de la plataforma.
+                    </div>`,
+            icon: 'info',
+            background: '#0A0A0F',
+            color: '#FF6A2A',
+            confirmButtonColor: '#FF6A2A'
+        });
+    }
+    
+    function verPrivacidad() {
+        Swal.fire({
+            title: 'Política de Privacidad',
+            html: `<div style="text-align: left;">
+                        <strong>1. Datos personales</strong><br>
+                        Tus datos serán usados solo para operar el servicio.<br><br>
+                        <strong>2. Protección</strong><br>
+                        Implementamos medidas de seguridad para proteger tu información.<br><br>
+                        <strong>3. No compartimos</strong><br>
+                        No vendemos ni compartimos tus datos con terceros.<br><br>
+                        <strong>4. Correos</strong><br>
+                        Recibirás correos relacionados con tus viajes y promociones.
+                    </div>`,
+            icon: 'info',
+            background: '#0A0A0F',
+            color: '#FF6A2A',
+            confirmButtonColor: '#FF6A2A'
+        });
+    }
+    
+    function validarPassword() {
+        const password = document.getElementById('password').value;
+        const strengthDiv = document.getElementById('passwordStrength');
+        const hintDiv = document.getElementById('passwordHint');
+        
+        let strength = 0;
+        let message = '';
+        
+        if (password.length >= 8) strength++;
+        if (password.match(/[A-Z]/)) strength++;
+        if (password.match(/[a-z]/)) strength++;
+        if (password.match(/[0-9]/)) strength++;
+        if (password.match(/[^A-Za-z0-9]/)) strength++;
+        
+        if (password.length === 0) {
+            strengthDiv.className = 'password-strength';
+            hintDiv.innerHTML = '';
+        } else if (strength <= 2) {
+            strengthDiv.className = 'password-strength weak';
+            message = 'Contraseña débil. Usa al menos 8 caracteres, mayúsculas, números y símbolos.';
+        } else if (strength <= 4) {
+            strengthDiv.className = 'password-strength medium';
+            message = 'Contraseña media. Añade más variedad.';
+        } else {
+            strengthDiv.className = 'password-strength strong';
+            message = 'Contraseña fuerte.';
+        }
+        hintDiv.innerHTML = message;
+    }
+    
+    function validarConfirmacion() {
+        const password = document.getElementById('password').value;
+        const confirm = document.getElementById('confirmPassword').value;
+        const hint = document.getElementById('confirmHint');
+        
+        if (confirm.length === 0) {
+            hint.innerHTML = '';
+        } else if (password === confirm) {
+            hint.innerHTML = 'Las contraseñas coinciden';
+            hint.style.color = '#2ecc71';
+        } else {
+            hint.innerHTML = 'Las contraseñas no coinciden';
+            hint.style.color = '#e74c3c';
+        }
+    }
+    
+    // ========== LÓGICA PRINCIPAL: MOSTRAR/OCULTAR SEGÚN ROL ==========
+    document.getElementById('rol').addEventListener('change', function() {
+        const rol = this.value;
+        const camposVehiculo = document.getElementById('camposVehiculo');
+        const campoTipoTaxi = document.getElementById('campoTipoTaxi');
+        const campoRutaBusero = document.getElementById('campoRutaBusero');
+        const infoBusExtra = document.getElementById('infoBusExtra');
+        const campoRutaSeleccionada = document.getElementById('campoRutaSeleccionada');
+        const numeroVehiculoLabel = document.getElementById('numeroVehiculoLabel');
+        const numeroVehiculoInput = document.getElementById('numeroVehiculo');
+        
+        const placa = document.getElementById('placa');
+        const modelo = document.getElementById('modelo');
+        const color = document.getElementById('color');
+        const anio = document.getElementById('anio');
+        const capacidad = document.getElementById('capacidad');
+        const rutaBuseroSelect = document.getElementById('rutaBusero');
+        const rutaSeleccionadaSelect = document.getElementById('rutaSeleccionada');
+        
+        if (rol === 'TAXISTA') {
+            camposVehiculo.style.display = 'block';
+            campoTipoTaxi.style.display = 'block';
+            campoRutaBusero.style.display = 'none';
+            infoBusExtra.style.display = 'none';
+            campoRutaSeleccionada.style.display = 'none';
+            
+            numeroVehiculoLabel.textContent = 'NÚMERO DE TAXI';
+            numeroVehiculoInput.placeholder = 'Ej: T-001';
+            numeroVehiculoInput.required = true;
+            
+            placa.required = true;
+            modelo.required = true;
+            color.required = true;
+            anio.required = true;
+            capacidad.required = true;
+            rutaBuseroSelect.required = false;
+            rutaSeleccionadaSelect.required = false;
+            
+        } else if (rol === 'BUSERO') {
+            camposVehiculo.style.display = 'block';
+            campoTipoTaxi.style.display = 'none';
+            campoRutaBusero.style.display = 'block';
+            infoBusExtra.style.display = 'block';
+            campoRutaSeleccionada.style.display = 'block';
+            
+            numeroVehiculoLabel.textContent = 'NÚMERO DE BUS';
+            numeroVehiculoInput.placeholder = 'Ej: B-001';
+            numeroVehiculoInput.required = true;
+            
+            placa.required = true;
+            modelo.required = true;
+            color.required = true;
+            anio.required = true;
+            capacidad.required = true;
+            rutaBuseroSelect.required = true;
+            rutaSeleccionadaSelect.required = true;
+            
+        } else {
+            camposVehiculo.style.display = 'none';
+            campoTipoTaxi.style.display = 'none';
+            campoRutaBusero.style.display = 'none';
+            infoBusExtra.style.display = 'none';
+            campoRutaSeleccionada.style.display = 'none';
+            
+            placa.required = false;
+            modelo.required = false;
+            color.required = false;
+            anio.required = false;
+            capacidad.required = false;
+            numeroVehiculoInput.required = false;
+            rutaBuseroSelect.required = false;
+            rutaSeleccionadaSelect.required = false;
+        }
+    });
+    
+    async function register(event) {
+        event.preventDefault();
+        
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const pin = document.getElementById('pinSeguridad').value;
+        const terminos = document.getElementById('terminos').checked;
+        
+        if (!terminos) {
+            Swal.fire({ title: 'Acepta los términos', text: 'Debes aceptar los Términos y Condiciones para registrarte', icon: 'warning', background: '#0A0A0F', color: '#FF6A2A', confirmButtonColor: '#FF6A2A' });
+            return;
+        }
+        
+        if (password !== confirmPassword) {
+            Swal.fire({ title: 'Error', text: 'Las contraseñas no coinciden', icon: 'error', background: '#0A0A0F', color: '#FF6A2A', confirmButtonColor: '#FF6A2A' });
+            return;
+        }
+        
+        if (!/^\d{6}$/.test(pin)) {
+            Swal.fire({ title: 'Error', text: 'El PIN debe ser de 6 dígitos', icon: 'error', background: '#0A0A0F', color: '#FF6A2A', confirmButtonColor: '#FF6A2A' });
+            return;
+        }
+        
+        const formData = new FormData();
+        formData.append('nombreCompleto', document.getElementById('nombreCompleto').value);
+        formData.append('cedula', document.getElementById('cedula').value);
+        formData.append('email', document.getElementById('email').value);
+        formData.append('telefono', document.getElementById('telefono').value);
+        formData.append('username', document.getElementById('username').value);
+        formData.append('password', password);
+        formData.append('rol', document.getElementById('rol').value);
+        formData.append('pinSeguridad', pin);
+        
+        const rol = document.getElementById('rol').value;
+        
+        if (rol === 'BUSERO') {
+            formData.append('rutaSeleccionada', document.getElementById('rutaSeleccionada').value);
+        }
+        
+        const fotoPerfil = document.getElementById('fotoPerfil').files[0];
+        if (fotoPerfil) formData.append('fotoPerfil', fotoPerfil);
+        
+        if (rol === 'TAXISTA' || rol === 'BUSERO') {
+            formData.append('placa', document.getElementById('placa').value);
+            formData.append('modelo', document.getElementById('modelo').value);
+            formData.append('color', document.getElementById('color').value);
+            formData.append('anio', document.getElementById('anio').value);
+            formData.append('capacidad', document.getElementById('capacidad').value);
+            formData.append('numeroVehiculo', document.getElementById('numeroVehiculo').value);
+            
+            const fotoVehiculo = document.getElementById('fotoVehiculo').files[0];
+            if (fotoVehiculo) formData.append('fotoVehiculo', fotoVehiculo);
+            
+            if (rol === 'TAXISTA') {
+                formData.append('tipoTaxi', document.getElementById('tipoTaxi').value);
+            } else {
+                formData.append('rutaBusero', document.getElementById('rutaBusero').value);
+                formData.append('chasis', document.getElementById('chasis').value);
+                formData.append('fechaMatricula', document.getElementById('fechaMatricula').value);
+                formData.append('ultimaRevision', document.getElementById('ultimaRevision').value);
+                formData.append('proximaRevision', document.getElementById('proximaRevision').value);
+            }
+        }
+        
+        try {
+            const response = await fetch(API_URL + '/register', {
+                method: 'POST',
+                credentials: 'include',
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                Swal.fire({
+                    title: 'Registro exitoso',
+                    text: 'Bienvenido a CupoTax. Revisa tu correo para confirmar tu cuenta.',
+                    icon: 'success',
+                    background: '#0A0A0F',
+                    color: '#FF6A2A',
+                    confirmButtonColor: '#FF6A2A'
+                });
+                setTimeout(() => {
+                    window.location.href = API_URL + data.redirectUrl;
+                }, 1500);
+            } else {
+                Swal.fire({ title: 'Error', text: data.error || 'Error en el registro', icon: 'error', background: '#0A0A0F', color: '#FF6A2A', confirmButtonColor: '#FF6A2A' });
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            Swal.fire({ title: 'Error', text: 'Error de conexión con el servidor', icon: 'error', background: '#0A0A0F', color: '#FF6A2A', confirmButtonColor: '#FF6A2A' });
+        }
+    }
+    
+    function toggleSettingsPanel() {
+        document.getElementById('settingsPanel').classList.toggle('open');
+    }
+    
+    function setEstilo(estilo) {
+        document.body.classList.remove('style-fire', 'style-glass', 'style-neon', 'style-crimson', 'light-mode');
+        if(estilo === 'fire') document.body.classList.add('style-fire');
+        else if(estilo === 'glass') document.body.classList.add('style-glass');
+        else if(estilo === 'neon') document.body.classList.add('style-neon');
+        else if(estilo === 'crimson') document.body.classList.add('style-crimson');
+        localStorage.setItem('cupotax-register-estilo', estilo);
+        localStorage.removeItem('cupotax-register-light');
+        actualizarCards(estilo);
+        Swal.fire({ title: `Estilo ${estilo === 'fire' ? 'Naranja Fuego' : estilo === 'glass' ? 'Glass Azul' : estilo === 'neon' ? 'Neon Glow' : 'Crimson Glass'} aplicado`, icon: 'success', timer: 1500, showConfirmButton: false });
+    }
+    
+    function toggleLightMode() {
+        if(document.body.classList.contains('light-mode')) {
+            document.body.classList.remove('light-mode');
+            let estilo = localStorage.getItem('cupotax-register-estilo') || 'fire';
+            if(estilo === 'fire') document.body.classList.add('style-fire');
+            else if(estilo === 'glass') document.body.classList.add('style-glass');
+            else if(estilo === 'neon') document.body.classList.add('style-neon');
+            else if(estilo === 'crimson') document.body.classList.add('style-crimson');
+            localStorage.removeItem('cupotax-register-light');
+        } else {
+            document.body.classList.add('light-mode');
+            localStorage.setItem('cupotax-register-light', 'true');
+        }
+        Swal.fire({ title: document.body.classList.contains('light-mode') ? 'Modo claro' : 'Modo oscuro', icon: 'success', timer: 1500, showConfirmButton: false });
+    }
+    
+    function resetearEstilos() {
+        document.body.classList.remove('style-glass', 'style-neon', 'style-crimson', 'light-mode');
+        document.body.classList.add('style-fire');
+        localStorage.setItem('cupotax-register-estilo', 'fire');
+        localStorage.removeItem('cupotax-register-light');
+        actualizarCards('fire');
+        Swal.fire({ title: 'Estilos restaurados', text: 'Volviste a Naranja Fuego', icon: 'success', timer: 1500, showConfirmButton: false });
+    }
+    
+    function actualizarCards(estilo) {
+        document.getElementById('cardFire')?.classList.remove('active');
+        document.getElementById('cardGlass')?.classList.remove('active');
+        document.getElementById('cardNeon')?.classList.remove('active');
+        document.getElementById('cardCrimson')?.classList.remove('active');
+        document.getElementById('cardLight')?.classList.remove('active');
+        if(estilo === 'fire') document.getElementById('cardFire')?.classList.add('active');
+        else if(estilo === 'glass') document.getElementById('cardGlass')?.classList.add('active');
+        else if(estilo === 'neon') document.getElementById('cardNeon')?.classList.add('active');
+        else if(estilo === 'crimson') document.getElementById('cardCrimson')?.classList.add('active');
+    }
+    
+    const estiloGuardado = localStorage.getItem('cupotax-register-estilo') || 'fire';
+    const lightGuardado = localStorage.getItem('cupotax-register-light') === 'true';
+    if(estiloGuardado === 'glass') document.body.classList.add('style-glass');
+    else if(estiloGuardado === 'neon') document.body.classList.add('style-neon');
+    else if(estiloGuardado === 'crimson') document.body.classList.add('style-crimson');
+    else document.body.classList.add('style-fire');
+    if(lightGuardado) document.body.classList.add('light-mode');
+    actualizarCards(estiloGuardado);
+    
+    window.onclick = function(e) {
+        const panel = document.getElementById('settingsPanel');
+        const btn = document.querySelector('.settings-toggle');
+        if(panel && panel.classList.contains('open') && !panel.contains(e.target) && e.target !== btn && !btn.contains(e.target)) {
+            panel.classList.remove('open');
+        }
+    }
+</script>
+
+</body>
+</html>
