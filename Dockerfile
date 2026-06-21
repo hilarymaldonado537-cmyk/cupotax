@@ -1,5 +1,5 @@
-# Usar imagen con Maven y JDK 11
-FROM maven:3.8.4-openjdk-11-slim AS build
+# Usar imagen con Maven y JDK 17
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 
 WORKDIR /app
 
@@ -10,12 +10,12 @@ RUN mvn dependency:go-offline -B
 # Copiar el código fuente
 COPY src ./src
 
-# Construir el proyecto (saltando tests)
+# Construir el proyecto
 RUN mvn clean package -DskipTests -B
 
 # ------------------------------------------------------------
 # Segunda etapa: imagen ligera para ejecutar
-FROM openjdk:11-jre-slim
+FROM eclipse-temurin:17-jre-alpine
 
 WORKDIR /app
 
