@@ -1,4 +1,4 @@
-taxista: <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <!-- ============================================================
@@ -1506,6 +1506,7 @@ taxista: <!DOCTYPE html>
     from { transform: translateX(0); opacity: 1; }
     to { transform: translateX(100%); opacity: 0; }
 }
+
 </style>
 
         <!-- BONOS Y RECOMPENSAS -->
@@ -2301,51 +2302,83 @@ SUB-SECCIÓN 8.11: DOCUMENTOS - COMPLETO
     <button class="btn-primary" style="margin-top:16px;" onclick="volverInicio()">← VOLVER AL INICIO</button>
 </div>
 
-        <!-- ==========================================================
-SUB-SECCIÓN 8.12: MANTENIMIENTO - COMPLETO
-========================================================== -->
 <div id="seccion-mantenimiento" class="seccion">
-    <h2 style="margin-bottom:20px; font-size:24px; font-weight:700;">🔧 MANTENIMIENTO DEL VEHÍCULO</h2>
-    <p style="color:var(--text-secondary); margin-bottom:20px; font-size:13px;">Gestiona los servicios y revisiones de tu vehículo</p>
     
-    <!-- ========== RESUMEN ========== -->
-    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px;">
-        <div class="stat-card">
-            <div style="font-size:24px; font-weight:700; color:var(--success);" id="mantServiciosCompletados">0</div>
-            <div style="font-size:11px; color:var(--text-secondary);">Servicios completados</div>
+    <!-- ========== HEADER ========== -->
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:24px;">
+        <div style="display:flex; align-items:center; gap:14px;">
+            <div style="width:50px; height:50px; background:var(--gradient-glow); border-radius:14px; display:flex; align-items:center; justify-content:center; box-shadow:var(--accent-glow);">
+                <i class="fas fa-wrench" style="font-size:26px; color:#000;"></i>
+            </div>
+            <div>
+                <h2 style="font-size:24px; font-weight:700; background:var(--gradient-glow); -webkit-background-clip:text; background-clip:text; color:transparent;">Mantenimiento del Vehículo</h2>
+                <p style="font-size:13px; color:var(--text-secondary);">Gestiona servicios y sube evidencias de cada revisión</p>
+            </div>
         </div>
-        <div class="stat-card">
-            <div style="font-size:24px; font-weight:700; color:var(--warning);" id="mantServiciosPendientes">0</div>
-            <div style="font-size:11px; color:var(--text-secondary);">Servicios pendientes</div>
-        </div>
-        <div class="stat-card">
-            <div style="font-size:24px; font-weight:700; color:var(--accent);" id="mantTotalServicios">0</div>
-            <div style="font-size:11px; color:var(--text-secondary);">Total servicios</div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="btn-outline" onclick="verReporteMantenimientoTaxista()" style="padding:8px 18px; font-size:12px; border-color:var(--success); color:var(--success); border-radius:30px; cursor:pointer; transition:all 0.3s;">
+                <i class="fas fa-file-pdf"></i> Reporte
+            </button>
+            <button class="btn-outline" onclick="volverInicio()" style="padding:8px 18px; font-size:12px; border-color:var(--danger); color:var(--danger); border-radius:30px; cursor:pointer; transition:all 0.3s;">
+                <i class="fas fa-times"></i> Cerrar
+            </button>
         </div>
     </div>
-    
-    <!-- ========== SERVICIOS PENDIENTES ========== -->
-    <div class="card" style="margin-bottom:16px;">
-        <div class="card-title"><i class="fas fa-clock" style="color:var(--warning);"></i> SERVICIOS PENDIENTES</div>
-        <div id="mantenimientoContainer">
+
+    <!-- ========== RESÚMEN EN TARJETAS (4 columnas) ========== -->
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px;">
+        <div style="background:var(--bg-card); border:1px solid var(--glass-border); border-radius:16px; padding:16px; text-align:center;">
+            <div style="font-size:28px; font-weight:700; color:var(--success);" id="mantTotalServiciosTaxista">0</div>
+            <div style="font-size:11px; color:var(--text-secondary);">Total servicios</div>
+        </div>
+        <div style="background:var(--bg-card); border:1px solid var(--glass-border); border-radius:16px; padding:16px; text-align:center;">
+            <div style="font-size:28px; font-weight:700; color:var(--warning);" id="mantPendientesTaxista">0</div>
+            <div style="font-size:11px; color:var(--text-secondary);">Pendientes</div>
+        </div>
+        <div style="background:var(--bg-card); border:1px solid var(--glass-border); border-radius:16px; padding:16px; text-align:center;">
+            <div style="font-size:28px; font-weight:700; color:var(--success);" id="mantCompletadosTaxista">0</div>
+            <div style="font-size:11px; color:var(--text-secondary);">Completados</div>
+        </div>
+        <div style="background:var(--bg-card); border:1px solid var(--glass-border); border-radius:16px; padding:16px; text-align:center;">
+            <div style="font-size:28px; font-weight:700; color:var(--accent);" id="mantEvidenciasTaxista">0</div>
+            <div style="font-size:11px; color:var(--text-secondary);">Evidencias</div>
+        </div>
+    </div>
+
+    <!-- ========== SERVICIOS CON EVIDENCIAS ========== -->
+    <div style="background:var(--bg-card); border:1px solid var(--glass-border); border-radius:20px; padding:20px; margin-bottom:24px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <i class="fas fa-clipboard-list" style="color:var(--accent); font-size:18px;"></i>
+                <div style="font-weight:600; font-size:16px; color:var(--text-primary);">Servicios y Evidencias</div>
+            </div>
+            <button class="btn-primary" onclick="agregarServicioMantenimientoTaxista()" style="padding:8px 20px; font-size:12px; width:auto;">
+                <i class="fas fa-plus"></i> Nuevo servicio
+            </button>
+        </div>
+        <div id="mantenimientoContainerTaxista">
             <div style="text-align:center; padding:20px; color:var(--text-tertiary);">
                 <i class="fas fa-spinner fa-spin"></i> Cargando servicios...
             </div>
         </div>
     </div>
-    
-    <!-- ========== HISTORIAL ========== -->
-    <div class="card" style="margin-bottom:16px;">
-        <div class="card-title"><i class="fas fa-history" style="color:var(--success);"></i> ÚLTIMOS SERVICIOS REALIZADOS</div>
-        <div id="historialMantenimientoContainer">
+
+    <!-- ========== HISTORIAL DE EVIDENCIAS ========== -->
+    <div style="background:var(--bg-card); border:1px solid var(--glass-border); border-radius:20px; padding:20px; margin-bottom:24px;">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
+            <i class="fas fa-images" style="color:var(--success); font-size:18px;"></i>
+            <div style="font-weight:600; font-size:16px; color:var(--text-primary);">Historial de evidencias</div>
+        </div>
+        <div id="historialEvidenciasMantenimientoTaxista">
             <div style="text-align:center; padding:20px; color:var(--text-tertiary);">
-                <i class="fas fa-spinner fa-spin"></i> Cargando historial...
+                <i class="fas fa-spinner fa-spin"></i> Cargando evidencias...
             </div>
         </div>
     </div>
-    
+
     <button class="btn-primary" style="margin-top:16px;" onclick="volverInicio()">← VOLVER AL INICIO</button>
 </div>
+
 
         <!-- ==========================================================
         SUB-SECCIÓN 8.13: PERFIL (se abre desde el sidebar)
@@ -2687,6 +2720,1154 @@ SUB-SECCIÓN 8.12: MANTENIMIENTO - COMPLETO
     }
 }
 
+/* ==========================================================
+   ESTILOS PARA MANTENIMIENTO (TAXISTA) - RESPONSIVE
+   ========================================================== */
+
+/* Responsive para móvil */
+@media (max-width: 768px) {
+    #seccion-mantenimiento .stats-grid {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+    }
+    
+    #seccion-mantenimiento .card {
+        padding: 12px !important;
+        margin-bottom: 10px !important;
+    }
+    
+    #seccion-mantenimiento h2 {
+        font-size: 18px !important;
+    }
+    
+    #seccion-mantenimiento .btn-outline {
+        font-size: 10px !important;
+        padding: 6px 12px !important;
+    }
+    
+    #seccion-mantenimiento .btn-primary {
+        font-size: 12px !important;
+        padding: 8px 16px !important;
+    }
+    
+    /* Tarjetas de resumen en móvil - 2 columnas */
+    #seccion-mantenimiento div[style*="grid-template-columns:repeat(4,1fr)"] {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #seccion-mantenimiento .btn-outline {
+        font-size: 9px !important;
+        padding: 4px 10px !important;
+        width: 100% !important;
+        justify-content: center !important;
+        margin-bottom: 4px !important;
+    }
+    
+    #seccion-mantenimiento .btn-success,
+    #seccion-mantenimiento .btn-primary {
+        width: 100% !important;
+        padding: 10px !important;
+        font-size: 11px !important;
+        justify-content: center !important;
+    }
+    
+    #seccion-mantenimiento .btn-outline i {
+        font-size: 12px !important;
+    }
+    
+    /* Botones de acción en móvil - apilados */
+    #seccion-mantenimiento div[style*="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;"] {
+        flex-direction: column !important;
+        gap: 6px !important;
+    }
+    
+    /* Tarjetas de resumen en móvil muy pequeño - 1 columna */
+    #seccion-mantenimiento div[style*="grid-template-columns:repeat(4,1fr)"] {
+        grid-template-columns: 1fr 1fr !important;
+    }
+    
+    /* Evidencias en móvil */
+    #seccion-mantenimiento img[style*="width:80px; height:60px;"] {
+        width: 60px !important;
+        height: 50px !important;
+    }
+    
+    /* Padding de las cards */
+    #seccion-mantenimiento > div[style*="background:var(--bg-card); border:1px solid var(--glass-border); border-radius:20px; padding:20px;"] {
+        padding: 12px !important;
+    }
+}
+
+/* Para tablet */
+@media (min-width: 481px) and (max-width: 768px) {
+    #seccion-mantenimiento div[style*="grid-template-columns:repeat(4,1fr)"] {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+    
+    #seccion-mantenimiento div[style*="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;"] {
+        flex-wrap: wrap !important;
+    }
+}
+
+/* ==========================================================
+   RESPONSIVE GLOBAL - TODAS LAS SECCIONES
+   ========================================================== */
+
+/* ========== 1. SOPORTE ========== */
+@media (max-width: 768px) {
+    #seccion-soporte .soporte-chat {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+    
+    #seccion-soporte .soporte-chat-box .chat-body {
+        max-height: 200px !important;
+        min-height: 150px !important;
+    }
+    
+    #seccion-soporte .ia-buttons {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 6px !important;
+    }
+    
+    #seccion-soporte .ia-buttons .ia-btn {
+        padding: 8px !important;
+    }
+    
+    #seccion-soporte .ia-buttons .ia-btn .icon {
+        font-size: 18px !important;
+    }
+    
+    #seccion-soporte .ia-buttons .ia-btn .label {
+        font-size: 10px !important;
+    }
+    
+    #seccion-soporte .base-conocimiento-grid {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+    }
+    
+    #seccion-soporte .articulo-item {
+        padding: 10px 12px !important;
+    }
+    
+    #seccion-soporte .articulo-item div {
+        font-size: 12px !important;
+    }
+    
+    #seccion-soporte .btn-outline {
+        font-size: 10px !important;
+        padding: 6px 12px !important;
+    }
+    
+    #seccion-soporte h2 {
+        font-size: 18px !important;
+    }
+    
+    #seccion-soporte .estado-sistema-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+    }
+    
+    #seccion-soporte .contacto-rapido-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+    }
+    
+    #seccion-soporte .contacto-rapido-grid button {
+        font-size: 11px !important;
+        padding: 10px !important;
+    }
+    
+    #seccion-soporte .banner-robot {
+        flex-direction: column !important;
+        text-align: center !important;
+        padding: 20px !important;
+    }
+    
+    #seccion-soporte .banner-robot .robot-container {
+        width: 100px !important;
+        height: 100px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #seccion-soporte .soporte-chat {
+        gap: 12px !important;
+    }
+    
+    #seccion-soporte .soporte-chat-box .chat-header {
+        padding: 10px 14px !important;
+    }
+    
+    #seccion-soporte .soporte-chat-box .chat-header .avatar {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 14px !important;
+    }
+    
+    #seccion-soporte .soporte-chat-box .chat-header .nombre {
+        font-size: 13px !important;
+    }
+    
+    #seccion-soporte .soporte-chat-box .chat-header .estado {
+        font-size: 10px !important;
+    }
+    
+    #seccion-soporte .soporte-chat-box .chat-body {
+        padding: 12px !important;
+        max-height: 180px !important;
+        min-height: 120px !important;
+    }
+    
+    #seccion-soporte .soporte-chat-box .chat-body .burbuja {
+        font-size: 13px !important;
+        padding: 8px 12px !important;
+    }
+    
+    #seccion-soporte .soporte-chat-box .chat-footer {
+        padding: 8px 12px !important;
+        flex-wrap: wrap !important;
+    }
+    
+    #seccion-soporte .soporte-chat-box .chat-footer input {
+        font-size: 12px !important;
+        padding: 8px 12px !important;
+        min-width: 120px !important;
+    }
+    
+    #seccion-soporte .soporte-chat-box .chat-footer .btn-enviar {
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 14px !important;
+    }
+    
+    #seccion-soporte .ia-buttons {
+        grid-template-columns: 1fr 1fr !important;
+    }
+    
+    #seccion-soporte .ia-buttons .ia-btn {
+        padding: 6px !important;
+    }
+    
+    #seccion-soporte .ia-buttons .ia-btn .icon {
+        font-size: 16px !important;
+    }
+    
+    #seccion-soporte .ia-buttons .ia-btn .label {
+        font-size: 9px !important;
+    }
+    
+    #seccion-soporte .holograma {
+        width: 60px !important;
+        height: 60px !important;
+    }
+    
+    #seccion-soporte .holograma .icono {
+        font-size: 28px !important;
+    }
+    
+    #seccion-soporte .btn-outline {
+        font-size: 9px !important;
+        padding: 4px 10px !important;
+    }
+    
+    #seccion-soporte .estado-sistema-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    #seccion-soporte .contacto-rapido-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    #seccion-soporte .contacto-rapido-grid button {
+        font-size: 10px !important;
+        padding: 8px !important;
+    }
+    
+    #seccion-soporte .banner-robot {
+        padding: 16px !important;
+    }
+    
+    #seccion-soporte .banner-robot .robot-container {
+        width: 80px !important;
+        height: 80px !important;
+    }
+    
+    #seccion-soporte .banner-robot .titulo {
+        font-size: 18px !important;
+    }
+    
+    #seccion-soporte .banner-robot .subtitulo {
+        font-size: 12px !important;
+    }
+}
+
+/* ========== 2. SEGURIDAD ========== */
+@media (max-width: 768px) {
+    #seccion-seguridad .seguridad-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+    
+    #seccion-seguridad .numeros-emergencia {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+    }
+    
+    #seccion-seguridad .numeros-emergencia button {
+        padding: 8px !important;
+        font-size: 11px !important;
+    }
+    
+    #seccion-seguridad .btn-sos {
+        font-size: 16px !important;
+        padding: 14px !important;
+    }
+    
+    #seccion-seguridad .card {
+        padding: 12px !important;
+    }
+    
+    #seccion-seguridad .card .card-title {
+        font-size: 10px !important;
+    }
+    
+    #seccion-seguridad .contactos-lista .contacto-item {
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+    }
+    
+    #seccion-seguridad .contactos-lista .contacto-item .acciones {
+        width: 100% !important;
+        justify-content: flex-end !important;
+    }
+    
+    #seccion-seguridad .dispositivos-lista .dispositivo-item {
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #seccion-seguridad .numeros-emergencia {
+        grid-template-columns: 1fr !important;
+    }
+    
+    #seccion-seguridad .btn-sos {
+        font-size: 14px !important;
+        padding: 12px !important;
+    }
+    
+    #seccion-seguridad .btn-primary {
+        font-size: 12px !important;
+        padding: 8px 16px !important;
+    }
+    
+    #seccion-seguridad .btn-outline {
+        font-size: 10px !important;
+        padding: 4px 10px !important;
+    }
+    
+    #seccion-seguridad h2 {
+        font-size: 18px !important;
+    }
+    
+    #seccion-seguridad .contactos-input {
+        flex-direction: column !important;
+        gap: 8px !important;
+    }
+    
+    #seccion-seguridad .contactos-input input {
+        width: 100% !important;
+    }
+    
+    #seccion-seguridad .contactos-input button {
+        width: 100% !important;
+    }
+}
+
+/* ========== 3. PERFIL ========== */
+@media (max-width: 768px) {
+    #seccion-perfil .perfil-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+    
+    #seccion-perfil .perfil-foto-container {
+        width: 100px !important;
+        height: 100px !important;
+    }
+    
+    #seccion-perfil .perfil-campos {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+    
+    #seccion-perfil .perfil-campo input {
+        font-size: 14px !important;
+        padding: 10px 12px !important;
+    }
+    
+    #seccion-perfil .btn-primary {
+        font-size: 13px !important;
+        padding: 10px !important;
+        width: 100% !important;
+    }
+    
+    #seccion-perfil h2 {
+        font-size: 18px !important;
+    }
+    
+    #seccion-perfil .perfil-header {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #seccion-perfil .perfil-foto-container {
+        width: 80px !important;
+        height: 80px !important;
+    }
+    
+    #seccion-perfil .perfil-campo input {
+        font-size: 13px !important;
+        padding: 8px 10px !important;
+    }
+    
+    #seccion-perfil .perfil-campo label {
+        font-size: 9px !important;
+    }
+    
+    #seccion-perfil .btn-outline {
+        font-size: 10px !important;
+        padding: 4px 10px !important;
+    }
+    
+    #seccion-perfil .perfil-nombre {
+        font-size: 18px !important;
+    }
+}
+
+/* ========== 4. MAPAS ========== */
+@media (max-width: 768px) {
+    #seccion-mapas .map-container {
+        padding: 8px !important;
+    }
+    
+    #seccion-mapas #mapa-ruta-grande,
+    #seccion-mapas #mapa-calor-grande {
+        height: 250px !important;
+    }
+    
+    #seccion-mapas .demanda-panel {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+    }
+    
+    #seccion-mapas .demanda-panel .demanda-item {
+        padding: 10px !important;
+    }
+    
+    #seccion-mapas .demanda-panel .demanda-item .numero {
+        font-size: 22px !important;
+    }
+    
+    #seccion-mapas .demanda-panel .demanda-item .label {
+        font-size: 10px !important;
+    }
+    
+    #seccion-mapas h2 {
+        font-size: 18px !important;
+    }
+    
+    #seccion-mapas .btn-primary {
+        font-size: 12px !important;
+        padding: 8px 16px !important;
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #seccion-mapas #mapa-ruta-grande,
+    #seccion-mapas #mapa-calor-grande {
+        height: 200px !important;
+    }
+    
+    #seccion-mapas .demanda-panel {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+    }
+    
+    #seccion-mapas .demanda-panel .demanda-item .numero {
+        font-size: 20px !important;
+    }
+    
+    #seccion-mapas .card-title {
+        font-size: 10px !important;
+    }
+}
+
+/* ========== 5. MENSAJERÍA (MEJORADA) ========== */
+@media (max-width: 768px) {
+    #seccion-mensajeria .chats-lista {
+        gap: 8px !important;
+    }
+    
+    #seccion-mensajeria .chat-item {
+        padding: 12px 14px !important;
+        gap: 12px !important;
+        border-radius: 12px !important;
+    }
+    
+    #seccion-mensajeria .chat-item .avatar {
+        width: 40px !height: 40px !important;
+        font-size: 15px !important;
+    }
+    
+    #seccion-mensajeria .chat-item .nombre {
+        font-size: 14px !important;
+    }
+    
+    #seccion-mensajeria .chat-item .ultimo-msg {
+        font-size: 11px !important;
+    }
+    
+    #seccion-mensajeria .chat-item .hora {
+        font-size: 9px !important;
+    }
+    
+    #seccion-mensajeria .chat-item .badge-no-leidos {
+        font-size: 9px !important;
+        padding: 1px 6px !important;
+        min-width: 18px !important;
+    }
+    
+    #seccion-mensajeria h2 {
+        font-size: 18px !important;
+    }
+    
+    #seccion-mensajeria .btn-primary {
+        font-size: 12px !important;
+        padding: 8px 16px !important;
+        width: 100% !important;
+    }
+    
+    #seccion-mensajeria .btn-outline {
+        font-size: 10px !important;
+        padding: 6px 12px !important;
+    }
+    
+    /* Modal de chat en móvil */
+    #modalChat .modal-detalle-content {
+        width: 98% !important;
+        max-height: 95vh !important;
+        border-radius: 16px !important;
+    }
+    
+    #modalChat .chat-header {
+        padding: 12px 14px !important;
+    }
+    
+    #modalChat .chat-header .avatar {
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 14px !important;
+    }
+    
+    #modalChat .chat-header .nombre {
+        font-size: 14px !important;
+    }
+    
+    #modalChat .chat-header .estado {
+        font-size: 10px !important;
+    }
+    
+    #modalChat .chat-body {
+        padding: 12px !important;
+        min-height: 180px !important;
+        max-height: 300px !important;
+    }
+    
+    #modalChat .chat-body .mensaje .burbuja {
+        font-size: 13px !important;
+        padding: 8px 14px !important;
+        max-width: 90% !important;
+    }
+    
+    #modalChat .chat-footer {
+        padding: 10px 12px !important;
+        gap: 8px !important;
+    }
+    
+    #modalChat .chat-footer input {
+        font-size: 13px !important;
+        padding: 8px 12px !important;
+    }
+    
+    #modalChat .chat-footer .btn-enviar {
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 16px !important;
+    }
+    
+    #modalChat .chat-footer .btn-adjuntar,
+    #modalChat .chat-footer .btn-emoji {
+        font-size: 18px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #seccion-mensajeria .chat-item {
+        padding: 10px 12px !important;
+        gap: 10px !important;
+        border-radius: 10px !important;
+    }
+    
+    #seccion-mensajeria .chat-item .avatar {
+        width: 34px !important;
+        height: 34px !important;
+        font-size: 12px !important;
+    }
+    
+    #seccion-mensajeria .chat-item .nombre {
+        font-size: 13px !important;
+    }
+    
+    #seccion-mensajeria .chat-item .ultimo-msg {
+        font-size: 10px !important;
+        max-width: 120px !important;
+    }
+    
+    #seccion-mensajeria .chat-item .meta {
+        gap: 2px !important;
+    }
+    
+    #seccion-mensajeria .mensaje-vacio i {
+        font-size: 36px !important;
+    }
+    
+    #seccion-mensajeria .mensaje-vacio .titulo {
+        font-size: 14px !important;
+    }
+    
+    #seccion-mensajeria .mensaje-vacio .subtitulo {
+        font-size: 11px !important;
+    }
+    
+    #modalChat .modal-detalle-content {
+        width: 100% !important;
+        max-height: 100vh !important;
+        border-radius: 0 !important;
+    }
+    
+    #modalChat .chat-header {
+        padding: 10px 12px !important;
+    }
+    
+    #modalChat .chat-header .avatar {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 12px !important;
+    }
+    
+    #modalChat .chat-header .nombre {
+        font-size: 13px !important;
+    }
+    
+    #modalChat .chat-body {
+        padding: 10px !important;
+        min-height: 150px !important;
+        max-height: 250px !important;
+    }
+    
+    #modalChat .chat-body .mensaje .burbuja {
+        font-size: 12px !important;
+        padding: 6px 12px !important;
+    }
+    
+    #modalChat .chat-footer {
+        padding: 8px 10px !important;
+        gap: 6px !important;
+    }
+    
+    #modalChat .chat-footer input {
+        font-size: 12px !important;
+        padding: 6px 10px !important;
+    }
+    
+    #modalChat .chat-footer .btn-enviar {
+        width: 34px !important;
+        height: 34px !important;
+        font-size: 14px !important;
+    }
+    
+    #modalChat .chat-footer .btn-adjuntar,
+    #modalChat .chat-footer .btn-emoji {
+        font-size: 16px !important;
+    }
+}
+
+/* ========== 6. VEHÍCULO ========== */
+@media (max-width: 768px) {
+    #seccion-vehiculo .vehiculo-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+    
+    #seccion-vehiculo .vehiculo-metricas {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+    }
+    
+    #seccion-vehiculo .vehiculo-item .value {
+        font-size: 14px !important;
+    }
+    
+    #seccion-vehiculo #vehiculoFotoContainer {
+        width: 120px !important;
+        height: 120px !important;
+    }
+    
+    #seccion-vehiculo .vehiculo-header {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+    
+    #seccion-vehiculo .vehiculo-ruta {
+        flex-direction: column !important;
+        gap: 8px !important;
+    }
+    
+    #seccion-vehiculo .vehiculo-ruta .origen-destino {
+        width: 100% !important;
+    }
+    
+    #seccion-vehiculo h2 {
+        font-size: 18px !important;
+    }
+    
+    #seccion-vehiculo .btn-primary {
+        width: 100% !important;
+        font-size: 12px !important;
+        padding: 10px !important;
+    }
+    
+    #seccion-vehiculo .btn-outline {
+        font-size: 10px !important;
+        padding: 6px 12px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #seccion-vehiculo .vehiculo-metricas {
+        grid-template-columns: 1fr 1fr !important;
+    }
+    
+    #seccion-vehiculo .vehiculo-metrica .numero {
+        font-size: 18px !important;
+    }
+    
+    #seccion-vehiculo #vehiculoFotoContainer {
+        width: 100px !important;
+        height: 100px !important;
+    }
+    
+    #seccion-vehiculo .vehiculo-item .value {
+        font-size: 13px !important;
+    }
+    
+    #seccion-vehiculo .vehiculo-item .label {
+        font-size: 8px !important;
+    }
+    
+    #seccion-vehiculo .vehiculo-ruta .origen-destino {
+        padding: 12px !important;
+    }
+    
+    #seccion-vehiculo .vehiculo-ruta .origen-destino .texto {
+        font-size: 16px !important;
+    }
+}
+
+/* ========== 7. VIAJES ========== */
+@media (max-width: 768px) {
+    #seccion-viajes .viajes-stats {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+    }
+    
+    #seccion-viajes .viaje-actual {
+        padding: 14px !important;
+    }
+    
+    #seccion-viajes .viaje-actual .header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
+    }
+    
+    #seccion-viajes .viaje-actual .acciones {
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+    }
+    
+    #seccion-viajes .viaje-actual .acciones button {
+        font-size: 10px !important;
+        padding: 4px 10px !important;
+        flex: 1 !important;
+        min-width: 60px !important;
+    }
+    
+    #seccion-viajes .filtros-viajes {
+        flex-direction: column !important;
+        gap: 8px !important;
+    }
+    
+    #seccion-viajes .filtros-viajes input,
+    #seccion-viajes .filtros-viajes select {
+        width: 100% !important;
+        font-size: 12px !important;
+        padding: 6px 10px !important;
+    }
+    
+    #seccion-viajes .filtros-viajes .btn-outline {
+        width: 100% !important;
+        font-size: 10px !important;
+        padding: 6px !important;
+    }
+    
+    #seccion-viajes .lista-viajes .viaje-item {
+        padding: 12px !important;
+    }
+    
+    #seccion-viajes .lista-viajes .viaje-item .info {
+        font-size: 12px !important;
+    }
+    
+    #seccion-viajes h2 {
+        font-size: 18px !important;
+    }
+    
+    #seccion-viajes .btn-primary {
+        width: 100% !important;
+        font-size: 12px !important;
+        padding: 10px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #seccion-viajes .viajes-stats {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+    }
+    
+    #seccion-viajes .viajes-stats .stat-card {
+        padding: 10px !important;
+    }
+    
+    #seccion-viajes .viajes-stats .stat-card .numero {
+        font-size: 20px !important;
+    }
+    
+    #seccion-viajes .viajes-stats .stat-card .label {
+        font-size: 9px !important;
+    }
+    
+    #seccion-viajes .viaje-actual .acciones button {
+        font-size: 9px !important;
+        padding: 4px 8px !important;
+        min-width: 50px !important;
+    }
+    
+    #seccion-viajes .viaje-actual .header .monto {
+        font-size: 16px !important;
+    }
+    
+    #seccion-viajes .viaje-actual .header .pasajero {
+        font-size: 16px !important;
+    }
+    
+    #seccion-viajes .lista-viajes .viaje-item {
+        padding: 10px !important;
+    }
+    
+    #seccion-viajes .lista-viajes .viaje-item .info {
+        font-size: 11px !important;
+    }
+}
+
+/* ========== 8. DOCUMENTOS ========== */
+@media (max-width: 768px) {
+    #seccion-documentos .documentos-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+    
+    #seccion-documentos .documentos-stats {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+    }
+    
+    #seccion-documentos .documento-item {
+        padding: 12px !important;
+    }
+    
+    #seccion-documentos .documento-item .info {
+        font-size: 12px !important;
+    }
+    
+    #seccion-documentos .documento-item .acciones {
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+    }
+    
+    #seccion-documentos .documento-item .acciones button {
+        font-size: 10px !important;
+        padding: 4px 10px !important;
+    }
+    
+    #seccion-documentos h2 {
+        font-size: 18px !important;
+    }
+    
+    #seccion-documentos .btn-primary {
+        font-size: 12px !important;
+        padding: 8px 16px !important;
+        width: 100% !important;
+    }
+    
+    #seccion-documentos .btn-outline {
+        font-size: 10px !important;
+        padding: 6px 12px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #seccion-documentos .documentos-stats {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+    }
+    
+    #seccion-documentos .documentos-stats .stat-card {
+        padding: 10px !important;
+    }
+    
+    #seccion-documentos .documentos-stats .stat-card .numero {
+        font-size: 20px !important;
+    }
+    
+    #seccion-documentos .documentos-stats .stat-card .label {
+        font-size: 9px !important;
+    }
+    
+    #seccion-documentos .documento-item {
+        padding: 10px !important;
+    }
+    
+    #seccion-documentos .documento-item .info {
+        font-size: 11px !important;
+    }
+    
+    #seccion-documentos .documento-item .acciones button {
+        font-size: 9px !important;
+        padding: 4px 8px !important;
+    }
+}
+
+/* ========== 9. CALIFICACIONES ========== */
+@media (max-width: 768px) {
+    #seccion-calificaciones .calificacion-item {
+        padding: 12px !important;
+    }
+    
+    #seccion-calificaciones .calificacion-item .header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 4px !important;
+    }
+    
+    #seccion-calificaciones .calificacion-item .estrellas {
+        font-size: 14px !important;
+    }
+    
+    #seccion-calificaciones .calificacion-item .comentario {
+        font-size: 12px !important;
+    }
+    
+    #seccion-calificaciones .calificacion-item .fecha {
+        font-size: 10px !important;
+    }
+    
+    #seccion-calificaciones h2 {
+        font-size: 18px !important;
+    }
+    
+    #seccion-calificaciones .btn-primary {
+        width: 100% !important;
+        font-size: 12px !important;
+        padding: 10px !important;
+    }
+    
+    #seccion-calificaciones .stats-calificacion {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #seccion-calificaciones .calificacion-item {
+        padding: 10px !important;
+    }
+    
+    #seccion-calificaciones .calificacion-item .estrellas {
+        font-size: 12px !important;
+    }
+    
+    #seccion-calificaciones .calificacion-item .comentario {
+        font-size: 11px !important;
+    }
+    
+    #seccion-calificaciones .stats-calificacion {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+    }
+}
+
+/* ========== 10. SOLICITUDES ========== */
+@media (max-width: 768px) {
+    #seccion-solicitudes .solicitud-item {
+        padding: 12px !important;
+    }
+    
+    #seccion-solicitudes .solicitud-item .header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 4px !important;
+    }
+    
+    #seccion-solicitudes .solicitud-item .info {
+        font-size: 12px !important;
+    }
+    
+    #seccion-solicitudes .solicitud-item .acciones {
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+    }
+    
+    #seccion-solicitudes .solicitud-item .acciones button {
+        font-size: 10px !important;
+        padding: 4px 10px !important;
+        flex: 1 !important;
+    }
+    
+    #seccion-solicitudes .filtros-solicitudes {
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+    }
+    
+    #seccion-solicitudes .filtros-solicitudes .filtro-btn {
+        font-size: 10px !important;
+        padding: 4px 10px !important;
+    }
+    
+    #seccion-solicitudes h2 {
+        font-size: 18px !important;
+    }
+    
+    #seccion-solicitudes .btn-primary {
+        width: 100% !important;
+        font-size: 12px !important;
+        padding: 10px !important;
+    }
+    
+    #seccion-solicitudes .buscar-input {
+        font-size: 13px !important;
+        padding: 10px 14px 10px 40px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #seccion-solicitudes .solicitud-item {
+        padding: 10px !important;
+    }
+    
+    #seccion-solicitudes .solicitud-item .info {
+        font-size: 11px !important;
+    }
+    
+    #seccion-solicitudes .solicitud-item .acciones button {
+        font-size: 9px !important;
+        padding: 4px 8px !important;
+    }
+    
+    #seccion-solicitudes .filtros-solicitudes .filtro-btn {
+        font-size: 9px !important;
+        padding: 4px 8px !important;
+    }
+    
+    #seccion-solicitudes .buscar-input {
+        font-size: 12px !important;
+        padding: 8px 12px 8px 36px !important;
+    }
+}
+
+/* ========== 11. RESERVAS ========== */
+@media (max-width: 768px) {
+    #seccion-reservas .reserva-item {
+        padding: 12px !important;
+    }
+    
+    #seccion-reservas .reserva-item .header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 4px !important;
+    }
+    
+    #seccion-reservas .reserva-item .info {
+        font-size: 12px !important;
+    }
+    
+    #seccion-reservas .reserva-item .acciones {
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+    }
+    
+    #seccion-reservas .reserva-item .acciones button {
+        font-size: 10px !important;
+        padding: 4px 10px !important;
+    }
+    
+    #seccion-reservas h2 {
+        font-size: 18px !important;
+    }
+    
+    #seccion-reservas .btn-primary {
+        width: 100% !important;
+        font-size: 12px !important;
+        padding: 10px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #seccion-reservas .reserva-item {
+        padding: 10px !important;
+    }
+    
+    #seccion-reservas .reserva-item .info {
+        font-size: 11px !important;
+    }
+    
+    #seccion-reservas .reserva-item .acciones button {
+        font-size: 9px !important;
+        padding: 4px 8px !important;
+    }
 
     </style>
 
@@ -5304,103 +6485,310 @@ function guardarEdicionContacto() {
             });
         }
 
-                // ==========================================================
-        // 🔧 SECCIÓN 12.18: MANTENIMIENTO - COMPLETO
+            // ==========================================================
+        // 🔧 SECCIÓN 12.18: MANTENIMIENTO - CON EVIDENCIAS (IGUAL QUE DOCUMENTOS)
         // ==========================================================
-        let mantenimientoData = [];
+        let mantenimientoData = {};
         let mantenimientoEditando = null;
 
-        // Servicios predefinidos
+        // ========== SERVICIOS PREDEFINIDOS ==========
         const SERVICIOS_PREDEFINIDOS = [
-            { id: 'aceite', nombre: '🔄 Cambio de aceite', kmTotal: 5000, tipo: 'km', icono: 'fa-oil-can' },
-            { id: 'revision', nombre: '🔧 Revisión general', kmTotal: 90, tipo: 'dias', icono: 'fa-tools' },
-            { id: 'llantas', nombre: '🛞 Rotación de llantas', kmTotal: 10000, tipo: 'km', icono: 'fa-circle' },
-            { id: 'frenos', nombre: '🛑 Frenos', kmTotal: 8000, tipo: 'km', icono: 'fa-car' },
-            { id: 'motor', nombre: '🚕 Motor', kmTotal: 15000, tipo: 'km', icono: 'fa-car-side' },
-            { id: 'chasis', nombre: '🔩 Chasis', kmTotal: 20000, tipo: 'km', icono: 'fa-cogs' },
-            { id: 'asientos', nombre: '💺 Asientos', kmTotal: 12000, tipo: 'km', icono: 'fa-chair' },
-            { id: 'limpieza', nombre: '🧹 Limpieza de taxi', kmTotal: 30, tipo: 'dias', icono: 'fa-broom' },
-            { id: 'lavado', nombre: '🚿 Lavado', kmTotal: 15, tipo: 'dias', icono: 'fa-car-wash' }
+            { id: 'aceite', nombre: '🔄 Cambio de aceite', icono: 'fa-oil-can', kmRecomendado: 5000 },
+            { id: 'revision', nombre: '🔧 Revisión general', icono: 'fa-tools', kmRecomendado: 90 },
+            { id: 'llantas', nombre: '🛞 Rotación de llantas', icono: 'fa-circle', kmRecomendado: 10000 },
+            { id: 'frenos', nombre: '🛑 Frenos', icono: 'fa-car', kmRecomendado: 8000 },
+            { id: 'motor', nombre: '🚕 Motor', icono: 'fa-car-side', kmRecomendado: 15000 },
+            { id: 'filtros', nombre: '🧹 Filtros de aire', icono: 'fa-wind', kmRecomendado: 12000 },
+            { id: 'bateria', nombre: '🔋 Batería', icono: 'fa-bolt', kmRecomendado: 20000 },
+            { id: 'limpieza', nombre: '🧹 Limpieza profunda', icono: 'fa-broom', kmRecomendado: 30 },
+            { id: 'lavado', nombre: '🚿 Lavado', icono: 'fa-car-wash', kmRecomendado: 15 }
         ];
 
+        // ========== CARGAR DATOS DE MANTENIMIENTO ==========
         function cargarMantenimiento(uid) {
-            const container = document.getElementById('mantenimientoContainer');
+            const container = document.getElementById('mantenimientoContainerTaxista');
             if (!container) return;
 
-            database.ref('mantenimiento/' + uid).once('value').then(function(snapshot) {
+            database.ref('mantenimiento_servicios/' + uid).once('value').then(function(snapshot) {
                 mantenimientoData = snapshot.val() || {};
                 renderizarMantenimiento();
+                cargarHistorialEvidenciasMantenimientoTaxista(uid);
+                actualizarContadoresMantenimientoTaxista();
             });
-            
-            // Cargar historial
-            cargarHistorialMantenimiento(uid);
         }
 
+        // ========== RENDERIZAR SERVICIOS CON EVIDENCIAS ==========
         function renderizarMantenimiento() {
-            const container = document.getElementById('mantenimientoContainer');
+            const container = document.getElementById('mantenimientoContainerTaxista');
             if (!container) return;
 
             let html = '';
-            let completados = 0;
-            let pendientes = 0;
 
             SERVICIOS_PREDEFINIDOS.forEach(function(servicio) {
                 const data = mantenimientoData[servicio.id] || {};
-                const progreso = data.kmActual !== undefined ? 
-                    Math.min(100, Math.round((data.kmActual / servicio.kmTotal) * 100)) : 0;
-                const restante = data.kmActual !== undefined ? 
-                    (servicio.tipo === 'km' ? `${servicio.kmTotal - data.kmActual} km` : `${servicio.kmTotal - data.kmActual} días`) :
-                    (servicio.tipo === 'km' ? `${servicio.kmTotal} km` : `${servicio.kmTotal} días`);
                 const completado = data.completado || false;
+                const tieneEvidencia = data.evidencia || false;
+                const kmActual = data.kmActual || 0;
+                const progreso = Math.min(100, Math.round((kmActual / servicio.kmRecomendado) * 100));
                 
-                if (completado) completados++;
-                else pendientes++;
-
                 const colorProgreso = progreso >= 80 ? 'var(--danger)' : 
                                      progreso >= 50 ? 'var(--warning)' : 'var(--success)';
 
                 html += `
-                    <div style="background:var(--hover-bg); border-radius:12px; padding:14px; margin-bottom:12px; border:1px solid var(--glass-border);">
-                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-                            <div>
-                                <div style="font-weight:600;">${servicio.nombre}</div>
-                                <div style="font-size:11px; color:var(--text-tertiary);">
-                                    ${completado ? '✅ Completado' : `Restante: ${restante}`}
+                    <div style="background:var(--hover-bg); border-radius:16px; padding:16px; margin-bottom:14px; border:1px solid ${completado ? 'var(--success)' : 'var(--glass-border)'}; transition:all 0.3s;">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px;">
+                            <div style="flex:1; min-width:150px;">
+                                <div style="font-weight:600; font-size:15px; color:var(--text-primary);">
+                                    ${servicio.nombre}
+                                    ${completado ? ' ✅' : ''}
+                                </div>
+                                <div style="font-size:12px; color:var(--text-secondary); margin-top:4px;">
+                                    <i class="fas fa-${servicio.icono}"></i>
+                                    ${completado ? 'Completado el ' + (data.fechaCompletado ? new Date(data.fechaCompletado).toLocaleDateString() : 'N/A') : 
+                                    'Progreso: ' + progreso + '% · ' + kmActual + ' / ' + servicio.kmRecomendado + (servicio.id === 'revision' || servicio.id === 'limpieza' ? ' días' : ' km')}
                                 </div>
                             </div>
-                            <div style="display:flex; align-items:center; gap:8px;">
+                            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
                                 ${!completado ? `
-                                    <span style="font-size:12px; font-weight:600; color:${colorProgreso};">${progreso}%</span>
-                                    <div class="progress-bar" style="width:80px;"><div class="progress-fill" style="width:${progreso}%; background:${colorProgreso};"></div></div>
+                                    <div class="progress-bar" style="width:100px; height:6px;">
+                                        <div class="progress-fill" style="width:${progreso}%; background:${colorProgreso};"></div>
+                                    </div>
+                                    <span style="font-size:11px; font-weight:600; color:${colorProgreso};">${progreso}%</span>
                                 ` : ''}
-                                ${!completado ? `<button class="btn-success" onclick="completarServicio('${servicio.id}')" style="padding:4px 12px; font-size:10px; border:none; border-radius:15px; cursor:pointer; color:#000; background:var(--success);">✅ Completar</button>` : ''}
                             </div>
                         </div>
-                        <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
-                            <button class="btn-outline" onclick="subirFotoMantenimiento('${servicio.id}')" style="padding:4px 12px; font-size:10px;">📸 Subir foto</button>
-                            ${data.foto ? `<button class="btn-outline" onclick="verFotoMantenimiento('${servicio.id}')" style="padding:4px 12px; font-size:10px;">🖼️ Ver foto</button>` : ''}
-                            ${data.kmActual !== undefined ? `
-                                <button class="btn-outline" onclick="editarKmMantenimiento('${servicio.id}')" style="padding:4px 12px; font-size:10px;">✏️ Editar KM</button>
+
+                        <!-- BOTONES DE ACCIÓN -->
+                        <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;">
+                            <button class="btn-outline" onclick="subirEvidenciaMantenimientoTaxista('${servicio.id}')" style="padding:6px 14px; font-size:11px; border-radius:15px; border-color:var(--accent); color:var(--accent);">
+                                <i class="fas fa-camera"></i> ${tieneEvidencia ? 'Nueva evidencia' : 'Subir evidencia'}
+                            </button>
+                            ${tieneEvidencia ? `
+                                <button class="btn-outline" onclick="verEvidenciasMantenimientoTaxista('${servicio.id}')" style="padding:6px 14px; font-size:11px; border-radius:15px; border-color:var(--success); color:var(--success);">
+                                    <i class="fas fa-images"></i> Ver evidencia
+                                </button>
+                            ` : ''}
+                            ${!completado ? `
+                                <button class="btn-success" onclick="completarServicioMantenimientoTaxista('${servicio.id}')" style="padding:6px 14px; font-size:11px; border:none; border-radius:15px; cursor:pointer; color:#000; background:var(--success);">
+                                    ✅ Completar
+                                </button>
+                            ` : ''}
+                            <button class="btn-outline" onclick="editarKmMantenimientoTaxista('${servicio.id}')" style="padding:6px 14px; font-size:11px; border-radius:15px; border-color:var(--warning); color:var(--warning);">
+                                <i class="fas fa-edit"></i> Editar KM
+                            </button>
+                            ${completado ? `
+                                <button class="btn-outline" onclick="reactivarServicioMantenimientoTaxista('${servicio.id}')" style="padding:6px 14px; font-size:11px; border-radius:15px; border-color:var(--danger); color:var(--danger);">
+                                    🔄 Reactivar
+                                </button>
                             ` : ''}
                         </div>
-                        ${data.foto ? `<div style="margin-top:8px;"><img src="${data.foto}" style="max-width:80px; max-height:60px; border-radius:8px; object-fit:cover;"></div>` : ''}
+
+                        <!-- PREVIEW DE EVIDENCIA -->
+                        ${data.evidencia ? `
+                            <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+                                <div style="position:relative; display:inline-block;">
+                                    <img src="${data.evidencia}" style="width:80px; height:60px; border-radius:8px; object-fit:cover; cursor:pointer; border:2px solid var(--glass-border);" onclick="verEvidenciaAmpliadaMantenimientoTaxista('${data.evidencia}')">
+                                    <span style="position:absolute; top:-6px; right:-6px; background:var(--success); color:white; font-size:8px; padding:2px 6px; border-radius:50%;">📸</span>
+                                </div>
+                                <div style="font-size:10px; color:var(--text-tertiary); display:flex; align-items:center;">
+                                    <i class="fas fa-calendar"></i> ${data.fechaEvidencia ? new Date(data.fechaEvidencia).toLocaleDateString() : 'N/A'}
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        <!-- COMENTARIO DEL SERVICIO -->
+                        ${data.comentario ? `
+                            <div style="margin-top:8px; padding:8px 12px; background:var(--bg-input); border-radius:8px; font-size:12px; color:var(--text-secondary);">
+                                <i class="fas fa-quote-left" style="color:var(--accent);"></i> ${data.comentario}
+                            </div>
+                        ` : ''}
                     </div>
                 `;
             });
 
             container.innerHTML = html || '<div style="text-align:center; padding:20px; color:var(--text-tertiary);">No hay servicios configurados</div>';
+        }
 
-            // Actualizar contadores
-            document.getElementById('mantServiciosCompletados').textContent = completados;
-            document.getElementById('mantServiciosPendientes').textContent = pendientes;
-            document.getElementById('mantTotalServicios').textContent = completados + pendientes;
+        // ========== ACTUALIZAR CONTADORES ==========
+        function actualizarContadoresMantenimientoTaxista() {
+            let total = 0, completados = 0, pendientes = 0, evidencias = 0;
+
+            SERVICIOS_PREDEFINIDOS.forEach(function(servicio) {
+                const data = mantenimientoData[servicio.id] || {};
+                total++;
+                if (data.completado) completados++;
+                else pendientes++;
+                if (data.evidencia) evidencias++;
+            });
+
+            document.getElementById('mantTotalServiciosTaxista').textContent = total;
+            document.getElementById('mantCompletadosTaxista').textContent = completados;
+            document.getElementById('mantPendientesTaxista').textContent = pendientes;
+            document.getElementById('mantEvidenciasTaxista').textContent = evidencias;
+        }
+
+        // ========== SUBIR EVIDENCIA (FOTO) ==========
+        function subirEvidenciaMantenimientoTaxista(servicioId) {
+            const servicio = SERVICIOS_PREDEFINIDOS.find(s => s.id === servicioId);
+            if (!servicio) return;
+
+            Swal.fire({
+                title: `📸 Subir evidencia para ${servicio.nombre}`,
+                html: `
+                    <div style="text-align:center; padding:20px; border:2px dashed var(--glass-border); border-radius:16px; margin:10px 0;" id="evidenciaDropZoneTaxista">
+                        <i class="fas fa-cloud-upload-alt" style="font-size:48px; color:var(--text-tertiary);"></i>
+                        <div style="margin-top:8px; color:var(--text-secondary);">Arrastra o selecciona una foto</div>
+                        <input type="file" id="evidenciaFileInputTaxista" accept="image/*" style="display:none;">
+                        <button class="btn-primary" onclick="document.getElementById('evidenciaFileInputTaxista').click()" style="margin-top:12px; padding:8px 24px; width:auto;">Seleccionar foto</button>
+                    </div>
+                    <div id="evidenciaPreviewTaxista" style="display:none; margin-top:12px; text-align:center;">
+                        <img id="evidenciaPreviewImgTaxista" src="" style="max-width:100%; max-height:150px; border-radius:8px;">
+                    </div>
+                    <div style="margin-top:12px; text-align:left;">
+                        <label style="font-size:11px; color:var(--text-tertiary);">COMENTARIO (opcional)</label>
+                        <textarea id="evidenciaComentarioTaxista" rows="2" placeholder="Describe el servicio realizado..." style="width:100%; padding:8px; background:var(--bg-input); border:1px solid var(--glass-border); border-radius:8px; color:var(--text-primary); resize:vertical;"></textarea>
+                    </div>
+                    <div style="margin-top:8px; text-align:left;">
+                        <label style="font-size:11px; color:var(--text-tertiary);">KILOMETRAJE ACTUAL</label>
+                        <input type="number" id="evidenciaKmInputTaxista" placeholder="Ej: 25000" style="width:100%; padding:8px; background:var(--bg-input); border:1px solid var(--glass-border); border-radius:8px; color:var(--text-primary);">
+                    </div>
+                `,
+                confirmButtonText: '📤 Subir evidencia',
+                cancelButtonText: 'Cancelar',
+                showCancelButton: true,
+                background: 'var(--bg-card)',
+                color: 'var(--text-primary)',
+                preConfirm: function() {
+                    const fileInput = document.getElementById('evidenciaFileInputTaxista');
+                    const comentario = document.getElementById('evidenciaComentarioTaxista').value;
+                    const km = document.getElementById('evidenciaKmInputTaxista').value;
+                    
+                    if (!fileInput.files || !fileInput.files[0]) {
+                        Swal.showValidationMessage('Selecciona una foto');
+                        return false;
+                    }
+                    if (!km || isNaN(km) || km < 0) {
+                        Swal.showValidationMessage('Ingresa un kilometraje válido');
+                        return false;
+                    }
+                    return { file: fileInput.files[0], comentario: comentario, km: parseInt(km) };
+                }
+            }).then(function(result) {
+                if (result.isConfirmed && result.value) {
+                    const file = result.value.file;
+                    const comentario = result.value.comentario;
+                    const km = result.value.km;
+
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const data = mantenimientoData[servicioId] || {};
+                        data.evidencia = e.target.result;
+                        data.fechaEvidencia = new Date().toISOString();
+                        data.comentario = comentario || data.comentario || '';
+                        data.kmActual = km;
+                        
+                        if (!data.completado) {
+                            data.completado = false;
+                        }
+
+                        database.ref('mantenimiento_servicios/' + uidActual + '/' + servicioId).set(data).then(function() {
+                            // Guardar en historial de evidencias
+                            const historial = {
+                                servicio: servicio.nombre,
+                                servicioId: servicioId,
+                                evidencia: e.target.result,
+                                comentario: comentario,
+                                km: km,
+                                fecha: new Date().toISOString()
+                            };
+                            database.ref('mantenimiento_evidencias/' + uidActual).push(historial);
+
+                            Swal.fire('✅ Evidencia subida', 'La evidencia ha sido guardada correctamente', 'success');
+                            cargarMantenimiento(uidActual);
+                            registrarActividad('Evidencia subida para: ' + servicio.nombre);
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        // ========== VER EVIDENCIAS ==========
+        function verEvidenciasMantenimientoTaxista(servicioId) {
+            const data = mantenimientoData[servicioId];
+            if (!data || !data.evidencia) {
+                Swal.fire('Error', 'No hay evidencia para este servicio', 'error');
+                return;
+            }
+
+            Swal.fire({
+                title: '📸 Evidencia del servicio',
+                html: `
+                    <img src="${data.evidencia}" style="max-width:100%; max-height:400px; border-radius:12px; margin-bottom:12px;">
+                    ${data.comentario ? `<div style="padding:12px; background:var(--hover-bg); border-radius:8px; text-align:left; font-size:13px; color:var(--text-secondary);"><i class="fas fa-quote-left" style="color:var(--accent);"></i> ${data.comentario}</div>` : ''}
+                    <div style="margin-top:8px; font-size:11px; color:var(--text-tertiary);">
+                        📅 ${data.fechaEvidencia ? new Date(data.fechaEvidencia).toLocaleString() : 'N/A'}
+                        ${data.kmActual ? `· 📊 ${data.kmActual} km` : ''}
+                    </div>
+                `,
+                background: 'var(--bg-card)',
+                color: 'var(--text-primary)',
+                confirmButtonText: 'Cerrar',
+                showCancelButton: true,
+                cancelButtonText: 'Descargar',
+                cancelButtonColor: 'var(--accent)',
+                preConfirm: function() {
+                    const link = document.createElement('a');
+                    link.href = data.evidencia;
+                    link.download = 'evidencia_' + servicioId + '.jpg';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            });
+        }
+
+        // ========== VER EVIDENCIA AMPLIADA ==========
+        function verEvidenciaAmpliadaMantenimientoTaxista(foto) {
+            Swal.fire({
+                title: '📸 Evidencia ampliada',
+                html: `<img src="${foto}" style="max-width:100%; max-height:500px; border-radius:12px;">`,
+                background: 'var(--bg-card)',
+                color: 'var(--text-primary)',
+                confirmButtonText: 'Cerrar'
+            });
         }
 
         // ========== COMPLETAR SERVICIO ==========
-        function completarServicio(id) {
-            const servicio = SERVICIOS_PREDEFINIDOS.find(s => s.id === id);
+        function completarServicioMantenimientoTaxista(servicioId) {
+            const servicio = SERVICIOS_PREDEFINIDOS.find(s => s.id === servicioId);
             if (!servicio) return;
 
+            const data = mantenimientoData[servicioId] || {};
+            
+            if (!data.evidencia) {
+                Swal.fire({
+                    title: '⚠️ Sin evidencia',
+                    text: '¿Quieres completar el servicio sin subir evidencia?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, completar',
+                    cancelButtonText: 'Subir evidencia primero',
+                    background: 'var(--bg-card)',
+                    color: 'var(--text-primary)'
+                }).then(function(result) {
+                    if (result.isConfirmed) {
+                        completarServicioMantenimientoConfirmadoTaxista(servicioId, servicio);
+                    } else {
+                        subirEvidenciaMantenimientoTaxista(servicioId);
+                    }
+                });
+            } else {
+                completarServicioMantenimientoConfirmadoTaxista(servicioId, servicio);
+            }
+        }
+
+        function completarServicioMantenimientoConfirmadoTaxista(servicioId, servicio) {
             Swal.fire({
                 title: `¿Completar ${servicio.nombre}?`,
                 text: '¿Estás seguro de que este servicio ha sido realizado?',
@@ -5412,29 +6800,22 @@ function guardarEdicionContacto() {
                 color: 'var(--text-primary)'
             }).then(function(result) {
                 if (result.isConfirmed) {
-                    const data = mantenimientoData[id] || {};
+                    const data = mantenimientoData[servicioId] || {};
                     data.completado = true;
                     data.fechaCompletado = new Date().toISOString();
                     
-                    database.ref('mantenimiento/' + uidActual + '/' + id).set(data).then(function() {
-                        // Registrar en historial
+                    database.ref('mantenimiento_servicios/' + uidActual + '/' + servicioId).set(data).then(function() {
+                        // Registrar en historial principal
                         const historial = {
                             servicio: servicio.nombre,
+                            servicioId: servicioId,
                             fecha: new Date().toISOString(),
                             km: data.kmActual || 0,
-                            foto: data.foto || null
+                            evidencia: data.evidencia || null,
+                            comentario: data.comentario || ''
                         };
                         database.ref('historial_mantenimiento/' + uidActual).push(historial);
-                        
-                        // Notificar al admin
-                        database.ref('soporte/admin/notificaciones').push({
-                            taxistaId: uidActual,
-                            tipo: 'mantenimiento',
-                            mensaje: 'Servicio completado: ' + servicio.nombre,
-                            timestamp: Date.now(),
-                            leida: false
-                        });
-                        
+
                         Swal.fire('✅ Servicio completado', servicio.nombre + ' ha sido registrado', 'success');
                         cargarMantenimiento(uidActual);
                         registrarActividad('Servicio completado: ' + servicio.nombre);
@@ -5443,91 +6824,52 @@ function guardarEdicionContacto() {
             });
         }
 
-        // ========== SUBIR FOTO MANTENIMIENTO ==========
-        function subirFotoMantenimiento(id) {
-            const servicio = SERVICIOS_PREDEFINIDOS.find(s => s.id === id);
-            if (!servicio) return;
-
+        // ========== REACTIVAR SERVICIO ==========
+        function reactivarServicioMantenimientoTaxista(servicioId) {
             Swal.fire({
-                title: `📸 Subir foto para ${servicio.nombre}`,
-                html: `
-                    <div style="text-align:center; padding:20px; border:2px dashed var(--glass-border); border-radius:16px;">
-                        <i class="fas fa-cloud-upload-alt" style="font-size:36px; color:var(--text-tertiary);"></i>
-                        <div style="margin-top:8px; color:var(--text-secondary);">Selecciona una foto</div>
-                        <input type="file" id="mantFotoInput" accept="image/*" style="display:none;">
-                        <button class="btn-primary" onclick="document.getElementById('mantFotoInput').click()" style="margin-top:8px; padding:6px 20px; width:auto;">Seleccionar</button>
-                    </div>
-                    <div id="mantFotoPreview" style="display:none; margin-top:12px; text-align:center;">
-                        <img id="mantFotoPreviewImg" src="" style="max-width:100%; max-height:120px; border-radius:8px;">
-                    </div>
-                `,
-                confirmButtonText: 'Subir foto',
-                cancelButtonText: 'Cancelar',
+                title: '🔄 Reactivar servicio',
+                text: '¿Quieres reactivar este servicio para un nuevo ciclo?',
+                icon: 'question',
                 showCancelButton: true,
+                confirmButtonText: 'Sí, reactivar',
+                cancelButtonText: 'Cancelar',
                 background: 'var(--bg-card)',
-                color: 'var(--text-primary)',
-                preConfirm: function() {
-                    const fileInput = document.getElementById('mantFotoInput');
-                    if (!fileInput.files || !fileInput.files[0]) {
-                        Swal.showValidationMessage('Selecciona una foto');
-                        return false;
-                    }
-                    return fileInput.files[0];
-                }
+                color: 'var(--text-primary)'
             }).then(function(result) {
-                if (result.isConfirmed && result.value) {
-                    const file = result.value;
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const data = mantenimientoData[id] || {};
-                        data.foto = e.target.result;
-                        data.fotoSubida = new Date().toISOString();
-                        
-                        database.ref('mantenimiento/' + uidActual + '/' + id).set(data).then(function() {
-                            Swal.fire('✅ Foto subida', 'La foto ha sido guardada correctamente', 'success');
-                            cargarMantenimiento(uidActual);
-                            registrarActividad('Foto subida para: ' + servicio.nombre);
-                        });
-                    };
-                    reader.readAsDataURL(file);
+                if (result.isConfirmed) {
+                    const data = mantenimientoData[servicioId] || {};
+                    data.completado = false;
+                    data.fechaCompletado = null;
+                    data.kmActual = 0;
+                    
+                    database.ref('mantenimiento_servicios/' + uidActual + '/' + servicioId).set(data).then(function() {
+                        Swal.fire('✅ Servicio reactivado', 'El servicio ha sido reactivado', 'success');
+                        cargarMantenimiento(uidActual);
+                        registrarActividad('Servicio reactivado: ' + (servicioId || ''));
+                    });
                 }
             });
         }
 
-        // ========== VER FOTO MANTENIMIENTO ==========
-        function verFotoMantenimiento(id) {
-            const data = mantenimientoData[id];
-            if (!data || !data.foto) {
-                Swal.fire('Error', 'No hay foto para este servicio', 'error');
-                return;
-            }
-            
-            Swal.fire({
-                title: '📸 Foto del servicio',
-                html: `<img src="${data.foto}" style="max-width:100%; max-height:400px; border-radius:8px;">`,
-                background: 'var(--bg-card)',
-                color: 'var(--text-primary)',
-                confirmButtonText: 'Cerrar'
-            });
-        }
-
-        // ========== EDITAR KM MANTENIMIENTO ==========
-        function editarKmMantenimiento(id) {
-            const servicio = SERVICIOS_PREDEFINIDOS.find(s => s.id === id);
+        // ========== EDITAR KM ==========
+        function editarKmMantenimientoTaxista(servicioId) {
+            const servicio = SERVICIOS_PREDEFINIDOS.find(s => s.id === servicioId);
             if (!servicio) return;
-            
-            const data = mantenimientoData[id] || {};
+
+            const data = mantenimientoData[servicioId] || {};
             const kmActual = data.kmActual || 0;
 
             Swal.fire({
                 title: `✏️ Editar ${servicio.nombre}`,
                 html: `
                     <div style="text-align:left;">
-                        <label style="font-size:11px; color:var(--text-tertiary);">${servicio.tipo === 'km' ? 'Kilometraje actual' : 'Días desde último servicio'}</label>
-                        <input type="number" id="editKmInput" value="${kmActual}" min="0" step="${servicio.tipo === 'km' ? 100 : 1}" 
+                        <label style="font-size:11px; color:var(--text-tertiary);">
+                            ${servicio.id === 'revision' || servicio.id === 'limpieza' ? 'Días desde último servicio' : 'Kilometraje actual'}
+                        </label>
+                        <input type="number" id="editKmInputTaxista" value="${kmActual}" min="0" step="${servicio.id === 'revision' || servicio.id === 'limpieza' ? 1 : 100}" 
                                style="width:100%; padding:10px; background:var(--bg-input); border:1px solid var(--glass-border); border-radius:8px; color:var(--text-primary);">
                         <div style="font-size:10px; color:var(--text-tertiary); margin-top:4px;">
-                            ${servicio.tipo === 'km' ? 'Kilometraje total para este servicio: ' + servicio.kmTotal + ' km' : 'Días totales para este servicio: ' + servicio.kmTotal + ' días'}
+                            Recomendado: ${servicio.kmRecomendado} ${servicio.id === 'revision' || servicio.id === 'limpieza' ? 'días' : 'km'}
                         </div>
                     </div>
                 `,
@@ -5537,7 +6879,7 @@ function guardarEdicionContacto() {
                 background: 'var(--bg-card)',
                 color: 'var(--text-primary)',
                 preConfirm: function() {
-                    const valor = parseInt(document.getElementById('editKmInput').value);
+                    const valor = parseInt(document.getElementById('editKmInputTaxista').value);
                     if (isNaN(valor) || valor < 0) {
                         Swal.showValidationMessage('Ingresa un valor válido');
                         return false;
@@ -5546,27 +6888,99 @@ function guardarEdicionContacto() {
                 }
             }).then(function(result) {
                 if (result.isConfirmed && result.value !== undefined) {
-                    const data = mantenimientoData[id] || {};
+                    const data = mantenimientoData[servicioId] || {};
                     data.kmActual = result.value;
                     if (data.completado) {
                         data.completado = false;
+                        data.fechaCompletado = null;
                     }
                     
-                    database.ref('mantenimiento/' + uidActual + '/' + id).set(data).then(function() {
-                        Swal.fire('✅ Actualizado', 'El kilometraje ha sido actualizado', 'success');
+                    database.ref('mantenimiento_servicios/' + uidActual + '/' + servicioId).set(data).then(function() {
+                        Swal.fire('✅ Actualizado', 'El valor ha sido actualizado', 'success');
                         cargarMantenimiento(uidActual);
-                        registrarActividad('KM actualizado para: ' + servicio.nombre);
+                        registrarActividad('KM actualizado para: ' + (servicio.nombre || ''));
                     });
                 }
             });
         }
 
-        // ========== HISTORIAL DE MANTENIMIENTO ==========
-        function cargarHistorialMantenimiento(uid) {
-            const container = document.getElementById('historialMantenimientoContainer');
+        // ========== AGREGAR SERVICIO PERSONALIZADO ==========
+        function agregarServicioMantenimientoTaxista() {
+            Swal.fire({
+                title: '➕ Agregar servicio personalizado',
+                html: `
+                    <div style="text-align:left;">
+                        <label style="font-size:11px; color:var(--text-tertiary);">NOMBRE DEL SERVICIO</label>
+                        <input type="text" id="nuevoServicioNombreTaxista" placeholder="Ej: Cambio de filtros" style="width:100%; padding:8px; background:var(--bg-input); border:1px solid var(--glass-border); border-radius:8px; color:var(--text-primary); margin-bottom:12px;">
+                        
+                        <label style="font-size:11px; color:var(--text-tertiary);">KM/DÍAS RECOMENDADO</label>
+                        <input type="number" id="nuevoServicioKmTaxista" placeholder="Ej: 5000" style="width:100%; padding:8px; background:var(--bg-input); border:1px solid var(--glass-border); border-radius:8px; color:var(--text-primary); margin-bottom:12px;">
+                        
+                        <label style="font-size:11px; color:var(--text-tertiary);">TIPO</label>
+                        <select id="nuevoServicioTipoTaxista" style="width:100%; padding:8px; background:var(--bg-input); border:1px solid var(--glass-border); border-radius:8px; color:var(--text-primary);">
+                            <option value="km">Kilometraje</option>
+                            <option value="dias">Días</option>
+                        </select>
+                    </div>
+                `,
+                confirmButtonText: 'Agregar servicio',
+                cancelButtonText: 'Cancelar',
+                showCancelButton: true,
+                background: 'var(--bg-card)',
+                color: 'var(--text-primary)',
+                preConfirm: function() {
+                    const nombre = document.getElementById('nuevoServicioNombreTaxista').value.trim();
+                    const km = parseInt(document.getElementById('nuevoServicioKmTaxista').value);
+                    const tipo = document.getElementById('nuevoServicioTipoTaxista').value;
+                    
+                    if (!nombre) {
+                        Swal.showValidationMessage('Ingresa un nombre para el servicio');
+                        return false;
+                    }
+                    if (isNaN(km) || km <= 0) {
+                        Swal.showValidationMessage('Ingresa un valor válido');
+                        return false;
+                    }
+                    return { nombre: nombre, km: km, tipo: tipo };
+                }
+            }).then(function(result) {
+                if (result.isConfirmed && result.value) {
+                    const id = 'personalizado_' + Date.now();
+                    const nuevoServicio = {
+                        id: id,
+                        nombre: '🛠️ ' + result.value.nombre,
+                        icono: 'tools',
+                        kmRecomendado: result.value.km,
+                        tipo: result.value.tipo,
+                        personalizado: true
+                    };
+                    
+                    SERVICIOS_PREDEFINIDOS.push(nuevoServicio);
+                    
+                    const data = {
+                        nombre: nuevoServicio.nombre,
+                        kmRecomendado: nuevoServicio.kmRecomendado,
+                        tipo: nuevoServicio.tipo,
+                        personalizado: true,
+                        kmActual: 0,
+                        completado: false
+                    };
+                    
+                    database.ref('mantenimiento_servicios/' + uidActual + '/' + id).set(data).then(function() {
+                        Swal.fire('✅ Servicio agregado', 'El servicio ha sido creado exitosamente', 'success');
+                        cargarMantenimiento(uidActual);
+                        registrarActividad('Servicio agregado: ' + result.value.nombre);
+                    });
+                }
+            });
+        }
+
+        // ========== HISTORIAL DE EVIDENCIAS ==========
+        function cargarHistorialEvidenciasMantenimientoTaxista(uid) {
+            const container = document.getElementById('historialEvidenciasMantenimientoTaxista');
             if (!container) return;
-            
-            database.ref('historial_mantenimiento/' + uid).orderByChild('fecha').limitToLast(10).once('value').then(function(snapshot) {
+
+            database.ref('mantenimiento_evidencias/' + uid).orderByChild('fecha').limitToLast(10).once('value').then(function(snapshot) {
                 let html = '';
                 const historial = [];
                 
@@ -5577,21 +6991,18 @@ function guardarEdicionContacto() {
                 historial.reverse();
                 
                 if (historial.length === 0) {
-                    html = '<div style="text-align:center; padding:20px; color:var(--text-tertiary);">No hay servicios registrados</div>';
+                    html = '<div style="text-align:center; padding:20px; color:var(--text-tertiary);">No hay evidencias registradas</div>';
                 } else {
                     historial.forEach(function(h) {
                         const fecha = h.fecha ? new Date(h.fecha).toLocaleString() : 'N/A';
-                        const km = h.km ? h.km + ' km' : 'N/A';
                         html += `
                             <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--glass-border);">
                                 <div>
                                     <div style="font-weight:600;">${h.servicio || 'Servicio'}</div>
-                                    <div style="font-size:11px; color:var(--text-tertiary);">${fecha} • ${km}</div>
+                                    <div style="font-size:11px; color:var(--text-tertiary);">${fecha} • ${h.km || 0} km</div>
+                                    ${h.comentario ? `<div style="font-size:11px; color:var(--text-secondary);">💬 ${h.comentario}</div>` : ''}
                                 </div>
-                                <div style="display:flex; align-items:center; gap:8px;">
-                                    <span style="font-size:11px; color:var(--success);">✅ Realizado</span>
-                                    ${h.foto ? `<button class="btn-outline" onclick="verFotoHistorial('${h.foto}')" style="padding:4px 8px; font-size:9px;">📸</button>` : ''}
-                                </div>
+                                ${h.evidencia ? `<button class="btn-outline" onclick="verEvidenciaHistorialTaxista('${h.evidencia}')" style="padding:4px 12px; font-size:10px; border-radius:15px;">📸 Ver</button>` : ''}
                             </div>
                         `;
                     });
@@ -5601,15 +7012,51 @@ function guardarEdicionContacto() {
             });
         }
 
-        function verFotoHistorial(foto) {
+        function verEvidenciaHistorialTaxista(foto) {
             if (!foto) return;
             Swal.fire({
-                title: '📸 Foto del servicio',
+                title: '📸 Evidencia',
                 html: `<img src="${foto}" style="max-width:100%; max-height:400px; border-radius:8px;">`,
                 background: 'var(--bg-card)',
                 color: 'var(--text-primary)',
                 confirmButtonText: 'Cerrar'
             });
+        }
+
+        function verReporteMantenimientoTaxista() {
+            Swal.fire({
+                title: '📊 Reporte de mantenimiento',
+                text: 'Generando reporte completo de mantenimiento...',
+                icon: 'info',
+                background: 'var(--bg-card)',
+                color: 'var(--text-primary)',
+                confirmButtonColor: 'var(--accent)'
+            });
+        }
+
+        // ========== FUNCIONES ANTIGUAS MANTENIDAS POR COMPATIBILIDAD ==========
+        function completarServicio(id) {
+            completarServicioMantenimientoTaxista(id);
+        }
+
+        function subirFotoMantenimiento(id) {
+            subirEvidenciaMantenimientoTaxista(id);
+        }
+
+        function verFotoMantenimiento(id) {
+            verEvidenciasMantenimientoTaxista(id);
+        }
+
+        function editarKmMantenimiento(id) {
+            editarKmMantenimientoTaxista(id);
+        }
+
+        function cargarHistorialMantenimiento(uid) {
+            cargarHistorialEvidenciasMantenimientoTaxista(uid);
+        }
+
+        function verFotoHistorial(foto) {
+            verEvidenciaHistorialTaxista(foto);
         }
 
         // ==========================================================
@@ -5764,108 +7211,86 @@ function guardarEdicionContacto() {
         // ==========================================================
         // 🗺️ SECCIÓN 12.21: MAPAS (MAPBOX)
         // ==========================================================
-        function inicializarMapas() {
-            // Mapa mini de ruta
-            const containerRutaMini = document.getElementById('mapa-ruta-mini');
-            if (containerRutaMini) {
-                mapaMiniRuta = new mapboxgl.Map({
-                    container: 'mapa-ruta-mini',
-                    style: 'mapbox://styles/mapbox/standard',
-                    center: [-82.52, 9.43],
-                    zoom: 13,
-                    interactive: false
+        // Mapa mini de ruta
+const containerRutaMini = document.getElementById('mapa-ruta-mini');
+if (containerRutaMini) {
+    mapaMiniRuta = new mapboxgl.Map({
+        container: 'mapa-ruta-mini',
+        style: 'mapbox://styles/mapbox/standard',
+        center: [-82.52, 9.43],
+        zoom: 14,
+        interactive: false
+    });
+
+    mapaMiniRuta.on('load', function() {
+        // Obtener ubicación real del taxista
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(pos) {
+                const lat = pos.coords.latitude;
+                const lng = pos.coords.longitude;
+                
+                // Actualizar mapa
+                mapaMiniRuta.flyTo({
+                    center: [lng, lat],
+                    zoom: 14
                 });
-
-                mapaMiniRuta.on('load', function() {
-                    // Marcador de taxi
-                    const el = document.createElement('div');
-                    el.innerHTML = '🚕';
-                    el.style.fontSize = '24px';
-                    el.style.filter = 'drop-shadow(0 0 5px var(--accent))';
-                    markerTaxi = new mapboxgl.Marker(el)
-                        .setLngLat([-82.52, 9.43])
-                        .addTo(mapaMiniRuta);
-                });
-            }
-
-            // Mapa mini de calor
-            const containerCalorMini = document.getElementById('mapa-calor-mini');
-            if (containerCalorMini) {
-                mapaMiniCalor = new mapboxgl.Map({
-                    container: 'mapa-calor-mini',
-                    style: 'mapbox://styles/mapbox/standard',
-                    center: [-82.52, 9.43],
-                    zoom: 12,
-                    interactive: false
-                });
-
-                mapaMiniCalor.on('load', function() {
-                    // Simular mapa de calor
-                    const zonas = [
-                        { lng: -82.52, lat: 9.43, cantidad: 12 },
-                        { lng: -82.55, lat: 9.40, cantidad: 5 },
-                        { lng: -82.58, lat: 9.38, cantidad: 8 },
-                        { lng: -82.50, lat: 9.41, cantidad: 2 }
-                    ];
-
-                    const features = zonas.map(z => ({
-                        type: 'Feature',
-                        geometry: { type: 'Point', coordinates: [z.lng, z.lat] },
-                        properties: { cantidad: z.cantidad }
-                    }));
-
-                    mapaMiniCalor.addSource('calor', {
-                        type: 'geojson',
-                        data: { type: 'FeatureCollection', features: features }
+                
+                // Marcador del taxista
+                const el = document.createElement('div');
+                el.innerHTML = '🚕';
+                el.style.fontSize = '32px';
+                el.style.filter = 'drop-shadow(0 0 10px var(--accent))';
+                
+                // Crear marcador
+                if (markerTaxi) markerTaxi.remove();
+                markerTaxi = new mapboxgl.Marker(el)
+                    .setLngLat([lng, lat])
+                    .addTo(mapaMiniRuta);
+                
+                // Guardar ubicación en Firebase para el admin
+                if (uidActual) {
+                    database.ref('usuarios/' + uidActual + '/ubicacion').set({
+                        lat: lat,
+                        lng: lng,
+                        timestamp: Date.now()
                     });
-
-                    mapaMiniCalor.addLayer({
-                        id: 'calor-layer',
-                        type: 'heatmap',
-                        source: 'calor',
-                        paint: {
-                            'heatmap-weight': ['get', 'cantidad'],
-                            'heatmap-intensity': 1.2,
-                            'heatmap-color': [
-                                'interpolate', ['linear'], ['heatmap-density'],
-                                0, 'rgba(0,0,255,0)',
-                                0.2, 'rgb(65,105,225)',
-                                0.4, 'rgb(0,255,0)',
-                                0.6, 'rgb(255,255,0)',
-                                0.8, 'rgb(255,165,0)',
-                                1, 'rgb(255,0,0)'
-                            ],
-                            'heatmap-radius': 40,
-                            'heatmap-opacity': 0.8
-                        }
-                    });
-                });
-            }
-
-            // Mapa grande de ruta (se carga al hacer clic en "Mapas y demanda")
-            const containerRutaGrande = document.getElementById('mapa-ruta-grande');
-            if (containerRutaGrande) {
-                mapaGrandeRuta = new mapboxgl.Map({
-                    container: 'mapa-ruta-grande',
-                    style: 'mapbox://styles/mapbox/standard',
-                    center: [-82.52, 9.43],
-                    zoom: 13
-                });
-                mapaGrandeRuta.addControl(new mapboxgl.NavigationControl());
-            }
-
-            // Mapa grande de calor (se carga al hacer clic en "Mapas y demanda")
-            const containerCalorGrande = document.getElementById('mapa-calor-grande');
-            if (containerCalorGrande) {
-                mapaGrandeCalor = new mapboxgl.Map({
-                    container: 'mapa-calor-grande',
-                    style: 'mapbox://styles/mapbox/standard',
-                    center: [-82.52, 9.43],
-                    zoom: 12
-                });
-                mapaGrandeCalor.addControl(new mapboxgl.NavigationControl());
-            }
+                }
+            }, function(error) {
+                console.log('Error obteniendo ubicación:', error);
+                // Ubicación por defecto
+                const el = document.createElement('div');
+                el.innerHTML = '🚕';
+                el.style.fontSize = '32px';
+                el.style.filter = 'drop-shadow(0 0 10px var(--accent))';
+                markerTaxi = new mapboxgl.Marker(el)
+                    .setLngLat([-82.52, 9.43])
+                    .addTo(mapaMiniRuta);
+            });
         }
+        
+        // Actualizar ubicación cada 30 segundos
+        setInterval(function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(pos) {
+                    const lat = pos.coords.latitude;
+                    const lng = pos.coords.longitude;
+                    
+                    if (markerTaxi) {
+                        markerTaxi.setLngLat([lng, lat]);
+                    }
+                    
+                    if (uidActual) {
+                        database.ref('usuarios/' + uidActual + '/ubicacion').set({
+                            lat: lat,
+                            lng: lng,
+                            timestamp: Date.now()
+                        });
+                    }
+                }, function() {});
+            }
+        }, 30000);
+    });
+}
 
         // ==========================================================
         // 🎨 SECCIÓN 12.22: TEMAS VISUALES
@@ -7092,14 +8517,7 @@ function toggleGrabacionAudio() {
             });
         }
 
-        // ==========================================================
-        // ✅ SECCIÓN 12.34: INICIALIZACIÓN COMPLETA
-        // ==========================================================
-        console.log('🚀 CupoTax - Panel de Taxista inicializado');
-        console.log('📱 Diseño responsive: Escritorio, Tablet y Móvil');
-        console.log('🔥 Firebase conectado en tiempo real');
-        console.log('🗺️ Mapbox integrado');
-    
+  
     // ==========================================================
 // 💬 SECCIÓN 12.46: CHAT EN TIEMPO REAL MEJORADO
 // ==========================================================
@@ -7317,6 +8735,90 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('🔥 Firebase conectado en tiempo real');
         console.log('🗺️ Mapbox integrado');
         
+        
+                // ==========================================================
+        // 📸 FOTO DEL VEHÍCULO - GUARDAR EN ADMIN TAMBIÉN
+        // ==========================================================
+        document.getElementById('fotoVehiculoInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Mostrar loading
+            Swal.fire({
+                title: 'Subiendo foto...',
+                text: 'Por favor espera',
+                allowOutsideClick: false,
+                didOpen: function() {
+                    Swal.showLoading();
+                }
+            });
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const fotoData = event.target.result;
+                
+                // 1. Actualizar en el contenedor de la UI
+                const img = document.getElementById('vehiculoFotoImg');
+                const placeholder = document.getElementById('vehiculoFotoPlaceholder');
+                if (img) {
+                    img.src = fotoData;
+                    img.style.display = 'block';
+                }
+                if (placeholder) placeholder.style.display = 'none';
+
+                // 2. Guardar en el usuario (vehículo)
+                database.ref('usuarios/' + uidActual + '/vehiculo/foto').set(fotoData)
+                .then(function() {
+                    console.log('✅ Foto guardada en usuarios/' + uidActual + '/vehiculo/foto');
+                    
+                    // 3. Guardar también en admin/vehiculos
+                    return database.ref('admin/vehiculos/' + uidActual + '/foto').set(fotoData);
+                })
+                .then(function() {
+                    console.log('✅ Foto guardada en admin/vehiculos/' + uidActual);
+                    
+                    // 4. Guardar también en admin/conductores
+                    return database.ref('admin/conductores/' + uidActual + '/fotoVehiculo').set(fotoData);
+                })
+                .then(function() {
+                    console.log('✅ Foto guardada en admin/conductores/' + uidActual);
+                    
+                    // 5. Si tiene prestataria, guardar allí también
+                    const prestataria = usuarioActual?.prestataria || '';
+                    if (prestataria) {
+                        return database.ref('prestatarias/' + prestataria + '/conductores/' + uidActual + '/foto').set(fotoData);
+                    }
+                    return Promise.resolve();
+                })
+                .then(function() {
+                    Swal.fire({
+                        title: '✅ Foto actualizada',
+                        text: 'La foto del vehículo se ha guardado en todos los sistemas',
+                        icon: 'success',
+                        background: 'var(--bg-card)',
+                        color: 'var(--text-primary)',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    
+                    // Registrar actividad
+                    if (typeof registrarActividad === 'function') {
+                        registrarActividad('Foto del vehículo actualizada');
+                    }
+                })
+                .catch(function(error) {
+                    console.error('❌ Error al guardar foto:', error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'No se pudo guardar la foto: ' + error.message,
+                        icon: 'error',
+                        background: 'var(--bg-card)',
+                        color: 'var(--text-primary)'
+                    });
+                });
+            };
+            reader.readAsDataURL(file);
+        });
         
                 // ==========================================================
         // 🔔 SECCIÓN 12.51: SISTEMA DE NOTIFICACIONES PUSH
