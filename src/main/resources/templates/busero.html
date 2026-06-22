@@ -919,7 +919,98 @@
     .vehiculo-grid { grid-template-columns: 1fr; }
     .vehiculo-metricas { grid-template-columns: repeat(2, 1fr); }
 }
-        
+    
+/* ==========================================================
+   ESTILOS PARA MENSAJERÍA MEJORADA
+   ========================================================== */
+
+/* Tabs */
+.tab-mensajeria.active {
+    background: rgba(255, 106, 42, 0.15) !important;
+    border-color: var(--accent) !important;
+    color: var(--accent) !important;
+    box-shadow: var(--accent-glow);
+}
+
+.tab-mensajeria:hover {
+    border-color: var(--accent);
+    color: var(--text-primary);
+}
+
+.tab-mensajeria-content {
+    animation: fadeInUp 0.3s ease;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mensajes del chat */
+.mensaje-recibido {
+    background: var(--hover-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px 16px 16px 4px;
+    padding: 10px 14px;
+    max-width: 80%;
+    color: var(--text-primary);
+    display: inline-block;
+}
+
+.mensaje-enviado {
+    background: var(--gradient-glow);
+    border: none;
+    border-radius: 16px 16px 4px 16px;
+    padding: 10px 14px;
+    max-width: 80%;
+    color: #000;
+    display: inline-block;
+}
+
+.mensaje-hora {
+    font-size: 8px;
+    color: var(--text-tertiary);
+    margin-top: 2px;
+}
+
+/* Responsive para tablets y escritorio */
+@media (min-width: 768px) {
+    #mensajeriaTabs {
+        grid-template-columns: repeat(4, 1fr) !important;
+    }
+    
+    #tab-chat, #tab-historial, #tab-base, #tab-ia {
+        display: block !important;
+    }
+    
+    .tab-mensajeria-content {
+        display: none !important;
+    }
+    
+    .tab-mensajeria-content.active {
+        display: block !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .tab-mensajeria {
+        font-size: 9px !important;
+        padding: 8px 4px !important;
+    }
+    .tab-mensajeria div {
+        font-size: 16px !important;
+    }
+    #seccion-mensajeria .btn-outline {
+        font-size: 9px !important;
+        padding: 4px 10px !important;
+    }
+    .mensaje-recibido, .mensaje-enviado {
+        max-width: 90% !important;
+        padding: 8px 12px !important;
+        font-size: 13px !important;
+    }
+}
+
     </style>
 </head>
 
@@ -1599,313 +1690,245 @@ SECCIÓN VEHÍCULO - MI VEHÍCULO (AGREGAR)
                 <button class="btn-primary" style="margin-top:16px;" onclick="volverInicio()">← VOLVER AL INICIO</button>
             </div>
 
-                        <!-- ==========================================================
-            SUB-SECCIÓN 8.12: MENSAJERÍA - DISEÑO FUTURISTA PREMIUM
-            ========================================================== -->
-            <div id="seccion-mensajeria" style="display:none;">
-                
-                <!-- ========== HEADER ========== -->
-                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:24px;">
-                    <div style="display:flex; align-items:center; gap:14px;">
-                        <div style="width:50px; height:50px; background:var(--gradient-glow); border-radius:14px; display:flex; align-items:center; justify-content:center; box-shadow:var(--accent-glow);">
-                            <i class="fas fa-comment-dots" style="font-size:26px; color:#000;"></i>
-                        </div>
-                        <div>
-                            <h2 style="font-size:24px; font-weight:700; background:var(--gradient-glow); -webkit-background-clip:text; background-clip:text; color:transparent;">Centro de Mensajería</h2>
-                            <p style="font-size:13px; color:var(--text-secondary);">Comunicación con administración y asistente virtual</p>
-                        </div>
-                    </div>
-                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                        <button class="btn-outline" onclick="window.open('https://wa.me/50766637549', '_blank')" style="padding:8px 18px; font-size:12px; border-color:#25D366; color:#25D366; border-radius:30px; cursor:pointer; transition:all 0.3s;">
-                            <i class="fab fa-whatsapp"></i> WhatsApp
-                        </button>
-                        <button class="btn-outline" onclick="window.location.href='tel:+50766637549'" style="padding:8px 18px; font-size:12px; border-color:#3A86FF; color:#3A86FF; border-radius:30px; cursor:pointer; transition:all 0.3s;">
-                            <i class="fas fa-phone"></i> Llamar
-                        </button>
-                        <button class="btn-outline" onclick="volverInicio()" style="padding:8px 18px; font-size:12px; border-color:var(--danger); color:var(--danger); border-radius:30px; cursor:pointer; transition:all 0.3s;">
-                            <i class="fas fa-times"></i> Cerrar
-                        </button>
-                    </div>
-                </div>
+                        
+           <!-- ==========================================================
+SECCIÓN MENSAJERÍA - VERSIÓN MEJORADA (MÓVIL + ESCRITORIO)
+========================================================== -->
+<div id="seccion-mensajeria" style="display:none;">
 
-                <!-- ========== BANNER DE BIENVENIDA CON ROBOT ========== -->
-                <div style="background:var(--glass-bg); backdrop-filter:blur(16px); border:1px solid var(--glass-border); border-radius:24px; padding:24px 32px; margin-bottom:24px; position:relative; overflow:hidden; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;">
-                    <div style="position:absolute; top:0; left:0; right:0; bottom:0; opacity:0.05; pointer-events:none; overflow:hidden;">
-                        <div style="position:absolute; top:-50%; left:-50%; width:200%; height:200%; background-image: 
-                            linear-gradient(0deg, transparent 24%, var(--accent) 25%, var(--accent) 26%, transparent 27%, transparent 74%, var(--accent) 75%, var(--accent) 76%, transparent 77%, transparent),
-                            linear-gradient(90deg, transparent 24%, var(--accent) 25%, var(--accent) 26%, transparent 27%, transparent 74%, var(--accent) 75%, var(--accent) 76%, transparent 77%, transparent);
-                            background-size: 60px 60px; animation: gridPulse 8s linear infinite;"></div>
-                    </div>
-                    <div style="position:relative; z-index:2; flex:1; min-width:200px;">
-                        <div style="font-size:22px; font-weight:700; color:var(--text-primary);">
-                            👋 Hola, <span id="mensajeriaNombreBusero" style="color:var(--accent);">Cargando...</span>
-                        </div>
-                        <div style="font-size:14px; color:var(--text-secondary); margin-top:4px;">
-                            Te damos la bienvenida al Centro de Mensajería
-                        </div>
-                        <div style="display:flex; gap:12px; margin-top:12px; flex-wrap:wrap;">
-                            <span style="font-size:11px; padding:4px 12px; background:rgba(16,185,129,0.15); color:var(--success); border-radius:20px;">
-                                <i class="fas fa-circle" style="font-size:8px;"></i> Sistema activo
-                            </span>
-                            <span style="font-size:11px; padding:4px 12px; background:rgba(59,130,246,0.15); color:var(--info); border-radius:20px;">
-                                <i class="fas fa-robot"></i> IA disponible
-                            </span>
-                        </div>
-                    </div>
-                    <div style="position:relative; z-index:2; width:130px; height:130px; flex-shrink:0;">
-                        <div style="width:100%; height:100%; position:relative;">
-                            <div style="position:absolute; inset:-12px; border-radius:50%; background:var(--accent-glow); opacity:0.3; animation:pulseGlow 2s infinite;"></div>
-                            <div style="width:100%; height:100%; background:var(--glass-bg); border-radius:50%; border:2px solid var(--glass-border); display:flex; align-items:center; justify-content:center; flex-direction:column; backdrop-filter:blur(8px); box-shadow:var(--accent-glow);">
-                                <div style="width:55%; height:35%; background:var(--gradient-glow); border-radius:50% 50% 30% 30%; margin-top:-5%; display:flex; align-items:center; justify-content:center; gap:8px;">
-                                    <div style="width:10px; height:10px; background:#fff; border-radius:50%; box-shadow:0 0 20px var(--accent);"></div>
-                                    <div style="width:10px; height:10px; background:#fff; border-radius:50%; box-shadow:0 0 20px var(--accent);"></div>
-                                </div>
-                                <div style="width:60%; height:40%; background:var(--glass-bg); border-radius:8px; border:1px solid var(--glass-border); margin-top:2px; display:flex; align-items:center; justify-content:center;">
-                                    <div style="width:50%; height:60%; background:var(--gradient-glow); border-radius:4px; opacity:0.5;"></div>
-                                </div>
-                                <div style="position:absolute; top:-5px; right:-5px; width:12px; height:12px; background:var(--accent); border-radius:50%; box-shadow:0 0 20px var(--accent); opacity:0.6; animation:floatParticle 3s infinite;"></div>
-                                <div style="position:absolute; bottom:-5px; left:-5px; width:10px; height:10px; background:var(--accent-neon); border-radius:50%; box-shadow:0 0 15px var(--accent-neon); opacity:0.4; animation:floatParticle 3.5s infinite 0.5s;"></div>
-                                <div style="position:absolute; top:20%; right:-12px; width:8px; height:8px; background:var(--accent); border-radius:50%; box-shadow:0 0 15px var(--accent); opacity:0.3; animation:floatParticle 4s infinite 1s;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ========== VISTA PRINCIPAL (2 COLUMNAS) ========== -->
-                <div id="mensajeriaVistaPrincipal" style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px;">
-                    
-                    <!-- ========== CHAT CON ADMINISTRADOR ========== -->
-                    <div id="chatAdminCardBusero" style="background:var(--glass-bg); backdrop-filter:blur(12px); border:1px solid var(--glass-border); border-radius:20px; overflow:hidden; cursor:pointer;" onclick="abrirChatAdminBusero()">
-                        <div style="padding:16px 20px; border-bottom:1px solid var(--glass-border); display:flex; justify-content:space-between; align-items:center;">
-                            <div style="display:flex; align-items:center; gap:12px;">
-                                <div style="width:40px; height:40px; background:var(--gradient-glow); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#000; font-weight:700; font-size:16px;">A</div>
-                                <div>
-                                    <div style="font-weight:600; font-size:15px;">Administrador</div>
-                                    <div style="font-size:11px; color:var(--success); display:flex; align-items:center; gap:4px;">
-                                        <span style="width:8px; height:8px; background:var(--success); border-radius:50%; display:inline-block;"></span>
-                                        En línea
-                                    </div>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-right" style="color:var(--text-tertiary);"></i>
-                        </div>
-                        <div style="padding:16px 20px; max-height:200px; overflow:hidden;">
-                            <div style="font-size:12px; color:var(--text-secondary);">Último mensaje:</div>
-                            <div style="font-size:13px; color:var(--text-primary); margin-top:4px;">Buenos días, ¿cómo va el servicio hoy?</div>
-                            <div style="font-size:10px; color:var(--text-tertiary); margin-top:4px;">10:00 AM • Admin</div>
-                        </div>
-                    </div>
-
-                    <!-- ========== ASISTENTE IA ========== -->
-                    <div id="chatIACardBusero" style="background:var(--glass-bg); backdrop-filter:blur(12px); border:1px solid var(--glass-border); border-radius:20px; overflow:hidden; cursor:pointer;" onclick="abrirChatIABusero()">
-                        <div style="padding:16px 20px; border-bottom:1px solid var(--glass-border); display:flex; justify-content:space-between; align-items:center;">
-                            <div style="display:flex; align-items:center; gap:12px;">
-                                <div style="width:40px; height:40px; background:var(--gradient-glow); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:20px;">🤖</div>
-                                <div>
-                                    <div style="font-weight:600; font-size:15px;">Asistente IA</div>
-                                    <div style="font-size:11px; color:var(--success); display:flex; align-items:center; gap:4px;">
-                                        <span style="width:8px; height:8px; background:var(--success); border-radius:50%; display:inline-block;"></span>
-                                        Disponible 24/7
-                                    </div>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-right" style="color:var(--text-tertiary);"></i>
-                        </div>
-                        <div style="padding:16px 20px; max-height:200px; overflow:hidden;">
-                            <div style="font-size:12px; color:var(--text-secondary);">Última consulta:</div>
-                            <div style="font-size:13px; color:var(--text-primary); margin-top:4px;">¿Cómo subo un documento?</div>
-                            <div style="font-size:10px; color:var(--text-tertiary); margin-top:4px;">Hoy, 9:45 AM • IA</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ========== CHAT ADMIN (PANTALLA COMPLETA) ========== -->
-                <div id="chatAdminFullBusero" style="display:none; background:var(--glass-bg); backdrop-filter:blur(12px); border:1px solid var(--glass-border); border-radius:20px; overflow:hidden; margin-bottom:24px;">
-                    <div style="padding:12px 16px; border-bottom:1px solid var(--glass-border); display:flex; align-items:center; gap:12px;">
-                        <button onclick="cerrarChatAdminBusero()" style="background:transparent; border:none; color:var(--text-primary); font-size:20px; cursor:pointer;">
-                            <i class="fas fa-arrow-left"></i>
-                        </button>
-                        <div style="width:36px; height:36px; background:var(--gradient-glow); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#000; font-weight:700; font-size:14px;">A</div>
-                        <div>
-                            <div style="font-weight:600; font-size:14px;">Administrador</div>
-                            <div style="font-size:10px; color:var(--success); display:flex; align-items:center; gap:4px;">
-                                <span style="width:6px; height:6px; background:var(--success); border-radius:50%; display:inline-block;"></span>
-                                En línea
-                            </div>
-                        </div>
-                    </div>
-                    <div id="chatAdminFullMensajesBusero" style="padding:16px 20px; max-height:400px; overflow-y:auto; min-height:250px;">
-                        <div style="text-align:center; font-size:11px; color:var(--text-tertiary); padding:4px 0; margin-bottom:12px;">
-                            Hoy, <span id="fechaAdminFullBusero"></span>
-                        </div>
-                        <div style="text-align:left;">
-                            <div style="display:inline-block; background:var(--hover-bg); padding:10px 14px; border-radius:16px; border-bottom-left-radius:4px; max-width:85%; color:var(--text-primary); border:1px solid var(--glass-border);">
-                                Buenos días, ¿cómo va el servicio hoy?
-                            </div>
-                            <div style="font-size:9px; color:var(--text-tertiary); margin-top:2px;">10:00 AM • Admin</div>
-                        </div>
-                    </div>
-                    <div style="padding:12px 16px; border-top:1px solid var(--glass-border); display:flex; gap:10px; align-items:center;">
-                        <button style="background:transparent; border:none; color:var(--text-tertiary); cursor:pointer; font-size:18px; padding:4px;" onclick="adjuntarArchivoAdminBusero()">
-                            <i class="fas fa-paperclip"></i>
-                        </button>
-                        <button style="background:transparent; border:none; color:var(--text-tertiary); cursor:pointer; font-size:18px; padding:4px;" onclick="abrirEmojisAdminBusero()">
-                            <i class="fas fa-smile"></i>
-                        </button>
-                        <input type="text" id="adminMsgFullBusero" placeholder="Escribe tu mensaje..." style="flex:1; background:var(--bg-input); border:1px solid var(--glass-border); border-radius:30px; padding:10px 16px; color:var(--text-primary); outline:none; font-size:13px;" onkeypress="if(event.key==='Enter') enviarMensajeAdminFullBusero()">
-                        <button onclick="enviarMensajeAdminFullBusero()" style="width:40px; height:40px; border-radius:50%; background:var(--gradient-glow); border:none; color:#000; font-size:16px; cursor:pointer; box-shadow:var(--accent-glow); transition:all 0.3s; display:flex; align-items:center; justify-content:center;">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- ========== CHAT IA (PANTALLA COMPLETA) ========== -->
-                <div id="chatIAFullBusero" style="display:none; background:var(--glass-bg); backdrop-filter:blur(12px); border:1px solid var(--glass-border); border-radius:20px; overflow:hidden; margin-bottom:24px;">
-                    <div style="padding:12px 16px; border-bottom:1px solid var(--glass-border); display:flex; align-items:center; gap:12px;">
-                        <button onclick="cerrarChatIABusero()" style="background:transparent; border:none; color:var(--text-primary); font-size:20px; cursor:pointer;">
-                            <i class="fas fa-arrow-left"></i>
-                        </button>
-                        <div style="width:36px; height:36px; background:var(--gradient-glow); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px;">🤖</div>
-                        <div>
-                            <div style="font-weight:600; font-size:14px;">Asistente IA</div>
-                            <div style="font-size:10px; color:var(--success); display:flex; align-items:center; gap:4px;">
-                                <span style="width:6px; height:6px; background:var(--success); border-radius:50%; display:inline-block;"></span>
-                                Disponible 24/7
-                            </div>
-                        </div>
-                    </div>
-                    <div id="chatIAFullMensajesBusero" style="padding:16px 20px; max-height:400px; overflow-y:auto; min-height:250px;">
-                        <div style="display:flex; justify-content:center; padding:12px 0;">
-                            <div style="width:60px; height:60px; border-radius:50%; background:var(--glass-bg); border:1px solid var(--accent); box-shadow:var(--accent-glow); display:flex; align-items:center; justify-content:center; position:relative;">
-                                <div style="font-size:28px;">🧠</div>
-                            </div>
-                        </div>
-                        <div style="text-align:center; font-size:12px; color:var(--text-secondary); margin-bottom:12px;">
-                            🤖 ¿En qué puedo ayudarte hoy?
-                        </div>
-                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px;">
-                            <button onclick="preguntaIABuseroFull('¿Cómo subo un documento?')" style="background:var(--hover-bg); border:1px solid var(--glass-border); border-radius:12px; padding:10px; text-align:center; cursor:pointer; transition:all 0.3s; color:var(--text-primary);">
-                                <div style="font-size:18px;">📄</div>
-                                <div style="font-size:10px; font-weight:500;">Documentos</div>
-                            </button>
-                            <button onclick="preguntaIABuseroFull('¿Cómo cobrar?')" style="background:var(--hover-bg); border:1px solid var(--glass-border); border-radius:12px; padding:10px; text-align:center; cursor:pointer; transition:all 0.3s; color:var(--text-primary);">
-                                <div style="font-size:18px;">💰</div>
-                                <div style="font-size:10px; font-weight:500;">Pagos</div>
-                            </button>
-                            <button onclick="preguntaIABuseroFull('Mantenimiento preventivo')" style="background:var(--hover-bg); border:1px solid var(--glass-border); border-radius:12px; padding:10px; text-align:center; cursor:pointer; transition:all 0.3s; color:var(--text-primary);">
-                                <div style="font-size:18px;">🔧</div>
-                                <div style="font-size:10px; font-weight:500;">Mantenimiento</div>
-                            </button>
-                            <button onclick="preguntaIABuseroFull('Políticas de la plataforma')" style="background:var(--hover-bg); border:1px solid var(--glass-border); border-radius:12px; padding:10px; text-align:center; cursor:pointer; transition:all 0.3s; color:var(--text-primary);">
-                                <div style="font-size:18px;">📋</div>
-                                <div style="font-size:10px; font-weight:500;">Políticas</div>
-                            </button>
-                        </div>
-                    </div>
-                    <div style="padding:12px 16px; border-top:1px solid var(--glass-border); display:flex; gap:10px; align-items:center;">
-                        <input type="text" id="iaMsgFullBusero" placeholder="Escribe tu pregunta..." style="flex:1; background:var(--bg-input); border:1px solid var(--glass-border); border-radius:30px; padding:10px 16px; color:var(--text-primary); outline:none; font-size:13px;" onkeypress="if(event.key==='Enter') enviarMensajeIAFullBusero()">
-                        <button onclick="enviarMensajeIAFullBusero()" style="width:40px; height:40px; border-radius:50%; background:var(--gradient-glow); border:none; color:#000; font-size:16px; cursor:pointer; box-shadow:var(--accent-glow); transition:all 0.3s; display:flex; align-items:center; justify-content:center;">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- ========== BASE DE CONOCIMIENTO ========== -->
-                <div style="background:var(--glass-bg); backdrop-filter:blur(12px); border:1px solid var(--glass-border); border-radius:20px; padding:20px; margin-bottom:24px;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:8px;">
-                        <div style="display:flex; align-items:center; gap:10px;">
-                            <i class="fas fa-database" style="color:var(--accent); font-size:18px;"></i>
-                            <div style="font-weight:600; font-size:16px;">Base de conocimiento</div>
-                        </div>
-                        <button class="btn-outline" onclick="verTodaBaseConocimientoBusero()" style="padding:4px 14px; font-size:11px; border-color:var(--accent); color:var(--accent); border-radius:20px; cursor:pointer;">
-                            Ver todos los artículos →
-                        </button>
-                    </div>
-                    <div style="position:relative; margin-bottom:16px;">
-                        <i class="fas fa-search" style="position:absolute; left:16px; top:50%; transform:translateY(-50%); color:var(--text-tertiary);"></i>
-                        <input type="text" id="buscarArticuloBuseroMensaje" placeholder="Buscar artículos..." style="width:100%; padding:10px 16px 10px 44px; background:var(--bg-input); border:1px solid var(--glass-border); border-radius:30px; color:var(--text-primary); outline:none; font-size:13px;" oninput="filtrarArticulosBuseroMensaje()">
-                    </div>
-                    <div id="listaArticulosBuseroMensaje" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                        <div class="articulo-item" onclick="mostrarArticuloBusero('documentos')" style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--hover-bg); border-radius:12px; border-left:3px solid var(--accent); cursor:pointer; transition:all 0.3s;">
-                            <div>
-                                <div style="font-weight:500; font-size:13px;">📄 Cómo subir documentos</div>
-                                <div style="font-size:10px; color:var(--text-tertiary);">Actualizado hace 2 días</div>
-                            </div>
-                            <i class="fas fa-chevron-right" style="color:var(--text-tertiary);"></i>
-                        </div>
-                        <div class="articulo-item" onclick="mostrarArticuloBusero('cobros')" style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--hover-bg); border-radius:12px; border-left:3px solid var(--accent); cursor:pointer; transition:all 0.3s;">
-                            <div>
-                                <div style="font-weight:500; font-size:13px;">💰 Cobros y métodos de pago</div>
-                                <div style="font-size:10px; color:var(--text-tertiary);">Actualizado hace 5 días</div>
-                            </div>
-                            <i class="fas fa-chevron-right" style="color:var(--text-tertiary);"></i>
-                        </div>
-                        <div class="articulo-item" onclick="mostrarArticuloBusero('mantenimiento')" style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--hover-bg); border-radius:12px; border-left:3px solid var(--accent); cursor:pointer; transition:all 0.3s;">
-                            <div>
-                                <div style="font-weight:500; font-size:13px;">🔧 Mantenimiento preventivo</div>
-                                <div style="font-size:10px; color:var(--text-tertiary);">Actualizado hace 1 semana</div>
-                            </div>
-                            <i class="fas fa-chevron-right" style="color:var(--text-tertiary);"></i>
-                        </div>
-                        <div class="articulo-item" onclick="mostrarArticuloBusero('politicas')" style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--hover-bg); border-radius:12px; border-left:3px solid var(--accent); cursor:pointer; transition:all 0.3s;">
-                            <div>
-                                <div style="font-weight:500; font-size:13px;">📋 Políticas de la plataforma</div>
-                                <div style="font-size:10px; color:var(--text-tertiary);">Actualizado hace 2 semanas</div>
-                            </div>
-                            <i class="fas fa-chevron-right" style="color:var(--text-tertiary);"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ========== ESTADO DEL SISTEMA + CONTACTO RÁPIDO ========== -->
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
-                    <div style="background:var(--glass-bg); backdrop-filter:blur(12px); border:1px solid var(--glass-border); border-radius:20px; padding:20px;">
-                        <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
-                            <i class="fas fa-chart-line" style="color:var(--success); font-size:18px;"></i>
-                            <div style="font-weight:600; font-size:16px;">Estado del sistema</div>
-                        </div>
-                        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
-                            <div style="background:var(--hover-bg); border-radius:12px; padding:12px; text-align:center;">
-                                <div style="font-size:11px; color:var(--text-secondary);">Plataforma</div>
-                                <div style="font-size:14px; font-weight:700; color:var(--success); margin-top:4px;">
-                                    <i class="fas fa-circle" style="font-size:8px;"></i> Operativo
-                                </div>
-                            </div>
-                            <div style="background:var(--hover-bg); border-radius:12px; padding:12px; text-align:center;">
-                                <div style="font-size:11px; color:var(--text-secondary);">Mensajería</div>
-                                <div style="font-size:14px; font-weight:700; color:var(--success); margin-top:4px;">
-                                    <i class="fas fa-circle" style="font-size:8px;"></i> Operativo
-                                </div>
-                            </div>
-                            <div style="background:var(--hover-bg); border-radius:12px; padding:12px; text-align:center;">
-                                <div style="font-size:11px; color:var(--text-secondary);">Asistente IA</div>
-                                <div style="font-size:14px; font-weight:700; color:var(--success); margin-top:4px;">
-                                    <i class="fas fa-circle" style="font-size:8px;"></i> Operativo
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="background:var(--glass-bg); backdrop-filter:blur(12px); border:1px solid var(--glass-border); border-radius:20px; padding:20px;">
-                        <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
-                            <i class="fas fa-headset" style="color:var(--accent); font-size:18px;"></i>
-                            <div style="font-weight:600; font-size:16px;">¿Necesitas ayuda inmediata?</div>
-                        </div>
-                        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
-                            <button onclick="window.open('https://wa.me/50766637549', '_blank')" style="background:#25D366; border:none; padding:12px; border-radius:12px; color:white; font-weight:600; cursor:pointer; transition:all 0.3s; display:flex; align-items:center; justify-content:center; gap:8px;">
-                                <i class="fab fa-whatsapp"></i> WhatsApp
-                            </button>
-                            <button onclick="window.location.href='tel:+50766637549'" style="background:#3A86FF; border:none; padding:12px; border-radius:12px; color:white; font-weight:600; cursor:pointer; transition:all 0.3s; display:flex; align-items:center; justify-content:center; gap:8px;">
-                                <i class="fas fa-phone"></i> Llamar
-                            </button>
-                            <button onclick="window.location.href='mailto:soporte@cupotax.com'" style="background:#DC2626; border:none; padding:12px; border-radius:12px; color:white; font-weight:600; cursor:pointer; transition:all 0.3s; display:flex; align-items:center; justify-content:center; gap:8px;">
-                                <i class="fas fa-envelope"></i> Email
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="btn-primary" style="margin-top:24px;" onclick="volverInicio()">← VOLVER AL INICIO</button>
+    <!-- ========== BANNER DE BIENVENIDA CON NOMBRE DINÁMICO ========== -->
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:24px;">
+        <div style="display:flex; align-items:center; gap:14px;">
+            <div style="width:50px; height:50px; background:var(--glow-gradient); border-radius:14px; display:flex; align-items:center; justify-content:center; box-shadow:var(--accent-glow);">
+                <i class="fas fa-comment-dots" style="font-size:26px; color:#000;"></i>
             </div>
+            <div>
+                <h2 style="font-size:24px; font-weight:700; background:var(--glow-gradient); -webkit-background-clip:text; background-clip:text; color:transparent;">Centro de Mensajería</h2>
+                <p style="font-size:13px; color:var(--text-secondary);">Comunicación con administración y asistente virtual</p>
+            </div>
+        </div>
+        <button class="btn-outline" onclick="volverInicio()" style="padding:8px 18px; font-size:12px; border-color:var(--danger); color:var(--danger); border-radius:30px; cursor:pointer; transition:all 0.3s;">
+            <i class="fas fa-times"></i> Cerrar
+        </button>
+    </div>
+
+    <!-- ========== BANNER DE SALUDO CON NOMBRE DEL USUARIO ========== -->
+    <div style="background:var(--glass-bg); backdrop-filter:blur(16px); border:1px solid var(--glass-border); border-radius:20px; padding:20px 24px; margin-bottom:24px;">
+        <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+            <div style="font-size:28px;">👋</div>
+            <div>
+                <div style="font-size:20px; font-weight:700; color:var(--text-primary);">
+                    Hola, <span id="mensajeriaNombreBusero" style="color:var(--accent);">Cargando...</span>
+                </div>
+                <div style="font-size:13px; color:var(--text-secondary);">Te damos la bienvenida al Centro de Mensajería</div>
+            </div>
+            <div style="margin-left:auto; display:flex; gap:8px; flex-wrap:wrap;">
+                <span style="font-size:11px; padding:4px 12px; background:rgba(16,185,129,0.15); color:var(--success); border-radius:20px;">
+                    <i class="fas fa-circle" style="font-size:8px;"></i> Sistema activo
+                </span>
+                <span style="font-size:11px; padding:4px 12px; background:rgba(59,130,246,0.15); color:var(--info); border-radius:20px;">
+                    <i class="fas fa-robot"></i> IA disponible
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== TABS (PESTAÑAS) ========== -->
+    <div id="mensajeriaTabs" style="display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:20px;">
+        <button class="tab-mensajeria active" data-tab="chat" onclick="cambiarTabMensajeria('chat')" style="padding:10px 8px; border-radius:12px; border:2px solid transparent; background:var(--hover-bg); color:var(--text-secondary); cursor:pointer; transition:all 0.3s; text-align:center; font-size:11px; font-weight:500;">
+            <div style="font-size:20px; margin-bottom:2px;">💬</div>
+            Chat Admin
+        </button>
+        <button class="tab-mensajeria" data-tab="historial" onclick="cambiarTabMensajeria('historial')" style="padding:10px 8px; border-radius:12px; border:2px solid transparent; background:var(--hover-bg); color:var(--text-secondary); cursor:pointer; transition:all 0.3s; text-align:center; font-size:11px; font-weight:500;">
+            <div style="font-size:20px; margin-bottom:2px;">📄</div>
+            Historial
+        </button>
+        <button class="tab-mensajeria" data-tab="base" onclick="cambiarTabMensajeria('base')" style="padding:10px 8px; border-radius:12px; border:2px solid transparent; background:var(--hover-bg); color:var(--text-secondary); cursor:pointer; transition:all 0.3s; text-align:center; font-size:11px; font-weight:500;">
+            <div style="font-size:20px; margin-bottom:2px;">📚</div>
+            Base Conoc.
+        </button>
+        <button class="tab-mensajeria" data-tab="ia" onclick="cambiarTabMensajeria('ia')" style="padding:10px 8px; border-radius:12px; border:2px solid transparent; background:var(--hover-bg); color:var(--text-secondary); cursor:pointer; transition:all 0.3s; text-align:center; font-size:11px; font-weight:500;">
+            <div style="font-size:20px; margin-bottom:2px;">🤖</div>
+            Asistente IA
+        </button>
+    </div>
+
+    <!-- ==========================================================
+    CONTENIDO DE LAS PESTAÑAS
+    ========================================================== -->
+
+    <!-- ========== TAB 1: CHAT CON ADMINISTRADOR ========== -->
+    <div id="tab-chat" class="tab-mensajeria-content active" style="display:block;">
+        <div style="background:var(--card-bg); border:1px solid var(--glass-border); border-radius:20px; overflow:hidden; margin-bottom:20px;">
+            <!-- Header del chat -->
+            <div style="padding:14px 20px; border-bottom:1px solid var(--glass-border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div style="width:40px; height:40px; background:var(--gradient-glow); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#000; font-weight:700; font-size:16px;">A</div>
+                    <div>
+                        <div style="font-weight:600; font-size:15px; color:var(--text-primary);">Administrador</div>
+                        <div style="font-size:11px; color:var(--success); display:flex; align-items:center; gap:4px;">
+                            <span style="width:8px; height:8px; background:var(--success); border-radius:50%; display:inline-block;"></span>
+                            En línea
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-outline" onclick="verHistorialAdminBusero()" style="padding:4px 14px; font-size:10px; border-color:var(--accent); color:var(--accent); border-radius:20px; cursor:pointer;">
+                    <i class="fas fa-history"></i> Historial
+                </button>
+            </div>
+
+            <!-- Cuerpo del chat -->
+            <div id="chatAdminFullMensajesBusero" style="padding:16px 20px; max-height:400px; overflow-y:auto; min-height:250px; background:var(--hover-bg);">
+                <div style="text-align:center; font-size:11px; color:var(--text-tertiary); padding:4px 0; margin-bottom:12px;">
+                    Hoy, <span id="fechaAdminFullBusero"></span>
+                </div>
+                <!-- Los mensajes se cargan aquí con JavaScript -->
+                <div id="chatAdminMensajesContainer">
+                    <div style="text-align:center; color:var(--text-tertiary); padding:20px;">
+                        <i class="fas fa-spinner fa-spin"></i> Cargando mensajes...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input del chat (fijo abajo) -->
+            <div style="padding:12px 16px; border-top:1px solid var(--glass-border); display:flex; gap:10px; align-items:center; background:var(--card-bg);">
+                <button style="background:transparent; border:none; color:var(--text-tertiary); cursor:pointer; font-size:18px; padding:4px;" onclick="adjuntarArchivoAdminBusero()">
+                    <i class="fas fa-paperclip"></i>
+                </button>
+                <button style="background:transparent; border:none; color:var(--text-tertiary); cursor:pointer; font-size:18px; padding:4px;" onclick="abrirEmojisAdminBusero()">
+                    <i class="fas fa-smile"></i>
+                </button>
+                <input type="text" id="adminMsgFullBusero" placeholder="Escribe tu mensaje..." style="flex:1; background:var(--bg-input); border:1px solid var(--glass-border); border-radius:30px; padding:10px 16px; color:var(--text-primary); outline:none; font-size:13px;" onkeypress="if(event.key==='Enter') enviarMensajeAdminFullBusero()">
+                <button onclick="enviarMensajeAdminFullBusero()" style="width:44px; height:44px; border-radius:50%; background:var(--gradient-glow); border:none; color:#000; font-size:16px; cursor:pointer; box-shadow:var(--accent-glow); transition:all 0.3s; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== TAB 2: HISTORIAL ========== -->
+    <div id="tab-historial" class="tab-mensajeria-content" style="display:none;">
+        <div style="background:var(--card-bg); border:1px solid var(--glass-border); border-radius:20px; padding:20px; margin-bottom:20px;">
+            <div class="card-title"><i class="fas fa-history" style="color:var(--accent);"></i> HISTORIAL DE CONVERSACIONES</div>
+            <div id="historialMensajesBusero">
+                <div style="text-align:center; padding:20px; color:var(--text-tertiary);">
+                    <i class="fas fa-spinner fa-spin"></i> Cargando historial...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== TAB 3: BASE DE CONOCIMIENTO ========== -->
+    <div id="tab-base" class="tab-mensajeria-content" style="display:none;">
+        <div style="background:var(--card-bg); border:1px solid var(--glass-border); border-radius:20px; padding:20px; margin-bottom:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:8px;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <i class="fas fa-database" style="color:var(--accent); font-size:18px;"></i>
+                    <div style="font-weight:600; font-size:16px; color:var(--text-primary);">Base de conocimiento</div>
+                </div>
+                <button class="btn-outline" onclick="verTodaBaseConocimientoBusero()" style="padding:4px 14px; font-size:11px; border-color:var(--accent); color:var(--accent); border-radius:20px; cursor:pointer;">
+                    Ver todos →
+                </button>
+            </div>
+            <div style="position:relative; margin-bottom:16px;">
+                <i class="fas fa-search" style="position:absolute; left:16px; top:50%; transform:translateY(-50%); color:var(--text-tertiary);"></i>
+                <input type="text" id="buscarArticuloBuseroMensaje" placeholder="Buscar artículos..." style="width:100%; padding:10px 16px 10px 44px; background:var(--bg-input); border:1px solid var(--glass-border); border-radius:30px; color:var(--text-primary); outline:none; font-size:13px;" oninput="filtrarArticulosBuseroMensaje()">
+            </div>
+            <div id="listaArticulosBuseroMensaje" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <div class="articulo-item" onclick="mostrarArticuloBusero('documentos')" style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--hover-bg); border-radius:12px; border-left:3px solid var(--accent); cursor:pointer; transition:all 0.3s;">
+                    <div>
+                        <div style="font-weight:500; font-size:13px; color:var(--text-primary);">📄 Cómo subir documentos</div>
+                        <div style="font-size:10px; color:var(--text-tertiary);">Actualizado hace 2 días</div>
+                    </div>
+                    <i class="fas fa-chevron-right" style="color:var(--text-tertiary);"></i>
+                </div>
+                <div class="articulo-item" onclick="mostrarArticuloBusero('cobros')" style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--hover-bg); border-radius:12px; border-left:3px solid var(--accent); cursor:pointer; transition:all 0.3s;">
+                    <div>
+                        <div style="font-weight:500; font-size:13px; color:var(--text-primary);">💰 Cobros y métodos de pago</div>
+                        <div style="font-size:10px; color:var(--text-tertiary);">Actualizado hace 5 días</div>
+                    </div>
+                    <i class="fas fa-chevron-right" style="color:var(--text-tertiary);"></i>
+                </div>
+                <div class="articulo-item" onclick="mostrarArticuloBusero('mantenimiento')" style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--hover-bg); border-radius:12px; border-left:3px solid var(--accent); cursor:pointer; transition:all 0.3s;">
+                    <div>
+                        <div style="font-weight:500; font-size:13px; color:var(--text-primary);">🔧 Mantenimiento preventivo</div>
+                        <div style="font-size:10px; color:var(--text-tertiary);">Actualizado hace 1 semana</div>
+                    </div>
+                    <i class="fas fa-chevron-right" style="color:var(--text-tertiary);"></i>
+                </div>
+                <div class="articulo-item" onclick="mostrarArticuloBusero('politicas')" style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--hover-bg); border-radius:12px; border-left:3px solid var(--accent); cursor:pointer; transition:all 0.3s;">
+                    <div>
+                        <div style="font-weight:500; font-size:13px; color:var(--text-primary);">📋 Políticas de la plataforma</div>
+                        <div style="font-size:10px; color:var(--text-tertiary);">Actualizado hace 2 semanas</div>
+                    </div>
+                    <i class="fas fa-chevron-right" style="color:var(--text-tertiary);"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== TAB 4: ASISTENTE IA ========== -->
+    <div id="tab-ia" class="tab-mensajeria-content" style="display:none;">
+        <div style="background:var(--card-bg); border:1px solid var(--glass-border); border-radius:20px; overflow:hidden; margin-bottom:20px;">
+            <!-- Header IA -->
+            <div style="padding:14px 20px; border-bottom:1px solid var(--glass-border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div style="width:40px; height:40px; background:var(--gradient-glow); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:20px;">🤖</div>
+                    <div>
+                        <div style="font-weight:600; font-size:15px; color:var(--text-primary);">Asistente IA</div>
+                        <div style="font-size:11px; color:var(--success); display:flex; align-items:center; gap:4px;">
+                            <span style="width:8px; height:8px; background:var(--success); border-radius:50%; display:inline-block;"></span>
+                            Disponible 24/7
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-outline" onclick="verHistorialIABusero()" style="padding:4px 14px; font-size:10px; border-color:var(--accent); color:var(--accent); border-radius:20px; cursor:pointer;">
+                    <i class="fas fa-history"></i> Historial
+                </button>
+            </div>
+
+            <!-- Cuerpo IA -->
+            <div id="chatIAFullMensajesBusero" style="padding:16px 20px; max-height:400px; overflow-y:auto; min-height:250px; background:var(--hover-bg);">
+                <div id="chatIAMensajesContainer">
+                    <div style="text-align:center; color:var(--text-tertiary); padding:20px;">
+                        <i class="fas fa-spinner fa-spin"></i> Cargando...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input IA -->
+            <div style="padding:12px 16px; border-top:1px solid var(--glass-border); display:flex; gap:10px; align-items:center; background:var(--card-bg);">
+                <input type="text" id="iaMsgFullBusero" placeholder="Escribe tu pregunta..." style="flex:1; background:var(--bg-input); border:1px solid var(--glass-border); border-radius:30px; padding:10px 16px; color:var(--text-primary); outline:none; font-size:13px;" onkeypress="if(event.key==='Enter') enviarMensajeIAFullBusero()">
+                <button onclick="enviarMensajeIAFullBusero()" style="width:44px; height:44px; border-radius:50%; background:var(--gradient-glow); border:none; color:#000; font-size:16px; cursor:pointer; box-shadow:var(--accent-glow); transition:all 0.3s; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== AYUDA INMEDIATA ========== -->
+    <div style="background:var(--card-bg); border:1px solid var(--glass-border); border-radius:20px; padding:20px; margin-top:8px;">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+            <i class="fas fa-headset" style="color:var(--accent); font-size:20px;"></i>
+            <div style="font-weight:600; font-size:16px; color:var(--text-primary);">¿Necesitas ayuda inmediata?</div>
+        </div>
+        <div style="font-size:13px; color:var(--text-secondary); margin-bottom:16px;">Nuestro equipo está listo para asistirte</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
+            <button onclick="window.open('https://wa.me/50766637549', '_blank')" style="background:#25D366; border:none; padding:14px; border-radius:14px; color:white; font-weight:600; cursor:pointer; transition:all 0.3s; display:flex; align-items:center; justify-content:center; gap:8px; font-size:13px;">
+                <i class="fab fa-whatsapp" style="font-size:18px;"></i> WhatsApp
+            </button>
+            <button onclick="window.location.href='tel:+50766637549'" style="background:#3A86FF; border:none; padding:14px; border-radius:14px; color:white; font-weight:600; cursor:pointer; transition:all 0.3s; display:flex; align-items:center; justify-content:center; gap:8px; font-size:13px;">
+                <i class="fas fa-phone" style="font-size:18px;"></i> Llamar
+            </button>
+            <button onclick="window.location.href='mailto:soporte@cupotax.com'" style="background:#DC2626; border:none; padding:14px; border-radius:14px; color:white; font-weight:600; cursor:pointer; transition:all 0.3s; display:flex; align-items:center; justify-content:center; gap:8px; font-size:13px;">
+                <i class="fas fa-envelope" style="font-size:18px;"></i> Email
+            </button>
+        </div>
+    </div>
+
+    <button class="btn-primary" style="margin-top:20px; width:100%; padding:12px;" onclick="volverInicio()">← VOLVER AL INICIO</button>
+</div>
+            
                         
             <!-- ==========================================================
             SUB-SECCIÓN 8.13: NOTIFICACIONES
@@ -1920,91 +1943,7 @@ SECCIÓN VEHÍCULO - MI VEHÍCULO (AGREGAR)
                 <button class="btn-primary" style="margin-top:16px;" onclick="volverInicio()">← VOLVER AL INICIO</button>
             </div>
 
-            <!-- ==========================================================
-SECCIÓN PERFIL - MI PERFIL (AGREGAR)
-========================================================== -->
-<div id="seccion-perfil" style="display:none;">
-    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:24px;">
-        <div style="display:flex; align-items:center; gap:14px;">
-            <div style="width:50px; height:50px; background:var(--glow-gradient); border-radius:14px; display:flex; align-items:center; justify-content:center; box-shadow:var(--accent-glow);">
-                <i class="fas fa-user" style="font-size:26px; color:#000;"></i>
-            </div>
-            <div>
-                <h2 style="font-size:24px; font-weight:700; background:var(--glow-gradient); -webkit-background-clip:text; background-clip:text; color:transparent;">Mi Perfil</h2>
-                <p style="font-size:13px; color:var(--text-secondary);">Gestiona tu información personal</p>
-            </div>
-        </div>
-        <button class="btn-outline" onclick="volverInicio()" style="padding:8px 18px; font-size:12px; border-color:var(--danger); color:var(--danger); border-radius:30px; cursor:pointer; transition:all 0.3s;">
-            <i class="fas fa-times"></i> Cerrar
-        </button>
-    </div>
-
-    <!-- FOTO DE PERFIL -->
-    <div style="background:var(--card-bg); border:1px solid var(--glass-border); border-radius:20px; padding:24px; margin-bottom:24px;">
-        <div style="display:flex; flex-direction:column; align-items:center; gap:16px;">
-            <div id="perfilFotoContainer" class="perfil-foto-container">
-                <img id="perfilFotoImg" src="" alt="Foto de perfil" style="display:none;">
-                <div id="perfilFotoPlaceholder" class="perfil-foto-placeholder">
-                    <i class="fas fa-user"></i>
-                </div>
-                <div class="perfil-foto-overlay" onclick="document.getElementById('perfilFotoInput').click()">
-                    <i class="fas fa-camera"></i>
-                </div>
-            </div>
-            <input type="file" id="perfilFotoInput" accept="image/*" style="display:none;">
-            <div style="text-align:center;">
-                <div style="font-size:18px; font-weight:700;" id="perfilNombre">Cargando...</div>
-                <div style="color:var(--warning); font-size:13px;" id="perfilNivel">Nivel Bronce</div>
-                <div style="color:var(--text-tertiary); font-size:12px;">ID: <span id="perfilId">Cargando...</span></div>
-                <div style="color:var(--text-tertiary); font-size:12px;">Rol: <span id="perfilRol">Busero</span></div>
-                <div style="color:var(--text-tertiary); font-size:12px;">Prestataria: <span id="perfilPrestataria">Cargando...</span></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- FORMULARIO -->
-    <div style="background:var(--card-bg); border:1px solid var(--glass-border); border-radius:20px; padding:24px; margin-bottom:24px;">
-        <div class="card-title"><i class="fas fa-edit"></i> EDITAR PERFIL</div>
         
-        <div class="perfil-campo">
-            <label>📛 NOMBRE COMPLETO</label>
-            <input type="text" id="editNombre" placeholder="Tu nombre completo">
-        </div>
-        
-        <div class="perfil-campo">
-            <label>📧 CORREO ELECTRÓNICO</label>
-            <input type="email" id="editCorreo" placeholder="tu@correo.com">
-        </div>
-        
-        <div class="perfil-campo">
-            <label>📞 TELÉFONO</label>
-            <input type="tel" id="editTelefono" placeholder="Ej: 6663-7549">
-        </div>
-        
-        <div class="perfil-campo">
-            <label>🆔 CÉDULA</label>
-            <input type="text" id="editCedula" placeholder="Ej: 1-761-1069">
-        </div>
-        
-        <div class="perfil-campo">
-            <label>🔐 PIN DE SEGURIDAD (6 dígitos)</label>
-            <input type="password" id="editPin" maxlength="6" placeholder="******">
-            <div style="font-size:9px; color:var(--text-tertiary); margin-top:4px;">⚠️ Guarda tu PIN. Lo necesitarás para recuperar tu cuenta</div>
-        </div>
-        
-        <div class="perfil-campo">
-            <label>🔑 CONTRASEÑA (dejar en blanco para no cambiar)</label>
-            <input type="password" id="editPassword" placeholder="Nueva contraseña">
-            <div style="font-size:9px; color:var(--text-tertiary); margin-top:4px;">🔒 Mínimo 6 caracteres</div>
-        </div>
-
-        <button class="btn-primary" style="width:100%; padding:12px; margin-top:8px;" onclick="actualizarPerfilCompleto()">
-            <i class="fas fa-save"></i> ACTUALIZAR PERFIL
-        </button>
-    </div>
-
-    <button class="btn-primary" onclick="volverInicio()">← VOLVER AL INICIO</button>
-</div>
 
     <!-- ============================================================
     SECCIÓN 9: MENÚ INFERIOR (móvil)
@@ -3970,376 +3909,548 @@ function actualizarDatosVehiculo() {
             });
         }
         
-                // ==========================================================
-        // 🆕 FUNCIONES DE MENSAJERÍA FUTURISTA PARA BUSERO
-        // ==========================================================
+               // ==========================================================
+// 🆕 FUNCIONES DE MENSAJERÍA FUTURISTA PARA BUSERO
+// ==========================================================
 
-                function abrirChatAdminBusero() {
-            // Ocultar vista principal y mostrar chat completo
-            document.getElementById('mensajeriaVistaPrincipal').style.display = 'none';
-            document.getElementById('chatAdminFullBusero').style.display = 'block';
-            document.getElementById('chatIAFullBusero').style.display = 'none';
-            
-            // Cargar mensajes del admin desde Firebase
-            cargarMensajesAdminBusero();
+// ========== FUNCIONES PARA CAMBIAR TABS ==========
+function cambiarTabMensajeria(tab) {
+    // Ocultar todas las pestañas
+    document.querySelectorAll('.tab-mensajeria-content').forEach(el => {
+        el.style.display = 'none';
+        el.classList.remove('active');
+    });
+    
+    // Mostrar la pestaña seleccionada
+    const target = document.getElementById('tab-' + tab);
+    if (target) {
+        target.style.display = 'block';
+        target.classList.add('active');
+    }
+    
+    // Actualizar botones de tabs
+    document.querySelectorAll('.tab-mensajeria').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.tab === tab) {
+            btn.classList.add('active');
         }
-        
-                function cargarMensajesAdminBusero() {
-            const container = document.getElementById('chatAdminFullMensajesBusero');
-            if (!container) return;
+    });
+    
+    // Cargar contenido según la pestaña
+    if (tab === 'chat') {
+        cargarMensajesAdminBusero();
+    } else if (tab === 'historial') {
+        cargarHistorialMensajesBusero();
+    } else if (tab === 'ia') {
+        cargarMensajesIABusero();
+    }
+}
 
-            // Limpiar mensajes existentes (dejar solo el encabezado de fecha)
-            container.innerHTML = `
-                <div style="text-align:center; font-size:11px; color:var(--text-tertiary); padding:4px 0; margin-bottom:12px;">
-                    Hoy, <span id="fechaAdminFullBusero"></span>
-                </div>
-            `;
+// ========== CHAT CON ADMINISTRADOR ==========
+function abrirChatAdminBusero() {
+    // Ocultar vista principal y mostrar chat completo
+    document.getElementById('mensajeriaVistaPrincipal').style.display = 'none';
+    document.getElementById('chatAdminFullBusero').style.display = 'block';
+    document.getElementById('chatIAFullBusero').style.display = 'none';
+    
+    // Cargar mensajes del admin desde Firebase
+    cargarMensajesAdminBusero();
+}
 
-            // Escuchar mensajes en tiempo real desde Firebase
-            const adminRef = database.ref('soporte/admin/' + uidActual + '/mensajes');
-            adminRef.orderByChild('timestamp').on('value', function(snapshot) {
-                // Mantener el encabezado de fecha
-                const fechaDiv = container.querySelector('div:first-child');
-                container.innerHTML = '';
-                if (fechaDiv) container.appendChild(fechaDiv);
+function cargarMensajesAdminBusero() {
+    const container = document.getElementById('chatAdminMensajesContainer');
+    if (!container) return;
 
-                let hasMessages = false;
+    container.innerHTML = '<div style="text-align:center; color:var(--text-tertiary); padding:10px;"><i class="fas fa-spinner fa-spin"></i> Cargando mensajes...</div>';
 
-                snapshot.forEach(function(child) {
-                    const msg = child.val();
-                    hasMessages = true;
-                    const esAdmin = msg.emisor === 'admin';
-                    const hora = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+    const adminRef = database.ref('soporte/admin/' + uidActual + '/mensajes');
+    adminRef.orderByChild('timestamp').limitToLast(50).on('value', function(snapshot) {
+        let html = '';
+        let hasMessages = false;
 
-                    const div = document.createElement('div');
-                    div.style.cssText = `text-align:${esAdmin ? 'left' : 'right'}; margin-bottom:8px;`;
-                    div.innerHTML = `
-                        <div style="display:inline-block; background:${esAdmin ? 'var(--hover-bg)' : 'var(--gradient-glow)'}; padding:10px 14px; border-radius:16px; max-width:85%; color:${esAdmin ? 'var(--text-primary)' : '#000'}; border:${esAdmin ? '1px solid var(--glass-border)' : 'none'};">
+        snapshot.forEach(function(child) {
+            const msg = child.val();
+            hasMessages = true;
+            const esAdmin = msg.emisor === 'admin';
+            const hora = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+
+            if (esAdmin) {
+                html += `
+                    <div style="text-align:left; margin-bottom:10px;">
+                        <div class="mensaje-recibido">
                             ${msg.texto}
                         </div>
-                        <div style="font-size:9px; color:var(--text-tertiary); margin-top:2px; ${esAdmin ? 'text-align:left;' : 'text-align:right;'}">${hora} ${esAdmin ? '• Admin' : '• Tú'}</div>
-                    `;
-                    container.appendChild(div);
-                });
-
-                if (!hasMessages) {
-                    const emptyDiv = document.createElement('div');
-                    emptyDiv.style.cssText = 'text-align:center; color:var(--text-tertiary); padding:20px;';
-                    emptyDiv.textContent = '💬 No hay mensajes. Envía un saludo!';
-                    container.appendChild(emptyDiv);
-                }
-
-                container.scrollTop = container.scrollHeight;
-            });
-        }
-
-        function cerrarChatAdminBusero() {
-            document.getElementById('chatAdminFullBusero').style.display = 'none';
-            document.getElementById('mensajeriaVistaPrincipal').style.display = 'grid';
-        }
-
-                function abrirChatIABusero() {
-            document.getElementById('mensajeriaVistaPrincipal').style.display = 'none';
-            document.getElementById('chatIAFullBusero').style.display = 'block';
-            document.getElementById('chatAdminFullBusero').style.display = 'none';
-            
-            cargarMensajesIABusero();
-        }
-
-        function cerrarChatIABusero() {
-            document.getElementById('chatIAFullBusero').style.display = 'none';
-            document.getElementById('mensajeriaVistaPrincipal').style.display = 'grid';
-        }
-
-                function enviarMensajeAdminFullBusero() {
-            const input = document.getElementById('adminMsgFullBusero');
-            const texto = input.value.trim();
-            if (!texto || !uidActual) return;
-
-            const mensaje = {
-                emisor: 'busero',
-                texto: texto,
-                timestamp: Date.now(),
-                leido: false
-            };
-
-            database.ref('soporte/admin/' + uidActual + '/mensajes').push(mensaje).then(function() {
-                input.value = '';
-                
-                // Notificar al admin
-                database.ref('soporte/admin/notificaciones').push({
-                    buseroId: uidActual,
-                    mensaje: texto,
-                    timestamp: Date.now(),
-                    leida: false
-                });
-            });
-        }
-        
-                function cargarMensajesIABusero() {
-            const container = document.getElementById('chatIAFullMensajesBusero');
-            if (!container) return;
-
-            // Limpiar mensajes existentes
-            container.innerHTML = '';
-
-            // Mostrar mensaje de bienvenida de la IA
-            const welcomeDiv = document.createElement('div');
-            welcomeDiv.style.cssText = 'text-align:left; margin-bottom:8px;';
-            welcomeDiv.innerHTML = `
-                <div style="display:inline-block; background:var(--bg-card); padding:10px 14px; border-radius:16px; max-width:85%; color:var(--text-primary); border:1px solid var(--glass-border);">
-                    🤖 Hola, soy tu asistente IA. ¿En qué puedo ayudarte hoy?
-                </div>
-                <div style="font-size:9px; color:var(--text-tertiary); margin-top:2px;">Ahora • IA</div>
-            `;
-            container.appendChild(welcomeDiv);
-
-            // Agregar botones de ayuda rápida
-            const botonesDiv = document.createElement('div');
-            botonesDiv.style.cssText = 'display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px;';
-            botonesDiv.innerHTML = `
-                <button onclick="preguntaIABuseroFull('¿Cómo subo un documento?')" style="background:var(--hover-bg); border:1px solid var(--glass-border); border-radius:12px; padding:10px; text-align:center; cursor:pointer; transition:all 0.3s; color:var(--text-primary);">
-                    <div style="font-size:18px;">📄</div>
-                    <div style="font-size:10px; font-weight:500;">Documentos</div>
-                </button>
-                <button onclick="preguntaIABuseroFull('¿Cómo cobrar?')" style="background:var(--hover-bg); border:1px solid var(--glass-border); border-radius:12px; padding:10px; text-align:center; cursor:pointer; transition:all 0.3s; color:var(--text-primary);">
-                    <div style="font-size:18px;">💰</div>
-                    <div style="font-size:10px; font-weight:500;">Pagos</div>
-                </button>
-                <button onclick="preguntaIABuseroFull('Mantenimiento preventivo')" style="background:var(--hover-bg); border:1px solid var(--glass-border); border-radius:12px; padding:10px; text-align:center; cursor:pointer; transition:all 0.3s; color:var(--text-primary);">
-                    <div style="font-size:18px;">🔧</div>
-                    <div style="font-size:10px; font-weight:500;">Mantenimiento</div>
-                </button>
-                <button onclick="preguntaIABuseroFull('Políticas de la plataforma')" style="background:var(--hover-bg); border:1px solid var(--glass-border); border-radius:12px; padding:10px; text-align:center; cursor:pointer; transition:all 0.3s; color:var(--text-primary);">
-                    <div style="font-size:18px;">📋</div>
-                    <div style="font-size:10px; font-weight:500;">Políticas</div>
-                </button>
-            `;
-            container.appendChild(botonesDiv);
-
-            // Cargar historial de mensajes con la IA desde Firebase (si existe)
-            database.ref('soporte/ia/' + uidActual + '/mensajes').orderByChild('timestamp').limitToLast(10).once('value').then(function(snapshot) {
-                const mensajes = [];
-                snapshot.forEach(function(child) {
-                    mensajes.push(child.val());
-                });
-
-                mensajes.sort((a, b) => a.timestamp - b.timestamp);
-
-                mensajes.forEach(function(msg) {
-                    const esUsuario = msg.emisor === 'busero';
-                    const hora = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
-
-                    const div = document.createElement('div');
-                    div.style.cssText = `text-align:${esUsuario ? 'right' : 'left'}; margin-bottom:8px;`;
-                    div.innerHTML = `
-                        <div style="display:inline-block; background:${esUsuario ? 'var(--gradient-glow)' : 'var(--bg-card)'}; padding:8px 14px; border-radius:16px; max-width:85%; color:${esUsuario ? '#000' : 'var(--text-primary)'}; border:${esUsuario ? 'none' : '1px solid var(--glass-border)'};">
-                            ${msg.texto}
-                        </div>
-                        <div style="font-size:9px; color:var(--text-tertiary); margin-top:2px; ${esUsuario ? 'text-align:right;' : 'text-align:left;'}">${hora} ${esUsuario ? '• Tú' : '• IA'}</div>
-                    `;
-                    container.appendChild(div);
-                });
-
-                container.scrollTop = container.scrollHeight;
-            });
-        }
-
-                function enviarMensajeIAFullBusero() {
-            const input = document.getElementById('iaMsgFullBusero');
-            const texto = input.value.trim();
-            if (!texto || !uidActual) return;
-
-            const container = document.getElementById('chatIAFullMensajesBusero');
-            const hora = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-            // Mostrar mensaje del usuario
-            const userDiv = document.createElement('div');
-            userDiv.style.cssText = 'text-align:right; margin-bottom:8px;';
-            userDiv.innerHTML = `
-                <div style="display:inline-block; background:var(--gradient-glow); padding:8px 14px; border-radius:16px; border-bottom-right-radius:4px; max-width:85%; color:#000;">
-                    ${texto}
-                </div>
-                <div style="font-size:9px; color:var(--text-tertiary); margin-top:2px;">${hora} • Tú</div>
-            `;
-            container.appendChild(userDiv);
-            container.scrollTop = container.scrollHeight;
-            input.value = '';
-
-            // Guardar en Firebase
-            const mensaje = {
-                emisor: 'busero',
-                texto: texto,
-                timestamp: Date.now()
-            };
-            database.ref('soporte/ia/' + uidActual + '/mensajes').push(mensaje);
-
-            // Mostrar indicador de escritura
-            const typingDiv = document.createElement('div');
-            typingDiv.style.cssText = 'text-align:left; margin-bottom:8px;';
-            typingDiv.innerHTML = `
-                <div style="display:inline-block; background:var(--bg-card); padding:8px 14px; border-radius:16px; color:var(--text-tertiary); border:1px solid var(--glass-border);">
-                    <span class="ia-typing-dot">●</span>
-                    <span class="ia-typing-dot">●</span>
-                    <span class="ia-typing-dot">●</span>
-                </div>
-            `;
-            container.appendChild(typingDiv);
-            container.scrollTop = container.scrollHeight;
-
-            // Procesar respuesta
-            setTimeout(() => {
-                typingDiv.remove();
-                const respuesta = procesarPreguntaIA(texto);
-                
-                const iaDiv = document.createElement('div');
-                iaDiv.style.cssText = 'text-align:left; margin-bottom:8px;';
-                iaDiv.innerHTML = `
-                    <div style="display:inline-block; background:var(--bg-card); padding:8px 14px; border-radius:16px; max-width:85%; color:var(--text-primary); border:1px solid var(--glass-border);">
-                        ${respuesta}
+                        <div class="mensaje-hora" style="padding-left:4px;">${hora} • Admin</div>
                     </div>
-                    <div style="font-size:9px; color:var(--text-tertiary); margin-top:2px;">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} • IA</div>
                 `;
-                container.appendChild(iaDiv);
-                container.scrollTop = container.scrollHeight;
-
-                // Guardar respuesta en Firebase
-                database.ref('soporte/ia/' + uidActual + '/mensajes').push({
-                    emisor: 'ia',
-                    texto: respuesta,
-                    timestamp: Date.now()
-                });
-            }, 1500);
-        }
-
-        function preguntaIABuseroFull(pregunta) {
-            document.getElementById('iaMsgFullBusero').value = pregunta;
-            enviarMensajeIAFullBusero();
-        }
-
-        function adjuntarArchivoAdminBusero() {
-            Swal.fire({
-                title: '📎 Adjuntar archivo',
-                text: 'Selecciona una imagen o archivo para adjuntar.',
-                icon: 'info',
-                background: 'var(--card-bg)',
-                color: 'var(--text-primary)',
-                confirmButtonColor: 'var(--accent)'
-            });
-        }
-
-        function abrirEmojisAdminBusero() {
-            Swal.fire({
-                title: '😊 Emojis',
-                text: 'Selecciona un emoji para agregar a tu mensaje.',
-                icon: 'info',
-                background: 'var(--card-bg)',
-                color: 'var(--text-primary)',
-                confirmButtonColor: 'var(--accent)'
-            });
-        }
-
-        function verTodaBaseConocimientoBusero() {
-            Swal.fire({
-                title: '📚 Base de conocimiento',
-                html: `
-                    <div style="text-align:left;">
-                        <p><strong>📄 Cómo subir documentos</strong> - Actualizado hace 2 días</p>
-                        <p><strong>💰 Cobros y métodos de pago</strong> - Actualizado hace 5 días</p>
-                        <p><strong>🔧 Mantenimiento preventivo</strong> - Actualizado hace 1 semana</p>
-                        <p><strong>📋 Políticas de la plataforma</strong> - Actualizado hace 2 semanas</p>
+            } else {
+                html += `
+                    <div style="text-align:right; margin-bottom:10px;">
+                        <div class="mensaje-enviado">
+                            ${msg.texto}
+                        </div>
+                        <div class="mensaje-hora" style="padding-right:4px;">${hora} • Tú</div>
                     </div>
-                `,
-                icon: 'info',
-                background: 'var(--card-bg)',
-                color: 'var(--text-primary)',
-                confirmButtonColor: 'var(--accent)'
-            });
-        }
-
-        function mostrarArticuloBusero(articulo) {
-            const titulos = {
-                'documentos': '📄 Cómo subir documentos',
-                'cobros': '💰 Cobros y métodos de pago',
-                'mantenimiento': '🔧 Mantenimiento preventivo',
-                'politicas': '📋 Políticas de la plataforma'
-            };
-            
-            Swal.fire({
-                title: titulos[articulo] || 'Artículo',
-                text: 'Este artículo se está cargando. Pronto tendrás más información.',
-                icon: 'info',
-                background: 'var(--card-bg)',
-                color: 'var(--text-primary)',
-                confirmButtonColor: 'var(--accent)'
-            });
-        }
-
-        function filtrarArticulosBuseroMensaje() {
-            const busqueda = document.getElementById('buscarArticuloBuseroMensaje').value.toLowerCase();
-            const items = document.querySelectorAll('#listaArticulosBuseroMensaje .articulo-item');
-            items.forEach(item => {
-                const texto = item.innerText.toLowerCase();
-                item.style.display = texto.includes(busqueda) ? 'flex' : 'none';
-            });
-        }
-
-        // Inicializar fecha en el chat
-        document.addEventListener('DOMContentLoaded', function() {
-            const fecha = document.getElementById('fechaAdminFullBusero');
-            if (fecha) {
-                const hoy = new Date();
-                fecha.textContent = hoy.toLocaleDateString('es-ES', { day: 'numeric', month: 'numeric', year: 'numeric' });
+                `;
             }
         });
 
-        // Cargar nombre en el banner
-        setTimeout(function() {
-            const nombre = document.getElementById('buseroNombre')?.textContent || 'Busero';
-            const span = document.getElementById('mensajeriaNombreBusero');
-            if (span) span.textContent = nombre;
-        }, 500);
-
-        // Función para procesar preguntas IA
-        function procesarPreguntaIA(texto) {
-            const m = texto.toLowerCase();
-
-            if (m.includes('documento') || m.includes('foto') || m.includes('subir')) {
-                return '📸 <strong>Para subir un documento:</strong><br>1. Ve a la sección DOCUMENTOS<br>2. Selecciona el tipo de documento<br>3. Haz clic en "Subir archivo"<br>4. Selecciona la foto o PDF desde tu dispositivo';
-            }
-            
-            if (m.includes('cobrar') || m.includes('ganancias') || m.includes('cuanto he ganado') || m.includes('ingresos')) {
-                const ganancias = document.getElementById('ingresosHoy')?.textContent || 'B/. 0.00';
-                const viajes = document.getElementById('viajesStats')?.textContent || '0';
-                return `💰 <strong>Tus ingresos hoy:</strong> ${ganancias}<br>📊 Viajes realizados hoy: ${viajes}`;
-            }
-            
-            if (m.includes('viaje') || m.includes('ruta') || m.includes('destino')) {
-                return '🚌 <strong>Información de viajes:</strong><br>• Los viajes se registran automáticamente<br>• Puedes ver tu historial en la sección VIAJES<br>• Cada viaje guarda: origen, destino, monto y calificación';
-            }
-            
-            if (m.includes('mantenimiento') || m.includes('revisión') || m.includes('aceite') || m.includes('frenos')) {
-                return '🔧 <strong>Mantenimiento del vehículo:</strong><br>• Revisa la sección MANTENIMIENTO<br>• Puedes ver el progreso de cada servicio<br>• Sube fotos de los servicios realizados<br>• El sistema te notificará cuando se acerque un servicio';
-            }
-            
-            if (m.includes('licencia') || m.includes('vence') || m.includes('vencimiento') || m.includes('cedula')) {
-                return '📄 <strong>Documentos personales:</strong><br>• Revisa tus documentos en DOCUMENTOS<br>• Verifica las fechas de vencimiento<br>• Sube documentos actualizados antes de que venzan<br>• Recibirás notificaciones cuando un documento esté por vencer';
-            }
-            
-            if (m.includes('sos') || m.includes('emergencia') || m.includes('ayuda') || m.includes('peligro')) {
-                return '🆘 <strong>Botón de emergencia SOS:</strong><br>• Presiona el botón SOS en la sección SEGURIDAD<br>• También tienes un botón flotante rojo siempre visible<br>• Se enviará tu ubicación a tus contactos de confianza<br>• Se notificará a las autoridades locales<br><br>⚠️ Úsalo SOLO en casos de emergencia real.';
-            }
-            
-            if (m.includes('hola') || m.includes('buenas') || m.includes('saludos')) {
-                return '👋 ¡Hola! Soy tu asistente IA de CupoTax.<br><br>Puedo ayudarte con:<br>📄 Documentos<br>💰 Cobros y ganancias<br>🚌 Viajes<br>🔧 Mantenimiento<br>📋 Licencias<br>🆘 Emergencias<br><br>¿En qué más puedo ayudarte?';
-            }
-            
-            if (m.includes('ayuda') || m.includes('que puedes hacer') || m.includes('funciones')) {
-                return '📋 <strong>¿Qué puedo hacer por ti?</strong><br><br>📄 <strong>Documentos:</strong> Subir y gestionar documentos<br>💰 <strong>Cobros:</strong> Ver tus ganancias<br>🚌 <strong>Viajes:</strong> Historial de viajes<br>🔧 <strong>Mantenimiento:</strong> Servicios del vehículo<br>📋 <strong>Licencias:</strong> Fechas de vencimiento<br>🆘 <strong>Emergencias:</strong> Botón SOS<br><br>🤔 Escribe tu pregunta directamente y te ayudaré.';
-            }
-            
-            return '🤔 No entendí tu pregunta. Puedes preguntarme sobre:<br><br>📄 Documentos<br>💰 Cobros / Ganancias<br>🚌 Viajes<br>🔧 Mantenimiento<br>📋 Licencias<br>🆘 Emergencias<br><br>💡 O escribe "ayuda" para ver todas las opciones.';
+        if (!hasMessages) {
+            html = '<div style="text-align:center; color:var(--text-tertiary); padding:20px;">💬 No hay mensajes. Envía un saludo!</div>';
         }
+
+        container.innerHTML = html;
+        container.scrollTop = container.scrollHeight;
+    });
+}
+
+function enviarMensajeAdminFullBusero() {
+    const input = document.getElementById('adminMsgFullBusero');
+    const texto = input.value.trim();
+    if (!texto || !uidActual) return;
+
+    const mensaje = {
+        emisor: 'busero',
+        texto: texto,
+        timestamp: Date.now(),
+        leido: false
+    };
+
+    database.ref('soporte/admin/' + uidActual + '/mensajes').push(mensaje).then(function() {
+        input.value = '';
+        
+        // Notificar al admin
+        database.ref('soporte/admin/notificaciones').push({
+            buseroId: uidActual,
+            mensaje: texto,
+            timestamp: Date.now(),
+            leida: false
+        });
+    });
+}
+
+function cerrarChatAdminBusero() {
+    document.getElementById('chatAdminFullBusero').style.display = 'none';
+    document.getElementById('mensajeriaVistaPrincipal').style.display = 'grid';
+}
+
+// ========== ASISTENTE IA ==========
+function abrirChatIABusero() {
+    document.getElementById('mensajeriaVistaPrincipal').style.display = 'none';
+    document.getElementById('chatIAFullBusero').style.display = 'block';
+    document.getElementById('chatAdminFullBusero').style.display = 'none';
+    
+    cargarMensajesIABusero();
+}
+
+function cargarMensajesIABusero() {
+    const container = document.getElementById('chatIAMensajesContainer');
+    if (!container) return;
+
+    // Limpiar mensajes existentes
+    container.innerHTML = '';
+
+    // Mostrar mensaje de bienvenida de la IA
+    const welcomeDiv = document.createElement('div');
+    welcomeDiv.style.cssText = 'text-align:left; margin-bottom:8px;';
+    welcomeDiv.innerHTML = `
+        <div style="display:inline-block; background:var(--bg-card); padding:10px 14px; border-radius:16px; max-width:85%; color:var(--text-primary); border:1px solid var(--glass-border);">
+            🤖 Hola, soy tu asistente IA. ¿En qué puedo ayudarte hoy?
+        </div>
+        <div style="font-size:9px; color:var(--text-tertiary); margin-top:2px;">Ahora • IA</div>
+    `;
+    container.appendChild(welcomeDiv);
+
+    // Agregar botones de ayuda rápida
+    const botonesDiv = document.createElement('div');
+    botonesDiv.style.cssText = 'display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px;';
+    botonesDiv.innerHTML = `
+        <button onclick="preguntaIABuseroFull('¿Cómo subo un documento?')" style="background:var(--hover-bg); border:1px solid var(--glass-border); border-radius:12px; padding:10px; text-align:center; cursor:pointer; transition:all 0.3s; color:var(--text-primary);">
+            <div style="font-size:18px;">📄</div>
+            <div style="font-size:10px; font-weight:500;">Documentos</div>
+        </button>
+        <button onclick="preguntaIABuseroFull('¿Cómo cobrar?')" style="background:var(--hover-bg); border:1px solid var(--glass-border); border-radius:12px; padding:10px; text-align:center; cursor:pointer; transition:all 0.3s; color:var(--text-primary);">
+            <div style="font-size:18px;">💰</div>
+            <div style="font-size:10px; font-weight:500;">Pagos</div>
+        </button>
+        <button onclick="preguntaIABuseroFull('Mantenimiento preventivo')" style="background:var(--hover-bg); border:1px solid var(--glass-border); border-radius:12px; padding:10px; text-align:center; cursor:pointer; transition:all 0.3s; color:var(--text-primary);">
+            <div style="font-size:18px;">🔧</div>
+            <div style="font-size:10px; font-weight:500;">Mantenimiento</div>
+        </button>
+        <button onclick="preguntaIABuseroFull('Políticas de la plataforma')" style="background:var(--hover-bg); border:1px solid var(--glass-border); border-radius:12px; padding:10px; text-align:center; cursor:pointer; transition:all 0.3s; color:var(--text-primary);">
+            <div style="font-size:18px;">📋</div>
+            <div style="font-size:10px; font-weight:500;">Políticas</div>
+        </button>
+    `;
+    container.appendChild(botonesDiv);
+
+    // Cargar historial de mensajes con la IA desde Firebase (si existe)
+    database.ref('soporte/ia/' + uidActual + '/mensajes').orderByChild('timestamp').limitToLast(10).once('value').then(function(snapshot) {
+        const mensajes = [];
+        snapshot.forEach(function(child) {
+            mensajes.push(child.val());
+        });
+
+        mensajes.sort((a, b) => a.timestamp - b.timestamp);
+
+        mensajes.forEach(function(msg) {
+            const esUsuario = msg.emisor === 'busero';
+            const hora = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+
+            const div = document.createElement('div');
+            div.style.cssText = `text-align:${esUsuario ? 'right' : 'left'}; margin-bottom:8px;`;
+            div.innerHTML = `
+                <div style="display:inline-block; background:${esUsuario ? 'var(--gradient-glow)' : 'var(--bg-card)'}; padding:8px 14px; border-radius:16px; max-width:85%; color:${esUsuario ? '#000' : 'var(--text-primary)'}; border:${esUsuario ? 'none' : '1px solid var(--glass-border)'};">
+                    ${msg.texto}
+                </div>
+                <div style="font-size:9px; color:var(--text-tertiary); margin-top:2px; ${esUsuario ? 'text-align:right;' : 'text-align:left;'}">${hora} ${esUsuario ? '• Tú' : '• IA'}</div>
+            `;
+            container.appendChild(div);
+        });
+
+        container.scrollTop = container.scrollHeight;
+    });
+}
+
+function enviarMensajeIAFullBusero() {
+    const input = document.getElementById('iaMsgFullBusero');
+    const texto = input.value.trim();
+    if (!texto || !uidActual) return;
+
+    const container = document.getElementById('chatIAMensajesContainer');
+    if (!container) return;
+
+    const hora = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    // Mostrar mensaje del usuario
+    const userDiv = document.createElement('div');
+    userDiv.style.cssText = 'text-align:right; margin-bottom:8px;';
+    userDiv.innerHTML = `
+        <div class="mensaje-enviado">${texto}</div>
+        <div class="mensaje-hora" style="padding-right:4px;">${hora} • Tú</div>
+    `;
+    container.appendChild(userDiv);
+    container.scrollTop = container.scrollHeight;
+    input.value = '';
+
+    // Guardar en Firebase
+    const mensaje = {
+        emisor: 'busero',
+        texto: texto,
+        timestamp: Date.now()
+    };
+    database.ref('soporte/ia/' + uidActual + '/mensajes').push(mensaje);
+
+    // Mostrar indicador de escritura
+    const typingDiv = document.createElement('div');
+    typingDiv.style.cssText = 'text-align:left; margin-bottom:8px;';
+    typingDiv.innerHTML = `
+        <div style="display:inline-block; background:var(--bg-card); padding:8px 14px; border-radius:16px; color:var(--text-tertiary); border:1px solid var(--glass-border);">
+            <span class="ia-typing-dot">●</span>
+            <span class="ia-typing-dot">●</span>
+            <span class="ia-typing-dot">●</span>
+        </div>
+    `;
+    container.appendChild(typingDiv);
+    container.scrollTop = container.scrollHeight;
+
+    // Procesar respuesta
+    setTimeout(() => {
+        typingDiv.remove();
+        const respuesta = procesarPreguntaIA(texto);
+        
+        const iaDiv = document.createElement('div');
+        iaDiv.style.cssText = 'text-align:left; margin-bottom:8px;';
+        iaDiv.innerHTML = `
+            <div class="mensaje-recibido">${respuesta}</div>
+            <div class="mensaje-hora" style="padding-left:4px;">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} • IA</div>
+        `;
+        container.appendChild(iaDiv);
+        container.scrollTop = container.scrollHeight;
+
+        // Guardar respuesta en Firebase
+        database.ref('soporte/ia/' + uidActual + '/mensajes').push({
+            emisor: 'ia',
+            texto: respuesta,
+            timestamp: Date.now()
+        });
+    }, 1500);
+}
+
+function cerrarChatIABusero() {
+    document.getElementById('chatIAFullBusero').style.display = 'none';
+    document.getElementById('mensajeriaVistaPrincipal').style.display = 'grid';
+}
+
+function preguntaIABuseroFull(pregunta) {
+    document.getElementById('iaMsgFullBusero').value = pregunta;
+    enviarMensajeIAFullBusero();
+}
+
+// ========== HISTORIAL ==========
+function cargarHistorialMensajesBusero() {
+    const container = document.getElementById('historialMensajesBusero');
+    if (!container) return;
+    
+    let html = '';
+    
+    // Cargar historial del admin
+    database.ref('soporte/admin/' + uidActual + '/mensajes').orderByChild('timestamp').limitToLast(20).once('value').then(function(snapshot) {
+        const adminMsgs = [];
+        snapshot.forEach(function(child) {
+            adminMsgs.push(child.val());
+        });
+        
+        // Cargar historial de IA
+        database.ref('soporte/ia/' + uidActual + '/mensajes').orderByChild('timestamp').limitToLast(20).once('value').then(function(iaSnapshot) {
+            const iaMsgs = [];
+            iaSnapshot.forEach(function(child) {
+                iaMsgs.push(child.val());
+            });
+            
+            // Combinar y ordenar
+            const allMsgs = [...adminMsgs, ...iaMsgs];
+            allMsgs.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+            
+            if (allMsgs.length === 0) {
+                html = '<div style="text-align:center; padding:20px; color:var(--text-tertiary);">📭 No hay mensajes en el historial</div>';
+            } else {
+                allMsgs.slice(-10).forEach(function(msg) {
+                    const esAdmin = msg.emisor === 'admin';
+                    const esIA = msg.emisor === 'ia';
+                    let emisor = 'Tú';
+                    if (esAdmin) emisor = 'Admin';
+                    else if (esIA) emisor = 'IA';
+                    
+                    const fecha = msg.timestamp ? new Date(msg.timestamp).toLocaleString() : 'N/A';
+                    const color = esAdmin ? 'var(--accent)' : esIA ? 'var(--info)' : 'var(--success)';
+                    
+                    html += `
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--glass-border);">
+                            <div>
+                                <span style="font-weight:600; color:${color};">${emisor}:</span>
+                                <span style="color:var(--text-primary); font-size:13px;">${msg.texto || ''}</span>
+                            </div>
+                            <span style="font-size:9px; color:var(--text-tertiary);">${fecha}</span>
+                        </div>
+                    `;
+                });
+            }
+            
+            container.innerHTML = html;
+        });
+    });
+}
+
+function verHistorialAdminBusero() {
+    Swal.fire({
+        title: '📜 Historial con Administrador',
+        html: `<div id="historialAdminModal" style="max-height:300px; overflow-y:auto; text-align:left;">
+            <div style="text-align:center; padding:10px; color:var(--text-tertiary);">
+                <i class="fas fa-spinner fa-spin"></i> Cargando...
+            </div>
+        </div>`,
+        icon: 'info',
+        background: 'var(--card-bg)',
+        color: 'var(--text-primary)',
+        confirmButtonColor: 'var(--accent)',
+        didOpen: function() {
+            database.ref('soporte/admin/' + uidActual + '/mensajes').orderByChild('timestamp').limitToLast(30).once('value').then(function(snapshot) {
+                let html = '';
+                const msgs = [];
+                snapshot.forEach(function(child) {
+                    msgs.push(child.val());
+                });
+                msgs.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+                
+                if (msgs.length === 0) {
+                    html = '<div style="text-align:center; padding:20px; color:var(--text-tertiary);">No hay mensajes</div>';
+                } else {
+                    msgs.forEach(function(msg) {
+                        const esAdmin = msg.emisor === 'admin';
+                        const hora = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString() : '';
+                        html += `
+                            <div style="padding:6px 0; border-bottom:1px solid var(--glass-border);">
+                                <span style="font-weight:600; color:${esAdmin ? 'var(--accent)' : 'var(--success)'};">${esAdmin ? 'Admin' : 'Tú'}:</span>
+                                <span style="color:var(--text-primary);">${msg.texto || ''}</span>
+                                <span style="font-size:9px; color:var(--text-tertiary); margin-left:8px;">${hora}</span>
+                            </div>
+                        `;
+                    });
+                }
+                document.getElementById('historialAdminModal').innerHTML = html;
+            });
+        }
+    });
+}
+
+function verHistorialIABusero() {
+    Swal.fire({
+        title: '🤖 Historial con Asistente IA',
+        html: `<div id="historialIAModal" style="max-height:300px; overflow-y:auto; text-align:left;">
+            <div style="text-align:center; padding:10px; color:var(--text-tertiary);">
+                <i class="fas fa-spinner fa-spin"></i> Cargando...
+            </div>
+        </div>`,
+        icon: 'info',
+        background: 'var(--card-bg)',
+        color: 'var(--text-primary)',
+        confirmButtonColor: 'var(--accent)',
+        didOpen: function() {
+            database.ref('soporte/ia/' + uidActual + '/mensajes').orderByChild('timestamp').limitToLast(30).once('value').then(function(snapshot) {
+                let html = '';
+                const msgs = [];
+                snapshot.forEach(function(child) {
+                    msgs.push(child.val());
+                });
+                msgs.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+                
+                if (msgs.length === 0) {
+                    html = '<div style="text-align:center; padding:20px; color:var(--text-tertiary);">No hay mensajes con la IA</div>';
+                } else {
+                    msgs.forEach(function(msg) {
+                        const esIA = msg.emisor === 'ia';
+                        const hora = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString() : '';
+                        html += `
+                            <div style="padding:6px 0; border-bottom:1px solid var(--glass-border);">
+                                <span style="font-weight:600; color:${esIA ? 'var(--info)' : 'var(--success)'};">${esIA ? 'IA' : 'Tú'}:</span>
+                                <span style="color:var(--text-primary);">${msg.texto || ''}</span>
+                                <span style="font-size:9px; color:var(--text-tertiary); margin-left:8px;">${hora}</span>
+                            </div>
+                        `;
+                    });
+                }
+                document.getElementById('historialIAModal').innerHTML = html;
+            });
+        }
+    });
+}
+
+// ========== BASE DE CONOCIMIENTO ==========
+function verTodaBaseConocimientoBusero() {
+    Swal.fire({
+        title: '📚 Base de conocimiento',
+        html: `
+            <div style="text-align:left;">
+                <p><strong>📄 Cómo subir documentos</strong> - Actualizado hace 2 días</p>
+                <p><strong>💰 Cobros y métodos de pago</strong> - Actualizado hace 5 días</p>
+                <p><strong>🔧 Mantenimiento preventivo</strong> - Actualizado hace 1 semana</p>
+                <p><strong>📋 Políticas de la plataforma</strong> - Actualizado hace 2 semanas</p>
+            </div>
+        `,
+        icon: 'info',
+        background: 'var(--card-bg)',
+        color: 'var(--text-primary)',
+        confirmButtonColor: 'var(--accent)'
+    });
+}
+
+function mostrarArticuloBusero(articulo) {
+    const titulos = {
+        'documentos': '📄 Cómo subir documentos',
+        'cobros': '💰 Cobros y métodos de pago',
+        'mantenimiento': '🔧 Mantenimiento preventivo',
+        'politicas': '📋 Políticas de la plataforma'
+    };
+    
+    Swal.fire({
+        title: titulos[articulo] || 'Artículo',
+        text: 'Este artículo se está cargando. Pronto tendrás más información.',
+        icon: 'info',
+        background: 'var(--card-bg)',
+        color: 'var(--text-primary)',
+        confirmButtonColor: 'var(--accent)'
+    });
+}
+
+function filtrarArticulosBuseroMensaje() {
+    const busqueda = document.getElementById('buscarArticuloBuseroMensaje').value.toLowerCase();
+    const items = document.querySelectorAll('#listaArticulosBuseroMensaje .articulo-item');
+    items.forEach(item => {
+        const texto = item.innerText.toLowerCase();
+        item.style.display = texto.includes(busqueda) ? 'flex' : 'none';
+    });
+}
+
+// ========== UTILIDADES ==========
+function adjuntarArchivoAdminBusero() {
+    Swal.fire({
+        title: '📎 Adjuntar archivo',
+        text: 'Selecciona una imagen o archivo para adjuntar.',
+        icon: 'info',
+        background: 'var(--card-bg)',
+        color: 'var(--text-primary)',
+        confirmButtonColor: 'var(--accent)'
+    });
+}
+
+function abrirEmojisAdminBusero() {
+    Swal.fire({
+        title: '😊 Emojis',
+        text: 'Selecciona un emoji para agregar a tu mensaje.',
+        icon: 'info',
+        background: 'var(--card-bg)',
+        color: 'var(--text-primary)',
+        confirmButtonColor: 'var(--accent)'
+    });
+}
+
+// Inicializar fecha en el chat
+document.addEventListener('DOMContentLoaded', function() {
+    const fecha = document.getElementById('fechaAdminFullBusero');
+    if (fecha) {
+        const hoy = new Date();
+        fecha.textContent = hoy.toLocaleDateString('es-ES', { day: 'numeric', month: 'numeric', year: 'numeric' });
+    }
+});
+
+// Cargar nombre en el banner
+setTimeout(function() {
+    const nombre = document.getElementById('buseroNombre')?.textContent || 'Busero';
+    const span = document.getElementById('mensajeriaNombreBusero');
+    if (span) span.textContent = nombre;
+}, 500);
+
+// Función para procesar preguntas IA
+function procesarPreguntaIA(texto) {
+    const m = texto.toLowerCase();
+
+    if (m.includes('documento') || m.includes('foto') || m.includes('subir')) {
+        return '📸 <strong>Para subir un documento:</strong><br>1. Ve a la sección DOCUMENTOS<br>2. Selecciona el tipo de documento<br>3. Haz clic en "Subir archivo"<br>4. Selecciona la foto o PDF desde tu dispositivo';
+    }
+    
+    if (m.includes('cobrar') || m.includes('ganancias') || m.includes('cuanto he ganado') || m.includes('ingresos')) {
+        const ganancias = document.getElementById('ingresosHoy')?.textContent || 'B/. 0.00';
+        const viajes = document.getElementById('viajesStats')?.textContent || '0';
+        return `💰 <strong>Tus ingresos hoy:</strong> ${ganancias}<br>📊 Viajes realizados hoy: ${viajes}`;
+    }
+    
+    if (m.includes('viaje') || m.includes('ruta') || m.includes('destino')) {
+        return '🚌 <strong>Información de viajes:</strong><br>• Los viajes se registran automáticamente<br>• Puedes ver tu historial en la sección VIAJES<br>• Cada viaje guarda: origen, destino, monto y calificación';
+    }
+    
+    if (m.includes('mantenimiento') || m.includes('revisión') || m.includes('aceite') || m.includes('frenos')) {
+        return '🔧 <strong>Mantenimiento del vehículo:</strong><br>• Revisa la sección MANTENIMIENTO<br>• Puedes ver el progreso de cada servicio<br>• Sube fotos de los servicios realizados<br>• El sistema te notificará cuando se acerque un servicio';
+    }
+    
+    if (m.includes('licencia') || m.includes('vence') || m.includes('vencimiento') || m.includes('cedula')) {
+        return '📄 <strong>Documentos personales:</strong><br>• Revisa tus documentos en DOCUMENTOS<br>• Verifica las fechas de vencimiento<br>• Sube documentos actualizados antes de que venzan<br>• Recibirás notificaciones cuando un documento esté por vencer';
+    }
+    
+    if (m.includes('sos') || m.includes('emergencia') || m.includes('ayuda') || m.includes('peligro')) {
+        return '🆘 <strong>Botón de emergencia SOS:</strong><br>• Presiona el botón SOS en la sección SEGURIDAD<br>• También tienes un botón flotante rojo siempre visible<br>• Se enviará tu ubicación a tus contactos de confianza<br>• Se notificará a las autoridades locales<br><br>⚠️ Úsalo SOLO en casos de emergencia real.';
+    }
+    
+    if (m.includes('hola') || m.includes('buenas') || m.includes('saludos')) {
+        return '👋 ¡Hola! Soy tu asistente IA de CupoTax.<br><br>Puedo ayudarte con:<br>📄 Documentos<br>💰 Cobros y ganancias<br>🚌 Viajes<br>🔧 Mantenimiento<br>📋 Licencias<br>🆘 Emergencias<br><br>¿En qué más puedo ayudarte?';
+    }
+    
+    if (m.includes('ayuda') || m.includes('que puedes hacer') || m.includes('funciones')) {
+        return '📋 <strong>¿Qué puedo hacer por ti?</strong><br><br>📄 <strong>Documentos:</strong> Subir y gestionar documentos<br>💰 <strong>Cobros:</strong> Ver tus ganancias<br>🚌 <strong>Viajes:</strong> Historial de viajes<br>🔧 <strong>Mantenimiento:</strong> Servicios del vehículo<br>📋 <strong>Licencias:</strong> Fechas de vencimiento<br>🆘 <strong>Emergencias:</strong> Botón SOS<br><br>🤔 Escribe tu pregunta directamente y te ayudaré.';
+    }
+    
+    return '🤔 No entendí tu pregunta. Puedes preguntarme sobre:<br><br>📄 Documentos<br>💰 Cobros / Ganancias<br>🚌 Viajes<br>🔧 Mantenimiento<br>📋 Licencias<br>🆘 Emergencias<br><br>💡 O escribe "ayuda" para ver todas las opciones.';
+}
 
         // ==========================================================
         // ✅ SECCIÓN 12.24: INICIALIZACIÓN COMPLETA
