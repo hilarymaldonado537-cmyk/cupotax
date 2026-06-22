@@ -1436,6 +1436,662 @@
                 font-size: 0.6rem;
             }
         }
+        
+        /* ==========================================================
+   RESPONSIVE PARA TODAS LAS SECCIONES - USUARIO
+   ========================================================== */
+
+/* ========== 1. INICIO ========== */
+@media (max-width: 768px) {
+    .two-columns {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+    
+    .quick-destinos {
+        justify-content: center !important;
+    }
+    
+    .destino-item {
+        min-width: 80px !important;
+        padding: 8px 12px !important;
+        font-size: 0.75rem !important;
+    }
+    
+    .card-value {
+        font-size: 1.5rem !important;
+    }
+    
+    #seccion-inicio .card {
+        padding: 12px !important;
+    }
+    
+    #seccion-inicio .card-title {
+        font-size: 0.8rem !important;
+    }
+    
+    .service-buttons {
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+    }
+    
+    .service-buttons .btn-outline {
+        font-size: 0.7rem !important;
+        padding: 6px 12px !important;
+        flex: 1 !important;
+        min-width: 80px !important;
+        text-align: center !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .destino-item {
+        min-width: 70px !important;
+        padding: 6px 10px !important;
+        font-size: 0.65rem !important;
+    }
+    
+    .destino-item strong {
+        font-size: 0.7rem !important;
+    }
+    
+    #seccion-inicio .card-value {
+        font-size: 1.3rem !important;
+    }
+    
+    .btn-outline, .btn-primary {
+        font-size: 0.7rem !important;
+        padding: 8px !important;
+    }
+}
+
+/* ========== 2. SOLICITAR VIAJE ========== */
+@media (max-width: 768px) {
+    .map-container {
+        flex-direction: column !important;
+        gap: 12px !important;
+    }
+    
+    #map {
+        height: 200px !important;
+    }
+    
+    .info-panel {
+        max-height: 200px !important;
+        padding: 12px !important;
+    }
+    
+    .map-style-selector {
+        top: 70px !important;
+        right: 5px !important;
+        padding: 4px !important;
+    }
+    
+    .style-btn {
+        padding: 4px 8px !important;
+        font-size: 0.6rem !important;
+    }
+    
+    #seccion-solicitar .form-group input,
+    #seccion-solicitar .form-group select {
+        font-size: 14px !important;
+        padding: 8px 12px !important;
+    }
+    
+    .route-instructions {
+        max-height: 150px !important;
+    }
+    
+    .route-step {
+        font-size: 0.65rem !important;
+        padding: 6px !important;
+    }
+    
+    #tarifaMostrada {
+        padding: 12px !important;
+    }
+    
+    #tarifaMostrada #tarifaEstimada {
+        font-size: 1.5rem !important;
+    }
+    
+    .service-buttons .btn-outline {
+        font-size: 0.65rem !important;
+        padding: 5px 10px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #map {
+        height: 160px !important;
+    }
+    
+    .info-panel {
+        max-height: 150px !important;
+        padding: 10px !important;
+    }
+    
+    .info-panel h3 {
+        font-size: 0.85rem !important;
+    }
+    
+    .info-panel .btn-outline {
+        font-size: 0.55rem !important;
+        padding: 3px 6px !important;
+    }
+    
+    .weather-info {
+        font-size: 0.55rem !important;
+        padding: 4px 8px !important;
+    }
+    
+    #seccion-solicitar .form-group label {
+        font-size: 0.7rem !important;
+    }
+    
+    .route-step {
+        font-size: 0.55rem !important;
+        padding: 4px !important;
+        gap: 6px !important;
+    }
+    
+    .route-step i {
+        width: 16px !important;
+        font-size: 0.7rem !important;
+    }
+}
+
+/* ========== 3. RESERVAS ========== */
+@media (max-width: 768px) {
+    #seccion-reservas .viaje-item {
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+    }
+    
+    #seccion-reservas .viaje-item h4 {
+        font-size: 0.85rem !important;
+    }
+    
+    #seccion-reservas .viaje-item p {
+        font-size: 0.65rem !important;
+    }
+    
+    #seccion-reservas .viaje-item .viaje-precio {
+        font-size: 0.8rem !important;
+    }
+}
+
+/* ========== 4. FAVORITOS ========== */
+@media (max-width: 768px) {
+    #seccion-favoritos .viaje-item {
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+    }
+    
+    #seccion-favoritos .viaje-item h4 {
+        font-size: 0.85rem !important;
+    }
+    
+    #seccion-favoritos .viaje-item p {
+        font-size: 0.65rem !important;
+    }
+    
+    #seccion-favoritos .btn-outline {
+        font-size: 0.6rem !important;
+        padding: 4px 10px !important;
+    }
+}
+
+/* ========== 5. BILLETERA ========== */
+@media (max-width: 768px) {
+    #seccion-billetera .card-value {
+        font-size: 1.8rem !important;
+    }
+    
+    #seccion-billetera .viaje-item {
+        flex-wrap: wrap !important;
+        gap: 4px !important;
+    }
+    
+    #seccion-billetera .viaje-item h4 {
+        font-size: 0.8rem !important;
+    }
+    
+    #seccion-billetera .btn-primary,
+    #seccion-billetera .btn-outline {
+        font-size: 0.7rem !important;
+        padding: 8px !important;
+    }
+}
+
+/* ========== 6. HISTORIAL ========== */
+@media (max-width: 768px) {
+    #seccion-historial .viaje-item {
+        flex-wrap: wrap !important;
+        gap: 4px !important;
+    }
+    
+    #seccion-historial .viaje-item h4 {
+        font-size: 0.8rem !important;
+    }
+    
+    #seccion-historial .viaje-item p {
+        font-size: 0.6rem !important;
+    }
+    
+    #seccion-historial .viaje-item .viaje-precio {
+        font-size: 0.8rem !important;
+    }
+}
+
+/* ========== 7. PREMIUM ========== */
+@media (max-width: 768px) {
+    .planes-container {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+    
+    .plan-card {
+        padding: 16px !important;
+    }
+    
+    .plan-card .plan-price {
+        font-size: 1.5rem !important;
+    }
+    
+    .plan-card .plan-name {
+        font-size: 1.1rem !important;
+    }
+    
+    .plan-features li {
+        font-size: 0.7rem !important;
+    }
+    
+    .explicacion-premium p {
+        font-size: 0.75rem !important;
+    }
+    
+    #seccion-premium .btn-primary,
+    #seccion-premium .btn-outline {
+        font-size: 0.7rem !important;
+        padding: 8px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .plan-card .plan-price {
+        font-size: 1.3rem !important;
+    }
+    
+    .plan-features li {
+        font-size: 0.6rem !important;
+        padding: 3px 0 !important;
+    }
+}
+
+/* ========== 8. NOTIFICACIONES ========== */
+@media (max-width: 768px) {
+    #seccion-notificaciones .viaje-item {
+        flex-wrap: wrap !important;
+        gap: 4px !important;
+    }
+    
+    #seccion-notificaciones .viaje-item strong {
+        font-size: 0.8rem !important;
+    }
+    
+    #seccion-notificaciones .viaje-item span {
+        font-size: 0.6rem !important;
+    }
+}
+
+/* ========== 9. SEGURIDAD ========== */
+@media (max-width: 768px) {
+    .emergencia-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+    }
+    
+    .emergencia-grid-2 {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+    }
+    
+    .btn-emergencia {
+        padding: 10px !important;
+        font-size: 0.7rem !important;
+    }
+    
+    .btn-emergencia i {
+        font-size: 1rem !important;
+    }
+    
+    #seccion-seguridad .btn-sos {
+        font-size: 0.9rem !important;
+        padding: 12px !important;
+    }
+    
+    #seccion-seguridad .card {
+        padding: 12px !important;
+    }
+    
+    #seccion-seguridad .card-title {
+        font-size: 0.8rem !important;
+    }
+    
+    #seccion-seguridad .viaje-item {
+        flex-wrap: wrap !important;
+        gap: 4px !important;
+    }
+    
+    #seccion-seguridad .viaje-item h4 {
+        font-size: 0.8rem !important;
+    }
+    
+    #seccion-seguridad .viaje-item p {
+        font-size: 0.6rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .emergencia-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .emergencia-grid-2 {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .btn-emergencia {
+        padding: 8px !important;
+        font-size: 0.65rem !important;
+    }
+    
+    #seccion-seguridad .btn-sos {
+        font-size: 0.8rem !important;
+        padding: 10px !important;
+    }
+    
+    #seccion-seguridad .contactos-input {
+        flex-direction: column !important;
+        gap: 6px !important;
+    }
+    
+    #seccion-seguridad .contactos-input input {
+        width: 100% !important;
+    }
+    
+    #seccion-seguridad .contactos-input button {
+        width: 100% !important;
+    }
+}
+
+/* ========== 10. AYUDA ========== */
+@media (max-width: 768px) {
+    #seccion-ayuda .viaje-item {
+        flex-wrap: wrap !important;
+        gap: 4px !important;
+        font-size: 0.75rem !important;
+    }
+    
+    #seccion-ayuda .viaje-item span {
+        font-size: 0.7rem !important;
+    }
+    
+    #seccion-ayuda .btn-primary {
+        font-size: 0.7rem !important;
+        padding: 10px !important;
+    }
+}
+
+/* ========== 11. CONFIGURACIÓN ========== */
+@media (max-width: 768px) {
+    #seccion-configuracion .viaje-item {
+        flex-wrap: wrap !important;
+        gap: 4px !important;
+        font-size: 0.75rem !important;
+    }
+    
+    #seccion-configuracion .viaje-item span {
+        font-size: 0.7rem !important;
+    }
+}
+
+/* ========== 12. NOTIFICACIONES PANEL ========== */
+@media (max-width: 768px) {
+    .notificaciones-panel {
+        width: calc(100% - 2rem) !important;
+        right: 1rem !important;
+        left: 1rem !important;
+        top: 70px !important;
+    }
+    
+    .notificacion-item-panel {
+        padding: 10px 12px !important;
+    }
+    
+    .notificacion-titulo {
+        font-size: 0.75rem !important;
+    }
+    
+    .notificacion-mensaje {
+        font-size: 0.65rem !important;
+    }
+}
+
+/* ========== 13. ASISTENTE DE VOZ ========== */
+@media (max-width: 768px) {
+    .assistant-messages {
+        height: 200px !important;
+        padding: 10px !important;
+    }
+    
+    .assistant-user, .assistant-bot {
+        font-size: 0.75rem !important;
+        padding: 8px 12px !important;
+        max-width: 90% !important;
+    }
+    
+    .voice-commands span {
+        font-size: 0.6rem !important;
+        padding: 2px 6px !important;
+    }
+    
+    .btn-voice {
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 1rem !important;
+    }
+    
+    .voice-status {
+        font-size: 0.6rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .assistant-messages {
+        height: 150px !important;
+        padding: 8px !important;
+    }
+    
+    .assistant-user, .assistant-bot {
+        font-size: 0.7rem !important;
+        padding: 6px 10px !important;
+    }
+    
+    .assistant-input-container input {
+        font-size: 0.75rem !important;
+        padding: 8px 12px !important;
+    }
+    
+    .assistant-input-container button {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 0.8rem !important;
+    }
+    
+    .voice-commands span {
+        font-size: 0.55rem !important;
+        padding: 2px 5px !important;
+    }
+}
+
+/* ========== 14. MODAL RECARGA ========== */
+@media (max-width: 768px) {
+    .modal-content {
+        padding: 16px !important;
+        max-width: 95% !important;
+    }
+    
+    .metodo-recarga {
+        padding: 12px !important;
+    }
+    
+    .metodo-titulo {
+        font-size: 0.85rem !important;
+    }
+    
+    .metodo-info {
+        font-size: 0.7rem !important;
+    }
+    
+    .btn-copiar {
+        font-size: 0.6rem !important;
+        padding: 2px 6px !important;
+    }
+}
+
+/* ========== 15. WELCOME HEADER ========== */
+@media (max-width: 768px) {
+    .welcome-header h1 {
+        font-size: 1.2rem !important;
+    }
+    
+    .welcome-header p {
+        font-size: 0.75rem !important;
+    }
+}
+
+/* ========== 16. BOTONES FLOTANTES ========== */
+@media (max-width: 768px) {
+    .settings-toggle {
+        width: 44px !important;
+        height: 44px !important;
+        font-size: 1rem !important;
+        bottom: 80px !important;
+        right: 16px !important;
+    }
+    
+    .settings-toggle[style*="bottom: 90px"] {
+        bottom: 140px !important;
+        right: 16px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .settings-toggle {
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 0.85rem !important;
+        bottom: 70px !important;
+        right: 12px !important;
+    }
+    
+    .settings-toggle[style*="bottom: 90px"] {
+        bottom: 120px !important;
+        right: 12px !important;
+    }
+}
+
+/* ==========================================================
+   ESTILOS PARA CHAT DENTRO DE RESERVAS
+   ========================================================== */
+.chat-item {
+    background: var(--card-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+.chat-item:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: var(--accent-glow);
+}
+.chat-item .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--gradient-glow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    color: #000;
+    flex-shrink: 0;
+}
+.chat-item .info {
+    flex: 1;
+    min-width: 0;
+}
+.chat-item .nombre {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-primary);
+}
+.chat-item .ultimo-msg {
+    font-size: 11px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.chat-item .hora {
+    font-size: 9px;
+    color: var(--text-tertiary);
+    flex-shrink: 0;
+}
+.chat-item .badge-no-leidos {
+    background: var(--danger);
+    color: white;
+    font-size: 9px;
+    padding: 1px 6px;
+    border-radius: 20px;
+    font-weight: 700;
+    min-width: 18px;
+    text-align: center;
+    flex-shrink: 0;
+}
+#modalChatConductor .mensaje-recibido {
+    background: var(--bg-card);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px 16px 16px 4px;
+    padding: 10px 14px;
+    max-width: 80%;
+    color: var(--text-primary);
+    display: inline-block;
+}
+#modalChatConductor .mensaje-enviado {
+    background: var(--gradient-glow);
+    border: none;
+    border-radius: 16px 16px 4px 16px;
+    padding: 10px 14px;
+    max-width: 80%;
+    color: #000;
+    display: inline-block;
+}
+#modalChatConductor .mensaje-hora {
+    font-size: 8px;
+    color: var(--text-tertiary);
+    margin-top: 2px;
+}
+
     </style>
 </head>
 
@@ -1784,14 +2440,157 @@
             </div>
 
             <!-- ==========================================================
-            SUB-SECCIÓN 8.5: RESERVAS
+            SUB-SECCIÓN 8.5: RESERVAS + CHAT
+            ========================================================== -->
+                    <!-- ==========================================================
+            SUB-SECCIÓN 8.5: RESERVAS + CHAT
             ========================================================== -->
             <div id="seccion-reservas" style="display:none;">
                 <div class="card">
                     <div class="card-title"><i class="fas fa-calendar-check"></i> Mis reservas</div>
                     <div id="reservasLista"></div>
                 </div>
+
+                <!-- ========== CHAT CON CONDUCTOR ========== -->
+                <div class="card" style="margin-top:16px;">
+                    <div class="card-title"><i class="fas fa-comment-dots"></i> Mensajería con conductores</div>
+                    
+                    <!-- Lista de chats -->
+                    <div id="chatsConductoresLista" style="margin-bottom:12px;">
+                        <div style="text-align:center; padding:16px; color:var(--text-tertiary); font-size:0.8rem;">
+                            <i class="fas fa-spinner fa-spin"></i> Cargando conversaciones...
+                        </div>
+                    </div>
+                    
+                    <!-- Botón para nuevo chat -->
+                    <button class="btn-outline" onclick="abrirNuevoChatConductor()" style="width:100%; padding:10px; font-size:0.8rem;">
+                        <i class="fas fa-plus"></i> Nuevo mensaje a mi conductor
+                    </button>
+                </div>
             </div>
+
+            <!-- ========== MODAL DE CHAT (WhatsApp style) ========== -->
+            <div class="modal-detalle" id="modalChatConductor" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); z-index:20000; align-items:center; justify-content:center;">
+                <div style="background:var(--card-bg); border:1px solid var(--accent); border-radius:24px; width:95%; max-width:480px; max-height:90vh; display:flex; flex-direction:column; padding:0; overflow:hidden;">
+                    <!-- HEADER DEL CHAT -->
+                    <div style="padding:14px 16px; border-bottom:1px solid var(--glass-border); display:flex; align-items:center; gap:12px; flex-shrink:0; background:var(--card-bg);">
+                        <button onclick="cerrarModalChatConductor()" style="background:transparent; border:none; color:var(--text-secondary); font-size:20px; cursor:pointer;">✕</button>
+                        <div id="chatConductorAvatar" style="width:40px; height:40px; border-radius:50%; background:var(--gradient-glow); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:16px; color:#000; flex-shrink:0;">👤</div>
+                        <div style="flex:1; min-width:0;">
+                            <div style="font-weight:600; font-size:15px; color:var(--text-primary);" id="chatConductorNombre">Conductor</div>
+                            <div style="font-size:11px; color:var(--success);" id="chatConductorEstado">● En línea</div>
+                        </div>
+                        <button onclick="window.open('https://wa.me/5071234567', '_blank')" style="background:transparent; border:none; color:var(--success); font-size:18px; cursor:pointer;">📱</button>
+                    </div>
+                    
+                    <!-- CUERPO DEL CHAT -->
+                    <div id="chatConductorMensajesArea" style="flex:1; overflow-y:auto; padding:16px; background:var(--bg-input); min-height:250px; max-height:350px;">
+                        <div style="text-align:center; color:var(--text-tertiary); font-size:12px;" id="chatConductorMensajesEmpty">
+                            💬 Sin mensajes aún. Envía un saludo!
+                        </div>
+                    </div>
+                    
+                    <!-- INPUT DEL CHAT -->
+                    <div style="padding:12px 16px; background:var(--card-bg); border-top:1px solid var(--glass-border); display:flex; gap:10px; align-items:center; flex-shrink:0;">
+                        <button onclick="adjuntarArchivoChatConductor()" style="background:transparent; border:none; color:var(--text-tertiary); font-size:20px; cursor:pointer;">📎</button>
+                        <input type="text" id="chatConductorInput" placeholder="Escribe tu mensaje..." 
+                               style="flex:1; padding:10px 16px; background:var(--bg-input); border:1px solid var(--glass-border); border-radius:30px; color:var(--text-primary); font-size:14px; outline:none;"
+                               onkeypress="if(event.key==='Enter') enviarMensajeChatConductor()">
+                        <button onclick="enviarMensajeChatConductor()" style="background:var(--accent); border:none; width:44px; height:44px; border-radius:50%; color:#000; font-size:18px; cursor:pointer; transition:all 0.3s; display:flex; align-items:center; justify-content:center; flex-shrink:0;">📤</button>
+                    </div>
+                </div>
+            </div>
+
+            <style>
+            /* Estilos para el modal de chat */
+            .modal-detalle.active { display:flex !important; }
+            .modal-detalle .modal-detalle-content { padding:0 !important; }
+            #modalChatConductor .mensaje-recibido {
+                background: var(--bg-card);
+                border: 1px solid var(--glass-border);
+                border-radius: 16px 16px 16px 4px;
+                padding: 10px 14px;
+                max-width: 80%;
+                color: var(--text-primary);
+                display: inline-block;
+            }
+            #modalChatConductor .mensaje-enviado {
+                background: var(--gradient-glow);
+                border: none;
+                border-radius: 16px 16px 4px 16px;
+                padding: 10px 14px;
+                max-width: 80%;
+                color: #000;
+                display: inline-block;
+            }
+            #modalChatConductor .mensaje-hora {
+                font-size: 8px;
+                color: var(--text-tertiary);
+                margin-top: 2px;
+            }
+            .chat-item {
+                background: var(--bg-card);
+                border: 1px solid var(--glass-border);
+                border-radius: 12px;
+                padding: 12px 14px;
+                cursor: pointer;
+                transition: all 0.3s;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin-bottom: 8px;
+            }
+            .chat-item:hover {
+                border-color: var(--accent);
+                transform: translateY(-2px);
+                box-shadow: var(--accent-glow);
+            }
+            .chat-item .avatar {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: var(--gradient-glow);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 700;
+                font-size: 14px;
+                color: #000;
+                flex-shrink: 0;
+            }
+            .chat-item .info {
+                flex: 1;
+                min-width: 0;
+            }
+            .chat-item .nombre {
+                font-weight: 600;
+                font-size: 14px;
+                color: var(--text-primary);
+            }
+            .chat-item .ultimo-msg {
+                font-size: 11px;
+                color: var(--text-secondary);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .chat-item .hora {
+                font-size: 9px;
+                color: var(--text-tertiary);
+                flex-shrink: 0;
+            }
+            .chat-item .badge-no-leidos {
+                background: var(--danger);
+                color: white;
+                font-size: 9px;
+                padding: 1px 6px;
+                border-radius: 20px;
+                font-weight: 700;
+                min-width: 18px;
+                text-align: center;
+                flex-shrink: 0;
+            }
+            </style>
 
             <!-- ==========================================================
             SUB-SECCIÓN 8.6: FAVORITOS
@@ -2160,6 +2959,8 @@
                     cargarReservasUsuario(uid);
                     cargarFavoritosUsuario(uid);
                     cargarContactosUsuario(uid);
+                    cargarChatsConductores();
+                    cargarChatsConductores();
                 }
             });
         }
@@ -2794,48 +3595,331 @@
             window.open('https://maps.google.com/?q=' + lat + ',' + lng, '_blank');
         }
 
+               // ==========================================================
+        // 🚗 SECCIÓN 13.11: TAXIS CERCANOS EN TIEMPO REAL
         // ==========================================================
-        // 🚗 SECCIÓN 13.11: VEHÍCULOS SIMULADOS
-        // ==========================================================
+        let vehiculosSimulados = [];
+        let marcadoresVehiculos = {};
+        let marcadoresTaxistasReales = {};
+        let intervaloTaxisCercanos = null;
+
         function iniciarVehiculosSimulados() {
-            const centro = { lat: 9.4333, lng: -82.5167 };
-
-            for (let i = 0; i < 6; i++) {
-                vehiculosSimulados.push({
-                    id: i + 1,
-                    tipo: 'TAXI',
-                    placa: 'T-' + (100 + i),
-                    lat: centro.lat + (Math.random() - 0.5) * 0.03,
-                    lng: centro.lng + (Math.random() - 0.5) * 0.03,
-                    dirLat: (Math.random() - 0.5) * 0.002,
-                    dirLng: (Math.random() - 0.5) * 0.002
+            // Obtener ubicación del usuario
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(pos) {
+                    const userLat = pos.coords.latitude;
+                    const userLng = pos.coords.longitude;
+                    generarTaxisCercanos(userLat, userLng);
+                    buscarTaxistasReales(userLat, userLng);
+                }, function() {
+                    // Ubicación por defecto (Changuinola)
+                    generarTaxisCercanos(9.4333, -82.5167);
+                    buscarTaxistasReales(9.4333, -82.5167);
                 });
+            } else {
+                generarTaxisCercanos(9.4333, -82.5167);
+                buscarTaxistasReales(9.4333, -82.5167);
             }
 
-            for (let i = 0; i < 4; i++) {
-                vehiculosSimulados.push({
-                    id: i + 7,
-                    tipo: 'BUS',
-                    placa: 'B-' + (100 + i),
-                    lat: centro.lat + (Math.random() - 0.5) * 0.03,
-                    lng: centro.lng + (Math.random() - 0.5) * 0.03,
-                    dirLat: (Math.random() - 0.5) * 0.0015,
-                    dirLng: (Math.random() - 0.5) * 0.0015
-                });
-            }
-
-            actualizarMarcadoresVehiculos();
-
-            setInterval(function() {
-                vehiculosSimulados.forEach(function(v) {
-                    v.lat += v.dirLat;
-                    v.lng += v.dirLng;
-                    v.lat = Math.min(9.46, Math.max(9.41, v.lat));
-                    v.lng = Math.min(-82.48, Math.max(-82.55, v.lng));
-                });
-                actualizarMarcadoresVehiculos();
-            }, 3000);
+            // Actualizar cada 10 segundos
+            if (intervaloTaxisCercanos) clearInterval(intervaloTaxisCercanos);
+            intervaloTaxisCercanos = setInterval(function() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function(pos) {
+                        const userLat = pos.coords.latitude;
+                        const userLng = pos.coords.longitude;
+                        actualizarTaxisCercanos(userLat, userLng);
+                        buscarTaxistasReales(userLat, userLng);
+                    }, function() {
+                        actualizarTaxisCercanos(9.4333, -82.5167);
+                    });
+                }
+            }, 10000);
         }
+
+        function generarTaxisCercanos(centerLat, centerLng) {
+            // Limpiar marcadores anteriores
+            Object.values(marcadoresVehiculos).forEach(function(m) { m.remove(); });
+            marcadoresVehiculos = {};
+            vehiculosSimulados = [];
+
+            // Generar entre 5 y 12 taxis en un radio de 2-3 km
+            const numTaxis = Math.floor(Math.random() * 8) + 5;
+            
+            for (let i = 0; i < numTaxis; i++) {
+                const radio = 0.01 + Math.random() * 0.03;
+                const angulo = Math.random() * 2 * Math.PI;
+                const lat = centerLat + Math.cos(angulo) * radio;
+                const lng = centerLng + Math.sin(angulo) * radio;
+                
+                const estado = Math.random() > 0.3 ? 'disponible' : 'ocupado';
+                
+                vehiculosSimulados.push({
+                    id: 'taxi_' + i,
+                    tipo: 'TAXI',
+                    placa: 'T-' + String(100 + i).padStart(3, '0'),
+                    lat: lat,
+                    lng: lng,
+                    estado: estado,
+                    distancia: calcularDistancia(centerLat, centerLng, lat, lng),
+                    dirLat: (Math.random() - 0.5) * 0.001,
+                    dirLng: (Math.random() - 0.5) * 0.001
+                });
+            }
+
+            // También agregar algunos buses
+            for (let i = 0; i < 3; i++) {
+                const radio = 0.02 + Math.random() * 0.04;
+                const angulo = Math.random() * 2 * Math.PI;
+                const lat = centerLat + Math.cos(angulo) * radio;
+                const lng = centerLng + Math.sin(angulo) * radio;
+                
+                vehiculosSimulados.push({
+                    id: 'bus_' + i,
+                    tipo: 'BUS',
+                    placa: 'B-' + String(100 + i).padStart(3, '0'),
+                    lat: lat,
+                    lng: lng,
+                    estado: 'disponible',
+                    distancia: calcularDistancia(centerLat, centerLng, lat, lng),
+                    dirLat: (Math.random() - 0.5) * 0.001,
+                    dirLng: (Math.random() - 0.5) * 0.001
+                });
+            }
+
+            actualizarMarcadoresTaxis();
+        }
+
+        function actualizarTaxisCercanos(centerLat, centerLng) {
+            // Mover taxis ligeramente
+            vehiculosSimulados.forEach(function(v) {
+                v.lat += v.dirLat;
+                v.lng += v.dirLng;
+                // Mantener dentro del área
+                const dist = calcularDistancia(centerLat, centerLng, v.lat, v.lng);
+                if (dist > 0.04) {
+                    v.dirLat *= -1;
+                    v.dirLng *= -1;
+                }
+                v.distancia = calcularDistancia(centerLat, centerLng, v.lat, v.lng);
+            });
+
+            actualizarMarcadoresTaxis();
+            
+            // Actualizar panel de información de taxis cercanos
+            actualizarPanelTaxisCercanos(centerLat, centerLng);
+        }
+
+        function actualizarMarcadoresTaxis() {
+            // Remover marcadores antiguos
+            Object.values(marcadoresVehiculos).forEach(function(m) { m.remove(); });
+            marcadoresVehiculos = {};
+
+            vehiculosSimulados.forEach(function(v) {
+                const color = v.tipo === 'TAXI' ? 
+                    (v.estado === 'disponible' ? '#10B981' : '#EF4444') : 
+                    '#FF6A2A';
+                
+                const estadoTexto = v.estado === 'disponible' ? '✅ Disponible' : '🔴 Ocupado';
+                
+                const el = document.createElement('div');
+                el.className = 'vehicle-dot';
+                el.style.cssText = `
+                    background: ${color};
+                    width: 14px;
+                    height: 14px;
+                    border-radius: 50%;
+                    border: 2px solid white;
+                    box-shadow: 0 0 8px ${color};
+                    cursor: pointer;
+                    transition: all 0.3s;
+                `;
+                
+                // Tooltip con información
+                const popup = new mapboxgl.Popup({ offset: 10, closeButton: true, closeOnClick: false })
+                    .setHTML(`
+                        <strong>${v.tipo === 'TAXI' ? '🚕 Taxi' : '🚌 Bus'}</strong><br>
+                        Placa: ${v.placa}<br>
+                        Estado: ${estadoTexto}<br>
+                        📍 ${(v.distancia * 111).toFixed(1)} km de distancia
+                    `);
+
+                const marker = new mapboxgl.Marker(el)
+                    .setLngLat([v.lng, v.lat])
+                    .setPopup(popup)
+                    .addTo(mapboxMap);
+
+                marcadoresVehiculos[v.id] = marker;
+            });
+
+            // Actualizar contador en la UI
+            const taxisDisponibles = vehiculosSimulados.filter(v => v.tipo === 'TAXI' && v.estado === 'disponible').length;
+            const totalTaxis = vehiculosSimulados.filter(v => v.tipo === 'TAXI').length;
+            
+            // Mostrar en el panel de información
+            const infoPanel = document.getElementById('infoPanelContent');
+            if (infoPanel) {
+                const taxiInfo = document.getElementById('taxiCercanosInfo');
+                if (!taxiInfo) {
+                    const div = document.createElement('div');
+                    div.id = 'taxiCercanosInfo';
+                    div.style.cssText = 'margin-top:12px; padding:8px; background:rgba(0,0,0,0.3); border-radius:12px; font-size:0.75rem;';
+                    div.innerHTML = `
+                        <div style="display:flex; justify-content:space-between;">
+                            <span>🚕 Taxis cercanos:</span>
+                            <span style="color:var(--accent); font-weight:700;">${taxisDisponibles} disponibles / ${totalTaxis} total</span>
+                        </div>
+                        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:4px;">
+                            ${vehiculosSimulados.filter(v => v.tipo === 'TAXI').slice(0, 5).map(v => 
+                                `<span style="background:${v.estado === 'disponible' ? 'rgba(16,185,129,0.2)' : 'rgba(239,68,68,0.2)'}; padding:2px 8px; border-radius:12px; font-size:0.6rem; color:${v.estado === 'disponible' ? 'var(--success)' : 'var(--danger)'};">${v.placa}</span>`
+                            ).join('')}
+                            ${totalTaxis > 5 ? `<span style="font-size:0.6rem; color:var(--text-tertiary);">+${totalTaxis - 5} más</span>` : ''}
+                        </div>
+                    `;
+                    infoPanel.appendChild(div);
+                } else {
+                    taxiInfo.innerHTML = `
+                        <div style="display:flex; justify-content:space-between;">
+                            <span>🚕 Taxis cercanos:</span>
+                            <span style="color:var(--accent); font-weight:700;">${taxisDisponibles} disponibles / ${totalTaxis} total</span>
+                        </div>
+                        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:4px;">
+                            ${vehiculosSimulados.filter(v => v.tipo === 'TAXI').slice(0, 5).map(v => 
+                                `<span style="background:${v.estado === 'disponible' ? 'rgba(16,185,129,0.2)' : 'rgba(239,68,68,0.2)'}; padding:2px 8px; border-radius:12px; font-size:0.6rem; color:${v.estado === 'disponible' ? 'var(--success)' : 'var(--danger)'};">${v.placa}</span>`
+                            ).join('')}
+                            ${totalTaxis > 5 ? `<span style="font-size:0.6rem; color:var(--text-tertiary);">+${totalTaxis - 5} más</span>` : ''}
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        function actualizarPanelTaxisCercanos(centerLat, centerLng) {
+            // Actualizar el panel de información con taxis cercanos
+            const taxis = vehiculosSimulados.filter(v => v.tipo === 'TAXI').sort((a, b) => a.distancia - b.distancia);
+            
+            const infoPanel = document.querySelector('.info-panel');
+            if (infoPanel) {
+                // Si el panel está vacío, mostrar información de taxis
+                const empty = document.getElementById('infoPanelEmpty');
+                const content = document.getElementById('infoPanelContent');
+                
+                if (empty && empty.style.display !== 'none') {
+                    // Mostrar información de taxis en el panel vacío
+                    empty.innerHTML = `
+                        <i class="fas fa-car" style="font-size:2rem; color:var(--accent);"></i>
+                        <div style="margin-top:8px; font-weight:600;">Taxis cercanos</div>
+                        <div style="font-size:0.8rem; margin-top:4px;">
+                            ${taxis.slice(0, 5).map(v => 
+                                `<div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid var(--glass-border);">
+                                    <span>${v.placa}</span>
+                                    <span style="color:${v.estado === 'disponible' ? 'var(--success)' : 'var(--danger)'};">${v.estado === 'disponible' ? '✅' : '🔴'}</span>
+                                    <span>${(v.distancia * 111).toFixed(1)} km</span>
+                                </div>`
+                            ).join('')}
+                        </div>
+                        <div style="font-size:0.65rem; color:var(--text-tertiary); margin-top:8px;">
+                            🔄 Actualización en tiempo real
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        // ========== BUSCAR TAXISTAS REALES EN FIREBASE ==========
+        function buscarTaxistasReales(userLat, userLng) {
+            if (!uidActual) return;
+
+            // Buscar taxistas activos en Firebase
+            database.ref('usuarios').orderByChild('rol').equalTo('TAXISTA').once('value').then(function(snapshot) {
+                const taxistasReales = [];
+                
+                snapshot.forEach(function(child) {
+                    const taxista = child.val();
+                    if (taxista.estado === 'disponible' && taxista.ubicacion) {
+                        const dist = calcularDistancia(userLat, userLng, taxista.ubicacion.lat, taxista.ubicacion.lng);
+                        if (dist < 0.05) { // Dentro de 5 km
+                            taxistasReales.push({
+                                id: child.key,
+                                nombre: taxista.nombre || 'Taxista',
+                                placa: taxista.vehiculo?.placa || 'N/A',
+                                lat: taxista.ubicacion.lat,
+                                lng: taxista.ubicacion.lng,
+                                distancia: dist
+                            });
+                        }
+                    }
+                });
+
+                // Mostrar taxistas reales en el mapa (diferentes marcadores)
+                Object.values(marcadoresTaxistasReales).forEach(function(m) { m.remove(); });
+                marcadoresTaxistasReales = {};
+
+                taxistasReales.forEach(function(t) {
+                    const el = document.createElement('div');
+                    el.style.cssText = `
+                        background: #FFD700;
+                        width: 16px;
+                        height: 16px;
+                        border-radius: 50%;
+                        border: 2px solid white;
+                        box-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+                        cursor: pointer;
+                        animation: pulseGold 1.5s infinite;
+                    `;
+                    
+                    const popup = new mapboxgl.Popup({ offset: 10, closeButton: true, closeOnClick: false })
+                        .setHTML(`
+                            <strong>👤 ${t.nombre}</strong><br>
+                            🚗 ${t.placa}<br>
+                            📍 ${(t.distancia * 111).toFixed(1)} km<br>
+                            🟢 Disponible
+                        `);
+
+                    const marker = new mapboxgl.Marker(el)
+                        .setLngLat([t.lng, t.lat])
+                        .setPopup(popup)
+                        .addTo(mapboxMap);
+
+                    marcadoresTaxistasReales[t.id] = marker;
+                });
+
+                // Actualizar contador de taxistas reales
+                const taxisReales = document.querySelector('.taxistas-reales-info');
+                if (taxisReales) {
+                    taxisReales.textContent = `👤 ${taxistasReales.length} conductores disponibles cerca`;
+                }
+            });
+        }
+
+        // ========== CALCULAR DISTANCIA ==========
+        function calcularDistancia(lat1, lng1, lat2, lng2) {
+            const R = 6371;
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLng = (lng2 - lng1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLng/2) * Math.sin(dLng/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
+        // ========== AGREGAR ESTILO PARA EL MARCADOR DORADO ==========
+        // Agregar al final del CSS
+        const styleGold = document.createElement('style');
+        styleGold.textContent = `
+            @keyframes pulseGold {
+                0%, 100% { transform: scale(1); opacity: 1; }
+                50% { transform: scale(1.3); opacity: 0.7; }
+            }
+            .taxistas-reales-info {
+                font-size: 0.7rem;
+                color: var(--text-secondary);
+                margin-top: 4px;
+                text-align: center;
+            }
+        `;
+        document.head.appendChild(styleGold);
 
         function actualizarMarcadoresVehiculos() {
             Object.values(marcadoresVehiculos).forEach(function(m) { m.remove(); });
@@ -4100,6 +5184,7 @@
             }
             if (s === 'historial') cargarViajesUsuario(uidActual);
             if (s === 'reservas') cargarReservasUsuario(uidActual);
+            if (s === 'reservas') cargarChatsConductores();
             if (s === 'favoritos') cargarFavoritosUsuario(uidActual);
             if (s === 'billetera') {
                 cargarDatosUsuario(uidActual);
@@ -4357,6 +5442,768 @@
             }
         }
 
+               // ==========================================================
+        // 💬 SECCIÓN 13.23: CHAT CON CONDUCTORES (USUARIO)
+        // ==========================================================
+        let chatsConductores = [];
+        let chatConductorActivoId = null;
+        let chatConductorEscucha = null;
+        let chatConductorNombre = '';
+
+        // ========== CARGAR CHATS CON CONDUCTORES ==========
+        function cargarChatsConductores() {
+            const container = document.getElementById('chatsConductoresLista');
+            if (!container) return;
+
+            database.ref('chats_conductores').orderByChild('usuarioId').equalTo(uidActual).on('value', function(snapshot) {
+                chatsConductores = [];
+                let html = '';
+
+                snapshot.forEach(function(child) {
+                    const chat = child.val();
+                    chat.id = child.key;
+                    chatsConductores.push(chat);
+                });
+
+                // Ordenar por última actualización
+                chatsConductores.sort((a, b) => {
+                    const fechaA = a.ultimaActualizacion ? new Date(a.ultimaActualizacion) : new Date(0);
+                    const fechaB = b.ultimaActualizacion ? new Date(b.ultimaActualizacion) : new Date(0);
+                    return fechaB - fechaA;
+                });
+
+                if (chatsConductores.length === 0) {
+                    html = `
+                        <div style="text-align:center; padding:16px; color:var(--text-tertiary); font-size:0.8rem;">
+                            <i class="fas fa-comment-slash"></i> No hay conversaciones con conductores
+                        </div>
+                    `;
+                } else {
+                    chatsConductores.forEach(function(chat) {
+                        const iniciales = chat.conductorNombre ? chat.conductorNombre.substring(0, 2).toUpperCase() : '👤';
+                        const ultimoMsg = chat.ultimoMensaje || 'Sin mensajes';
+                        const hora = chat.ultimaActualizacion ? new Date(chat.ultimaActualizacion).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+                        const noLeidos = chat.noLeidos || 0;
+
+                        html += `
+                            <div class="chat-item" onclick="abrirChatConductor('${chat.id}', '${chat.conductorNombre || 'Conductor'}', '${chat.conductorId || ''}')">
+                                <div class="avatar">${iniciales}</div>
+                                <div class="info">
+                                    <div class="nombre">${chat.conductorNombre || 'Conductor'}</div>
+                                    <div class="ultimo-msg">${ultimoMsg}</div>
+                                </div>
+                                <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px; flex-shrink:0;">
+                                    <div class="hora">${hora}</div>
+                                    ${noLeidos > 0 ? `<div class="badge-no-leidos">${noLeidos}</div>` : ''}
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+
+                container.innerHTML = html;
+            });
+        }
+
+        // ========== ABRIR CHAT CON CONDUCTOR ==========
+        function abrirChatConductor(chatId, conductorNombre, conductorId) {
+            if (!chatId) return;
+
+            chatConductorActivoId = chatId;
+            chatConductorNombre = conductorNombre || 'Conductor';
+
+            // Configurar modal
+            const iniciales = conductorNombre ? conductorNombre.substring(0, 2).toUpperCase() : '👤';
+            document.getElementById('chatConductorAvatar').textContent = iniciales;
+            document.getElementById('chatConductorNombre').textContent = conductorNombre || 'Conductor';
+            document.getElementById('chatConductorEstado').textContent = '● En línea';
+            document.getElementById('chatConductorEstado').style.color = 'var(--success)';
+
+            // Cargar mensajes
+            cargarMensajesChatConductor(chatId);
+
+            // Marcar como leídos
+            marcarComoLeidosChatConductor(chatId);
+
+            // Escuchar nuevos mensajes en tiempo real
+            if (chatConductorEscucha) {
+                chatConductorEscucha.off();
+            }
+            chatConductorEscucha = database.ref('chats_conductores/' + chatId + '/mensajes');
+            chatConductorEscucha.on('child_added', function(snapshot) {
+                const mensaje = snapshot.val();
+                if (mensaje.emisor === 'conductor') {
+                    mostrarMensajeChatConductor(mensaje);
+                    // Sonido de notificación
+                    try {
+                        new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3').play();
+                    } catch(e) {}
+                    // Si el chat no está visible, incrementar contador
+                    if (!document.getElementById('modalChatConductor').classList.contains('active')) {
+                        marcarNoLeidosChatConductor(chatId);
+                    }
+                }
+            });
+
+            // Escuchar cambios en "escribiendo"
+            database.ref('chats_conductores/' + chatId + '/escribiendo').on('value', function(snapshot) {
+                const escribiendo = snapshot.val();
+                const estado = document.getElementById('chatConductorEstado');
+                if (escribiendo) {
+                    estado.textContent = '✍️ Escribiendo...';
+                    estado.style.color = 'var(--warning)';
+                } else {
+                    estado.textContent = '● En línea';
+                    estado.style.color = 'var(--success)';
+                }
+            });
+
+            // Mostrar modal
+            document.getElementById('modalChatConductor').classList.add('active');
+            document.getElementById('modalChatConductor').style.display = 'flex';
+            document.getElementById('chatConductorInput').value = '';
+            document.getElementById('chatConductorInput').focus();
+        }
+
+        // ========== CARGAR MENSAJES DEL CHAT ==========
+        function cargarMensajesChatConductor(chatId) {
+            const container = document.getElementById('chatConductorMensajesArea');
+            
+            database.ref('chats_conductores/' + chatId + '/mensajes').orderByChild('timestamp').limitToLast(50).once('value').then(function(snapshot) {
+                let html = '';
+                const mensajes = [];
+
+                snapshot.forEach(function(child) {
+                    mensajes.push(child.val());
+                });
+
+                mensajes.sort((a, b) => a.timestamp - b.timestamp);
+
+                if (mensajes.length === 0) {
+                    html = `
+                        <div style="text-align:center; color:var(--text-tertiary); font-size:12px; padding:20px;">
+                            💬 Sin mensajes aún. Envía un saludo!
+                        </div>
+                    `;
+                } else {
+                    mensajes.forEach(function(m) {
+                        const esUsuario = m.emisor === 'usuario';
+                        const hora = m.timestamp ? new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+                        html += `
+                            <div style="text-align:${esUsuario ? 'right' : 'left'}; margin-bottom:10px;">
+                                <div class="${esUsuario ? 'mensaje-enviado' : 'mensaje-recibido'}">
+                                    ${m.texto}
+                                    ${m.leido ? '<span style="font-size:8px; margin-left:6px; color:var(--text-tertiary);">✓✓</span>' : ''}
+                                </div>
+                                <div class="mensaje-hora" style="${esUsuario ? 'text-align:right;' : 'text-align:left;'}">${hora} ${esUsuario ? '• Tú' : '• Conductor'}</div>
+                            </div>
+                        `;
+                    });
+                }
+
+                container.innerHTML = html;
+                container.scrollTop = container.scrollHeight;
+            });
+        }
+
+        // ========== MOSTRAR MENSAJE EN TIEMPO REAL ==========
+        function mostrarMensajeChatConductor(mensaje) {
+            const container = document.getElementById('chatConductorMensajesArea');
+            const esUsuario = mensaje.emisor === 'usuario';
+            const hora = mensaje.timestamp ? new Date(mensaje.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+
+            // Quitar mensaje de "sin mensajes" si existe
+            const emptyMsg = document.getElementById('chatConductorMensajesEmpty');
+            if (emptyMsg) emptyMsg.remove();
+
+            const div = document.createElement('div');
+            div.style.cssText = `text-align:${esUsuario ? 'right' : 'left'}; margin-bottom:10px;`;
+            div.innerHTML = `
+                <div class="${esUsuario ? 'mensaje-enviado' : 'mensaje-recibido'}">
+                    ${mensaje.texto}
+                    ${mensaje.leido ? '<span style="font-size:8px; margin-left:6px; color:var(--text-tertiary);">✓✓</span>' : ''}
+                </div>
+                <div class="mensaje-hora" style="${esUsuario ? 'text-align:right;' : 'text-align:left;'}">${hora} ${esUsuario ? '• Tú' : '• Conductor'}</div>
+            `;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // ========== ENVIAR MENSAJE ==========
+        function enviarMensajeChatConductor() {
+            const input = document.getElementById('chatConductorInput');
+            const texto = input.value.trim();
+            if (!texto || !chatConductorActivoId) return;
+
+            const mensaje = {
+                emisor: 'usuario',
+                texto: texto,
+                timestamp: Date.now(),
+                leido: false
+            };
+
+            const chatRef = database.ref('chats_conductores/' + chatConductorActivoId);
+            chatRef.child('mensajes').push(mensaje).then(function() {
+                input.value = '';
+                chatRef.update({
+                    ultimoMensaje: texto,
+                    ultimaActualizacion: new Date().toISOString()
+                });
+                // Scroll al final
+                const container = document.getElementById('chatConductorMensajesArea');
+                container.scrollTop = container.scrollHeight;
+            });
+        }
+
+        // ========== MARCAR COMO LEÍDOS ==========
+        function marcarComoLeidosChatConductor(chatId) {
+            const chatRef = database.ref('chats_conductores/' + chatId + '/mensajes');
+            chatRef.orderByChild('leido').equalTo(false).once('value').then(function(snapshot) {
+                const updates = {};
+                snapshot.forEach(function(child) {
+                    if (child.val().emisor === 'conductor') {
+                        updates[child.key + '/leido'] = true;
+                    }
+                });
+                chatRef.update(updates);
+            });
+            // Resetear contador de no leídos
+            database.ref('chats_conductores/' + chatId + '/noLeidos').set(0);
+        }
+
+        function marcarNoLeidosChatConductor(chatId) {
+            database.ref('chats_conductores/' + chatId + '/noLeidos').transaction(function(current) {
+                return (current || 0) + 1;
+            });
+        }
+
+        // ========== CERRAR MODAL DE CHAT ==========
+        function cerrarModalChatConductor() {
+            document.getElementById('modalChatConductor').classList.remove('active');
+            document.getElementById('modalChatConductor').style.display = 'none';
+            if (chatConductorEscucha) {
+                chatConductorEscucha.off();
+                chatConductorEscucha = null;
+            }
+            chatConductorActivoId = null;
+            // Recargar chats para actualizar contadores
+            cargarChatsConductores();
+        }
+
+        // ========== ABRIR NUEVO CHAT CON CONDUCTOR ==========
+        function abrirNuevoChatConductor() {
+            // Primero buscar si el usuario tiene un viaje activo o reciente
+            database.ref('viajes').orderByChild('usuarioId').equalTo(uidActual).limitToLast(5).once('value').then(function(snapshot) {
+                let conductoresDisponibles = [];
+                
+                snapshot.forEach(function(child) {
+                    const viaje = child.val();
+                    if (viaje.taxistaId && viaje.estado !== 'cancelado') {
+                        conductoresDisponibles.push({
+                            id: viaje.taxistaId,
+                            nombre: viaje.taxistaNombre || 'Conductor',
+                            placa: viaje.placa || 'N/A'
+                        });
+                    }
+                });
+
+                if (conductoresDisponibles.length === 0) {
+                    // Si no hay viajes recientes, permitir buscar por ID
+                    Swal.fire({
+                        title: 'Nuevo mensaje',
+                        input: 'select',
+                        inputOptions: {
+                            '': '-- Selecciona un conductor --',
+                            'buscar': '🔍 Buscar por ID de conductor'
+                        },
+                        inputPlaceholder: 'Selecciona una opción',
+                        confirmButtonText: 'Continuar',
+                        cancelButtonText: 'Cancelar',
+                        showCancelButton: true,
+                        background: 'var(--card-bg)',
+                        color: 'var(--text-primary)'
+                    }).then(function(result) {
+                        if (result.isConfirmed && result.value === 'buscar') {
+                            Swal.fire({
+                                title: 'ID del conductor',
+                                input: 'text',
+                                inputPlaceholder: 'Ej: 1234567890',
+                                confirmButtonText: 'Buscar',
+                                background: 'var(--card-bg)',
+                                color: 'var(--text-primary)'
+                            }).then(function(result2) {
+                                if (result2.isConfirmed && result2.value) {
+                                    crearNuevoChatConductor(result2.value, 'Conductor');
+                                }
+                            });
+                        }
+                    });
+                    return;
+                }
+
+                // Mostrar conductores disponibles
+                const opciones = {};
+                conductoresDisponibles.forEach(function(c) {
+                    opciones[c.id] = c.nombre + ' (🚗 ' + c.placa + ')';
+                });
+
+                Swal.fire({
+                    title: 'Selecciona un conductor',
+                    input: 'select',
+                    inputOptions: opciones,
+                    inputPlaceholder: 'Selecciona un conductor',
+                    confirmButtonText: 'Abrir chat',
+                    cancelButtonText: 'Cancelar',
+                    showCancelButton: true,
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)'
+                }).then(function(result) {
+                    if (result.isConfirmed && result.value) {
+                        const conductor = conductoresDisponibles.find(c => c.id === result.value);
+                        if (conductor) {
+                            crearNuevoChatConductor(conductor.id, conductor.nombre);
+                        }
+                    }
+                });
+            });
+        }
+
+        function crearNuevoChatConductor(conductorId, conductorNombre) {
+            // Verificar si ya existe un chat con este conductor
+            let chatExistente = null;
+            for (let chat of chatsConductores) {
+                if (chat.conductorId === conductorId) {
+                    chatExistente = chat;
+                    break;
+                }
+            }
+
+            if (chatExistente) {
+                abrirChatConductor(chatExistente.id, conductorNombre, conductorId);
+                return;
+            }
+
+            // Crear nuevo chat
+            const chatData = {
+                usuarioId: uidActual,
+                conductorId: conductorId,
+                conductorNombre: conductorNombre || 'Conductor',
+                ultimoMensaje: 'Inicio de conversación',
+                ultimaActualizacion: new Date().toISOString(),
+                noLeidos: 0
+            };
+
+            database.ref('chats_conductores').push(chatData).then(function(ref) {
+                abrirChatConductor(ref.key, conductorNombre, conductorId);
+            });
+        }
+
+        // ========== ADJUNTAR ARCHIVO ==========
+        function adjuntarArchivoChatConductor() {
+            Swal.fire({
+                title: '📎 Adjuntar archivo',
+                text: 'Puedes subir fotos o documentos relacionados con el viaje.',
+                icon: 'info',
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)',
+                confirmButtonColor: 'var(--accent)'
+            });
+        }
+
+        // ========== INDICADOR DE "ESCRIBIENDO..." ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatInput = document.getElementById('chatConductorInput');
+            if (chatInput) {
+                let escribiendoTimeout = null;
+                chatInput.addEventListener('input', function() {
+                    if (!chatConductorActivoId) return;
+                    const chatRef = database.ref('chats_conductores/' + chatConductorActivoId);
+                    chatRef.child('escribiendoUsuario').set(true);
+                    clearTimeout(escribiendoTimeout);
+                    escribiendoTimeout = setTimeout(function() {
+                        chatRef.child('escribiendoUsuario').set(false);
+                    }, 1500);
+                });
+            }
+        });
+
+        // ==========================================================
+        // 💬 CHAT CON CONDUCTORES (DENTRO DE RESERVAS)
+        // ==========================================================
+        let chatsConductores = [];
+        let chatConductorActivoId = null;
+        let chatConductorEscucha = null;
+        let chatConductorNombre = '';
+        let escribiendoTimeout = null;
+
+        // ========== CARGAR CHATS CON CONDUCTORES ==========
+        function cargarChatsConductores() {
+            const container = document.getElementById('chatsConductoresLista');
+            if (!container) return;
+
+            database.ref('chats').orderByChild('usuarioId').equalTo(uidActual).on('value', function(snapshot) {
+                chatsConductores = [];
+                let html = '';
+
+                snapshot.forEach(function(child) {
+                    const chat = child.val();
+                    chat.id = child.key;
+                    chatsConductores.push(chat);
+                });
+
+                chatsConductores.sort((a, b) => {
+                    const fechaA = a.ultimaActualizacion ? new Date(a.ultimaActualizacion) : new Date(0);
+                    const fechaB = b.ultimaActualizacion ? new Date(b.ultimaActualizacion) : new Date(0);
+                    return fechaB - fechaA;
+                });
+
+                if (chatsConductores.length === 0) {
+                    html = `
+                        <div style="text-align:center; padding:16px; color:var(--text-tertiary); font-size:0.8rem;">
+                            <i class="fas fa-comment-slash"></i> No hay conversaciones con conductores
+                        </div>
+                    `;
+                } else {
+                    chatsConductores.forEach(function(chat) {
+                        let nombre = chat.taxistaNombre || 'Conductor';
+                        let idDestino = chat.taxistaId || '';
+                        
+                        if (!chat.taxistaNombre && chat.taxistaId) {
+                            database.ref('usuarios/' + chat.taxistaId + '/nombre').once('value').then(function(snap) {
+                                if (snap.val()) {
+                                    chat.taxistaNombre = snap.val();
+                                    cargarChatsConductores();
+                                }
+                            });
+                        }
+                        
+                        const iniciales = nombre.substring(0, 2).toUpperCase();
+                        const ultimoMsg = chat.ultimoMensaje || 'Sin mensajes';
+                        const hora = chat.ultimaActualizacion ? new Date(chat.ultimaActualizacion).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+                        const noLeidos = chat.noLeidosUsuario || 0;
+
+                        html += `
+                            <div class="chat-item" onclick="abrirChatConductor('${chat.id}', '${nombre}', '${chat.taxistaId || ''}')">
+                                <div class="avatar">${iniciales}</div>
+                                <div class="info">
+                                    <div class="nombre">${nombre}</div>
+                                    <div class="ultimo-msg">${ultimoMsg}</div>
+                                </div>
+                                <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px; flex-shrink:0;">
+                                    <div class="hora">${hora}</div>
+                                    ${noLeidos > 0 ? `<div class="badge-no-leidos">${noLeidos}</div>` : ''}
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+
+                container.innerHTML = html;
+            });
+        }
+
+        // ========== ABRIR CHAT CON CONDUCTOR ==========
+        function abrirChatConductor(chatId, conductorNombre, conductorId) {
+            if (!chatId) return;
+
+            chatConductorActivoId = chatId;
+            chatConductorNombre = conductorNombre || 'Conductor';
+
+            const iniciales = chatConductorNombre.substring(0, 2).toUpperCase();
+            document.getElementById('chatConductorAvatar').textContent = iniciales;
+            document.getElementById('chatConductorNombre').textContent = chatConductorNombre;
+            document.getElementById('chatConductorEstado').textContent = '● En línea';
+            document.getElementById('chatConductorEstado').style.color = 'var(--success)';
+
+            cargarMensajesChatConductor(chatId);
+            marcarLeidosUsuario(chatId);
+
+            if (chatConductorEscucha) {
+                chatConductorEscucha.off();
+            }
+            chatConductorEscucha = database.ref('chats/' + chatId + '/mensajes');
+            chatConductorEscucha.on('child_added', function(snapshot) {
+                const mensaje = snapshot.val();
+                if (mensaje.emisor === 'taxista') {
+                    mostrarMensajeChatConductor(mensaje);
+                    try {
+                        new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3').play();
+                    } catch(e) {}
+                    if (!document.getElementById('modalChatConductor').classList.contains('active')) {
+                        incrementarNoLeidosUsuario(chatId);
+                    }
+                }
+            });
+
+            database.ref('chats/' + chatId + '/escribiendoTaxista').on('value', function(snapshot) {
+                const escribiendo = snapshot.val();
+                const estado = document.getElementById('chatConductorEstado');
+                if (escribiendo) {
+                    estado.textContent = '✍️ Escribiendo...';
+                    estado.style.color = 'var(--warning)';
+                } else {
+                    estado.textContent = '● En línea';
+                    estado.style.color = 'var(--success)';
+                }
+            });
+
+            document.getElementById('modalChatConductor').classList.add('active');
+            document.getElementById('modalChatConductor').style.display = 'flex';
+            document.getElementById('chatConductorInput').value = '';
+            document.getElementById('chatConductorInput').focus();
+        }
+
+        // ========== CARGAR MENSAJES ==========
+        function cargarMensajesChatConductor(chatId) {
+            const container = document.getElementById('chatConductorMensajesArea');
+            
+            database.ref('chats/' + chatId + '/mensajes').orderByChild('timestamp').limitToLast(50).once('value').then(function(snapshot) {
+                let html = '';
+                const mensajes = [];
+
+                snapshot.forEach(function(child) {
+                    mensajes.push(child.val());
+                });
+
+                mensajes.sort((a, b) => a.timestamp - b.timestamp);
+
+                if (mensajes.length === 0) {
+                    html = `
+                        <div style="text-align:center; color:var(--text-tertiary); font-size:12px; padding:20px;">
+                            💬 Sin mensajes aún. Envía un saludo!
+                        </div>
+                    `;
+                } else {
+                    mensajes.forEach(function(m) {
+                        const esUsuario = m.emisor === 'usuario';
+                        const hora = m.timestamp ? new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+                        html += `
+                            <div style="text-align:${esUsuario ? 'right' : 'left'}; margin-bottom:10px;">
+                                <div class="${esUsuario ? 'mensaje-enviado' : 'mensaje-recibido'}">
+                                    ${m.texto}
+                                    ${m.leido ? '<span style="font-size:8px; margin-left:6px; color:var(--text-tertiary);">✓✓</span>' : ''}
+                                </div>
+                                <div class="mensaje-hora" style="${esUsuario ? 'text-align:right;' : 'text-align:left;'}">${hora} ${esUsuario ? '• Tú' : '• Conductor'}</div>
+                            </div>
+                        `;
+                    });
+                }
+
+                container.innerHTML = html;
+                container.scrollTop = container.scrollHeight;
+            });
+        }
+
+        // ========== MOSTRAR MENSAJE ==========
+        function mostrarMensajeChatConductor(mensaje) {
+            const container = document.getElementById('chatConductorMensajesArea');
+            const esUsuario = mensaje.emisor === 'usuario';
+            const hora = mensaje.timestamp ? new Date(mensaje.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+
+            const emptyMsg = document.getElementById('chatConductorMensajesEmpty');
+            if (emptyMsg) emptyMsg.remove();
+
+            const div = document.createElement('div');
+            div.style.cssText = `text-align:${esUsuario ? 'right' : 'left'}; margin-bottom:10px;`;
+            div.innerHTML = `
+                <div class="${esUsuario ? 'mensaje-enviado' : 'mensaje-recibido'}">
+                    ${mensaje.texto}
+                    ${mensaje.leido ? '<span style="font-size:8px; margin-left:6px; color:var(--text-tertiary);">✓✓</span>' : ''}
+                </div>
+                <div class="mensaje-hora" style="${esUsuario ? 'text-align:right;' : 'text-align:left;'}">${hora} ${esUsuario ? '• Tú' : '• Conductor'}</div>
+            `;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // ========== ENVIAR MENSAJE ==========
+        function enviarMensajeChatConductor() {
+            const input = document.getElementById('chatConductorInput');
+            const texto = input.value.trim();
+            if (!texto || !chatConductorActivoId) return;
+
+            const mensaje = {
+                emisor: 'usuario',
+                texto: texto,
+                timestamp: Date.now(),
+                leido: false
+            };
+
+            const chatRef = database.ref('chats/' + chatConductorActivoId);
+            chatRef.child('mensajes').push(mensaje).then(function() {
+                input.value = '';
+                chatRef.update({
+                    ultimoMensaje: texto,
+                    ultimaActualizacion: new Date().toISOString(),
+                    noLeidosTaxista: firebase.database.ServerValue.increment(1)
+                });
+                const container = document.getElementById('chatConductorMensajesArea');
+                container.scrollTop = container.scrollHeight;
+            });
+        }
+
+        // ========== MARCAR LEÍDOS ==========
+        function marcarLeidosUsuario(chatId) {
+            const chatRef = database.ref('chats/' + chatId + '/mensajes');
+            chatRef.orderByChild('leido').equalTo(false).once('value').then(function(snapshot) {
+                const updates = {};
+                snapshot.forEach(function(child) {
+                    if (child.val().emisor === 'taxista') {
+                        updates[child.key + '/leido'] = true;
+                    }
+                });
+                chatRef.update(updates);
+            });
+            database.ref('chats/' + chatId + '/noLeidosUsuario').set(0);
+        }
+
+        function incrementarNoLeidosUsuario(chatId) {
+            database.ref('chats/' + chatId + '/noLeidosUsuario').transaction(function(current) {
+                return (current || 0) + 1;
+            });
+        }
+
+        // ========== CERRAR MODAL ==========
+        function cerrarModalChatConductor() {
+            document.getElementById('modalChatConductor').classList.remove('active');
+            document.getElementById('modalChatConductor').style.display = 'none';
+            if (chatConductorEscucha) {
+                chatConductorEscucha.off();
+                chatConductorEscucha = null;
+            }
+            chatConductorActivoId = null;
+            cargarChatsConductores();
+        }
+
+        // ========== NUEVO CHAT ==========
+        function abrirNuevoChatConductor() {
+            database.ref('viajes').orderByChild('usuarioId').equalTo(uidActual).limitToLast(5).once('value').then(function(snapshot) {
+                let conductores = [];
+                
+                snapshot.forEach(function(child) {
+                    const viaje = child.val();
+                    if (viaje.taxistaId && viaje.estado !== 'cancelado') {
+                        const existe = conductores.some(c => c.id === viaje.taxistaId);
+                        if (!existe) {
+                            conductores.push({
+                                id: viaje.taxistaId,
+                                nombre: viaje.taxistaNombre || 'Conductor',
+                                placa: viaje.placa || 'N/A'
+                            });
+                        }
+                    }
+                });
+
+                if (conductores.length === 0) {
+                    Swal.fire({
+                        title: 'Nuevo mensaje',
+                        text: 'No tienes viajes recientes. Ingresa el ID del conductor:',
+                        input: 'text',
+                        inputPlaceholder: 'ID del conductor',
+                        confirmButtonText: 'Buscar',
+                        cancelButtonText: 'Cancelar',
+                        showCancelButton: true,
+                        background: 'var(--card-bg)',
+                        color: 'var(--text-primary)'
+                    }).then(function(result) {
+                        if (result.isConfirmed && result.value) {
+                            database.ref('usuarios/' + result.value).once('value').then(function(snap) {
+                                const data = snap.val();
+                                if (data && (data.rol === 'TAXISTA' || data.rol === 'Taxista')) {
+                                    crearNuevoChat(data.nombre || 'Conductor', result.value);
+                                } else {
+                                    Swal.fire('Error', 'No se encontró un conductor con ese ID', 'error');
+                                }
+                            });
+                        }
+                    });
+                    return;
+                }
+
+                const opciones = {};
+                conductores.forEach(function(c) {
+                    opciones[c.id] = c.nombre + ' (🚗 ' + c.placa + ')';
+                });
+
+                Swal.fire({
+                    title: 'Selecciona un conductor',
+                    input: 'select',
+                    inputOptions: opciones,
+                    inputPlaceholder: 'Selecciona un conductor',
+                    confirmButtonText: 'Abrir chat',
+                    cancelButtonText: 'Cancelar',
+                    showCancelButton: true,
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)'
+                }).then(function(result) {
+                    if (result.isConfirmed && result.value) {
+                        const conductor = conductores.find(c => c.id === result.value);
+                        if (conductor) {
+                            crearNuevoChat(conductor.nombre, conductor.id);
+                        }
+                    }
+                });
+            });
+        }
+
+        function crearNuevoChat(nombre, taxistaId) {
+            let chatExistente = null;
+            for (let chat of chatsConductores) {
+                if (chat.taxistaId === taxistaId) {
+                    chatExistente = chat;
+                    break;
+                }
+            }
+
+            if (chatExistente) {
+                abrirChatConductor(chatExistente.id, nombre, taxistaId);
+                return;
+            }
+
+            const chatData = {
+                tipo: 'usuario_taxista',
+                usuarioId: uidActual,
+                taxistaId: taxistaId,
+                taxistaNombre: nombre,
+                ultimoMensaje: 'Inicio de conversación',
+                ultimaActualizacion: new Date().toISOString(),
+                noLeidosUsuario: 0,
+                noLeidosTaxista: 0
+            };
+
+            database.ref('chats').push(chatData).then(function(ref) {
+                abrirChatConductor(ref.key, nombre, taxistaId);
+            });
+        }
+
+        // ========== INDICADOR DE ESCRITURA ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatInput = document.getElementById('chatConductorInput');
+            if (chatInput) {
+                chatInput.addEventListener('input', function() {
+                    if (!chatConductorActivoId) return;
+                    const chatRef = database.ref('chats/' + chatConductorActivoId);
+                    chatRef.child('escribiendoUsuario').set(true);
+                    clearTimeout(escribiendoTimeout);
+                    escribiendoTimeout = setTimeout(function() {
+                        chatRef.child('escribiendoUsuario').set(false);
+                    }, 1500);
+                });
+            }
+        });
+
+        function adjuntarArchivoChatConductor() {
+            Swal.fire({
+                title: '📎 Adjuntar archivo',
+                text: 'Puedes subir fotos o documentos relacionados con el viaje.',
+                icon: 'info',
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)',
+                confirmButtonColor: 'var(--accent)'
+            });
+        }
+
+
         // ==========================================================
         // ✅ SECCIÓN 13.22: INICIALIZACIÓN COMPLETA
         // ==========================================================
@@ -4367,6 +6214,8 @@
         console.log('🗺️ Mapbox integrado');
         console.log('🎤 Asistente de voz activo');
     </script>
-
+ 
+    
+    
 </body>
 </html>
