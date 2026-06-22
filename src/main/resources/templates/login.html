@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- ============================================================
@@ -612,7 +612,7 @@
     </div>
 
     <!-- ============================================================
-    SECCIÓN 9: JAVASCRIPT - TODA LA LÓGICA
+    SECCIÓN 9: JAVASCRIPT - TODA LA LÓGICA (CORREGIDA - TODOS LOS ROLES)
     ============================================================ -->
     <script>
         // ==========================================================
@@ -699,7 +699,7 @@
         }
 
         // ==========================================================
-        // 🔐 SECCIÓN 9.5: LOGIN CON FIREBASE
+        // 🔐 SECCIÓN 9.5: LOGIN CON FIREBASE (CORREGIDO - TODOS LOS ROLES)
         // ==========================================================
         async function loginFirebase(event) {
             event.preventDefault();
@@ -808,21 +808,38 @@
                     color: 'var(--text-primary)'
                 });
 
-                // Redirigir según el rol
+                // ==========================================================
+                // 🔥 SECCIÓN CORREGIDA: REDIRECCIÓN SEGÚN ROL (TODOS LOS ROLES)
+                // ==========================================================
                 setTimeout(function() {
                     var rol = userData.rol || 'USUARIO';
                     var redirectUrl = '/';
 
+                    // ==========================================================
+                    // TODOS LOS ROLES SOPORTADOS EN EL REGISTER:
+                    // - ADMIN → /admin
+                    // - TAXISTA → /taxista
+                    // - BUSERO → /busero (NORMAL y DAVID_PANAMA)
+                    // - ESTUDIANTE → /usuario
+                    // - USUARIO → /usuario
+                    // ==========================================================
                     if (rol === 'ADMIN') {
-                        redirectUrl = '/admin.html';
+                        redirectUrl = '/admin';
                     } else if (rol === 'TAXISTA') {
-                        redirectUrl = '/taxista.html';
+                        redirectUrl = '/taxista';
                     } else if (rol === 'BUSERO') {
-                        redirectUrl = '/busero.html';
+                        redirectUrl = '/busero';
+                    } else if (rol === 'ESTUDIANTE') {
+                        // Estudiante usa el mismo panel que usuario
+                        redirectUrl = '/usuario';
                     } else {
-                        redirectUrl = '/usuario.html';
+                        // USUARIO y cualquier otro rol
+                        redirectUrl = '/usuario';
                     }
 
+                    console.log('✅ Redirigiendo a:', redirectUrl);
+                    console.log('📋 Rol:', rol);
+                    console.log('📋 Tipo Busero:', userData.tipoBusero || 'N/A');
                     window.location.href = API_URL + redirectUrl;
                 }, 2500);
 
@@ -908,7 +925,6 @@
         async function recuperarContraseñaFirebase(metodo, valor) {
             try {
                 if (metodo === 'email') {
-                    // Recuperación por email con Firebase
                     await firebase.auth().sendPasswordResetEmail(valor);
                     Swal.fire({
                         title: 'Correo enviado',
@@ -919,9 +935,8 @@
                         confirmButtonColor: 'var(--accent)'
                     });
                 } else if (metodo === 'pin') {
-                    // Recuperación por PIN de seguridad
                     var snapshot = await database.ref('usuarios').orderByChild('pinSeguridad').equalTo(valor).once(
-                    'value');
+                        'value');
 
                     if (!snapshot.exists()) {
                         throw new Error('PIN de seguridad incorrecto');
@@ -946,9 +961,8 @@
                         throw new Error('No se encontró un email asociado a este PIN');
                     }
                 } else if (metodo === 'sms') {
-                    // Recuperación por SMS - Buscar por teléfono
                     var snapshot = await database.ref('usuarios').orderByChild('telefono').equalTo(valor).once(
-                    'value');
+                        'value');
 
                     if (!snapshot.exists()) {
                         throw new Error('Número de teléfono no registrado');
@@ -1075,7 +1089,7 @@
         actualizarCards(estiloGuardado);
 
         // ==========================================================
-        // 🔄 SECCIÓN 9.9: VERIFICAR SESIÓN ACTIVA
+        // 🔄 SECCIÓN 9.9: VERIFICAR SESIÓN ACTIVA (CORREGIDO - TODOS LOS ROLES)
         // ==========================================================
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
@@ -1086,13 +1100,28 @@
                     if (userData) {
                         var rol = userData.rol || 'USUARIO';
                         var redirectUrl = '/';
-                        if (rol === 'ADMIN') redirectUrl = '/admin.html';
-                        else if (rol === 'TAXISTA') redirectUrl = '/taxista.html';
-                        else if (rol === 'BUSERO') redirectUrl = '/busero.html';
-                        else redirectUrl = '/usuario.html';
+                        
+                        // ==========================================================
+                        // TODOS LOS ROLES SOPORTADOS (IGUAL QUE EN EL LOGIN)
+                        // ==========================================================
+                        if (rol === 'ADMIN') {
+                            redirectUrl = '/admin';
+                        } else if (rol === 'TAXISTA') {
+                            redirectUrl = '/taxista';
+                        } else if (rol === 'BUSERO') {
+                            redirectUrl = '/busero';
+                        } else if (rol === 'ESTUDIANTE') {
+                            redirectUrl = '/usuario';
+                        } else {
+                            redirectUrl = '/usuario';
+                        }
+                        
+                        console.log('✅ Sesión activa - Redirigiendo a:', redirectUrl);
                         window.location.href = API_URL + redirectUrl;
                     }
-                }).catch(function() {});
+                }).catch(function(error) {
+                    console.error('Error al obtener datos del usuario:', error);
+                });
             }
         });
 
