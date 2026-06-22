@@ -1011,6 +1011,240 @@
     }
 }
 
+/* ==========================================================
+   AYUDA INMEDIATA - BOTONES SIMÉTRICOS
+   ========================================================== */
+.ayuda-botones {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    width: 100%;
+}
+
+.ayuda-botones .btn-ayuda {
+    flex: 1;
+    min-width: 0;
+    padding: 12px 6px;
+    border-radius: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 12px;
+    text-align: center;
+    border: none;
+    color: white;
+}
+
+.ayuda-botones .btn-ayuda i {
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.btn-wa { background: #25D366; }
+.btn-llamar { background: #3A86FF; }
+.btn-email { background: #DC2626; }
+
+@media (max-width: 480px) {
+    .ayuda-botones {
+        gap: 6px;
+    }
+    .ayuda-botones .btn-ayuda {
+        font-size: 9px;
+        padding: 10px 4px;
+        border-radius: 10px;
+    }
+    .ayuda-botones .btn-ayuda i {
+        font-size: 13px;
+    }
+}
+
+/* ==========================================================
+   BOTÓN VOLVER AL INICIO - CENTRADO
+   ========================================================== */
+.btn-volver-inicio {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 24px;
+    background: var(--gradient-glow);
+    border: none;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #000;
+    font-size: 13px;
+    transition: all 0.3s;
+    margin: 0 auto;
+}
+.btn-volver-inicio:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--accent-glow);
+}
+
+@media (max-width: 480px) {
+    .btn-volver-inicio {
+        font-size: 11px;
+        padding: 6px 18px;
+    }
+}
+
+/* Contenedor para centrar */
+.centrar-boton {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* ==========================================================
+   BOTONES FLOTANTES - MÓVIL
+   ========================================================== */
+@media (max-width: 480px) {
+    .btn-sos-flotante {
+        width: 50px !important;
+        height: 50px !important;
+        font-size: 1.2rem !important;
+        bottom: 100px !important;
+        right: 10px !important;
+    }
+    
+    .settings-toggle {
+        width: 44px !important;
+        height: 44px !important;
+        font-size: 1rem !important;
+        bottom: 160px !important;
+        right: 10px !important;
+    }
+}
+
+@media (max-width: 380px) {
+    .btn-sos-flotante {
+        width: 44px !important;
+        height: 44px !important;
+        font-size: 1rem !important;
+        bottom: 90px !important;
+        right: 8px !important;
+    }
+    
+    .settings-toggle {
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 0.9rem !important;
+        bottom: 140px !important;
+        right: 8px !important;
+    }
+}
+
+/* ==========================================================
+   RESPONSIVE GENERAL - SECCIONES SIMÉTRICAS
+   ========================================================== */
+
+/* Todas las secciones en móvil */
+@media (max-width: 768px) {
+    #seccion-documentos .stats-grid,
+    #seccion-notificaciones .stats-grid,
+    #seccion-historial .stats-grid,
+    #seccion-calificaciones .stats-grid {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+    }
+    
+    #seccion-documentos .card,
+    #seccion-notificaciones .card,
+    #seccion-historial .card,
+    #seccion-calificaciones .card {
+        padding: 12px !important;
+        margin-bottom: 10px !important;
+    }
+    
+    #seccion-documentos h2,
+    #seccion-notificaciones h2,
+    #seccion-historial h2,
+    #seccion-calificaciones h2 {
+        font-size: 18px !important;
+    }
+    
+    #seccion-documentos .btn-outline,
+    #seccion-notificaciones .btn-outline,
+    #seccion-historial .btn-outline,
+    #seccion-calificaciones .btn-outline {
+        font-size: 10px !important;
+        padding: 6px 12px !important;
+    }
+    
+    /* Tablas en móvil */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .data-table {
+        font-size: 11px !important;
+        min-width: 500px;
+    }
+    
+    .data-table th,
+    .data-table td {
+        padding: 6px 8px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #seccion-documentos .btn-outline,
+    #seccion-notificaciones .btn-outline,
+    #seccion-historial .btn-outline,
+    #seccion-calificaciones .btn-outline {
+        font-size: 9px !important;
+        padding: 4px 10px !important;
+    }
+    
+    .data-table {
+        font-size: 10px !important;
+    }
+    
+    .data-table th,
+    .data-table td {
+        padding: 4px 6px !important;
+    }
+}
+
+/* ==========================================================
+   VEHÍCULO Y PERFIL - RESPONSIVE
+   ========================================================== */
+@media (max-width: 768px) {
+    #seccion-vehiculo .vehiculo-metricas {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+    }
+    
+    #seccion-vehiculo .vehiculo-item .value {
+        font-size: 14px !important;
+    }
+    
+    #seccion-perfil .perfil-foto-container {
+        width: 100px !important;
+        height: 100px !important;
+    }
+    
+    #seccion-perfil .perfil-campo input {
+        font-size: 14px !important;
+        padding: 8px 12px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #seccion-vehiculo .vehiculo-metricas {
+        grid-template-columns: 1fr 1fr !important;
+    }
+    
+    #seccion-vehiculo .vehiculo-metrica .numero {
+        font-size: 18px !important;
+    }
+}
+
     </style>
 </head>
 
@@ -1913,20 +2147,24 @@ SECCIÓN MENSAJERÍA - VERSIÓN MEJORADA (MÓVIL + ESCRITORIO)
             <div style="font-weight:600; font-size:16px; color:var(--text-primary);">¿Necesitas ayuda inmediata?</div>
         </div>
         <div style="font-size:13px; color:var(--text-secondary); margin-bottom:16px;">Nuestro equipo está listo para asistirte</div>
-        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
-            <button onclick="window.open('https://wa.me/50766637549', '_blank')" style="background:#25D366; border:none; padding:14px; border-radius:14px; color:white; font-weight:600; cursor:pointer; transition:all 0.3s; display:flex; align-items:center; justify-content:center; gap:8px; font-size:13px;">
-                <i class="fab fa-whatsapp" style="font-size:18px;"></i> WhatsApp
-            </button>
-            <button onclick="window.location.href='tel:+50766637549'" style="background:#3A86FF; border:none; padding:14px; border-radius:14px; color:white; font-weight:600; cursor:pointer; transition:all 0.3s; display:flex; align-items:center; justify-content:center; gap:8px; font-size:13px;">
-                <i class="fas fa-phone" style="font-size:18px;"></i> Llamar
-            </button>
-            <button onclick="window.location.href='mailto:soporte@cupotax.com'" style="background:#DC2626; border:none; padding:14px; border-radius:14px; color:white; font-weight:600; cursor:pointer; transition:all 0.3s; display:flex; align-items:center; justify-content:center; gap:8px; font-size:13px;">
-                <i class="fas fa-envelope" style="font-size:18px;"></i> Email
-            </button>
-        </div>
+        <div class="ayuda-botones">
+    <button class="btn-ayuda btn-wa" onclick="window.open('https://wa.me/50766637549', '_blank')">
+        <i class="fab fa-whatsapp"></i> WhatsApp
+    </button>
+    <button class="btn-ayuda btn-llamar" onclick="window.location.href='tel:+50766637549'">
+        <i class="fas fa-phone"></i> Llamar
+    </button>
+    <button class="btn-ayuda btn-email" onclick="window.location.href='mailto:soporte@cupotax.com'">
+        <i class="fas fa-envelope"></i> Email
+    </button>
+</div>
     </div>
 
-    <button class="btn-primary" style="margin-top:20px; width:100%; padding:12px;" onclick="volverInicio()">← VOLVER AL INICIO</button>
+    <div class="centrar-boton">
+    <button class="btn-volver-inicio" onclick="volverInicio()">
+        <i class="fas fa-arrow-left"></i> VOLVER AL INICIO
+    </button>
+</div>
 </div>
             
                         
