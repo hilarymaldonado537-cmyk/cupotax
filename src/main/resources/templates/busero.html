@@ -800,6 +800,125 @@
                 padding: 4px 10px !important;
             }
         }
+    
+        /* ==========================================================
+   ESTILOS PARA VEHÍCULO Y PERFIL (AGREGAR)
+   ========================================================== */
+
+/* PERFIL */
+.perfil-foto-container {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: var(--hover-bg);
+    border: 3px solid var(--accent);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 0 auto;
+}
+.perfil-foto-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.perfil-foto-container .placeholder {
+    font-size: 3rem;
+    color: var(--text-tertiary);
+}
+.perfil-foto-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.6);
+    padding: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.perfil-foto-overlay:hover { background: rgba(0,0,0,0.8); }
+.perfil-foto-overlay i { color: white; font-size: 14px; }
+
+.perfil-campo {
+    margin-bottom: 16px;
+}
+.perfil-campo label {
+    display: block;
+    font-size: 10px;
+    color: var(--text-tertiary);
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+.perfil-campo input {
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--input-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    color: var(--text-primary);
+    transition: all 0.3s;
+}
+.perfil-campo input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: var(--accent-glow);
+}
+
+/* VEHÍCULO */
+.vehiculo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+.vehiculo-item {
+    background: var(--hover-bg);
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+}
+.vehiculo-item .label {
+    font-size: 9px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.vehiculo-item .value {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-top: 2px;
+}
+
+.vehiculo-metricas {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+.vehiculo-metrica {
+    background: var(--hover-bg);
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+}
+.vehiculo-metrica .numero {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+}
+.vehiculo-metrica .label {
+    font-size: 9px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+    .vehiculo-grid { grid-template-columns: 1fr; }
+    .vehiculo-metricas { grid-template-columns: repeat(2, 1fr); }
+}
         
     </style>
 </head>
@@ -842,6 +961,7 @@
                 <div class="nav-item" data-seccion="documentos"><i class="fas fa-folder-open"></i> <span>Documentos</span></div>
                 <div class="nav-item" data-seccion="mensajeria"><i class="fas fa-envelope"></i> <span>Mensajería</span></div>
                 <div class="nav-item" data-seccion="notificaciones"><i class="fas fa-bell"></i> <span>Notificaciones</span></div>
+                <div class="nav-item" data-seccion="perfil"><i class="fas fa-user"></i> <span>Perfil</span></div>
                 <div class="nav-divider"></div>
                 <div class="nav-item" data-seccion="salir"><i class="fas fa-sign-out-alt"></i> <span>Salir</span></div>
             </div>
@@ -1217,70 +1337,86 @@
                 <button class="btn-primary" style="margin-top:16px;" onclick="volverInicio()">← VOLVER AL INICIO</button>
             </div>
 
-            <!-- ==========================================================
-            SUB-SECCIÓN 8.8: VEHÍCULO
-            ========================================================== -->
-            <div id="seccion-vehiculo" style="display:none;">
-                <h2 style="margin-bottom:20px;">🚌 MI VEHÍCULO</h2>
-                <div class="card" style="margin-bottom:16px;">
-                    <div style="display:grid; grid-template-columns:1fr 2fr; gap:16px;">
-                        <div style="background:var(--hover-bg); border-radius:16px; padding:16px; text-align:center;">
-                            <div style="font-size:60px;">🚐</div>
-                            <button class="btn-outline" style="margin-top:8px;" onclick="document.getElementById('fotoVehiculoInput').click()">📷 Cambiar foto</button>
-                            <input type="file" id="fotoVehiculoInput" accept="image/*" style="display:none;">
-                        </div>
-                        <div>
-                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-                                <div><div style="font-size:10px; color:var(--text-tertiary);">PLACA</div><div style="font-size:16px; font-weight:700;" id="vehiculoPlacaDetalle">Cargando...</div></div>
-                                <div><div style="font-size:10px; color:var(--text-tertiary);">MODELO</div><div style="font-size:16px; font-weight:700;" id="vehiculoModeloDetalle">Cargando...</div></div>
-                                <div><div style="font-size:10px; color:var(--text-tertiary);">COLOR</div><div style="font-size:16px; font-weight:700;" id="vehiculoColorDetalle">Cargando...</div></div>
-                                <div><div style="font-size:10px; color:var(--text-tertiary);">AÑO</div><div style="font-size:16px; font-weight:700;" id="vehiculoAnioDetalle">Cargando...</div></div>
-                                <div><div style="font-size:10px; color:var(--text-tertiary);">CAPACIDAD</div><div style="font-size:16px; font-weight:700;" id="vehiculoCapacidadDetalle">0</div></div>
-                                <div><div style="font-size:10px; color:var(--text-tertiary);">INTERNO</div><div style="font-size:16px; font-weight:700;" id="vehiculoInternoDetalle">Cargando...</div></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card" style="margin-bottom:16px;">
-                    <div class="card-title">📊 MÉTRICAS DEL VEHÍCULO</div>
-                    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px;">
-                        <div style="text-align:center; background:var(--hover-bg); border-radius:12px; padding:12px;">
-                            <div style="font-size:10px; color:var(--text-tertiary);">Viajes</div>
-                            <div style="font-size:20px; font-weight:700;" id="vehiculoViajes">0</div>
-                        </div>
-                        <div style="text-align:center; background:var(--hover-bg); border-radius:12px; padding:12px;">
-                            <div style="font-size:10px; color:var(--text-tertiary);">Pasajeros</div>
-                            <div style="font-size:20px; font-weight:700;" id="vehiculoPasajeros">0</div>
-                        </div>
-                        <div style="text-align:center; background:var(--hover-bg); border-radius:12px; padding:12px;">
-                            <div style="font-size:10px; color:var(--text-tertiary);">Kilómetros</div>
-                            <div style="font-size:20px; font-weight:700;" id="vehiculoKmDetalle">0</div>
-                        </div>
-                        <div style="text-align:center; background:var(--hover-bg); border-radius:12px; padding:12px;">
-                            <div style="font-size:10px; color:var(--text-tertiary);">Ingresos</div>
-                            <div style="font-size:20px; font-weight:700; color:var(--success);" id="vehiculoIngresos">B/. 0</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-title">🗺️ RUTA ASIGNADA</div>
-                    <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
-                        <div style="flex:1; text-align:center; padding:12px; background:var(--hover-bg); border-radius:12px;">
-                            <div style="font-size:12px; color:var(--text-tertiary);">Origen</div>
-                            <div style="font-size:16px; font-weight:700;" id="rutaOrigenDetalle">Cargando...</div>
-                        </div>
-                        <div style="font-size:20px; color:var(--accent);">→</div>
-                        <div style="flex:1; text-align:center; padding:12px; background:var(--hover-bg); border-radius:12px;">
-                            <div style="font-size:12px; color:var(--text-tertiary);">Destino</div>
-                            <div style="font-size:16px; font-weight:700;" id="rutaDestinoDetalle">Cargando...</div>
-                        </div>
-                    </div>
-                    <button class="btn-outline" style="margin-top:12px; width:100%;" onclick="cambiarRuta()">🔄 Cambiar ruta</button>
-                </div>
-                <button class="btn-primary" style="margin-top:16px;" onclick="volverInicio()">← VOLVER AL INICIO</button>
-            </div>
 
-                        <!-- ==========================================================
+              <!-- ==========================================================
+SECCIÓN VEHÍCULO - MI VEHÍCULO (AGREGAR)
+========================================================== -->
+<div id="seccion-vehiculo" style="display:none;">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:24px;">
+        <div style="display:flex; align-items:center; gap:14px;">
+            <div style="width:50px; height:50px; background:var(--glow-gradient); border-radius:14px; display:flex; align-items:center; justify-content:center; box-shadow:var(--accent-glow);">
+                <i class="fas fa-bus" style="font-size:26px; color:#000;"></i>
+            </div>
+            <div>
+                <h2 style="font-size:24px; font-weight:700; background:var(--glow-gradient); -webkit-background-clip:text; background-clip:text; color:transparent;">Mi Vehículo</h2>
+                <p style="font-size:13px; color:var(--text-secondary);">Información detallada de tu vehículo</p>
+            </div>
+        </div>
+        <button class="btn-outline" onclick="volverInicio()" style="padding:8px 18px; font-size:12px; border-color:var(--danger); color:var(--danger); border-radius:30px; cursor:pointer; transition:all 0.3s;">
+            <i class="fas fa-times"></i> Cerrar
+        </button>
+    </div>
+
+    <!-- FOTO + DATOS PRINCIPALES -->
+    <div style="background:var(--card-bg); border:1px solid var(--glass-border); border-radius:20px; padding:20px; margin-bottom:24px;">
+        <div style="display:grid; grid-template-columns:1fr 2fr; gap:20px; align-items:center;">
+            <div style="text-align:center;">
+                <div id="vehiculoFotoContainer" style="width:120px; height:120px; border-radius:16px; background:var(--hover-bg); border:2px solid var(--accent); overflow:hidden; display:flex; align-items:center; justify-content:center; margin:0 auto;">
+                    <i class="fas fa-bus" style="font-size:50px; color:var(--text-tertiary);"></i>
+                </div>
+                <button class="btn-outline" style="margin-top:10px; padding:4px 14px; font-size:10px;" onclick="document.getElementById('fotoVehiculoInput').click()">
+                    <i class="fas fa-camera"></i> Cambiar foto
+                </button>
+                <input type="file" id="fotoVehiculoInput" accept="image/*" style="display:none;">
+            </div>
+            <div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                    <div class="vehiculo-item"><div class="label">🚗 Placa</div><div class="value" id="vehiculoPlacaDetalle">Cargando...</div></div>
+                    <div class="vehiculo-item"><div class="label">🚗 Modelo</div><div class="value" id="vehiculoModeloDetalle">Cargando...</div></div>
+                    <div class="vehiculo-item"><div class="label">🎨 Color</div><div class="value" id="vehiculoColorDetalle">Cargando...</div></div>
+                    <div class="vehiculo-item"><div class="label">📅 Año</div><div class="value" id="vehiculoAnioDetalle">Cargando...</div></div>
+                    <div class="vehiculo-item"><div class="label">👥 Capacidad</div><div class="value" id="vehiculoCapacidadDetalle">0</div></div>
+                    <div class="vehiculo-item"><div class="label">🔢 Interno</div><div class="value" id="vehiculoInternoDetalle">Cargando...</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MÉTRICAS -->
+    <div style="background:var(--card-bg); border:1px solid var(--glass-border); border-radius:20px; padding:20px; margin-bottom:24px;">
+        <div class="card-title"><i class="fas fa-chart-bar"></i> MÉTRICAS DEL VEHÍCULO</div>
+        <div class="vehiculo-metricas">
+            <div class="vehiculo-metrica"><div class="numero" id="vehiculoViajes">0</div><div class="label">Viajes</div></div>
+            <div class="vehiculo-metrica"><div class="numero" id="vehiculoPasajeros">0</div><div class="label">Pasajeros</div></div>
+            <div class="vehiculo-metrica"><div class="numero" id="vehiculoKmDetalle">0</div><div class="label">Kilómetros</div></div>
+            <div class="vehiculo-metrica"><div class="numero" style="color:var(--success);" id="vehiculoIngresos">B/. 0</div><div class="label">Ingresos</div></div>
+        </div>
+    </div>
+
+    <!-- RUTA ASIGNADA -->
+    <div style="background:var(--card-bg); border:1px solid var(--glass-border); border-radius:20px; padding:20px; margin-bottom:24px;">
+        <div class="card-title"><i class="fas fa-route"></i> RUTA ASIGNADA</div>
+        <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+            <div style="flex:1; text-align:center; padding:16px; background:var(--hover-bg); border-radius:12px;">
+                <div style="font-size:11px; color:var(--text-tertiary);">📍 Origen</div>
+                <div style="font-size:18px; font-weight:700;" id="rutaOrigenDetalle">Cargando...</div>
+            </div>
+            <div style="font-size:24px; color:var(--accent);">→</div>
+            <div style="flex:1; text-align:center; padding:16px; background:var(--hover-bg); border-radius:12px;">
+                <div style="font-size:11px; color:var(--text-tertiary);">🏁 Destino</div>
+                <div style="font-size:18px; font-weight:700;" id="rutaDestinoDetalle">Cargando...</div>
+            </div>
+        </div>
+        <button class="btn-outline" style="margin-top:16px; width:100%; padding:10px;" onclick="cambiarRuta()">
+            <i class="fas fa-sync"></i> Cambiar ruta
+        </button>
+    </div>
+
+    <button class="btn-primary" style="margin-top:16px;" onclick="volverInicio()">← VOLVER AL INICIO</button>
+</div>         
+            
+            
+            <!-- ==========================================================
             SUB-SECCIÓN 8.9: MANTENIMIENTO - DISEÑO FUTURISTA PREMIUM
             ========================================================== -->
             <div id="seccion-mantenimiento" style="display:none;">
@@ -1785,39 +1921,90 @@
             </div>
 
             <!-- ==========================================================
-            SUB-SECCIÓN 8.14: PERFIL
-            ========================================================== -->
-            <div id="seccion-perfil" style="display:none;">
-                <h2 style="margin-bottom:20px;">👤 MI PERFIL</h2>
-                <div class="card" style="margin-bottom:16px;">
-                    <div style="display:flex; gap:20px; align-items:center; flex-wrap:wrap; margin-bottom:20px;">
-                        <div style="text-align:center;">
-                            <div id="fotoPerfilContainer" style="width:100px; height:100px; border-radius:50%; background:var(--hover-bg); border:3px solid var(--accent); overflow:hidden; display:flex; align-items:center; justify-content:center;">
-                                <i class="fas fa-user fa-3x" id="fotoIcono"></i>
-                                <img id="fotoPerfilImg" src="" style="width:100%; height:100%; object-fit:cover; display:none;">
-                            </div>
-                            <button class="btn-outline" style="margin-top:8px; padding:4px 12px; font-size:10px;" onclick="document.getElementById('fotoInput').click()">📸 Cambiar</button>
-                            <input type="file" id="fotoInput" accept="image/*" style="display:none;">
-                        </div>
-                        <div>
-                            <div style="font-size:20px; font-weight:700;" id="perfilNombre">Cargando...</div>
-                            <div style="color:var(--warning);" id="perfilNivel">Nivel Bronce</div>
-                            <div style="color:var(--text-tertiary);">ID: <span id="perfilId">Cargando...</span></div>
-                            <div style="color:var(--text-tertiary);">Rol: Busero</div>
-                        </div>
-                    </div>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-                        <div><div style="font-size:10px; color:var(--text-tertiary);">NOMBRE</div><input type="text" id="editNombre" style="width:100%; background:var(--input-bg); border:1px solid var(--glass-border); border-radius:12px; padding:10px; color:var(--text-primary);"></div>
-                        <div><div style="font-size:10px; color:var(--text-tertiary);">TELÉFONO</div><input type="tel" id="editTelefono" style="width:100%; background:var(--input-bg); border:1px solid var(--glass-border); border-radius:12px; padding:10px; color:var(--text-primary);"></div>
-                    </div>
-                    <div><div style="font-size:10px; color:var(--text-tertiary);">CORREO</div><input type="email" id="editCorreo" style="width:100%; background:var(--input-bg); border:1px solid var(--glass-border); border-radius:12px; padding:10px; color:var(--text-primary);"></div>
-                    <button class="btn-primary" style="margin-top:12px;" onclick="actualizarPerfil()">💾 ACTUALIZAR</button>
-                </div>
-                <button class="btn-primary" onclick="volverInicio()">← VOLVER AL INICIO</button>
+SECCIÓN PERFIL - MI PERFIL (AGREGAR)
+========================================================== -->
+<div id="seccion-perfil" style="display:none;">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:24px;">
+        <div style="display:flex; align-items:center; gap:14px;">
+            <div style="width:50px; height:50px; background:var(--glow-gradient); border-radius:14px; display:flex; align-items:center; justify-content:center; box-shadow:var(--accent-glow);">
+                <i class="fas fa-user" style="font-size:26px; color:#000;"></i>
             </div>
+            <div>
+                <h2 style="font-size:24px; font-weight:700; background:var(--glow-gradient); -webkit-background-clip:text; background-clip:text; color:transparent;">Mi Perfil</h2>
+                <p style="font-size:13px; color:var(--text-secondary);">Gestiona tu información personal</p>
+            </div>
+        </div>
+        <button class="btn-outline" onclick="volverInicio()" style="padding:8px 18px; font-size:12px; border-color:var(--danger); color:var(--danger); border-radius:30px; cursor:pointer; transition:all 0.3s;">
+            <i class="fas fa-times"></i> Cerrar
+        </button>
+    </div>
 
+    <!-- FOTO DE PERFIL -->
+    <div style="background:var(--card-bg); border:1px solid var(--glass-border); border-radius:20px; padding:24px; margin-bottom:24px;">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+            <div id="perfilFotoContainer" class="perfil-foto-container">
+                <img id="perfilFotoImg" src="" alt="Foto de perfil" style="display:none;">
+                <div id="perfilFotoPlaceholder" class="perfil-foto-placeholder">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="perfil-foto-overlay" onclick="document.getElementById('perfilFotoInput').click()">
+                    <i class="fas fa-camera"></i>
+                </div>
+            </div>
+            <input type="file" id="perfilFotoInput" accept="image/*" style="display:none;">
+            <div style="text-align:center;">
+                <div style="font-size:18px; font-weight:700;" id="perfilNombre">Cargando...</div>
+                <div style="color:var(--warning); font-size:13px;" id="perfilNivel">Nivel Bronce</div>
+                <div style="color:var(--text-tertiary); font-size:12px;">ID: <span id="perfilId">Cargando...</span></div>
+                <div style="color:var(--text-tertiary); font-size:12px;">Rol: <span id="perfilRol">Busero</span></div>
+                <div style="color:var(--text-tertiary); font-size:12px;">Prestataria: <span id="perfilPrestataria">Cargando...</span></div>
+            </div>
         </div>
     </div>
+
+    <!-- FORMULARIO -->
+    <div style="background:var(--card-bg); border:1px solid var(--glass-border); border-radius:20px; padding:24px; margin-bottom:24px;">
+        <div class="card-title"><i class="fas fa-edit"></i> EDITAR PERFIL</div>
+        
+        <div class="perfil-campo">
+            <label>📛 NOMBRE COMPLETO</label>
+            <input type="text" id="editNombre" placeholder="Tu nombre completo">
+        </div>
+        
+        <div class="perfil-campo">
+            <label>📧 CORREO ELECTRÓNICO</label>
+            <input type="email" id="editCorreo" placeholder="tu@correo.com">
+        </div>
+        
+        <div class="perfil-campo">
+            <label>📞 TELÉFONO</label>
+            <input type="tel" id="editTelefono" placeholder="Ej: 6663-7549">
+        </div>
+        
+        <div class="perfil-campo">
+            <label>🆔 CÉDULA</label>
+            <input type="text" id="editCedula" placeholder="Ej: 1-761-1069">
+        </div>
+        
+        <div class="perfil-campo">
+            <label>🔐 PIN DE SEGURIDAD (6 dígitos)</label>
+            <input type="password" id="editPin" maxlength="6" placeholder="******">
+            <div style="font-size:9px; color:var(--text-tertiary); margin-top:4px;">⚠️ Guarda tu PIN. Lo necesitarás para recuperar tu cuenta</div>
+        </div>
+        
+        <div class="perfil-campo">
+            <label>🔑 CONTRASEÑA (dejar en blanco para no cambiar)</label>
+            <input type="password" id="editPassword" placeholder="Nueva contraseña">
+            <div style="font-size:9px; color:var(--text-tertiary); margin-top:4px;">🔒 Mínimo 6 caracteres</div>
+        </div>
+
+        <button class="btn-primary" style="width:100%; padding:12px; margin-top:8px;" onclick="actualizarPerfilCompleto()">
+            <i class="fas fa-save"></i> ACTUALIZAR PERFIL
+        </button>
+    </div>
+
+    <button class="btn-primary" onclick="volverInicio()">← VOLVER AL INICIO</button>
+</div>
 
     <!-- ============================================================
     SECCIÓN 9: MENÚ INFERIOR (móvil)
@@ -1935,76 +2122,117 @@
         // 👤 SECCIÓN 12.5: DATOS DEL USUARIO
         // ==========================================================
         function cargarDatosUsuario(uid) {
-            database.ref('usuarios/' + uid).once('value').then(function(snapshot) {
-                const data = snapshot.val();
-                if (data) {
-                    usuarioActual = data;
-                    document.getElementById('buseroNombre').textContent = data.nombre || 'Busero';
-                    document.getElementById('buseroId').textContent = data.id || 'Sin ID';
-                    document.getElementById('topNombre').textContent = data.nombre || 'Busero';
-                    document.getElementById('perfilNombre').textContent = data.nombre || 'Busero';
-                    document.getElementById('perfilId').textContent = data.id || 'Sin ID';
-                    document.getElementById('editNombre').value = data.nombre || '';
-                    document.getElementById('editTelefono').value = data.telefono || '';
-                    document.getElementById('editCorreo').value = data.email || '';
+    database.ref('usuarios/' + uid).once('value').then(function(snapshot) {
+        const data = snapshot.val();
+        if (data) {
+            usuarioActual = data;
+            document.getElementById('buseroNombre').textContent = data.nombre || 'Busero';
+            document.getElementById('buseroId').textContent = data.id || 'Sin ID';
+            document.getElementById('topNombre').textContent = data.nombre || 'Busero';
+            
+            // --- NUEVO: PERFIL ---
+            document.getElementById('perfilNombre').textContent = data.nombre || 'Busero';
+            document.getElementById('perfilId').textContent = data.id || 'Sin ID';
+            document.getElementById('perfilRol').textContent = data.rol || 'Busero';
+            document.getElementById('perfilPrestataria').textContent = data.prestataria || 'Sin prestataria';
+            
+            // Cargar foto de perfil (sincronizada con registro)
+            if (data.fotoPerfil) {
+                const img = document.getElementById('perfilFotoImg');
+                img.src = data.fotoPerfil;
+                img.style.display = 'block';
+                document.getElementById('perfilFotoPlaceholder').style.display = 'none';
+            }
 
-                    //  Guardar tipo de busero
-                    const tipoBusero = data.tipoBusero || 'NORMAL';
-                    localStorage.setItem('buseroTipo', tipoBusero);
-                    
-                    // Mostrar el tipo en el sidebar
-                    mostrarTipoBusero(tipoBusero);
-                    
-                    //  Configurar el menú según el tipo
-                    configurarMenuBusero(tipoBusero);
+            // Cargar vehículo
+            if (data.vehiculo) {
+                vehiculoActual = data.vehiculo;
+                actualizarDatosVehiculo();
+            }
 
-                    // Cargar vehículo
-                    if (data.vehiculo) {
-                        vehiculoActual = data.vehiculo;
-                        actualizarDatosVehiculo();
-                    }
+            // Cargar estadísticas
+            cargarEstadisticas(uid);
+            cargarViajes(uid);
+            cargarPasajeros(uid);
+            cargarNotificaciones(uid);
+            cargarMantenimientoBusero(uid);
+            cargarCalificaciones(uid);
+            cargarDocumentosBusero(uid);
+            cargarMensajes(uid);
+        }
+    });
+}
 
-                    // Cargar estadísticas
-                    cargarEstadisticas(uid);
-                    cargarViajes(uid);
-                    cargarPasajeros(uid);
-                    cargarNotificaciones(uid);
-                    cargarMantenimientoBusero(uid);
-                    cargarCalificaciones(uid);
-                    cargarDocumentosBusero(uid);
-                    cargarMensajes(uid);
+function actualizarPerfilCompleto() {
+    const nombre = document.getElementById('editNombre').value.trim();
+    const correo = document.getElementById('editCorreo').value.trim();
+    const telefono = document.getElementById('editTelefono').value.trim();
+    const cedula = document.getElementById('editCedula').value.trim();
+    const pin = document.getElementById('editPin').value.trim();
+    const password = document.getElementById('editPassword').value;
 
-                    // Cargar foto
-                    if (data.fotoPerfil) {
-                        document.getElementById('fotoPerfilImg').src = data.fotoPerfil;
-                        document.getElementById('fotoPerfilImg').style.display = 'block';
-                        document.getElementById('fotoIcono').style.display = 'none';
-                    }
-                }
-                
-                // Cargar seguridad
-                 cargarEstado2FA();
-                 cargarDispositivos();
-                 cargarActividad();
-                 
-                // Guardar tipo de busero
-                    const tipoBusero = data.tipoBusero || 'NORMAL';
-                    localStorage.setItem('buseroTipo', tipoBusero);
-                    
-                    //Mostrar el tipo en el sidebar
-                    mostrarTipoBusero(tipoBusero);
-                    
-                    // Configurar el menú según el tipo
-                    configurarMenuBusero(tipoBusero);
+    if (!nombre) {
+        Swal.fire('Error', 'El nombre es obligatorio', 'error');
+        return;
+    }
 
-                // Registrar inicio de sesión como actividad
-                registrarActividad('Inicio de sesión exitoso');
-               // Actualizar ruta para admin
-                setTimeout(function() {
-                    actualizarRutaAdmin();
-                }, 1000);
+    const updates = {
+        nombre: nombre,
+        email: correo,
+        telefono: telefono,
+        cedula: cedula
+    };
+
+    if (pin && pin.length === 6 && /^\d{6}$/.test(pin)) {
+        updates.pinSeguridad = pin;
+    } else if (pin && pin.length > 0) {
+        Swal.fire('Error', 'El PIN debe ser de 6 dígitos', 'error');
+        return;
+    }
+
+    if (password && password.length >= 6) {
+        const user = auth.currentUser;
+        if (user) {
+            user.updatePassword(password).catch(function(error) {
+                Swal.fire('Error', 'No se pudo actualizar la contraseña: ' + error.message, 'error');
+                return;
             });
         }
+    } else if (password && password.length < 6) {
+        Swal.fire('Error', 'La contraseña debe tener al menos 6 caracteres', 'error');
+        return;
+    }
+
+    database.ref('usuarios/' + uidActual).update(updates).then(function() {
+        Swal.fire('✅ Perfil actualizado', 'Tu información ha sido guardada', 'success');
+        cargarDatosUsuario(uidActual);
+    }).catch(function(error) {
+        Swal.fire('Error', 'No se pudo actualizar: ' + error.message, 'error');
+    });
+}
+
+function actualizarDatosVehiculo() {
+    const v = vehiculoActual;
+    if (!v) return;
+
+    document.getElementById('vehiculoPlacaDetalle').textContent = v.placa || 'Sin placa';
+    document.getElementById('vehiculoModeloDetalle').textContent = v.modelo || 'Sin modelo';
+    document.getElementById('vehiculoColorDetalle').textContent = v.color || 'Sin color';
+    document.getElementById('vehiculoAnioDetalle').textContent = v.anio || 'Sin año';
+    document.getElementById('vehiculoCapacidadDetalle').textContent = v.capacidad || 0;
+    document.getElementById('vehiculoInternoDetalle').textContent = v.numeroVehiculo || v.interno || 'Sin interno';
+
+    document.getElementById('vehiculoViajes').textContent = v.viajesCount || 0;
+    document.getElementById('vehiculoPasajeros').textContent = v.pasajerosCount || 0;
+    document.getElementById('vehiculoKmDetalle').textContent = v.kilometraje || 0;
+    document.getElementById('vehiculoIngresos').textContent = 'B/. ' + (v.ingresosTotal || 0).toFixed(2);
+
+    if (v.rutaAsignada) {
+        const partes = v.rutaAsignada.split(' - ');
+        document.getElementById('rutaOrigenDetalle').textContent = partes[0] || 'Sin origen';
+        document.getElementById('rutaDestinoDetalle').textContent = partes[1] || v.rutaAsignada || 'Sin destino';
+    }
+}
         
         
                 // ==========================================================
@@ -2213,62 +2441,69 @@
         // 📊 SECCIÓN 12.7: ESTADÍSTICAS
         // ==========================================================
         function cargarEstadisticas(uid) {
-            const hoy = new Date().toISOString().split('T')[0];
+    const hoy = new Date().toISOString().split('T')[0];
 
-            database.ref('viajes').orderByChild('buseroId').equalTo(uid).once('value').then(function(snapshot) {
-                let total = 0,
-                    completados = 0,
-                    cancelados = 0,
-                    pasajerosTotal = 0,
-                    ingresosTotal = 0,
-                    distanciaTotal = 0;
+    database.ref('viajes').orderByChild('buseroId').equalTo(uid).once('value').then(function(snapshot) {
+        let total = 0,
+            completados = 0,
+            cancelados = 0,
+            pasajerosTotal = 0,
+            ingresosTotal = 0,
+            distanciaTotal = 0;
 
-                snapshot.forEach(function(child) {
-                    const viaje = child.val();
-                    if (viaje.fecha && viaje.fecha.startsWith(hoy)) {
-                        total++;
-                        if (viaje.estado === 'completado') {
-                            completados++;
-                            pasajerosTotal += viaje.pasajeros || 0;
-                            ingresosTotal += viaje.tarifa || 0;
-                            distanciaTotal += viaje.distancia || 0;
-                        } else if (viaje.estado === 'cancelado') {
-                            cancelados++;
-                        }
-                    }
-                });
+        snapshot.forEach(function(child) {
+            const viaje = child.val();
+            if (viaje.fecha && viaje.fecha.startsWith(hoy)) {
+                total++;
+                if (viaje.estado === 'completado') {
+                    completados++;
+                    pasajerosTotal += viaje.pasajeros || 0;
+                    ingresosTotal += viaje.tarifa || 0;
+                    distanciaTotal += viaje.distancia || 0;
+                } else if (viaje.estado === 'cancelado') {
+                    cancelados++;
+                }
+            }
+        });
 
-                document.getElementById('viajesHoy').textContent = total;
-                document.getElementById('viajesDetalle').textContent = 'Completados: ' + completados + ' | Cancelados: ' +
-                    cancelados;
-                document.getElementById('pasajerosHoy').textContent = pasajerosTotal;
-                document.getElementById('ingresosHoy').textContent = 'B/. ' + ingresosTotal.toFixed(2);
-                document.getElementById('distanciaHoy').textContent = distanciaTotal + ' km';
-                document.getElementById('viajesStats').textContent = total;
-                document.getElementById('canceladosStats').textContent = cancelados;
+        // ===== ESTADÍSTICAS PRINCIPALES =====
+        document.getElementById('viajesHoy').textContent = total;
+        document.getElementById('viajesDetalle').textContent = 'Completados: ' + completados + ' | Cancelados: ' + cancelados;
+        document.getElementById('pasajerosHoy').textContent = pasajerosTotal;
+        document.getElementById('ingresosHoy').textContent = 'B/. ' + ingresosTotal.toFixed(2);
+        document.getElementById('distanciaHoy').textContent = distanciaTotal + ' km';
+        document.getElementById('viajesStats').textContent = total;
+        document.getElementById('canceladosStats').textContent = cancelados;
 
-                // Ocupación
-                const capacidad = vehiculoActual?.capacidad || 40;
-                const ocupacion = capacidad > 0 ? Math.min((pasajerosTotal / capacidad) * 100, 100) : 0;
-                document.getElementById('ocupacionFill').style.width = ocupacion + '%';
-                document.getElementById('ocupacionAbordo').style.width = ocupacion + '%';
-                document.getElementById('porcentajeOcupacion').textContent = Math.round(ocupacion) + '% ocupación';
+        // ===== MÉTRICAS DEL VEHÍCULO (NUEVO) =====
+        // Actualiza las métricas en la sección VEHÍCULO
+        document.getElementById('vehiculoViajes').textContent = total;
+        document.getElementById('vehiculoIngresos').textContent = 'B/. ' + ingresosTotal.toFixed(2);
+        document.getElementById('vehiculoPasajeros').textContent = pasajerosTotal;
+        document.getElementById('vehiculoKmDetalle').textContent = distanciaTotal;
 
-                // Meta
-                const meta = 200;
-                const porcentajeMeta = Math.min((ingresosTotal / meta) * 100, 100);
-                document.getElementById('ingresosFill').style.width = porcentajeMeta + '%';
+        // ===== OCUPACIÓN =====
+        const capacidad = vehiculoActual?.capacidad || 40;
+        const ocupacion = capacidad > 0 ? Math.min((pasajerosTotal / capacidad) * 100, 100) : 0;
+        document.getElementById('ocupacionFill').style.width = ocupacion + '%';
+        document.getElementById('ocupacionAbordo').style.width = ocupacion + '%';
+        document.getElementById('porcentajeOcupacion').textContent = Math.round(ocupacion) + '% ocupación';
 
-                // Pasajeros a bordo
-                const abordo = Math.min(pasajerosTotal, capacidad);
-                document.getElementById('pasajerosAbordo').textContent = abordo + ' / ' + capacidad;
-                document.getElementById('ocupadosCount').textContent = abordo;
-                document.getElementById('disponiblesCount').textContent = capacidad - abordo;
+        // ===== META DIARIA =====
+        const meta = 200;
+        const porcentajeMeta = Math.min((ingresosTotal / meta) * 100, 100);
+        document.getElementById('ingresosFill').style.width = porcentajeMeta + '%';
 
-                // Calificación
-                cargarCalificacionPromedio(uid);
-            });
-        }
+        // ===== PASAJEROS A BORDO =====
+        const abordo = Math.min(pasajerosTotal, capacidad);
+        document.getElementById('pasajerosAbordo').textContent = abordo + ' / ' + capacidad;
+        document.getElementById('ocupadosCount').textContent = abordo;
+        document.getElementById('disponiblesCount').textContent = capacidad - abordo;
+
+        // ===== CALIFICACIÓN =====
+        cargarCalificacionPromedio(uid);
+    });
+}
 
         function cargarCalificacionPromedio(uid) {
             database.ref('calificaciones').orderByChild('buseroId').equalTo(uid).once('value').then(function(snapshot) {
@@ -3623,71 +3858,30 @@
         }
 
                 function cambiarRuta() {
-            Swal.fire({
-                title: 'Cambiar ruta',
-                input: 'select',
-                inputOptions: {
-                    'Changuinola-Almirante': 'Changuinola → Almirante',
-                    'Changuinola-David': 'Changuinola → David',
-                    'Changuinola-Guabito': 'Changuinola → Guabito',
-                    'Almirante-Changuinola': 'Almirante → Changuinola'
-                },
-                background: 'var(--card-bg)',
-                color: 'var(--text-primary)',
-                confirmButtonText: 'Cambiar'
-            }).then(function(result) {
-                if (result.isConfirmed) {
-                    const ruta = result.value.split('-');
-                    const updates = { 'vehiculo/ruta': { origen: ruta[0], destino: ruta[1], nombre: result.value
-                            .replace('-', ' → ') } };
-                    database.ref('usuarios/' + uidActual).update(updates).then(function() {
-                        Swal.fire('✅ Ruta actualizada', '', 'success');
-                        cargarDatosUsuario(uidActual);
-                        // Actualizar ruta para admin
-                        actualizarRutaAdmin();
-                    });
-                }
-            });
-        }
-
-        // ==========================================================
-        // 👤 SECCIÓN 12.21: PERFIL
-        // ==========================================================
-        document.getElementById('fotoInput').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    document.getElementById('fotoPerfilImg').src = event.target.result;
-                    document.getElementById('fotoPerfilImg').style.display = 'block';
-                    document.getElementById('fotoIcono').style.display = 'none';
-                    database.ref('usuarios/' + uidActual + '/fotoPerfil').set(event.target.result);
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        function actualizarPerfil() {
-            const nombre = document.getElementById('editNombre').value.trim();
-            const telefono = document.getElementById('editTelefono').value.trim();
-            const correo = document.getElementById('editCorreo').value.trim();
-            if (!nombre) {
-                Swal.fire('Error', 'El nombre es obligatorio', 'error');
-                return;
-            }
-            database.ref('usuarios/' + uidActual).update({
-                nombre: nombre,
-                telefono: telefono,
-                email: correo
-            }).then(function() {
-                Swal.fire('✅ Perfil actualizado', '', 'success');
+    Swal.fire({
+        title: 'Cambiar ruta',
+        input: 'select',
+        inputOptions: {
+            'Changuinola - Almirante': 'Changuinola → Almirante',
+            'Changuinola - David': 'Changuinola → David',
+            'Changuinola - Guabito': 'Changuinola → Guabito',
+            'Almirante - Changuinola': 'Almirante → Changuinola',
+            'Changuinola - Las Tablas': 'Changuinola → Las Tablas'
+        },
+        background: 'var(--card-bg)',
+        color: 'var(--text-primary)',
+        confirmButtonText: 'Cambiar'
+    }).then(function(result) {
+        if (result.isConfirmed) {
+            database.ref('usuarios/' + uidActual + '/vehiculo/rutaAsignada').set(result.value).then(function() {
+                Swal.fire('✅ Ruta actualizada', '', 'success');
                 cargarDatosUsuario(uidActual);
             });
         }
+    });
+}
 
-
-
-                  // ==========================================================
+    // ==========================================================
         // 🗺️ ACTUALIZAR RUTA PARA ADMIN
         // ==========================================================
         function actualizarRutaAdmin() {
@@ -4154,6 +4348,40 @@
         console.log('📱 Diseño responsive: Escritorio, Tablet y Móvil');
         console.log('🔥 Firebase conectado en tiempo real');
         console.log('🗺️ Mapbox integrado');
+        
+       // Foto de perfil
+document.getElementById('perfilFotoInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const fotoData = event.target.result;
+            const img = document.getElementById('perfilFotoImg');
+            img.src = fotoData;
+            img.style.display = 'block';
+            document.getElementById('perfilFotoPlaceholder').style.display = 'none';
+            database.ref('usuarios/' + uidActual + '/fotoPerfil').set(fotoData);
+            Swal.fire('✅ Foto actualizada', 'Tu foto de perfil ha sido guardada', 'success');
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+// Foto del vehículo
+document.getElementById('fotoVehiculoInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const fotoData = event.target.result;
+            const container = document.getElementById('vehiculoFotoContainer');
+            container.innerHTML = `<img src="${fotoData}" style="width:100%; height:100%; object-fit:cover;">`;
+            database.ref('usuarios/' + uidActual + '/vehiculo/foto').set(fotoData);
+            Swal.fire('✅ Foto del vehículo actualizada', '', 'success');
+        };
+        reader.readAsDataURL(file);
+    }
+});
     </script>
 
 </body>
