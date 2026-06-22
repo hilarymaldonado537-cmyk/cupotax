@@ -1742,27 +1742,24 @@ SECCIÓN VEHÍCULO - MI VEHÍCULO (AGREGAR)
             
             
             <!-- ==========================================================
-            SUB-SECCIÓN 8.9: MANTENIMIENTO - DISEÑO FUTURISTA PREMIUM
+            SECCIÓN MANTENIMIENTO - VERSIÓN MEJORADA CON EVIDENCIAS
             ========================================================== -->
             <div id="seccion-mantenimiento" style="display:none;">
                 
                 <!-- ========== HEADER ========== -->
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:24px;">
                     <div style="display:flex; align-items:center; gap:14px;">
-                        <div style="width:50px; height:50px; background:var(--gradient-glow); border-radius:14px; display:flex; align-items:center; justify-content:center; box-shadow:var(--accent-glow);">
+                        <div style="width:50px; height:50px; background:var(--glow-gradient); border-radius:14px; display:flex; align-items:center; justify-content:center; box-shadow:var(--accent-glow);">
                             <i class="fas fa-wrench" style="font-size:26px; color:#000;"></i>
                         </div>
                         <div>
-                            <h2 style="font-size:24px; font-weight:700; background:var(--gradient-glow); -webkit-background-clip:text; background-clip:text; color:transparent;">Mantenimiento del Vehículo</h2>
-                            <p style="font-size:13px; color:var(--text-secondary);">Gestiona los servicios y revisiones de tu vehículo</p>
+                            <h2 style="font-size:24px; font-weight:700; background:var(--glow-gradient); -webkit-background-clip:text; background-clip:text; color:transparent;">Mantenimiento del Vehículo</h2>
+                            <p style="font-size:13px; color:var(--text-secondary);">Gestiona servicios y sube evidencias de cada revisión</p>
                         </div>
                     </div>
                     <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                        <button class="btn-outline" onclick="verHistorialMantenimientoBusero()" style="padding:8px 18px; font-size:12px; border-color:var(--accent); color:var(--accent); border-radius:30px; cursor:pointer; transition:all 0.3s;">
-                            <i class="fas fa-history"></i> Historial
-                        </button>
-                        <button class="btn-outline" onclick="exportarMantenimientoBusero()" style="padding:8px 18px; font-size:12px; border-color:var(--success); color:var(--success); border-radius:30px; cursor:pointer; transition:all 0.3s;">
-                            <i class="fas fa-download"></i> Exportar
+                        <button class="btn-outline" onclick="verReporteMantenimientoBusero()" style="padding:8px 18px; font-size:12px; border-color:var(--success); color:var(--success); border-radius:30px; cursor:pointer; transition:all 0.3s;">
+                            <i class="fas fa-file-pdf"></i> Reporte
                         </button>
                         <button class="btn-outline" onclick="volverInicio()" style="padding:8px 18px; font-size:12px; border-color:var(--danger); color:var(--danger); border-radius:30px; cursor:pointer; transition:all 0.3s;">
                             <i class="fas fa-times"></i> Cerrar
@@ -1770,50 +1767,60 @@ SECCIÓN VEHÍCULO - MI VEHÍCULO (AGREGAR)
                     </div>
                 </div>
 
-                <!-- ========== RESUMEN ========== -->
-                <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:24px;">
-                    <div style="background:var(--glass-bg); backdrop-filter:blur(12px); border:1px solid var(--glass-border); border-radius:16px; padding:16px; text-align:center;">
-                        <div style="font-size:28px; font-weight:700; color:var(--success);" id="mantCompletadosBusero">0</div>
-                        <div style="font-size:11px; color:var(--text-secondary);">Servicios completados</div>
-                    </div>
-                    <div style="background:var(--glass-bg); backdrop-filter:blur(12px); border:1px solid var(--glass-border); border-radius:16px; padding:16px; text-align:center;">
-                        <div style="font-size:28px; font-weight:700; color:var(--warning);" id="mantPendientesBusero">0</div>
-                        <div style="font-size:11px; color:var(--text-secondary);">Servicios pendientes</div>
-                    </div>
-                    <div style="background:var(--glass-bg); backdrop-filter:blur(12px); border:1px solid var(--glass-border); border-radius:16px; padding:16px; text-align:center;">
-                        <div style="font-size:28px; font-weight:700; color:var(--accent);" id="mantTotalBusero">0</div>
+                <!-- ========== RESÚMEN EN TARJETAS ========== -->
+                <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px;">
+                    <div style="background:var(--card-bg); border:1px solid var(--glass-border); border-radius:16px; padding:16px; text-align:center;">
+                        <div style="font-size:28px; font-weight:700; color:var(--success);" id="mantTotalServiciosBusero">0</div>
                         <div style="font-size:11px; color:var(--text-secondary);">Total servicios</div>
+                    </div>
+                    <div style="background:var(--card-bg); border:1px solid var(--glass-border); border-radius:16px; padding:16px; text-align:center;">
+                        <div style="font-size:28px; font-weight:700; color:var(--warning);" id="mantPendientesBusero">0</div>
+                        <div style="font-size:11px; color:var(--text-secondary);">Pendientes</div>
+                    </div>
+                    <div style="background:var(--card-bg); border:1px solid var(--glass-border); border-radius:16px; padding:16px; text-align:center;">
+                        <div style="font-size:28px; font-weight:700; color:var(--success);" id="mantCompletadosBusero">0</div>
+                        <div style="font-size:11px; color:var(--text-secondary);">Completados</div>
+                    </div>
+                    <div style="background:var(--card-bg); border:1px solid var(--glass-border); border-radius:16px; padding:16px; text-align:center;">
+                        <div style="font-size:28px; font-weight:700; color:var(--accent);" id="mantEvidenciasBusero">0</div>
+                        <div style="font-size:11px; color:var(--text-secondary);">Evidencias</div>
                     </div>
                 </div>
 
-                <!-- ========== SERVICIOS PENDIENTES ========== -->
-                <div style="background:var(--glass-bg); backdrop-filter:blur(12px); border:1px solid var(--glass-border); border-radius:20px; padding:20px; margin-bottom:24px;">
-                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
-                        <i class="fas fa-clock" style="color:var(--warning); font-size:18px;"></i>
-                        <div style="font-weight:600; font-size:16px;">Servicios pendientes</div>
+                <!-- ========== SERVICIOS CON EVIDENCIAS ========== -->
+                <div style="background:var(--card-bg); border:1px solid var(--glass-border); border-radius:20px; padding:20px; margin-bottom:24px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <i class="fas fa-clipboard-list" style="color:var(--accent); font-size:18px;"></i>
+                            <div style="font-weight:600; font-size:16px; color:var(--text-primary);">Servicios y Evidencias</div>
+                        </div>
+                        <button class="btn-primary" onclick="agregarServicioMantenimientoBusero()" style="padding:8px 20px; font-size:12px; width:auto;">
+                            <i class="fas fa-plus"></i> Nuevo servicio
+                        </button>
                     </div>
-                    <div id="mantenimientoListaBusero">
+                    <div id="mantenimientoListaCompletaBusero">
                         <div style="text-align:center; padding:20px; color:var(--text-tertiary);">
                             <i class="fas fa-spinner fa-spin"></i> Cargando servicios...
                         </div>
                     </div>
                 </div>
 
-                <!-- ========== HISTORIAL ========== -->
-                <div style="background:var(--glass-bg); backdrop-filter:blur(12px); border:1px solid var(--glass-border); border-radius:20px; padding:20px; margin-bottom:24px;">
+                <!-- ========== HISTORIAL DE EVIDENCIAS ========== -->
+                <div style="background:var(--card-bg); border:1px solid var(--glass-border); border-radius:20px; padding:20px; margin-bottom:24px;">
                     <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
-                        <i class="fas fa-history" style="color:var(--success); font-size:18px;"></i>
-                        <div style="font-weight:600; font-size:16px;">Últimos servicios realizados</div>
+                        <i class="fas fa-images" style="color:var(--success); font-size:18px;"></i>
+                        <div style="font-weight:600; font-size:16px; color:var(--text-primary);">Historial de evidencias</div>
                     </div>
-                    <div id="historialMantenimientoBusero">
+                    <div id="historialEvidenciasMantenimientoBusero">
                         <div style="text-align:center; padding:20px; color:var(--text-tertiary);">
-                            <i class="fas fa-spinner fa-spin"></i> Cargando historial...
+                            <i class="fas fa-spinner fa-spin"></i> Cargando evidencias...
                         </div>
                     </div>
                 </div>
 
                 <button class="btn-primary" style="margin-top:16px;" onclick="volverInicio()">← VOLVER AL INICIO</button>
             </div>
+            
 
             <!-- ==========================================================
             SUB-SECCIÓN 8.10: CALIFICACIONES
@@ -2805,102 +2812,304 @@ function actualizarDatosVehiculo() {
             database.ref('notificaciones/' + id).update({ leida: true });
         }
 
+                // ==========================================================
+        // 🔧 SECCIÓN 12.11: MANTENIMIENTO - VERSIÓN MEJORADA CON EVIDENCIAS
         // ==========================================================
-        // 🔧 SECCIÓN 12.11: MANTENIMIENTO
-        // ==========================================================
-        let mantenimientoDataBusero = [];
-        let mantenimientoEditandoBusero = null;
+        let mantenimientoDataBusero = {};
+        let servicioEditandoBusero = null;
 
-        // Servicios predefinidos
-        const SERVICIOS_PREDEFINIDOS_BUSERO = [
-            { id: 'aceite', nombre: '🔄 Cambio de aceite', kmTotal: 5000, tipo: 'km', icono: 'fa-oil-can' },
-            { id: 'revision', nombre: '🔧 Revisión general', kmTotal: 90, tipo: 'dias', icono: 'fa-tools' },
-            { id: 'llantas', nombre: '🛞 Rotación de llantas', kmTotal: 10000, tipo: 'km', icono: 'fa-circle' },
-            { id: 'frenos', nombre: '🛑 Frenos', kmTotal: 8000, tipo: 'km', icono: 'fa-car' },
-            { id: 'motor', nombre: '🚕 Motor', kmTotal: 15000, tipo: 'km', icono: 'fa-car-side' },
-            { id: 'chasis', nombre: '🔩 Chasis', kmTotal: 20000, tipo: 'km', icono: 'fa-cogs' },
-            { id: 'asientos', nombre: '💺 Asientos', kmTotal: 12000, tipo: 'km', icono: 'fa-chair' },
-            { id: 'limpieza', nombre: '🧹 Limpieza de bus', kmTotal: 30, tipo: 'dias', icono: 'fa-broom' },
-            { id: 'lavado', nombre: '🚿 Lavado', kmTotal: 15, tipo: 'dias', icono: 'fa-car-wash' }
+        // ========== SERVICIOS PREDEFINIDOS ==========
+        const SERVICIOS_MANTENIMIENTO_BUSERO = [
+            { id: 'aceite', nombre: '🔄 Cambio de aceite', icono: 'fa-oil-can', kmRecomendado: 5000 },
+            { id: 'revision', nombre: '🔧 Revisión general', icono: 'fa-tools', kmRecomendado: 90 },
+            { id: 'llantas', nombre: '🛞 Rotación de llantas', icono: 'fa-circle', kmRecomendado: 10000 },
+            { id: 'frenos', nombre: '🛑 Frenos', icono: 'fa-car', kmRecomendado: 8000 },
+            { id: 'motor', nombre: '🚕 Motor', icono: 'fa-car-side', kmRecomendado: 15000 },
+            { id: 'filtros', nombre: '🧹 Filtros de aire', icono: 'fa-wind', kmRecomendado: 12000 },
+            { id: 'bateria', nombre: '🔋 Batería', icono: 'fa-bolt', kmRecomendado: 20000 },
+            { id: 'limpieza', nombre: '🧹 Limpieza profunda', icono: 'fa-broom', kmRecomendado: 30 },
+            { id: 'lavado', nombre: '🚿 Lavado', icono: 'fa-car-wash', kmRecomendado: 15 }
         ];
 
+        // ========== CARGAR DATOS DE MANTENIMIENTO ==========
         function cargarMantenimientoBusero(uid) {
-            const container = document.getElementById('mantenimientoListaBusero');
-            if (!container) return;
+            if (!uid) {
+                console.warn('UID no disponible para mantenimiento');
+                return;
+            }
 
-            database.ref('mantenimiento/' + uid).once('value').then(function(snapshot) {
+            database.ref('mantenimiento_servicios/' + uid).once('value').then(function(snapshot) {
                 mantenimientoDataBusero = snapshot.val() || {};
-                renderizarMantenimientoBusero();
+                renderizarServiciosMantenimientoBusero();
+                cargarHistorialEvidenciasMantenimientoBusero(uid);
+                actualizarContadoresMantenimientoBusero();
             });
-            
-            cargarHistorialMantenimientoBusero(uid);
         }
 
-        function renderizarMantenimientoBusero() {
-            const container = document.getElementById('mantenimientoListaBusero');
+        // ========== RENDERIZAR SERVICIOS ==========
+        function renderizarServiciosMantenimientoBusero() {
+            const container = document.getElementById('mantenimientoListaCompletaBusero');
             if (!container) return;
 
             let html = '';
-            let completados = 0;
-            let pendientes = 0;
 
-            SERVICIOS_PREDEFINIDOS_BUSERO.forEach(function(servicio) {
+            SERVICIOS_MANTENIMIENTO_BUSERO.forEach(function(servicio) {
                 const data = mantenimientoDataBusero[servicio.id] || {};
-                const progreso = data.kmActual !== undefined ? 
-                    Math.min(100, Math.round((data.kmActual / servicio.kmTotal) * 100)) : 0;
-                const restante = data.kmActual !== undefined ? 
-                    (servicio.tipo === 'km' ? `${servicio.kmTotal - data.kmActual} km` : `${servicio.kmTotal - data.kmActual} días`) :
-                    (servicio.tipo === 'km' ? `${servicio.kmTotal} km` : `${servicio.kmTotal} días`);
                 const completado = data.completado || false;
+                const tieneEvidencia = data.evidencia || false;
+                const kmActual = data.kmActual || 0;
+                const progreso = Math.min(100, Math.round((kmActual / servicio.kmRecomendado) * 100));
                 
-                if (completado) completados++;
-                else pendientes++;
-
                 const colorProgreso = progreso >= 80 ? 'var(--danger)' : 
                                      progreso >= 50 ? 'var(--warning)' : 'var(--success)';
 
                 html += `
-                    <div style="background:var(--hover-bg); border-radius:12px; padding:14px; margin-bottom:12px; border:1px solid var(--glass-border); transition:all 0.3s;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-                            <div>
-                                <div style="font-weight:600; font-size:15px;">${servicio.nombre}</div>
-                                <div style="font-size:11px; color:var(--text-tertiary);">
-                                    ${completado ? '✅ Completado' : `⏳ Restante: ${restante}`}
+                    <div style="background:var(--hover-bg); border-radius:16px; padding:16px; margin-bottom:14px; border:1px solid ${completado ? 'var(--success)' : 'var(--glass-border)'}; transition:all 0.3s;">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px;">
+                            <div style="flex:1; min-width:150px;">
+                                <div style="font-weight:600; font-size:15px; color:var(--text-primary);">
+                                    ${servicio.nombre}
+                                    ${completado ? ' ✅' : ''}
+                                </div>
+                                <div style="font-size:12px; color:var(--text-secondary); margin-top:4px;">
+                                    <i class="fas fa-${servicio.icono}"></i>
+                                    ${completado ? 'Completado el ' + (data.fechaCompletado ? new Date(data.fechaCompletado).toLocaleDateString() : 'N/A') : 
+                                    'Progreso: ' + progreso + '% · ' + kmActual + ' / ' + servicio.kmRecomendado + (servicio.id === 'revision' || servicio.id === 'limpieza' ? ' días' : ' km')}
                                 </div>
                             </div>
-                            <div style="display:flex; align-items:center; gap:8px;">
+                            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
                                 ${!completado ? `
-                                    <span style="font-size:12px; font-weight:600; color:${colorProgreso};">${progreso}%</span>
-                                    <div class="progress-bar" style="width:100px; height:6px;"><div class="progress-fill" style="width:${progreso}%; background:${colorProgreso};"></div></div>
+                                    <div class="progress-bar" style="width:100px; height:6px;">
+                                        <div class="progress-fill" style="width:${progreso}%; background:${colorProgreso};"></div>
+                                    </div>
+                                    <span style="font-size:11px; font-weight:600; color:${colorProgreso};">${progreso}%</span>
                                 ` : ''}
-                                ${!completado ? `<button class="btn-success" onclick="completarServicioBusero('${servicio.id}')" style="padding:4px 14px; font-size:10px; border:none; border-radius:15px; cursor:pointer; color:#000; background:var(--success);">✅ Completar</button>` : ''}
                             </div>
                         </div>
-                        <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
-                            <button class="btn-outline" onclick="subirFotoMantenimientoBusero('${servicio.id}')" style="padding:4px 12px; font-size:10px; border-radius:15px;">📸 Subir foto</button>
-                            ${data.foto ? `<button class="btn-outline" onclick="verFotoMantenimientoBusero('${servicio.id}')" style="padding:4px 12px; font-size:10px; border-radius:15px;">🖼️ Ver foto</button>` : ''}
-                            ${data.kmActual !== undefined ? `
-                                <button class="btn-outline" onclick="editarKmMantenimientoBusero('${servicio.id}')" style="padding:4px 12px; font-size:10px; border-radius:15px;">✏️ Editar KM</button>
+
+                        <!-- BOTONES DE ACCIÓN -->
+                        <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;">
+                            <button class="btn-outline" onclick="subirEvidenciaMantenimientoBusero('${servicio.id}')" style="padding:6px 14px; font-size:11px; border-radius:15px; border-color:var(--accent); color:var(--accent);">
+                                <i class="fas fa-camera"></i> ${tieneEvidencia ? 'Nueva evidencia' : 'Subir evidencia'}
+                            </button>
+                            ${tieneEvidencia ? `
+                                <button class="btn-outline" onclick="verEvidenciasMantenimientoBusero('${servicio.id}')" style="padding:6px 14px; font-size:11px; border-radius:15px; border-color:var(--success); color:var(--success);">
+                                    <i class="fas fa-images"></i> Ver evidencia
+                                </button>
+                            ` : ''}
+                            ${!completado ? `
+                                <button class="btn-success" onclick="completarServicioMantenimientoBusero('${servicio.id}')" style="padding:6px 14px; font-size:11px; border:none; border-radius:15px; cursor:pointer; color:#000; background:var(--success);">
+                                    ✅ Completar
+                                </button>
+                            ` : ''}
+                            <button class="btn-outline" onclick="editarKmMantenimientoBusero('${servicio.id}')" style="padding:6px 14px; font-size:11px; border-radius:15px; border-color:var(--warning); color:var(--warning);">
+                                <i class="fas fa-edit"></i> Editar KM
+                            </button>
+                            ${completado ? `
+                                <button class="btn-outline" onclick="reactivarServicioMantenimientoBusero('${servicio.id}')" style="padding:6px 14px; font-size:11px; border-radius:15px; border-color:var(--danger); color:var(--danger);">
+                                    🔄 Reactivar
+                                </button>
                             ` : ''}
                         </div>
-                        ${data.foto ? `<div style="margin-top:8px;"><img src="${data.foto}" style="max-width:80px; max-height:60px; border-radius:8px; object-fit:cover;"></div>` : ''}
+
+                        <!-- PREVIEW DE EVIDENCIA -->
+                        ${data.evidencia ? `
+                            <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+                                <div style="position:relative; display:inline-block;">
+                                    <img src="${data.evidencia}" style="width:80px; height:60px; border-radius:8px; object-fit:cover; cursor:pointer; border:2px solid var(--glass-border);" onclick="verEvidenciaAmpliadaMantenimientoBusero('${data.evidencia}')">
+                                    <span style="position:absolute; top:-6px; right:-6px; background:var(--success); color:white; font-size:8px; padding:2px 6px; border-radius:50%;">📸</span>
+                                </div>
+                                <div style="font-size:10px; color:var(--text-tertiary); display:flex; align-items:center;">
+                                    <i class="fas fa-calendar"></i> ${data.fechaEvidencia ? new Date(data.fechaEvidencia).toLocaleDateString() : 'N/A'}
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        <!-- COMENTARIO DEL SERVICIO -->
+                        ${data.comentario ? `
+                            <div style="margin-top:8px; padding:8px 12px; background:var(--input-bg); border-radius:8px; font-size:12px; color:var(--text-secondary);">
+                                <i class="fas fa-quote-left" style="color:var(--accent);"></i> ${data.comentario}
+                            </div>
+                        ` : ''}
                     </div>
                 `;
             });
 
             container.innerHTML = html || '<div style="text-align:center; padding:20px; color:var(--text-tertiary);">No hay servicios configurados</div>';
+        }
 
-            // Actualizar contadores
-            document.getElementById('mantCompletadosBusero').textContent = completados;
-            document.getElementById('mantPendientesBusero').textContent = pendientes;
-            document.getElementById('mantTotalBusero').textContent = completados + pendientes;
+        // ========== SUBIR EVIDENCIA (FOTO) ==========
+        function subirEvidenciaMantenimientoBusero(servicioId) {
+            const servicio = SERVICIOS_MANTENIMIENTO_BUSERO.find(s => s.id === servicioId);
+            if (!servicio) return;
+
+            Swal.fire({
+                title: `📸 Subir evidencia para ${servicio.nombre}`,
+                html: `
+                    <div style="text-align:center; padding:20px; border:2px dashed var(--glass-border); border-radius:16px; margin:10px 0;" id="evidenciaDropZone">
+                        <i class="fas fa-cloud-upload-alt" style="font-size:48px; color:var(--text-tertiary);"></i>
+                        <div style="margin-top:8px; color:var(--text-secondary);">Arrastra o selecciona una foto</div>
+                        <input type="file" id="evidenciaFileInput" accept="image/*" style="display:none;">
+                        <button class="btn-primary" onclick="document.getElementById('evidenciaFileInput').click()" style="margin-top:12px; padding:8px 24px; width:auto;">Seleccionar foto</button>
+                    </div>
+                    <div id="evidenciaPreview" style="display:none; margin-top:12px; text-align:center;">
+                        <img id="evidenciaPreviewImg" src="" style="max-width:100%; max-height:150px; border-radius:8px;">
+                    </div>
+                    <div style="margin-top:12px; text-align:left;">
+                        <label style="font-size:11px; color:var(--text-tertiary);">COMENTARIO (opcional)</label>
+                        <textarea id="evidenciaComentario" rows="2" placeholder="Describe el servicio realizado..." style="width:100%; padding:8px; background:var(--input-bg); border:1px solid var(--glass-border); border-radius:8px; color:var(--text-primary); resize:vertical;"></textarea>
+                    </div>
+                    <div style="margin-top:8px; text-align:left;">
+                        <label style="font-size:11px; color:var(--text-tertiary);">KILOMETRAJE ACTUAL</label>
+                        <input type="number" id="evidenciaKmInput" placeholder="Ej: 25000" style="width:100%; padding:8px; background:var(--input-bg); border:1px solid var(--glass-border); border-radius:8px; color:var(--text-primary);">
+                    </div>
+                `,
+                confirmButtonText: '📤 Subir evidencia',
+                cancelButtonText: 'Cancelar',
+                showCancelButton: true,
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)',
+                preConfirm: function() {
+                    const fileInput = document.getElementById('evidenciaFileInput');
+                    const comentario = document.getElementById('evidenciaComentario').value;
+                    const km = document.getElementById('evidenciaKmInput').value;
+                    
+                    if (!fileInput.files || !fileInput.files[0]) {
+                        Swal.showValidationMessage('Selecciona una foto');
+                        return false;
+                    }
+                    if (!km || isNaN(km) || km < 0) {
+                        Swal.showValidationMessage('Ingresa un kilometraje válido');
+                        return false;
+                    }
+                    return { file: fileInput.files[0], comentario: comentario, km: parseInt(km) };
+                }
+            }).then(function(result) {
+                if (result.isConfirmed && result.value) {
+                    const file = result.value.file;
+                    const comentario = result.value.comentario;
+                    const km = result.value.km;
+
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const data = mantenimientoDataBusero[servicioId] || {};
+                        data.evidencia = e.target.result;
+                        data.fechaEvidencia = new Date().toISOString();
+                        data.comentario = comentario || data.comentario || '';
+                        data.kmActual = km;
+                        
+                        // Si ya estaba completado, lo dejamos completado pero actualizamos evidencia
+                        if (!data.completado) {
+                            data.completado = false;
+                        }
+
+                        database.ref('mantenimiento_servicios/' + uidActual + '/' + servicioId).set(data).then(function() {
+                            // Guardar en historial de evidencias
+                            const historial = {
+                                servicio: servicio.nombre,
+                                servicioId: servicioId,
+                                evidencia: e.target.result,
+                                comentario: comentario,
+                                km: km,
+                                fecha: new Date().toISOString()
+                            };
+                            database.ref('mantenimiento_evidencias/' + uidActual).push(historial);
+
+                            // Notificar al admin
+                            database.ref('admin/notificaciones').push({
+                                buseroId: uidActual,
+                                tipo: 'mantenimiento_evidencia',
+                                mensaje: 'El busero subió evidencia para: ' + servicio.nombre,
+                                timestamp: Date.now(),
+                                leida: false
+                            });
+
+                            Swal.fire('✅ Evidencia subida', 'La evidencia ha sido guardada correctamente', 'success');
+                            cargarMantenimientoBusero(uidActual);
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        // ========== VER EVIDENCIAS ==========
+        function verEvidenciasMantenimientoBusero(servicioId) {
+            const data = mantenimientoDataBusero[servicioId];
+            if (!data || !data.evidencia) {
+                Swal.fire('Error', 'No hay evidencia para este servicio', 'error');
+                return;
+            }
+
+            Swal.fire({
+                title: '📸 Evidencia del servicio',
+                html: `
+                    <img src="${data.evidencia}" style="max-width:100%; max-height:400px; border-radius:12px; margin-bottom:12px;">
+                    ${data.comentario ? `<div style="padding:12px; background:var(--hover-bg); border-radius:8px; text-align:left; font-size:13px; color:var(--text-secondary);"><i class="fas fa-quote-left" style="color:var(--accent);"></i> ${data.comentario}</div>` : ''}
+                    <div style="margin-top:8px; font-size:11px; color:var(--text-tertiary);">
+                        📅 ${data.fechaEvidencia ? new Date(data.fechaEvidencia).toLocaleString() : 'N/A'}
+                        ${data.kmActual ? `· 📊 ${data.kmActual} km` : ''}
+                    </div>
+                `,
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)',
+                confirmButtonText: 'Cerrar',
+                showCancelButton: true,
+                cancelButtonText: 'Descargar',
+                cancelButtonColor: 'var(--accent)',
+                preConfirm: function() {
+                    // Descargar la imagen
+                    const link = document.createElement('a');
+                    link.href = data.evidencia;
+                    link.download = 'evidencia_' + servicioId + '.jpg';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            });
+        }
+
+        // ========== VER EVIDENCIA AMPLIADA ==========
+        function verEvidenciaAmpliadaMantenimientoBusero(foto) {
+            Swal.fire({
+                title: '📸 Evidencia ampliada',
+                html: `<img src="${foto}" style="max-width:100%; max-height:500px; border-radius:12px;">`,
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)',
+                confirmButtonText: 'Cerrar'
+            });
         }
 
         // ========== COMPLETAR SERVICIO ==========
-        function completarServicioBusero(id) {
-            const servicio = SERVICIOS_PREDEFINIDOS_BUSERO.find(s => s.id === id);
+        function completarServicioMantenimientoBusero(servicioId) {
+            const servicio = SERVICIOS_MANTENIMIENTO_BUSERO.find(s => s.id === servicioId);
             if (!servicio) return;
 
+            const data = mantenimientoDataBusero[servicioId] || {};
+            
+            if (!data.evidencia) {
+                Swal.fire({
+                    title: '⚠️ Sin evidencia',
+                    text: '¿Quieres completar el servicio sin subir evidencia?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, completar',
+                    cancelButtonText: 'Subir evidencia primero',
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)'
+                }).then(function(result) {
+                    if (result.isConfirmed) {
+                        completarServicioMantenimientoConfirmado(servicioId, servicio);
+                    } else {
+                        subirEvidenciaMantenimientoBusero(servicioId);
+                    }
+                });
+            } else {
+                completarServicioMantenimientoConfirmado(servicioId, servicio);
+            }
+        }
+
+        function completarServicioMantenimientoConfirmado(servicioId, servicio) {
             Swal.fire({
                 title: `¿Completar ${servicio.nombre}?`,
                 text: '¿Estás seguro de que este servicio ha sido realizado?',
@@ -2912,29 +3121,31 @@ function actualizarDatosVehiculo() {
                 color: 'var(--text-primary)'
             }).then(function(result) {
                 if (result.isConfirmed) {
-                    const data = mantenimientoDataBusero[id] || {};
+                    const data = mantenimientoDataBusero[servicioId] || {};
                     data.completado = true;
                     data.fechaCompletado = new Date().toISOString();
                     
-                    database.ref('mantenimiento/' + uidActual + '/' + id).set(data).then(function() {
-                        // Registrar en historial
+                    database.ref('mantenimiento_servicios/' + uidActual + '/' + servicioId).set(data).then(function() {
+                        // Registrar en historial principal
                         const historial = {
                             servicio: servicio.nombre,
+                            servicioId: servicioId,
                             fecha: new Date().toISOString(),
                             km: data.kmActual || 0,
-                            foto: data.foto || null
+                            evidencia: data.evidencia || null,
+                            comentario: data.comentario || ''
                         };
                         database.ref('historial_mantenimiento/' + uidActual).push(historial);
-                        
+
                         // Notificar al admin
                         database.ref('admin/notificaciones').push({
                             buseroId: uidActual,
-                            tipo: 'mantenimiento',
-                            mensaje: 'El busero ' + (document.getElementById('buseroNombre').textContent || '') + ' completó: ' + servicio.nombre,
+                            tipo: 'mantenimiento_completado',
+                            mensaje: 'El busero completó: ' + servicio.nombre,
                             timestamp: Date.now(),
                             leida: false
                         });
-                        
+
                         Swal.fire('✅ Servicio completado', servicio.nombre + ' ha sido registrado', 'success');
                         cargarMantenimientoBusero(uidActual);
                     });
@@ -2942,90 +3153,52 @@ function actualizarDatosVehiculo() {
             });
         }
 
-        // ========== SUBIR FOTO MANTENIMIENTO ==========
-        function subirFotoMantenimientoBusero(id) {
-            const servicio = SERVICIOS_PREDEFINIDOS_BUSERO.find(s => s.id === id);
-            if (!servicio) return;
-
+        // ========== REACTIVAR SERVICIO ==========
+        function reactivarServicioMantenimientoBusero(servicioId) {
             Swal.fire({
-                title: `📸 Subir foto para ${servicio.nombre}`,
-                html: `
-                    <div style="text-align:center; padding:20px; border:2px dashed var(--glass-border); border-radius:16px;">
-                        <i class="fas fa-cloud-upload-alt" style="font-size:36px; color:var(--text-tertiary);"></i>
-                        <div style="margin-top:8px; color:var(--text-secondary);">Selecciona una foto</div>
-                        <input type="file" id="mantFotoInputBusero" accept="image/*" style="display:none;">
-                        <button class="btn-primary" onclick="document.getElementById('mantFotoInputBusero').click()" style="margin-top:8px; padding:6px 20px; width:auto;">Seleccionar</button>
-                    </div>
-                    <div id="mantFotoPreviewBusero" style="display:none; margin-top:12px; text-align:center;">
-                        <img id="mantFotoPreviewImgBusero" src="" style="max-width:100%; max-height:120px; border-radius:8px;">
-                    </div>
-                `,
-                confirmButtonText: 'Subir foto',
-                cancelButtonText: 'Cancelar',
+                title: '🔄 Reactivar servicio',
+                text: '¿Quieres reactivar este servicio para un nuevo ciclo?',
+                icon: 'question',
                 showCancelButton: true,
+                confirmButtonText: 'Sí, reactivar',
+                cancelButtonText: 'Cancelar',
                 background: 'var(--card-bg)',
-                color: 'var(--text-primary)',
-                preConfirm: function() {
-                    const fileInput = document.getElementById('mantFotoInputBusero');
-                    if (!fileInput.files || !fileInput.files[0]) {
-                        Swal.showValidationMessage('Selecciona una foto');
-                        return false;
-                    }
-                    return fileInput.files[0];
-                }
+                color: 'var(--text-primary)'
             }).then(function(result) {
-                if (result.isConfirmed && result.value) {
-                    const file = result.value;
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const data = mantenimientoDataBusero[id] || {};
-                        data.foto = e.target.result;
-                        data.fotoSubida = new Date().toISOString();
-                        
-                        database.ref('mantenimiento/' + uidActual + '/' + id).set(data).then(function() {
-                            Swal.fire('✅ Foto subida', 'La foto ha sido guardada correctamente', 'success');
-                            cargarMantenimientoBusero(uidActual);
-                        });
-                    };
-                    reader.readAsDataURL(file);
+                if (result.isConfirmed) {
+                    const data = mantenimientoDataBusero[servicioId] || {};
+                    data.completado = false;
+                    data.fechaCompletado = null;
+                    // Resetear KM a 0 para empezar de nuevo
+                    data.kmActual = 0;
+                    
+                    database.ref('mantenimiento_servicios/' + uidActual + '/' + servicioId).set(data).then(function() {
+                        Swal.fire('✅ Servicio reactivado', 'El servicio ha sido reactivado', 'success');
+                        cargarMantenimientoBusero(uidActual);
+                    });
                 }
             });
         }
 
-        // ========== VER FOTO MANTENIMIENTO ==========
-        function verFotoMantenimientoBusero(id) {
-            const data = mantenimientoDataBusero[id];
-            if (!data || !data.foto) {
-                Swal.fire('Error', 'No hay foto para este servicio', 'error');
-                return;
-            }
-            
-            Swal.fire({
-                title: '📸 Foto del servicio',
-                html: `<img src="${data.foto}" style="max-width:100%; max-height:400px; border-radius:8px;">`,
-                background: 'var(--card-bg)',
-                color: 'var(--text-primary)',
-                confirmButtonText: 'Cerrar'
-            });
-        }
-
-        // ========== EDITAR KM MANTENIMIENTO ==========
-        function editarKmMantenimientoBusero(id) {
-            const servicio = SERVICIOS_PREDEFINIDOS_BUSERO.find(s => s.id === id);
+        // ========== EDITAR KM ==========
+        function editarKmMantenimientoBusero(servicioId) {
+            const servicio = SERVICIOS_MANTENIMIENTO_BUSERO.find(s => s.id === servicioId);
             if (!servicio) return;
-            
-            const data = mantenimientoDataBusero[id] || {};
+
+            const data = mantenimientoDataBusero[servicioId] || {};
             const kmActual = data.kmActual || 0;
 
             Swal.fire({
                 title: `✏️ Editar ${servicio.nombre}`,
                 html: `
                     <div style="text-align:left;">
-                        <label style="font-size:11px; color:var(--text-tertiary);">${servicio.tipo === 'km' ? 'Kilometraje actual' : 'Días desde último servicio'}</label>
-                        <input type="number" id="editKmInputBusero" value="${kmActual}" min="0" step="${servicio.tipo === 'km' ? 100 : 1}" 
-                               style="width:100%; padding:10px; background:var(--bg-input); border:1px solid var(--glass-border); border-radius:8px; color:var(--text-primary);">
+                        <label style="font-size:11px; color:var(--text-tertiary);">
+                            ${servicio.id === 'revision' || servicio.id === 'limpieza' ? 'Días desde último servicio' : 'Kilometraje actual'}
+                        </label>
+                        <input type="number" id="editKmInputBusero" value="${kmActual}" min="0" step="${servicio.id === 'revision' || servicio.id === 'limpieza' ? 1 : 100}" 
+                               style="width:100%; padding:10px; background:var(--input-bg); border:1px solid var(--glass-border); border-radius:8px; color:var(--text-primary);">
                         <div style="font-size:10px; color:var(--text-tertiary); margin-top:4px;">
-                            ${servicio.tipo === 'km' ? 'Kilometraje total para este servicio: ' + servicio.kmTotal + ' km' : 'Días totales para este servicio: ' + servicio.kmTotal + ' días'}
+                            Recomendado: ${servicio.kmRecomendado} ${servicio.id === 'revision' || servicio.id === 'limpieza' ? 'días' : 'km'}
                         </div>
                     </div>
                 `,
@@ -3044,26 +3217,117 @@ function actualizarDatosVehiculo() {
                 }
             }).then(function(result) {
                 if (result.isConfirmed && result.value !== undefined) {
-                    const data = mantenimientoDataBusero[id] || {};
+                    const data = mantenimientoDataBusero[servicioId] || {};
                     data.kmActual = result.value;
                     if (data.completado) {
                         data.completado = false;
+                        data.fechaCompletado = null;
                     }
                     
-                    database.ref('mantenimiento/' + uidActual + '/' + id).set(data).then(function() {
-                        Swal.fire('✅ Actualizado', 'El kilometraje ha sido actualizado', 'success');
+                    database.ref('mantenimiento_servicios/' + uidActual + '/' + servicioId).set(data).then(function() {
+                        Swal.fire('✅ Actualizado', 'El valor ha sido actualizado', 'success');
                         cargarMantenimientoBusero(uidActual);
                     });
                 }
             });
         }
 
-        // ========== HISTORIAL DE MANTENIMIENTO ==========
-        function cargarHistorialMantenimientoBusero(uid) {
-            const container = document.getElementById('historialMantenimientoBusero');
+        // ========== AGREGAR SERVICIO PERSONALIZADO ==========
+        function agregarServicioMantenimientoBusero() {
+            Swal.fire({
+                title: '➕ Agregar servicio personalizado',
+                html: `
+                    <div style="text-align:left;">
+                        <label style="font-size:11px; color:var(--text-tertiary);">NOMBRE DEL SERVICIO</label>
+                        <input type="text" id="nuevoServicioNombre" placeholder="Ej: Cambio de filtros" style="width:100%; padding:8px; background:var(--input-bg); border:1px solid var(--glass-border); border-radius:8px; color:var(--text-primary); margin-bottom:12px;">
+                        
+                        <label style="font-size:11px; color:var(--text-tertiary);">KM/DÍAS RECOMENDADO</label>
+                        <input type="number" id="nuevoServicioKm" placeholder="Ej: 5000" style="width:100%; padding:8px; background:var(--input-bg); border:1px solid var(--glass-border); border-radius:8px; color:var(--text-primary); margin-bottom:12px;">
+                        
+                        <label style="font-size:11px; color:var(--text-tertiary);">TIPO</label>
+                        <select id="nuevoServicioTipo" style="width:100%; padding:8px; background:var(--input-bg); border:1px solid var(--glass-border); border-radius:8px; color:var(--text-primary);">
+                            <option value="km">Kilometraje</option>
+                            <option value="dias">Días</option>
+                        </select>
+                    </div>
+                `,
+                confirmButtonText: 'Agregar servicio',
+                cancelButtonText: 'Cancelar',
+                showCancelButton: true,
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)',
+                preConfirm: function() {
+                    const nombre = document.getElementById('nuevoServicioNombre').value.trim();
+                    const km = parseInt(document.getElementById('nuevoServicioKm').value);
+                    const tipo = document.getElementById('nuevoServicioTipo').value;
+                    
+                    if (!nombre) {
+                        Swal.showValidationMessage('Ingresa un nombre para el servicio');
+                        return false;
+                    }
+                    if (isNaN(km) || km <= 0) {
+                        Swal.showValidationMessage('Ingresa un valor válido');
+                        return false;
+                    }
+                    return { nombre: nombre, km: km, tipo: tipo };
+                }
+            }).then(function(result) {
+                if (result.isConfirmed && result.value) {
+                    const id = 'personalizado_' + Date.now();
+                    const nuevoServicio = {
+                        id: id,
+                        nombre: '🛠️ ' + result.value.nombre,
+                        icono: 'tools',
+                        kmRecomendado: result.value.km,
+                        tipo: result.value.tipo,
+                        personalizado: true
+                    };
+                    
+                    // Agregar al array de servicios (solo para este busero)
+                    SERVICIOS_MANTENIMIENTO_BUSERO.push(nuevoServicio);
+                    
+                    // Guardar en Firebase
+                    const data = {
+                        nombre: nuevoServicio.nombre,
+                        kmRecomendado: nuevoServicio.kmRecomendado,
+                        tipo: nuevoServicio.tipo,
+                        personalizado: true,
+                        kmActual: 0,
+                        completado: false
+                    };
+                    
+                    database.ref('mantenimiento_servicios/' + uidActual + '/' + id).set(data).then(function() {
+                        Swal.fire('✅ Servicio agregado', 'El servicio ha sido creado exitosamente', 'success');
+                        cargarMantenimientoBusero(uidActual);
+                    });
+                }
+            });
+        }
+
+        // ========== ACTUALIZAR CONTADORES ==========
+        function actualizarContadoresMantenimientoBusero() {
+            let total = 0, completados = 0, pendientes = 0, evidencias = 0;
+
+            SERVICIOS_MANTENIMIENTO_BUSERO.forEach(function(servicio) {
+                const data = mantenimientoDataBusero[servicio.id] || {};
+                total++;
+                if (data.completado) completados++;
+                else pendientes++;
+                if (data.evidencia) evidencias++;
+            });
+
+            document.getElementById('mantTotalServiciosBusero').textContent = total;
+            document.getElementById('mantCompletadosBusero').textContent = completados;
+            document.getElementById('mantPendientesBusero').textContent = pendientes;
+            document.getElementById('mantEvidenciasBusero').textContent = evidencias;
+        }
+
+        // ========== HISTORIAL DE EVIDENCIAS ==========
+        function cargarHistorialEvidenciasMantenimientoBusero(uid) {
+            const container = document.getElementById('historialEvidenciasMantenimientoBusero');
             if (!container) return;
-            
-            database.ref('historial_mantenimiento/' + uid).orderByChild('fecha').limitToLast(10).once('value').then(function(snapshot) {
+
+            database.ref('mantenimiento_evidencias/' + uid).orderByChild('fecha').limitToLast(10).once('value').then(function(snapshot) {
                 let html = '';
                 const historial = [];
                 
@@ -3074,21 +3338,18 @@ function actualizarDatosVehiculo() {
                 historial.reverse();
                 
                 if (historial.length === 0) {
-                    html = '<div style="text-align:center; padding:20px; color:var(--text-tertiary);">No hay servicios registrados</div>';
+                    html = '<div style="text-align:center; padding:20px; color:var(--text-tertiary);">No hay evidencias registradas</div>';
                 } else {
                     historial.forEach(function(h) {
                         const fecha = h.fecha ? new Date(h.fecha).toLocaleString() : 'N/A';
-                        const km = h.km ? h.km + ' km' : 'N/A';
                         html += `
                             <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--glass-border);">
                                 <div>
                                     <div style="font-weight:600;">${h.servicio || 'Servicio'}</div>
-                                    <div style="font-size:11px; color:var(--text-tertiary);">${fecha} • ${km}</div>
+                                    <div style="font-size:11px; color:var(--text-tertiary);">${fecha} • ${h.km || 0} km</div>
+                                    ${h.comentario ? `<div style="font-size:11px; color:var(--text-secondary);">💬 ${h.comentario}</div>` : ''}
                                 </div>
-                                <div style="display:flex; align-items:center; gap:8px;">
-                                    <span style="font-size:11px; color:var(--success);">✅ Realizado</span>
-                                    ${h.foto ? `<button class="btn-outline" onclick="verFotoHistorialBusero('${h.foto}')" style="padding:4px 8px; font-size:9px; border-radius:15px;">📸</button>` : ''}
-                                </div>
+                                ${h.evidencia ? `<button class="btn-outline" onclick="verEvidenciaHistorialMantenimientoBusero('${h.evidencia}')" style="padding:4px 12px; font-size:10px; border-radius:15px;">📸 Ver</button>` : ''}
                             </div>
                         `;
                     });
@@ -3098,10 +3359,10 @@ function actualizarDatosVehiculo() {
             });
         }
 
-        function verFotoHistorialBusero(foto) {
+        function verEvidenciaHistorialMantenimientoBusero(foto) {
             if (!foto) return;
             Swal.fire({
-                title: '📸 Foto del servicio',
+                title: '📸 Evidencia',
                 html: `<img src="${foto}" style="max-width:100%; max-height:400px; border-radius:8px;">`,
                 background: 'var(--card-bg)',
                 color: 'var(--text-primary)',
@@ -3109,6 +3370,18 @@ function actualizarDatosVehiculo() {
             });
         }
 
+        function verReporteMantenimientoBusero() {
+            Swal.fire({
+                title: '📊 Reporte de mantenimiento',
+                text: 'Generando reporte completo de mantenimiento...',
+                icon: 'info',
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)',
+                confirmButtonColor: 'var(--accent)'
+            });
+        }
+
+        // ========== FUNCIONES ANTIGUAS MANTENIDAS POR COMPATIBILIDAD ==========
         function verHistorialMantenimientoBusero() {
             Swal.fire({
                 title: '📜 Historial de mantenimiento',
@@ -3140,34 +3413,9 @@ function actualizarDatosVehiculo() {
             });
         }
 
-                function completarMantenimiento(id) {
-            Swal.fire({
-                title: '¿Completar mantenimiento?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Sí, completar',
-                background: 'var(--card-bg)',
-                color: 'var(--text-primary)'
-            }).then(function(result) {
-                if (result.isConfirmed) {
-                    database.ref('mantenimiento/' + id).update({
-                        completado: true,
-                        fechaCompletado: new Date().toISOString()
-                    }).then(function() {
-                        Swal.fire('✅ Mantenimiento completado', '', 'success');
-                        cargarMantenimiento(uidActual);
-                        
-                        // Notificar al admin
-                        database.ref('admin/notificaciones').push({
-                            tipo: 'mantenimiento',
-                            mensaje: 'El busero ' + (document.getElementById('buseroNombre').textContent || '') + ' completó un servicio',
-                            buseroId: uidActual,
-                            fecha: new Date().toISOString(),
-                            leida: false
-                        });
-                    });
-                }
-            });
+        // Mantener la función vieja para compatibilidad con otros llamados
+        function completarMantenimiento(id) {
+            completarServicioMantenimientoBusero(id);
         }
 
         // ==========================================================
