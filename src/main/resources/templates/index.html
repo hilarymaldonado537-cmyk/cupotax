@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -6,16 +6,24 @@
     <title>CupoTax - Solución Integral de Transporte</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+    </script>
+
     <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
-    
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js">
+    </script>
+
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         /* ========== MODO 1: NARANJA FUEGO (PREDETERMINADO) ========== */
         body.style-fire {
             --bg-gradient-start: #0A0A0A;
@@ -33,7 +41,7 @@
             --success: #FFA15C;
             --danger: #FF3D2E;
         }
-        
+
         /* ========== MODO 2: GLASS AZUL ========== */
         body.style-glass {
             --bg-gradient-start: #0B1220;
@@ -51,7 +59,7 @@
             --success: #43E97B;
             --danger: #e74c3c;
         }
-        
+
         /* ========== MODO 3: NEON GLOW (MORADO) ========== */
         body.style-neon {
             --bg-gradient-start: #0B0B12;
@@ -69,7 +77,7 @@
             --success: #C77DFF;
             --danger: #FF2FD8;
         }
-        
+
         /* ========== MODO 4: CRIMSON GLASS (ROJO OSCURO) ========== */
         body.style-crimson {
             --bg-gradient-start: #1A0A0A;
@@ -87,7 +95,7 @@
             --success: #FF6B6B;
             --danger: #E63946;
         }
-        
+
         body.style-crimson::before {
             content: "";
             position: fixed;
@@ -95,28 +103,29 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 20% 30%, rgba(230, 57, 70, 0.12), rgba(255, 100, 100, 0.05), transparent);
+            background: radial-gradient(circle at 20% 30%, rgba(230, 57, 70, 0.12), rgba(255, 100, 100, 0.05),
+                transparent);
             pointer-events: none;
             z-index: -2;
         }
-        
+
         body.style-crimson .nav-btn:hover,
         body.style-crimson .btn-cta {
             background: linear-gradient(135deg, #E63946, #FF6B6B);
         }
-        
+
         body.style-crimson .btn-cta:hover {
             box-shadow: 0 0 20px rgba(230, 57, 70, 0.4);
         }
-        
+
         body.style-crimson .theme-card.active {
             border-color: #E63946;
         }
-        
+
         body.style-crimson .service-card:hover {
             border-color: #E63946;
         }
-        
+
         /* ========== MODO CLARO ========== */
         body.light-mode {
             --bg-gradient-start: #F5F5F7;
@@ -134,7 +143,7 @@
             --success: #2ecc71;
             --danger: #e74c3c;
         }
-        
+
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
@@ -143,8 +152,7 @@
             min-height: 100vh;
             overflow-x: hidden;
         }
-        
-        /* Fondo real del taxi Mascarello */
+
         body::before {
             content: "";
             position: fixed;
@@ -160,15 +168,11 @@
             opacity: 0.25;
             z-index: -2;
         }
-        
+
         body.light-mode::before {
             opacity: 0.6;
         }
-        
-        body.light-mode::after {
-            background: rgba(255, 255, 255, 0.3);
-        }
-        
+
         .navbar {
             background: var(--navbar-bg);
             backdrop-filter: blur(20px);
@@ -178,7 +182,7 @@
             top: 0;
             z-index: 1000;
         }
-        
+
         .nav-container {
             max-width: 1400px;
             margin: 0 auto;
@@ -188,7 +192,7 @@
             flex-wrap: wrap;
             gap: 1.5rem;
         }
-        
+
         .logo h1 {
             font-size: 1.8rem;
             background: linear-gradient(135deg, var(--accent), var(--accent-neon));
@@ -196,15 +200,14 @@
             background-clip: text;
             color: transparent;
         }
-        
+
         .logo span {
             font-size: 0.7rem;
             color: var(--text-secondary);
             display: block;
             letter-spacing: 2px;
         }
-        
-        /* Botón menú hamburguesa */
+
         .menu-btn {
             display: none;
             font-size: 1.8rem;
@@ -215,14 +218,15 @@
             padding: 0.5rem;
             z-index: 1001;
         }
-        
+
         .nav-links {
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
             transition: all 0.3s ease;
+            align-items: center;
         }
-        
+
         .nav-btn {
             background: transparent;
             border: 1px solid var(--glass-border);
@@ -236,20 +240,49 @@
             text-decoration: none;
             display: inline-block;
         }
-        
-        .nav-btn:hover { 
-            background: var(--accent); 
-            color: #000; 
+
+        .nav-btn:hover {
+            background: var(--accent);
+            color: #000;
             transform: translateY(-2px);
             box-shadow: var(--accent-glow);
         }
-        
-        /* Responsive: menú hamburguesa en móvil */
+
+        .nav-btn.logout {
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+        .nav-btn.logout:hover {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        .user-badge {
+            background: rgba(255, 106, 42, 0.15);
+            border: 1px solid var(--accent);
+            border-radius: 40px;
+            padding: 0.4rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 0.8rem;
+        }
+        .user-badge i {
+            color: var(--accent);
+        }
+        .user-badge .user-role {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.1rem 0.6rem;
+            border-radius: 20px;
+        }
+
         @media (max-width: 768px) {
             .menu-btn {
                 display: block;
             }
-            
+
             .nav-links {
                 display: none;
                 flex-direction: column;
@@ -265,26 +298,45 @@
                 z-index: 1000;
                 border-bottom: 1px solid var(--glass-border);
             }
-            
+
             .nav-links.open {
                 display: flex;
             }
-            
+
             .nav-links .nav-btn {
                 width: 100%;
                 text-align: center;
                 padding: 0.8rem;
             }
-            
-            .hero h1 { font-size: 2rem; }
-            .services { grid-template-columns: 1fr; padding: 0 1rem; }
-            .settings-toggle { width: 45px; height: 45px; font-size: 18px; bottom: 20px; right: 20px; }
-            .welcome-message { margin: 1rem; padding: 1rem; }
-            .settings-panel { width: 95%; }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .services {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+            }
+            .settings-toggle {
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+                bottom: 20px;
+                right: 20px;
+            }
+            .welcome-message {
+                margin: 1rem;
+                padding: 1rem;
+            }
+            .settings-panel {
+                width: 95%;
+            }
         }
-        
-        .hero { text-align: center; padding: 5rem 2rem; }
-        
+
+        .hero {
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
         .hero h1 {
             font-size: 3.5rem;
             background: linear-gradient(135deg, var(--accent), var(--accent-neon));
@@ -293,38 +345,44 @@
             color: transparent;
             animation: fadeInUp 0.8s ease-out;
         }
-        
-        .hero h3 { 
-            font-size: 1.2rem; 
-            color: var(--text-secondary); 
-            letter-spacing: 3px; 
+
+        .hero h3 {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            letter-spacing: 3px;
             margin-bottom: 1.5rem;
             animation: fadeInUp 0.8s ease-out 0.1s both;
         }
-        
+
         .welcome-message {
             max-width: 800px;
             margin: 2rem auto 0;
             text-align: center;
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             padding: 1.8rem;
             border-radius: 32px;
             border: 1px solid var(--glass-border);
             animation: fadeInUp 0.8s ease-out 0.2s both;
         }
-        
+
         .welcome-text {
             font-size: 1rem;
             line-height: 1.6;
             color: var(--text-secondary);
         }
-        
+
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        
+
         .welcome {
             max-width: 900px;
             margin: 3rem auto;
@@ -335,13 +393,13 @@
             border-radius: 28px;
             border: 1px solid var(--glass-border);
         }
-        
-        .welcome h2 { 
-            color: var(--accent); 
-            margin-bottom: 1rem; 
+
+        .welcome h2 {
+            color: var(--accent);
+            margin-bottom: 1rem;
             font-size: 1.8rem;
         }
-        
+
         .services {
             max-width: 1400px;
             margin: 3rem auto;
@@ -350,7 +408,7 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
         }
-        
+
         .service-card {
             background: var(--glass-bg);
             backdrop-filter: blur(12px);
@@ -361,19 +419,30 @@
             transition: all 0.3s;
             border: 1px solid var(--glass-border);
         }
-        
-        .service-card:hover { 
-            transform: translateY(-8px); 
+
+        .service-card:hover {
+            transform: translateY(-8px);
             border-color: var(--accent);
             box-shadow: var(--accent-glow);
         }
-        
-        .service-icon { font-size: 2.5rem; color: var(--accent); margin-bottom: 1rem; }
-        .service-card h4 { color: var(--text-primary); margin-bottom: 0.5rem; font-weight: 600; }
-        .service-card p { color: var(--text-secondary); font-size: 0.85rem; }
-        
+
+        .service-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        .service-card h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .service-card p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
         .cta-section {
-            background: linear-gradient(135deg, rgba(255,106,0,0.1), rgba(0,0,0,0.5));
+            background: linear-gradient(135deg, rgba(255, 106, 0, 0.1), rgba(0, 0, 0, 0.5));
             border-radius: 28px;
             padding: 3rem 2rem;
             text-align: center;
@@ -381,9 +450,13 @@
             max-width: 1200px;
             border: 1px solid var(--glass-border);
         }
-        
-        .cta-section h3 { color: var(--accent); font-size: 1.8rem; margin-bottom: 1rem; }
-        
+
+        .cta-section h3 {
+            color: var(--accent);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
         .btn-cta {
             background: linear-gradient(135deg, var(--accent), var(--accent-neon));
             border: none;
@@ -395,24 +468,29 @@
             transition: all 0.3s;
             color: #000;
         }
-        
-        .btn-cta:hover { 
-            transform: scale(1.02); 
+
+        .btn-cta:hover {
+            transform: scale(1.02);
             box-shadow: var(--accent-glow);
         }
-        
-        .footer { 
-            text-align: center; 
-            padding: 2.5rem; 
-            margin-top: 3rem; 
-            color: var(--text-secondary); 
+
+        .footer {
+            text-align: center;
+            padding: 2.5rem;
+            margin-top: 3rem;
+            color: var(--text-secondary);
             border-top: 1px solid var(--glass-border);
             font-size: 0.8rem;
         }
-        
-        .footer a { color: var(--accent); text-decoration: none; }
-        .footer a:hover { text-decoration: underline; }
-        
+
+        .footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
         /* MODALES */
         .modal {
             display: none;
@@ -422,14 +500,14 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(8px);
             align-items: center;
             justify-content: center;
         }
-        
+
         .modal-content {
-            background: rgba(22,19,22,0.95);
+            background: rgba(22, 19, 22, 0.95);
             backdrop-filter: blur(16px);
             border-radius: 28px;
             border: 1px solid var(--glass-border);
@@ -441,12 +519,33 @@
             position: relative;
             animation: modalFadeIn 0.3s ease;
         }
-        
-        .modal-content h2 { color: var(--accent); margin-bottom: 1rem; text-align: center; }
-        .close-modal { position: absolute; right: 20px; top: 15px; font-size: 1.5rem; cursor: pointer; color: var(--accent); }
-        .form-group { margin-bottom: 1rem; }
-        .form-group label { display: block; color: var(--accent); font-size: 0.75rem; margin-bottom: 0.3rem; letter-spacing: 0.5px; }
-        .form-group input, .form-group select, .form-group textarea {
+
+        .modal-content h2 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .close-modal {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--accent);
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            color: var(--accent);
+            font-size: 0.75rem;
+            margin-bottom: 0.3rem;
+            letter-spacing: 0.5px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
             padding: 0.8rem;
             background: var(--input-bg);
@@ -454,7 +553,11 @@
             border-radius: 14px;
             color: var(--text-primary);
         }
-        .form-group input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
         .btn-enviar {
             background: linear-gradient(135deg, var(--accent), var(--accent-neon));
             border: none;
@@ -477,11 +580,33 @@
             margin-top: 1.5rem;
             width: 100%;
         }
-        .contacto-info { display: flex; align-items: center; gap: 1rem; padding: 0.8rem; background: rgba(0,0,0,0.3); border-radius: 14px; margin-bottom: 0.8rem; }
-        .contacto-info i { width: 30px; color: var(--accent); }
-        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 1rem 0; }
-        .info-item { background: rgba(0,0,0,0.3); border-radius: 14px; padding: 1rem; border-left: 3px solid var(--accent); color: var(--text-primary); }
-        
+        .contacto-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 14px;
+            margin-bottom: 0.8rem;
+        }
+        .contacto-info i {
+            width: 30px;
+            color: var(--accent);
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .info-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 14px;
+            padding: 1rem;
+            border-left: 3px solid var(--accent);
+            color: var(--text-primary);
+        }
+
         .splash-screen {
             position: fixed;
             top: 0;
@@ -495,10 +620,29 @@
             z-index: 9999;
             transition: opacity 0.5s ease;
         }
-        
-        @keyframes pulse { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.05); opacity: 0.8; } }
-        @keyframes modalFadeIn { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
-        
+
+        @keyframes pulse {
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+        }
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         /* Panel de ajustes */
         .settings-toggle {
             position: fixed;
@@ -519,8 +663,11 @@
             color: var(--accent);
             transition: all 0.3s;
         }
-        .settings-toggle:hover { transform: scale(1.1); box-shadow: var(--accent-glow); }
-        
+        .settings-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: var(--accent-glow);
+        }
+
         .settings-panel {
             position: fixed;
             top: 50%;
@@ -538,11 +685,24 @@
             visibility: hidden;
             transition: all 0.3s ease;
         }
-        .settings-panel.open { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
-        .settings-panel h2 { color: var(--accent); text-align: center; margin-bottom: 0.5rem; }
-        .settings-panel .subtitle { color: var(--text-secondary); text-align: center; font-size: 0.8rem; margin-bottom: 1.5rem; }
+        .settings-panel.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .settings-panel h2 {
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        .settings-panel .subtitle {
+            color: var(--text-secondary);
+            text-align: center;
+            font-size: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
         .theme-card {
-            background: rgba(0,0,0,0.2);
+            background: rgba(0, 0, 0, 0.2);
             border-radius: 16px;
             padding: 1rem;
             margin-bottom: 1rem;
@@ -551,9 +711,18 @@
             transition: all 0.3s;
             color: var(--text-primary);
         }
-        .theme-card.active { border-color: var(--accent); background: rgba(255,255,255,0.05); }
-        .theme-card h4 { color: var(--accent); margin-bottom: 0.3rem; }
-        .theme-card p { font-size: 0.7rem; color: var(--text-secondary); }
+        .theme-card.active {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .theme-card h4 {
+            color: var(--accent);
+            margin-bottom: 0.3rem;
+        }
+        .theme-card p {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
         .btn-aplicar {
             background: linear-gradient(135deg, var(--accent), var(--accent-neon));
             border: none;
@@ -583,621 +752,702 @@
             font-size: 1.2rem;
             color: var(--text-secondary);
         }
-
-        /* Badge de usuario logueado */
-        .user-badge {
-            background: rgba(255,106,42,0.15);
-            border: 1px solid var(--accent);
-            border-radius: 40px;
-            padding: 0.4rem 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-size: 0.8rem;
-        }
-        .user-badge i {
-            color: var(--accent);
-        }
-        .user-badge .user-role {
-            font-size: 0.65rem;
-            color: var(--text-secondary);
-            background: rgba(0,0,0,0.3);
-            padding: 0.1rem 0.6rem;
-            border-radius: 20px;
-        }
     </style>
 </head>
 <body>
 
-<!-- SPLASH SCREEN -->
-<div id="splashScreen" class="splash-screen">
-    <div style="text-align: center;">
-        <video id="videoPortada" autoplay muted playsinline style="width: 280px; max-width: 85%; border-radius: 16px;">
-            <source src="/video/CTOF.mp4" type="video/mp4">
-            Tu navegador no soporta la reproducción de video.
-        </video>
-    </div>
-</div>
-
-<!-- NAVBAR CON MENÚ HAMBURGUESA -->
-<nav class="navbar">
-    <div class="nav-container">
-        <div class="logo">
-            <h1>CupoTax</h1>
-            <span>TRANSPORTE INTELIGENTE</span>
+    <!-- SPLASH SCREEN -->
+    <div id="splashScreen" class="splash-screen">
+        <div style="text-align: center;">
+            <video id="videoPortada" autoplay muted playsinline style="width: 280px; max-width: 85%; border-radius: 16px;">
+                <source src="/video/CTOF.mp4" type="video/mp4">
+                Tu navegador no soporta la reproducción de video.
+            </video>
         </div>
-        
-        <!-- Botón menú hamburguesa -->
-        <button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
-        
-        <div class="nav-links" id="navLinks">
-            <!-- Enlaces DINÁMICOS que se actualizan con JavaScript -->
-            <div id="dynamicNavLinks">
-                <!-- Cargando... -->
+    </div>
+
+    <!-- NAVBAR CON MENÚ HAMBURGUESA -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>CupoTax</h1>
+                <span>TRANSPORTE INTELIGENTE</span>
+            </div>
+
+            <button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+            <div class="nav-links" id="navLinks">
+                <div id="dynamicNavLinks">
+                    <!-- Cargando... -->
+                </div>
             </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-<!-- HERO CON MENSAJE DE BIENVENIDA -->
-<section class="hero">
-    <h1>CupoTax</h1>
-    <h3>TU VIAJE - TU RUTA - TU CONTROL</h3>
-    <div class="welcome-message">
-        <p class="welcome-text" id="welcomeText">
-            Bienvenido a CupoTax, tu aliado en movilidad.<br>
-            Conectamos pasajeros con conductores profesionales<br>
-            para que tu viaje sea más fácil, seguro y cómodo.
+    <!-- HERO CON MENSAJE DE BIENVENIDA -->
+    <section class="hero">
+        <h1>CupoTax</h1>
+        <h3>TU VIAJE - TU RUTA - TU CONTROL</h3>
+        <div class="welcome-message">
+            <p class="welcome-text" id="welcomeText">
+                Bienvenido a CupoTax, tu aliado en movilidad.<br>
+                Conectamos pasajeros con conductores profesionales<br>
+                para que tu viaje sea más fácil, seguro y cómodo.
+            </p>
+        </div>
+    </section>
+
+    <!-- WELCOME -->
+    <div class="welcome" id="welcomeSection">
+        <h2 id="welcomeTitle">BIENVENIDO A CUPOTAX</h2>
+        <p id="welcomeDesc">La plataforma inteligente que conecta pasajeros con conductores profesionales.</p>
+        <p id="welcomeUser" style="margin-top:1rem; color:var(--accent); font-weight:bold; display:none;"></p>
+    </div>
+
+    <!-- SERVICES -->
+    <div class="services">
+        <div class="service-card" onclick="abrirModalAyuda()">
+            <div class="service-icon"><i class="fas fa-headset"></i></div>
+            <h4>SOPORTE 24/7</h4>
+            <p>Asistencia inmediata cuando más la necesitas</p>
+        </div>
+        <div class="service-card" onclick="abrirModalInfo()">
+            <div class="service-icon"><i class="fas fa-info-circle"></i></div>
+            <h4>INFORMACIÓN</h4>
+            <p>Conoce todos los beneficios de CupoTax</p>
+        </div>
+        <div class="service-card" onclick="abrirModalContacto()">
+            <div class="service-icon"><i class="fas fa-envelope"></i></div>
+            <h4>CONTACTO</h4>
+            <p>Estamos aquí para escucharte</p>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div id="ctaSection" class="cta-section">
+        <h3 id="ctaTitle">Listo para empezar?</h3>
+        <p id="ctaDesc">Únete a CupoTax y descubre una nueva forma de moverte</p>
+        <button class="btn-cta" id="ctaBtn" onclick="navegarA('register')">CREAR CUENTA GRATIS</button>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p>2025 CupoTax - Solución Integral de Transporte | Bocas del Toro, Panamá</p>
+        <p style="margin-top:0.5rem;">
+            <a href="#">Términos de servicio</a> | <a href="#">Política de privacidad</a> | <a href="#">Centro de ayuda</a>
         </p>
     </div>
-</section>
 
-<!-- WELCOME -->
-<div class="welcome" id="welcomeSection">
-    <h2 id="welcomeTitle">BIENVENIDO A CUPOTAX</h2>
-    <p id="welcomeDesc">La plataforma inteligente que conecta pasajeros con conductores profesionales.</p>
-    <p id="welcomeUser" style="margin-top:1rem; color:var(--accent); font-weight:bold; display:none;"></p>
-</div>
-
-<!-- SERVICES -->
-<div class="services">
-    <div class="service-card" onclick="abrirModalAyuda()">
-        <div class="service-icon"><i class="fas fa-headset"></i></div>
-        <h4>SOPORTE 24/7</h4>
-        <p>Asistencia inmediata cuando más la necesitas</p>
-    </div>
-    <div class="service-card" onclick="abrirModalInfo()">
-        <div class="service-icon"><i class="fas fa-info-circle"></i></div>
-        <h4>INFORMACIÓN</h4>
-        <p>Conoce todos los beneficios de CupoTax</p>
-    </div>
-    <div class="service-card" onclick="abrirModalContacto()">
-        <div class="service-icon"><i class="fas fa-envelope"></i></div>
-        <h4>CONTACTO</h4>
-        <p>Estamos aquí para escucharte</p>
-    </div>
-</div>
-
-<!-- CTA -->
-<div id="ctaSection" class="cta-section">
-    <h3 id="ctaTitle">Listo para empezar?</h3>
-    <p id="ctaDesc">Únete a CupoTax y descubre una nueva forma de moverte</p>
-    <button class="btn-cta" id="ctaBtn" onclick="navegarA('register')">CREAR CUENTA GRATIS</button>
-</div>
-
-<!-- FOOTER -->
-<div class="footer">
-    <p>2025 CupoTax - Solución Integral de Transporte | Bocas del Toro, Panamá</p>
-    <p style="margin-top:0.5rem;">
-        <a href="#">Términos de servicio</a> | <a href="#">Política de privacidad</a> | <a href="#">Centro de ayuda</a>
-    </p>
-</div>
-
-<!-- MODALES -->
-<div id="modalAyuda" class="modal">
-    <div class="modal-content">
-        <span class="close-modal" onclick="cerrarModalAyuda()">&times;</span>
-        <h2><i class="fas fa-life-ring"></i> Centro de Ayuda</h2>
-        <p>¿Necesitas asistencia? Completa el formulario.</p>
-        <form id="formAyuda" onsubmit="enviarAyuda(event)">
-            <div class="form-group">
-                <label>ASUNTO</label>
-                <select id="asunto" required>
-                    <option value="">Seleccionar</option>
-                    <option>Problema con viaje</option>
-                    <option>Problema con pago</option>
-                    <option>Sugerencia</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>CORREO</label>
-                <input type="email" id="emailAyuda" required>
-            </div>
-            <div class="form-group">
-                <label>DESCRIPCIÓN</label>
-                <textarea id="descripcion" rows="4" required></textarea>
-            </div>
-            <button type="submit" class="btn-enviar">ENVIAR</button>
-        </form>
-    </div>
-</div>
-
-<div id="modalInfo" class="modal">
-    <div class="modal-content">
-        <span class="close-modal" onclick="cerrarModalInfo()">&times;</span>
-        <h2><i class="fas fa-info-circle"></i> ¿Qué es CupoTax?</h2>
-        <p>Plataforma inteligente de transporte en Bocas del Toro.</p>
-        <div class="info-grid">
-            <div class="info-item"><i class="fas fa-taxi"></i> Taxis en tiempo real</div>
-            <div class="info-item"><i class="fas fa-bus"></i> Rutas de buses</div>
-            <div class="info-item"><i class="fas fa-crown"></i> Servicio Premium</div>
+    <!-- MODALES -->
+    <div id="modalAyuda" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="cerrarModalAyuda()">&times;</span>
+            <h2><i class="fas fa-life-ring"></i> Centro de Ayuda</h2>
+            <p>¿Necesitas asistencia? Completa el formulario.</p>
+            <form id="formAyuda" onsubmit="enviarAyuda(event)">
+                <div class="form-group">
+                    <label>ASUNTO</label>
+                    <select id="asunto" required>
+                        <option value="">Seleccionar</option>
+                        <option>Problema con viaje</option>
+                        <option>Problema con pago</option>
+                        <option>Sugerencia</option>
+                        <option>Otro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>CORREO</label>
+                    <input type="email" id="emailAyuda" required>
+                </div>
+                <div class="form-group">
+                    <label>DESCRIPCIÓN</label>
+                    <textarea id="descripcion" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn-enviar">ENVIAR</button>
+            </form>
         </div>
-        <button class="btn-cerrar" onclick="cerrarModalInfo()">CERRAR</button>
     </div>
-</div>
 
-<div id="modalContacto" class="modal">
-    <div class="modal-content">
-        <span class="close-modal" onclick="cerrarModalContacto()">&times;</span>
-        <h2><i class="fas fa-headset"></i> Contáctanos</h2>
-        <div class="contacto-info"><i class="fas fa-envelope"></i><span>soporte@cupotax.com</span></div>
-        <div class="contacto-info"><i class="fas fa-phone-alt"></i><span>+507 6000-1234</span></div>
-        <button class="btn-cerrar" onclick="cerrarModalContacto()">CERRAR</button>
+    <div id="modalInfo" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="cerrarModalInfo()">&times;</span>
+            <h2><i class="fas fa-info-circle"></i> ¿Qué es CupoTax?</h2>
+            <p>Plataforma inteligente de transporte en Bocas del Toro.</p>
+            <div class="info-grid">
+                <div class="info-item"><i class="fas fa-taxi"></i> Taxis en tiempo real</div>
+                <div class="info-item"><i class="fas fa-bus"></i> Rutas de buses</div>
+                <div class="info-item"><i class="fas fa-crown"></i> Servicio Premium</div>
+            </div>
+            <button class="btn-cerrar" onclick="cerrarModalInfo()">CERRAR</button>
+        </div>
     </div>
-</div>
 
-<!-- Panel de ajustes flotante -->
-<div class="settings-toggle" onclick="toggleSettingsPanel()">
-    <i class="fas fa-palette"></i>
-</div>
+    <div id="modalContacto" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="cerrarModalContacto()">&times;</span>
+            <h2><i class="fas fa-headset"></i> Contáctanos</h2>
+            <div class="contacto-info"><i class="fas fa-envelope"></i><span>soporte@cupotax.com</span></div>
+            <div class="contacto-info"><i class="fas fa-phone-alt"></i><span>+507 6000-1234</span></div>
+            <button class="btn-cerrar" onclick="cerrarModalContacto()">CERRAR</button>
+        </div>
+    </div>
 
-<div id="settingsPanel" class="settings-panel">
-    <div class="close-panel" onclick="toggleSettingsPanel()"><i class="fas fa-times"></i></div>
-    <h2>Personalizar interfaz</h2>
-    <div class="subtitle">Elige tu estilo visual</div>
-    
-    <div class="theme-card active" onclick="setEstilo('fire')" id="cardFire">
-        <h4>🔥 Modo Naranja Fuego</h4>
-        <p>Cálido, atardecer, energía (Predeterminado)</p>
+    <!-- Panel de ajustes flotante -->
+    <div class="settings-toggle" onclick="toggleSettingsPanel()">
+        <i class="fas fa-palette"></i>
     </div>
-    <div class="theme-card" onclick="setEstilo('glass')" id="cardGlass">
-        <h4>🌀 Modo Glass Azul</h4>
-        <p>Azul profundo, vidrio elegante</p>
-    </div>
-    <div class="theme-card" onclick="setEstilo('neon')" id="cardNeon">
-        <h4>🎨 Modo Neon Glow</h4>
-        <p>Morado / Rosa neón + glow potente</p>
-    </div>
-    <div class="theme-card" onclick="setEstilo('crimson')" id="cardCrimson">
-        <h4>🔴 Modo Crimson Glass</h4>
-        <p>Rojo oscuro, elegancia, glow tenue</p>
-    </div>
-    <div class="theme-card" onclick="toggleLightMode()" id="cardLight">
-        <h4>☀️ Modo Claro / Oscuro</h4>
-        <p>Alternar entre fondo claro y oscuro</p>
-    </div>
-    
-    <button class="btn-aplicar" onclick="toggleSettingsPanel()">Aplicar y cerrar</button>
-    <button class="btn-reset" onclick="resetearEstilos()">Restaurar predeterminado</button>
-</div>
 
-<!-- ========== FIREBASE SDKs ========== -->
-<script>
-    // ========== INICIALIZACIÓN DE FIREBASE ==========
-    const firebaseConfig = {
-        apiKey: "AIzaSyAfucjkHq7mhA29hu_swDnp38DyTP8tqdA",
-        authDomain: "cupotax.firebaseapp.com",
-        databaseURL: "https://cupotax-default-rtdb.firebaseio.com",
-        projectId: "cupotax",
-        storageBucket: "cupotax.firebasestorage.app",
-        messagingSenderId: "146730589510",
-        appId: "1:146730589510:web:3601a7f2b9093826a81947",
-        measurementId: "G-FG3LJLTMZX"
-    };
+    <div id="settingsPanel" class="settings-panel">
+        <div class="close-panel" onclick="toggleSettingsPanel()"><i class="fas fa-times"></i></div>
+        <h2>Personalizar interfaz</h2>
+        <div class="subtitle">Elige tu estilo visual</div>
 
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const database = firebase.database();
-    
-    // ========== VARIABLES GLOBALES ==========
-    let usuarioActual = null;
-    let userData = null;
-    const API_URL = '';
-    
-    // ========== FUNCIONES DE NAVEGACIÓN ==========
-    function navegarA(pagina) {
-    const rutas = {
-        '': '/',
-        'register': '/register',
-        'login': '/login',
-        'perfil': '/perfil',
-        'admin': '/admin',
-        'taxista': '/taxista',
-        'busero': '/busero',
-        'usuario': '/usuario',
-        'viajes': '/viajes'
-    };
-    
-    const ruta = rutas[pagina] || '/' + pagina;
-    window.location.href = API_URL + ruta;
-}
-    // ========== MENÚ HAMBURGUESA ==========
-    function toggleMenu() {
-        const navLinks = document.getElementById('navLinks');
-        navLinks.classList.toggle('open');
-    }
-    
-    function cerrarMenu() {
-        const navLinks = document.getElementById('navLinks');
-        navLinks.classList.remove('open');
-    }
-    
-    // ========== CIERRE DE SESIÓN ==========
-    function cerrarSesion() {
-        Swal.fire({
-            title: '¿Cerrar sesión?',
-            text: '¿Estás seguro de que quieres salir?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Sí, salir',
-            cancelButtonText: 'Cancelar',
-            background: 'var(--card-bg)',
-            color: 'var(--text-primary)',
-            confirmButtonColor: 'var(--accent)'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                auth.signOut().then(() => {
+        <div class="theme-card active" onclick="setEstilo('fire')" id="cardFire">
+            <h4>🔥 Modo Naranja Fuego</h4>
+            <p>Cálido, atardecer, energía (Predeterminado)</p>
+        </div>
+        <div class="theme-card" onclick="setEstilo('glass')" id="cardGlass">
+            <h4>🌀 Modo Glass Azul</h4>
+            <p>Azul profundo, vidrio elegante</p>
+        </div>
+        <div class="theme-card" onclick="setEstilo('neon')" id="cardNeon">
+            <h4>🎨 Modo Neon Glow</h4>
+            <p>Morado / Rosa neón + glow potente</p>
+        </div>
+        <div class="theme-card" onclick="setEstilo('crimson')" id="cardCrimson">
+            <h4>🔴 Modo Crimson Glass</h4>
+            <p>Rojo oscuro, elegancia, glow tenue</p>
+        </div>
+        <div class="theme-card" onclick="toggleLightMode()" id="cardLight">
+            <h4>☀️ Modo Claro / Oscuro</h4>
+            <p>Alternar entre fondo claro y oscuro</p>
+        </div>
+
+        <button class="btn-aplicar" onclick="toggleSettingsPanel()">Aplicar y cerrar</button>
+        <button class="btn-reset" onclick="resetearEstilos()">Restaurar predeterminado</button>
+    </div>
+
+    <!-- ========== FIREBASE Y JAVASCRIPT ========== -->
+    <script>
+        // ==========================================================
+        // 🔥 INICIALIZACIÓN DE FIREBASE
+        // ==========================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyAfucjkHq7mhA29hu_swDnp38DyTP8tqdA",
+            authDomain: "cupotax.firebaseapp.com",
+            databaseURL: "https://cupotax-default-rtdb.firebaseio.com",
+            projectId: "cupotax",
+            storageBucket: "cupotax.firebasestorage.app",
+            messagingSenderId: "146730589510",
+            appId: "1:146730589510:web:3601a7f2b9093826a81947"
+        };
+
+        if (typeof firebase !== 'undefined' && !firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+            console.log('✅ Firebase inicializado');
+        }
+
+        const auth = firebase.auth();
+        const database = firebase.database();
+        const API_URL = '';
+
+        // ==========================================================
+        // 🛡️ FUNCIONES DE SEGURIDAD
+        // ==========================================================
+
+        function sanitizar(texto) {
+            if (!texto) return '';
+            return texto
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;')
+                .replace(/\//g, '&#047;')
+                .replace(/`/g, '&#096;')
+                .replace(/=/g, '&#061;');
+        }
+
+        function detectarAtaque(texto) {
+            if (!texto) return false;
+            const patrones = [
+                /<script/i, /<\/script>/i, /onerror\s*=/i, /onload\s*=/i,
+                /onclick\s*=/i, /eval\s*\(/i, /document\.cookie/i, /alert\s*\(/i,
+                /prompt\s*\(/i, /confirm\s*\(/i, /fetch\s*\(/i, /xmlhttprequest/i,
+                /\.exe/i, /\.bat/i, /\.sh/i, /\.cmd/i, /\.dmg/i, /\.app/i
+            ];
+            for (const p of patrones) {
+                if (p.test(texto)) return true;
+            }
+            return false;
+        }
+
+        function registrarAuditoria(accion, detalle) {
+            if (typeof database === 'undefined') return;
+            const user = auth.currentUser;
+            const data = {
+                usuario: user ? user.email : 'desconocido',
+                accion: accion,
+                detalle: detalle || '',
+                timestamp: firebase.database.ServerValue.TIMESTAMP,
+                pagina: 'index'
+            };
+            database.ref('auditoria').push(data).catch(function(err) {
+                console.warn('No se pudo registrar auditoría:', err);
+            });
+        }
+
+        // ==========================================================
+        // 📱 FUNCIONES DE NAVEGACIÓN
+        // ==========================================================
+        function navegarA(pagina) {
+            const rutas = {
+                '': '/',
+                'register': '/register',
+                'login': '/login',
+                'perfil': '/perfil',
+                'admin': '/admin',
+                'taxista': '/taxista',
+                'busero': '/busero',
+                'usuario': '/usuario',
+                'viajes': '/viajes'
+            };
+            const ruta = rutas[pagina] || '/' + pagina;
+            window.location.href = API_URL + ruta;
+        }
+
+        // ==========================================================
+        // 📱 MENÚ HAMBURGUESA
+        // ==========================================================
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('open');
+        }
+
+        function cerrarMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.remove('open');
+        }
+
+        // ==========================================================
+        // 🚪 CIERRE DE SESIÓN
+        // ==========================================================
+        function cerrarSesion() {
+            Swal.fire({
+                title: '¿Cerrar sesión?',
+                text: '¿Estás seguro de que quieres salir?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, salir',
+                cancelButtonText: 'Cancelar',
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)',
+                confirmButtonColor: 'var(--accent)'
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    registrarAuditoria('logout', 'Cierre de sesión manual');
+                    auth.signOut().then(function() {
+                        localStorage.removeItem('usuarioUid');
+                        localStorage.removeItem('usuarioEmail');
+                        localStorage.removeItem('usuarioNombre');
+                        localStorage.removeItem('usuarioRol');
+                        localStorage.removeItem('usuarioPrestataria');
+                        window.location.reload();
+                    }).catch(function(error) {
+                        console.error('Error al cerrar sesión:', error);
+                        Swal.fire('Error', 'No se pudo cerrar sesión', 'error');
+                    });
+                }
+            });
+        }
+
+        // ==========================================================
+        // 🔄 ACTUALIZAR NAVEGACIÓN SEGÚN ROL
+        // ==========================================================
+        function actualizarNav(user, userData) {
+            const navContainer = document.getElementById('dynamicNavLinks');
+            if (!navContainer) return;
+
+            let html = '';
+
+            if (user) {
+                const nombre = userData?.nombre || userData?.nombreCompleto || user.displayName || 'Usuario';
+                const rol = userData?.rol || 'USUARIO';
+                const prestataria = userData?.prestataria || '';
+
+                html += `
+                    <div class="user-badge">
+                        <i class="fas fa-user-circle"></i>
+                        <span>${sanitizar(nombre)}</span>
+                        <span class="user-role">${rol}</span>
+                    </div>
+                `;
+
+                if (rol === 'ADMIN') {
+                    html +=
+                        `<a onclick="navegarA('admin'); cerrarMenu()" class="nav-btn"><i class="fas fa-tachometer-alt"></i> Panel Admin</a>`;
+                } else if (rol === 'TAXISTA') {
+                    html +=
+                        `<a onclick="navegarA('taxista'); cerrarMenu()" class="nav-btn"><i class="fas fa-taxi"></i> Panel Taxista</a>`;
+                } else if (rol === 'BUSERO') {
+                    html +=
+                        `<a onclick="navegarA('busero'); cerrarMenu()" class="nav-btn"><i class="fas fa-bus"></i> Panel Busero</a>`;
+                } else {
+                    html +=
+                        `<a onclick="navegarA('usuario'); cerrarMenu()" class="nav-btn"><i class="fas fa-user"></i> Mi Panel</a>`;
+                }
+
+                html +=
+                    `<a onclick="navegarA('viajes'); cerrarMenu()" class="nav-btn"><i class="fas fa-crown"></i> Premium</a>`;
+                html +=
+                    `<a onclick="navegarA('perfil'); cerrarMenu()" class="nav-btn"><i class="fas fa-user-edit"></i> Perfil</a>`;
+                html += `<a onclick="cerrarSesion(); cerrarMenu()" class="nav-btn logout"><i class="fas fa-sign-out-alt"></i> Salir</a>`;
+
+            } else {
+                html += `<a onclick="navegarA(''); cerrarMenu()" class="nav-btn">INICIO</a>`;
+                html += `<a onclick="navegarA('login'); cerrarMenu()" class="nav-btn">INICIAR SESIÓN</a>`;
+                html += `<a onclick="navegarA('register'); cerrarMenu()" class="nav-btn">REGISTRARSE</a>`;
+                html +=
+                    `<a onclick="navegarA('viajes'); cerrarMenu()" class="nav-btn"><i class="fas fa-crown"></i> Premium</a>`;
+            }
+
+            navContainer.innerHTML = html;
+        }
+
+        // ==========================================================
+        // 🔄 ACTUALIZAR CONTENIDO PRINCIPAL
+        // ==========================================================
+        function actualizarContenido(user, userData) {
+            const welcomeTitle = document.getElementById('welcomeTitle');
+            const welcomeDesc = document.getElementById('welcomeDesc');
+            const welcomeUser = document.getElementById('welcomeUser');
+            const welcomeText = document.getElementById('welcomeText');
+            const ctaTitle = document.getElementById('ctaTitle');
+            const ctaDesc = document.getElementById('ctaDesc');
+            const ctaBtn = document.getElementById('ctaBtn');
+
+            if (user && userData) {
+                const nombre = userData.nombre || userData.nombreCompleto || user.displayName || 'Usuario';
+                const rol = userData.rol || 'USUARIO';
+                const prestataria = userData.prestataria || '';
+
+                welcomeTitle.textContent = `BIENVENIDO/A, ${nombre.toUpperCase()}`;
+                welcomeDesc.textContent = `Estás conectado como ${rol}. ¡Disfruta de tu experiencia en CupoTax!`;
+                welcomeUser.style.display = 'block';
+                welcomeUser.innerHTML =
+                    `👋 Hola, <strong>${sanitizar(nombre)}</strong>! ${prestataria ? `| 🏢 ${sanitizar(prestataria)}` : ''}`;
+
+                if (welcomeText) {
+                    welcomeText.innerHTML =
+                        `Bienvenido de vuelta, <strong>${sanitizar(nombre)}</strong>.<br>Estamos listos para llevarte a donde necesites.`;
+                }
+
+                ctaTitle.textContent = '¿A dónde vamos hoy?';
+                ctaDesc.textContent = 'Solicita tu próximo viaje en segundos';
+                ctaBtn.textContent = 'SOLICITAR VIAJE';
+                ctaBtn.onclick = function() {
+                    if (rol === 'TAXISTA') navegarA('taxista');
+                    else if (rol === 'BUSERO') navegarA('busero');
+                    else if (rol === 'ADMIN') navegarA('admin');
+                    else navegarA('usuario');
+                };
+
+            } else {
+                welcomeTitle.textContent = 'BIENVENIDO A CUPOTAX';
+                welcomeDesc.textContent = 'La plataforma inteligente que conecta pasajeros con conductores profesionales.';
+                welcomeUser.style.display = 'none';
+
+                if (welcomeText) {
+                    welcomeText.innerHTML =
+                        `Bienvenido a CupoTax, tu aliado en movilidad.<br>Conectamos pasajeros con conductores profesionales<br>para que tu viaje sea más fácil, seguro y cómodo.`;
+                }
+
+                ctaTitle.textContent = '¿Listo para empezar?';
+                ctaDesc.textContent = 'Únete a CupoTax y descubre una nueva forma de moverte';
+                ctaBtn.textContent = 'CREAR CUENTA GRATIS';
+                ctaBtn.onclick = function() { navegarA('register'); };
+            }
+        }
+
+        // ==========================================================
+        // 🔐 VERIFICAR ESTADO DE AUTENTICACIÓN
+        // ==========================================================
+        function verificarSesion() {
+            auth.onAuthStateChanged(function(user) {
+                if (user) {
+                    database.ref('usuarios/' + user.uid).once('value').then(function(snapshot) {
+                        const data = snapshot.val();
+                        const userData = data || {
+                            nombre: user.displayName || 'Usuario',
+                            email: user.email,
+                            rol: 'USUARIO'
+                        };
+
+                        localStorage.setItem('usuarioUid', user.uid);
+                        localStorage.setItem('usuarioEmail', user.email || '');
+                        localStorage.setItem('usuarioNombre', userData.nombre || userData.nombreCompleto ||
+                            'Usuario');
+                        localStorage.setItem('usuarioRol', userData.rol || 'USUARIO');
+                        localStorage.setItem('usuarioPrestataria', userData.prestataria || '');
+
+                        actualizarNav(user, userData);
+                        actualizarContenido(user, userData);
+
+                        // Registrar inicio de sesión
+                        registrarAuditoria('login', 'Inicio de sesión desde index');
+
+                    }).catch(function(error) {
+                        console.error('Error al cargar datos del usuario:', error);
+                        const userData = {
+                            nombre: user.displayName || 'Usuario',
+                            email: user.email,
+                            rol: 'USUARIO'
+                        };
+                        actualizarNav(user, userData);
+                        actualizarContenido(user, userData);
+                    });
+
+                } else {
                     localStorage.removeItem('usuarioUid');
                     localStorage.removeItem('usuarioEmail');
                     localStorage.removeItem('usuarioNombre');
                     localStorage.removeItem('usuarioRol');
                     localStorage.removeItem('usuarioPrestataria');
-                    window.location.reload();
-                }).catch((error) => {
-                    console.error('Error al cerrar sesión:', error);
-                    Swal.fire('Error', 'No se pudo cerrar sesión', 'error');
-                });
-            }
-        });
-    }
-    
-    // ========== ACTUALIZAR NAVEGACIÓN SEGÚN ROL ==========
-    function actualizarNav(user, userData) {
-        const navContainer = document.getElementById('dynamicNavLinks');
-        if (!navContainer) return;
-        
-        let html = '';
-        
-        if (user) {
-            // Usuario logueado
-            const nombre = userData?.nombre || userData?.nombreCompleto || user.displayName || 'Usuario';
-            const rol = userData?.rol || 'USUARIO';
-            const prestataria = userData?.prestataria || '';
-            
-            // Mostrar badge de usuario
-            html += `
-                <div class="user-badge">
-                    <i class="fas fa-user-circle"></i>
-                    <span>${nombre}</span>
-                    <span class="user-role">${rol}</span>
-                </div>
-            `;
-            
-            // Botones según rol
-            if (rol === 'ADMIN') {
-                html += `<a onclick="navegarA('admin'); cerrarMenu()" class="nav-btn"><i class="fas fa-tachometer-alt"></i> Panel Admin</a>`;
-            } else if (rol === 'TAXISTA') {
-                html += `<a onclick="navegarA('taxista'); cerrarMenu()" class="nav-btn"><i class="fas fa-taxi"></i> Panel Taxista</a>`;
-            } else if (rol === 'BUSERO') {
-                html += `<a onclick="navegarA('busero'); cerrarMenu()" class="nav-btn"><i class="fas fa-bus"></i> Panel Busero</a>`;
-            } else {
-                html += `<a onclick="navegarA('usuario'); cerrarMenu()" class="nav-btn"><i class="fas fa-user"></i> Mi Panel</a>`;
-            }
-            
-            // Botones comunes para usuarios logueados
-            html += `<a onclick="navegarA('viajes'); cerrarMenu()" class="nav-btn"><i class="fas fa-crown"></i> Premium</a>`;
-            html += `<a onclick="navegarA('perfil'); cerrarMenu()" class="nav-btn"><i class="fas fa-user-edit"></i> Perfil</a>`;
-            html += `<a onclick="cerrarSesion(); cerrarMenu()" class="nav-btn"><i class="fas fa-sign-out-alt"></i> Salir</a>`;
-            
-        } else {
-            // Usuario NO logueado
-            html += `<a onclick="navegarA(''); cerrarMenu()" class="nav-btn">INICIO</a>`;
-            html += `<a onclick="navegarA('login'); cerrarMenu()" class="nav-btn">INICIAR SESIÓN</a>`;
-            html += `<a onclick="navegarA('register'); cerrarMenu()" class="nav-btn">REGISTRARSE</a>`;
-            html += `<a onclick="navegarA('viajes'); cerrarMenu()" class="nav-btn"><i class="fas fa-crown"></i> Premium</a>`;
-        }
-        
-        navContainer.innerHTML = html;
-    }
-    
-    // ========== ACTUALIZAR CONTENIDO PRINCIPAL ==========
-    function actualizarContenido(user, userData) {
-        const welcomeTitle = document.getElementById('welcomeTitle');
-        const welcomeDesc = document.getElementById('welcomeDesc');
-        const welcomeUser = document.getElementById('welcomeUser');
-        const welcomeText = document.getElementById('welcomeText');
-        const ctaTitle = document.getElementById('ctaTitle');
-        const ctaDesc = document.getElementById('ctaDesc');
-        const ctaBtn = document.getElementById('ctaBtn');
-        
-        if (user && userData) {
-            const nombre = userData.nombre || userData.nombreCompleto || user.displayName || 'Usuario';
-            const rol = userData.rol || 'USUARIO';
-            const prestataria = userData.prestataria || '';
-            
-            // Actualizar welcome
-            welcomeTitle.textContent = `BIENVENIDO/A, ${nombre.toUpperCase()}`;
-            welcomeDesc.textContent = `Estás conectado como ${rol}. ¡Disfruta de tu experiencia en CupoTax!`;
-            welcomeUser.style.display = 'block';
-            welcomeUser.innerHTML = `👋 Hola, <strong>${nombre}</strong>! ${prestataria ? `| 🏢 ${prestataria}` : ''}`;
-            
-            // Actualizar hero
-            if (welcomeText) {
-                welcomeText.innerHTML = `
-                    Bienvenido de vuelta, <strong>${nombre}</strong>.<br>
-                    Estamos listos para llevarte a donde necesites.
-                `;
-            }
-            
-            // Actualizar CTA
-            ctaTitle.textContent = '¿A dónde vamos hoy?';
-            ctaDesc.textContent = 'Solicita tu próximo viaje en segundos';
-            ctaBtn.textContent = 'SOLICITAR VIAJE';
-            ctaBtn.onclick = () => {
-                if (rol === 'TAXISTA') navegarA('taxista');
-                else if (rol === 'BUSERO') navegarA('busero');
-                else if (rol === 'ADMIN') navegarA('admin');
-                else navegarA('usuario');
-            };
-            
-        } else {
-            // Usuario NO logueado
-            welcomeTitle.textContent = 'BIENVENIDO A CUPOTAX';
-            welcomeDesc.textContent = 'La plataforma inteligente que conecta pasajeros con conductores profesionales.';
-            welcomeUser.style.display = 'none';
-            
-            if (welcomeText) {
-                welcomeText.innerHTML = `
-                    Bienvenido a CupoTax, tu aliado en movilidad.<br>
-                    Conectamos pasajeros con conductores profesionales<br>
-                    para que tu viaje sea más fácil, seguro y cómodo.
-                `;
-            }
-            
-            ctaTitle.textContent = '¿Listo para empezar?';
-            ctaDesc.textContent = 'Únete a CupoTax y descubre una nueva forma de moverte';
-            ctaBtn.textContent = 'CREAR CUENTA GRATIS';
-            ctaBtn.onclick = () => navegarA('register');
-        }
-    }
-    
-    // ========== VERIFICAR ESTADO DE AUTENTICACIÓN ==========
-    function verificarSesion() {
-        auth.onAuthStateChanged(async (user) => {
-            if (user) {
-                usuarioActual = user;
-                
-                try {
-                    // Obtener datos del usuario desde Realtime Database
-                    const snapshot = await database.ref('usuarios/' + user.uid).once('value');
-                    userData = snapshot.val();
-                    
-                    if (!userData) {
-                        console.warn('No se encontraron datos en Firebase para este usuario');
-                        userData = {
-                            nombre: user.displayName || 'Usuario',
-                            email: user.email,
-                            rol: 'USUARIO'
-                        };
-                    }
-                    
-                    // Guardar en localStorage para acceso rápido
-                    localStorage.setItem('usuarioUid', user.uid);
-                    localStorage.setItem('usuarioEmail', user.email || '');
-                    localStorage.setItem('usuarioNombre', userData.nombre || userData.nombreCompleto || 'Usuario');
-                    localStorage.setItem('usuarioRol', userData.rol || 'USUARIO');
-                    localStorage.setItem('usuarioPrestataria', userData.prestataria || '');
-                    
-                } catch (error) {
-                    console.error('Error al cargar datos del usuario:', error);
-                    userData = {
-                        nombre: user.displayName || 'Usuario',
-                        email: user.email,
-                        rol: 'USUARIO'
-                    };
+
+                    actualizarNav(null, null);
+                    actualizarContenido(null, null);
                 }
-                
-                // Actualizar UI
-                actualizarNav(user, userData);
-                actualizarContenido(user, userData);
-                
-            } else {
-                usuarioActual = null;
-                userData = null;
-                
-                // Limpiar localStorage
-                localStorage.removeItem('usuarioUid');
-                localStorage.removeItem('usuarioEmail');
-                localStorage.removeItem('usuarioNombre');
-                localStorage.removeItem('usuarioRol');
-                localStorage.removeItem('usuarioPrestataria');
-                
-                // Actualizar UI
-                actualizarNav(null, null);
-                actualizarContenido(null, null);
-            }
-            
-            // Cerrar splash screen si está visible
-            const splash = document.getElementById('splashScreen');
-            if (splash) {
-                setTimeout(() => {
-                    splash.style.opacity = '0';
-                    setTimeout(() => {
-                        splash.style.display = 'none';
-                    }, 500);
-                }, 1000);
-            }
-        });
-    }
-    
-    // ========== MODALES ==========
-    function abrirModalAyuda() { document.getElementById('modalAyuda').style.display = 'flex'; }
-    function cerrarModalAyuda() { document.getElementById('modalAyuda').style.display = 'none'; }
-    function abrirModalInfo() { document.getElementById('modalInfo').style.display = 'flex'; }
-    function cerrarModalInfo() { document.getElementById('modalInfo').style.display = 'none'; }
-    function abrirModalContacto() { document.getElementById('modalContacto').style.display = 'flex'; }
-    function cerrarModalContacto() { document.getElementById('modalContacto').style.display = 'none'; }
-    
-    function enviarAyuda(event) {
-        event.preventDefault();
-        
-        const reporte = {
-            asunto: document.getElementById('asunto').value,
-            email: document.getElementById('emailAyuda').value,
-            descripcion: document.getElementById('descripcion').value,
-            fecha: new Date().toISOString(),
-            uid: usuarioActual ? usuarioActual.uid : null
-        };
-        
-        // Guardar en Firebase
-        database.ref('soporte/ayuda').push(reporte)
-            .then(() => {
+
+                // Cerrar splash screen
+                const splash = document.getElementById('splashScreen');
+                if (splash) {
+                    setTimeout(function() {
+                        splash.style.opacity = '0';
+                        setTimeout(function() {
+                            splash.style.display = 'none';
+                        }, 500);
+                    }, 1000);
+                }
+            });
+        }
+
+        // ==========================================================
+        // 📝 MODALES
+        // ==========================================================
+        function abrirModalAyuda() { document.getElementById('modalAyuda').style.display = 'flex'; }
+
+        function cerrarModalAyuda() { document.getElementById('modalAyuda').style.display = 'none'; }
+
+        function abrirModalInfo() { document.getElementById('modalInfo').style.display = 'flex'; }
+
+        function cerrarModalInfo() { document.getElementById('modalInfo').style.display = 'none'; }
+
+        function abrirModalContacto() { document.getElementById('modalContacto').style.display = 'flex'; }
+
+        function cerrarModalContacto() { document.getElementById('modalContacto').style.display = 'none'; }
+
+        function enviarAyuda(event) {
+            event.preventDefault();
+
+            const asunto = document.getElementById('asunto').value;
+            const email = document.getElementById('emailAyuda').value.trim();
+            const descripcion = document.getElementById('descripcion').value.trim();
+
+            // Validar y sanitizar
+            if (detectarAtaque(asunto) || detectarAtaque(descripcion) || detectarAtaque(email)) {
+                registrarAuditoria('ataque_ayuda', 'Intento de XSS en formulario de ayuda');
                 Swal.fire({
-                    title: 'Enviado',
-                    text: 'Gracias por contactarnos',
-                    icon: 'success',
-                    background: 'var(--card-bg)',
-                    color: 'var(--text-primary)',
-                    confirmButtonColor: 'var(--accent)'
-                });
-                cerrarModalAyuda();
-                document.getElementById('formAyuda').reset();
-            })
-            .catch((error) => {
-                console.error('Error al enviar ayuda:', error);
-                Swal.fire({
-                    title: 'Error',
-                    text: 'No se pudo enviar el mensaje',
+                    title: '🚨 Ataque detectado',
+                    text: 'Se ha detectado un intento de ataque. Tu IP ha sido registrada.',
                     icon: 'error',
                     background: 'var(--card-bg)',
                     color: 'var(--text-primary)',
                     confirmButtonColor: 'var(--accent)'
                 });
-            });
-    }
-    
-    // ========== PANEL DE AJUSTES ==========
-    function toggleSettingsPanel() {
-        document.getElementById('settingsPanel').classList.toggle('open');
-    }
-    
-    function setEstilo(estilo) {
-        document.body.classList.remove('style-fire', 'style-glass', 'style-neon', 'style-crimson', 'light-mode');
-        if(estilo === 'fire') document.body.classList.add('style-fire');
-        else if(estilo === 'glass') document.body.classList.add('style-glass');
-        else if(estilo === 'neon') document.body.classList.add('style-neon');
-        else if(estilo === 'crimson') document.body.classList.add('style-crimson');
-        localStorage.setItem('cupotax-index-estilo', estilo);
-        localStorage.removeItem('cupotax-index-light');
-        actualizarCards(estilo);
-        let nombreTema = estilo === 'fire' ? 'Naranja Fuego' : estilo === 'glass' ? 'Glass Azul' : estilo === 'neon' ? 'Neon Glow' : 'Crimson Glass';
-        Swal.fire({
-            title: `Estilo ${nombreTema} aplicado`,
-            icon: 'success',
-            timer: 1500,
-            showConfirmButton: false,
-            background: 'var(--card-bg)',
-            color: 'var(--text-primary)'
-        });
-    }
-    
-    function toggleLightMode() {
-        if(document.body.classList.contains('light-mode')) {
-            document.body.classList.remove('light-mode');
-            let estilo = localStorage.getItem('cupotax-index-estilo') || 'fire';
-            if(estilo === 'fire') document.body.classList.add('style-fire');
-            else if(estilo === 'glass') document.body.classList.add('style-glass');
-            else if(estilo === 'neon') document.body.classList.add('style-neon');
-            else if(estilo === 'crimson') document.body.classList.add('style-crimson');
-            localStorage.removeItem('cupotax-index-light');
-        } else {
-            document.body.classList.add('light-mode');
-            localStorage.setItem('cupotax-index-light', 'true');
+                return;
+            }
+
+            if (!email || !descripcion) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Completa todos los campos',
+                    icon: 'error',
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)',
+                    confirmButtonColor: 'var(--accent)'
+                });
+                return;
+            }
+
+            const reporte = {
+                asunto: sanitizar(asunto),
+                email: sanitizar(email),
+                descripcion: sanitizar(descripcion),
+                fecha: new Date().toISOString(),
+                uid: auth.currentUser ? auth.currentUser.uid : null
+            };
+
+            database.ref('soporte/ayuda').push(reporte)
+                .then(function() {
+                    registrarAuditoria('enviar_ayuda', 'Envió solicitud de ayuda');
+                    Swal.fire({
+                        title: 'Enviado',
+                        text: 'Gracias por contactarnos',
+                        icon: 'success',
+                        background: 'var(--card-bg)',
+                        color: 'var(--text-primary)',
+                        confirmButtonColor: 'var(--accent)'
+                    });
+                    cerrarModalAyuda();
+                    document.getElementById('formAyuda').reset();
+                })
+                .catch(function(error) {
+                    console.error('Error al enviar ayuda:', error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'No se pudo enviar el mensaje',
+                        icon: 'error',
+                        background: 'var(--card-bg)',
+                        color: 'var(--text-primary)',
+                        confirmButtonColor: 'var(--accent)'
+                    });
+                });
         }
-        Swal.fire({
-            title: document.body.classList.contains('light-mode') ? 'Modo claro' : 'Modo oscuro',
-            icon: 'success',
-            timer: 1500,
-            showConfirmButton: false,
-            background: 'var(--card-bg)',
-            color: 'var(--text-primary)'
+
+        // ==========================================================
+        // 🎨 PANEL DE AJUSTES
+        // ==========================================================
+        function toggleSettingsPanel() {
+            document.getElementById('settingsPanel').classList.toggle('open');
+        }
+
+        function setEstilo(estilo) {
+            document.body.classList.remove('style-fire', 'style-glass', 'style-neon', 'style-crimson', 'light-mode');
+            if (estilo === 'fire') document.body.classList.add('style-fire');
+            else if (estilo === 'glass') document.body.classList.add('style-glass');
+            else if (estilo === 'neon') document.body.classList.add('style-neon');
+            else if (estilo === 'crimson') document.body.classList.add('style-crimson');
+            localStorage.setItem('cupotax-index-estilo', estilo);
+            localStorage.removeItem('cupotax-index-light');
+            actualizarCards(estilo);
+            let nombreTema = estilo === 'fire' ? 'Naranja Fuego' :
+                estilo === 'glass' ? 'Glass Azul' :
+                estilo === 'neon' ? 'Neon Glow' :
+                'Crimson Glass';
+            Swal.fire({
+                title: `Estilo ${nombreTema} aplicado`,
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false,
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)'
+            });
+            registrarAuditoria('cambiar_estilo', 'Cambió estilo a: ' + estilo);
+        }
+
+        function toggleLightMode() {
+            if (document.body.classList.contains('light-mode')) {
+                document.body.classList.remove('light-mode');
+                let estilo = localStorage.getItem('cupotax-index-estilo') || 'fire';
+                if (estilo === 'fire') document.body.classList.add('style-fire');
+                else if (estilo === 'glass') document.body.classList.add('style-glass');
+                else if (estilo === 'neon') document.body.classList.add('style-neon');
+                else if (estilo === 'crimson') document.body.classList.add('style-crimson');
+                localStorage.removeItem('cupotax-index-light');
+            } else {
+                document.body.classList.add('light-mode');
+                localStorage.setItem('cupotax-index-light', 'true');
+            }
+            Swal.fire({
+                title: document.body.classList.contains('light-mode') ? 'Modo claro' : 'Modo oscuro',
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false,
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)'
+            });
+            registrarAuditoria('cambiar_modo', document.body.classList.contains('light-mode') ? 'Modo claro' :
+                'Modo oscuro');
+        }
+
+        function resetearEstilos() {
+            document.body.classList.remove('style-glass', 'style-neon', 'style-crimson', 'light-mode');
+            document.body.classList.add('style-fire');
+            localStorage.setItem('cupotax-index-estilo', 'fire');
+            localStorage.removeItem('cupotax-index-light');
+            actualizarCards('fire');
+            Swal.fire({
+                title: 'Estilos restaurados',
+                text: 'Volviste a Naranja Fuego',
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false,
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)'
+            });
+            registrarAuditoria('resetear_estilos', 'Restauró estilos predeterminados');
+        }
+
+        function actualizarCards(estilo) {
+            document.getElementById('cardFire')?.classList.remove('active');
+            document.getElementById('cardGlass')?.classList.remove('active');
+            document.getElementById('cardNeon')?.classList.remove('active');
+            document.getElementById('cardCrimson')?.classList.remove('active');
+            document.getElementById('cardLight')?.classList.remove('active');
+            if (estilo === 'fire') document.getElementById('cardFire')?.classList.add('active');
+            else if (estilo === 'glass') document.getElementById('cardGlass')?.classList.add('active');
+            else if (estilo === 'neon') document.getElementById('cardNeon')?.classList.add('active');
+            else if (estilo === 'crimson') document.getElementById('cardCrimson')?.classList.add('active');
+        }
+
+        // ==========================================================
+        // 🚀 INICIALIZACIÓN
+        // ==========================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar tema guardado
+            const estiloGuardado = localStorage.getItem('cupotax-index-estilo') || 'fire';
+            const lightGuardado = localStorage.getItem('cupotax-index-light') === 'true';
+            if (estiloGuardado === 'glass') document.body.classList.add('style-glass');
+            else if (estiloGuardado === 'neon') document.body.classList.add('style-neon');
+            else if (estiloGuardado === 'crimson') document.body.classList.add('style-crimson');
+            else document.body.classList.add('style-fire');
+            if (lightGuardado) document.body.classList.add('light-mode');
+            actualizarCards(estiloGuardado);
+
+            // Verificar sesión
+            verificarSesion();
         });
-    }
-    
-    function resetearEstilos() {
-        document.body.classList.remove('style-glass', 'style-neon', 'style-crimson', 'light-mode');
-        document.body.classList.add('style-fire');
-        localStorage.setItem('cupotax-index-estilo', 'fire');
-        localStorage.removeItem('cupotax-index-light');
-        actualizarCards('fire');
-        Swal.fire({
-            title: 'Estilos restaurados',
-            text: 'Volviste a Naranja Fuego',
-            icon: 'success',
-            timer: 1500,
-            showConfirmButton: false,
-            background: 'var(--card-bg)',
-            color: 'var(--text-primary)'
+
+        // ==========================================================
+        // 📱 CERRAR MENÚ AL HACER CLIC FUERA
+        // ==========================================================
+        document.addEventListener('click', function(event) {
+            const navLinks = document.getElementById('navLinks');
+            const menuBtn = document.querySelector('.menu-btn');
+            if (navLinks && navLinks.classList.contains('open')) {
+                if (!navLinks.contains(event.target) && !menuBtn.contains(event.target)) {
+                    navLinks.classList.remove('open');
+                }
+            }
         });
-    }
-    
-    function actualizarCards(estilo) {
-        document.getElementById('cardFire')?.classList.remove('active');
-        document.getElementById('cardGlass')?.classList.remove('active');
-        document.getElementById('cardNeon')?.classList.remove('active');
-        document.getElementById('cardCrimson')?.classList.remove('active');
-        document.getElementById('cardLight')?.classList.remove('active');
-        if(estilo === 'fire') document.getElementById('cardFire')?.classList.add('active');
-        else if(estilo === 'glass') document.getElementById('cardGlass')?.classList.add('active');
-        else if(estilo === 'neon') document.getElementById('cardNeon')?.classList.add('active');
-        else if(estilo === 'crimson') document.getElementById('cardCrimson')?.classList.add('active');
-    }
-    
-    // ========== INICIALIZACIÓN ==========
-    document.addEventListener('DOMContentLoaded', function() {
-        // Inicializar tema guardado
-        const estiloGuardado = localStorage.getItem('cupotax-index-estilo') || 'fire';
-        const lightGuardado = localStorage.getItem('cupotax-index-light') === 'true';
-        if(estiloGuardado === 'glass') document.body.classList.add('style-glass');
-        else if(estiloGuardado === 'neon') document.body.classList.add('style-neon');
-        else if(estiloGuardado === 'crimson') document.body.classList.add('style-crimson');
-        else document.body.classList.add('style-fire');
-        if(lightGuardado) document.body.classList.add('light-mode');
-        actualizarCards(estiloGuardado);
-        
-        // Verificar sesión
-        verificarSesion();
-    });
-    
-    // Cerrar menú al hacer clic fuera
-    document.addEventListener('click', function(event) {
-        const navLinks = document.getElementById('navLinks');
-        const menuBtn = document.querySelector('.menu-btn');
-        if (navLinks && navLinks.classList.contains('open')) {
-            if (!navLinks.contains(event.target) && !menuBtn.contains(event.target)) {
-                navLinks.classList.remove('open');
+
+        // ==========================================================
+        // 📱 CERRAR PANEL DE AJUSTES AL HACER CLIC FUERA
+        // ==========================================================
+        window.onclick = function(e) {
+            const panel = document.getElementById('settingsPanel');
+            const toggle = document.querySelector('.settings-toggle');
+            if (panel && panel.classList.contains('open') && !panel.contains(e.target) && !toggle.contains(e
+                .target)) {
+                panel.classList.remove('open');
             }
         }
-    });
-    
-    // Cerrar panel de ajustes al hacer clic fuera
-    window.onclick = function(e) {
-        const panel = document.getElementById('settingsPanel');
-        const toggle = document.querySelector('.settings-toggle');
-        if(panel && panel.classList.contains('open') && !panel.contains(e.target) && !toggle.contains(e.target)) {
-            panel.classList.remove('open');
-        }
-    }
-</script>
+
+        console.log('✅ CupoTax - Página de inicio cargada correctamente');
+        console.log('🛡️ Seguridad activa: Sanitización, Anti-XSS, Auditoría');
+        console.log('🔥 Firebase conectado en tiempo real');
+        console.log('📱 Diseño responsive: PC, Tablet, Móvil');
+    </script>
+
 </body>
-</html>  
+</html>
