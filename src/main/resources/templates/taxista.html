@@ -1274,9 +1274,6 @@
             font-weight: 600;
             transition: all 0.2s;
         }
-        .notificacion-push .notif-accion:hover {
-            transform: scale(1.02);
-        }
         .notif-accion-ver {
             background: var(--accent);
             color: #000;
@@ -1927,14 +1924,15 @@
         </div>
 
         <!-- ==========================================================
-        SECCIÓN SOPORTE
+        SECCIÓN SOPORTE - VERSIÓN MEJORADA (IGUAL QUE ADMIN)
         ========================================================== -->
         <div id="seccion-soporte" class="seccion">
 
+            <!-- ========== HEADER ========== -->
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:24px;">
                 <div style="display:flex; align-items:center; gap:14px;">
                     <div style="width:50px; height:50px; background:var(--gradient-glow); border-radius:14px; display:flex; align-items:center; justify-content:center; box-shadow:var(--accent-glow);">
-                        <i class="fas fa-robot" style="font-size:26px; color:#000;"></i>
+                        <i class="fas fa-headset" style="font-size:26px; color:#000;"></i>
                     </div>
                     <div>
                         <h2 style="font-size:24px; font-weight:700; background:var(--gradient-glow); -webkit-background-clip:text; background-clip:text; color:transparent;">Centro de Soporte Inteligente</h2>
@@ -1954,14 +1952,19 @@
                 </div>
             </div>
 
+            <!-- ========== BANNER DE BIENVENIDA CON ROBOT ========== -->
             <div style="background:var(--glass-bg); backdrop-filter:blur(16px); border:1px solid var(--glass-border); border-radius:24px; padding:24px 32px; margin-bottom:24px; position:relative; overflow:hidden; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;">
+                <!-- Fondo con líneas digitales -->
                 <div style="position:absolute; top:0; left:0; right:0; bottom:0; opacity:0.05; pointer-events:none; overflow:hidden;">
-                    <div style="position:absolute; top:-50%; left:-50%; width:200%; height:200%; background-image: linear-gradient(0deg, transparent 24%, var(--accent) 25%, var(--accent) 26%, transparent 27%, transparent 74%, var(--accent) 75%, var(--accent) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, var(--accent) 25%, var(--accent) 26%, transparent 27%, transparent 74%, var(--accent) 75%, var(--accent) 76%, transparent 77%, transparent); background-size: 60px 60px; animation: gridPulse 8s linear infinite;"></div>
+                    <div style="position:absolute; top:-50%; left:-50%; width:200%; height:200%; background-image: 
+                        linear-gradient(0deg, transparent 24%, var(--accent) 25%, var(--accent) 26%, transparent 27%, transparent 74%, var(--accent) 75%, var(--accent) 76%, transparent 77%, transparent),
+                        linear-gradient(90deg, transparent 24%, var(--accent) 25%, var(--accent) 26%, transparent 27%, transparent 74%, var(--accent) 75%, var(--accent) 76%, transparent 77%, transparent);
+                        background-size: 60px 60px; animation: gridPulse 8s linear infinite;"></div>
                 </div>
 
                 <div style="position:relative; z-index:2; flex:1; min-width:200px;">
                     <div style="font-size:22px; font-weight:700; color:var(--text-primary);">
-                        👋 Hola, <span id="soporteNombreUsuario" style="color:var(--accent);">Cargando...</span>
+                        👋 Hola, <span id="soporteNombreTaxista" style="color:var(--accent);">Cargando...</span>
                     </div>
                     <div style="font-size:14px; color:var(--text-secondary); margin-top:4px;">
                         Te damos la bienvenida al Centro de Soporte
@@ -1976,6 +1979,7 @@
                     </div>
                 </div>
 
+                <!-- ROBOT -->
                 <div style="position:relative; z-index:2; width:130px; height:130px; flex-shrink:0;">
                     <div style="width:100%; height:100%; position:relative;">
                         <div style="position:absolute; inset:-12px; border-radius:50%; background:var(--accent-glow); opacity:0.3; animation:pulseGlow 2s infinite;"></div>
@@ -1989,14 +1993,15 @@
                             </div>
                             <div style="position:absolute; top:-5px; right:-5px; width:12px; height:12px; background:var(--accent); border-radius:50%; box-shadow:0 0 20px var(--accent); opacity:0.6; animation:floatParticle 3s infinite;"></div>
                             <div style="position:absolute; bottom:-5px; left:-5px; width:10px; height:10px; background:var(--accent-neon); border-radius:50%; box-shadow:0 0 15px var(--accent-neon); opacity:0.4; animation:floatParticle 3.5s infinite 0.5s;"></div>
-                            <div style="position:absolute; top:20%; right:-12px; width:8px; height:8px; background:var(--accent); border-radius:50%; box-shadow:0 0 15px var(--accent); opacity:0.3; animation:floatParticle 4s infinite 1s;"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- ========== CHAT CON ADMIN + ASISTENTE IA ========== -->
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px;">
-
+                
+                <!-- CHAT CON ADMINISTRADOR -->
                 <div style="background:var(--glass-bg); backdrop-filter:blur(12px); border:1px solid var(--glass-border); border-radius:20px; overflow:hidden;">
                     <div style="padding:16px 20px; border-bottom:1px solid var(--glass-border); display:flex; justify-content:space-between; align-items:center;">
                         <div style="display:flex; align-items:center; gap:12px;">
@@ -2014,9 +2019,9 @@
                         </button>
                     </div>
 
-                    <div id="chatAdminContainer" style="padding:16px 20px; max-height:300px; overflow-y:auto; min-height:250px;">
+                    <div id="chatAdminContainer" style="padding:16px 20px; max-height:300px; overflow-y:auto; min-height:250px; background:var(--hover-bg);">
                         <div style="text-align:center; font-size:11px; color:var(--text-tertiary); padding:4px 0; margin-bottom:12px;">
-                            Hoy, <span id="fechaActualAdmin"></span>
+                            Hoy, <span id="fechaActualAdminTaxista"></span>
                         </div>
                         <div id="chatAdminMensajes" style="display:flex; flex-direction:column; gap:10px;">
                             <div style="text-align:left;">
@@ -2028,20 +2033,21 @@
                         </div>
                     </div>
 
-                    <div style="padding:12px 16px; border-top:1px solid var(--glass-border); display:flex; gap:10px; align-items:center;">
+                    <div style="padding:12px 16px; border-top:1px solid var(--glass-border); display:flex; gap:10px; align-items:center; background:var(--bg-card);">
                         <button style="background:transparent; border:none; color:var(--text-tertiary); cursor:pointer; font-size:18px; padding:4px;" onclick="adjuntarArchivoAdmin()">
                             <i class="fas fa-paperclip"></i>
                         </button>
                         <button style="background:transparent; border:none; color:var(--text-tertiary); cursor:pointer; font-size:18px; padding:4px;" onclick="abrirEmojisAdmin()">
                             <i class="fas fa-smile"></i>
                         </button>
-                        <input type="text" id="adminMsgInputNuevo" placeholder="Escribe tu mensaje..." style="flex:1; background:var(--bg-input); border:1px solid var(--glass-border); border-radius:30px; padding:10px 16px; color:var(--text-primary); outline:none; font-size:13px;" onkeypress="if(event.key==='Enter') enviarMensajeAdminNuevo()">
-                        <button onclick="enviarMensajeAdminNuevo()" style="width:40px; height:40px; border-radius:50%; background:var(--gradient-glow); border:none; color:#000; font-size:16px; cursor:pointer; box-shadow:var(--accent-glow); transition:all 0.3s; display:flex; align-items:center; justify-content:center;">
+                        <input type="text" id="adminMsgInputTaxista" placeholder="Escribe tu mensaje..." style="flex:1; background:var(--bg-input); border:1px solid var(--glass-border); border-radius:30px; padding:10px 16px; color:var(--text-primary); outline:none; font-size:13px;" onkeypress="if(event.key==='Enter') enviarMensajeAdminTaxista()">
+                        <button onclick="enviarMensajeAdminTaxista()" style="width:40px; height:40px; border-radius:50%; background:var(--gradient-glow); border:none; color:#000; font-size:16px; cursor:pointer; box-shadow:var(--accent-glow); transition:all 0.3s; display:flex; align-items:center; justify-content:center;">
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
                 </div>
 
+                <!-- ASISTENTE IA -->
                 <div style="background:var(--glass-bg); backdrop-filter:blur(12px); border:1px solid var(--glass-border); border-radius:20px; overflow:hidden;">
                     <div style="padding:16px 20px; border-bottom:1px solid var(--glass-border); display:flex; justify-content:space-between; align-items:center;">
                         <div style="display:flex; align-items:center; gap:12px;">
@@ -2059,6 +2065,7 @@
                         </button>
                     </div>
 
+                    <!-- Cerebro holográfico -->
                     <div style="display:flex; justify-content:center; padding:12px 0; position:relative;">
                         <div style="width:80px; height:80px; border-radius:50%; background:var(--glass-bg); border:1px solid var(--accent); box-shadow:var(--accent-glow); display:flex; align-items:center; justify-content:center; position:relative;">
                             <div style="font-size:36px;">🧠</div>
@@ -2067,6 +2074,7 @@
                         </div>
                     </div>
 
+                    <!-- Botones de ayuda -->
                     <div style="padding:0 20px 12px 20px; display:grid; grid-template-columns:1fr 1fr; gap:8px;">
                         <button onclick="preguntaIA('¿Cómo subo un documento?')" style="background:var(--hover-bg); border:1px solid var(--glass-border); border-radius:12px; padding:10px; text-align:center; cursor:pointer; transition:all 0.3s; color:var(--text-primary);">
                             <div style="font-size:20px;">📄</div>
@@ -2088,8 +2096,8 @@
 
                     <div style="padding:0 16px 12px 16px;">
                         <div style="display:flex; gap:10px;">
-                            <input type="text" id="iaMsgInputNuevo" placeholder="¿En qué puedo ayudarte?" style="flex:1; background:var(--bg-input); border:1px solid var(--glass-border); border-radius:30px; padding:10px 16px; color:var(--text-primary); outline:none; font-size:13px;" onkeypress="if(event.key==='Enter') enviarMensajeIANuevo()">
-                            <button onclick="enviarMensajeIANuevo()" style="width:40px; height:40px; border-radius:50%; background:var(--gradient-glow); border:none; color:#000; font-size:16px; cursor:pointer; box-shadow:var(--accent-glow); transition:all 0.3s; display:flex; align-items:center; justify-content:center;">
+                            <input type="text" id="iaMsgInputTaxista" placeholder="¿En qué puedo ayudarte?" style="flex:1; background:var(--bg-input); border:1px solid var(--glass-border); border-radius:30px; padding:10px 16px; color:var(--text-primary); outline:none; font-size:13px;" onkeypress="if(event.key==='Enter') enviarMensajeIATaxista()">
+                            <button onclick="enviarMensajeIATaxista()" style="width:40px; height:40px; border-radius:50%; background:var(--gradient-glow); border:none; color:#000; font-size:16px; cursor:pointer; box-shadow:var(--accent-glow); transition:all 0.3s; display:flex; align-items:center; justify-content:center;">
                                 <i class="fas fa-paper-plane"></i>
                             </button>
                         </div>
@@ -2097,6 +2105,7 @@
                 </div>
             </div>
 
+            <!-- ========== BASE DE CONOCIMIENTO ========== -->
             <div style="background:var(--glass-bg); backdrop-filter:blur(12px); border:1px solid var(--glass-border); border-radius:20px; padding:20px; margin-bottom:24px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:8px;">
                     <div style="display:flex; align-items:center; gap:10px;">
@@ -2110,10 +2119,10 @@
 
                 <div style="position:relative; margin-bottom:16px;">
                     <i class="fas fa-search" style="position:absolute; left:16px; top:50%; transform:translateY(-50%); color:var(--text-tertiary);"></i>
-                    <input type="text" id="buscarArticulo" placeholder="Buscar artículos..." style="width:100%; padding:10px 16px 10px 44px; background:var(--bg-input); border:1px solid var(--glass-border); border-radius:30px; color:var(--text-primary); outline:none; font-size:13px;" oninput="filtrarArticulos()">
+                    <input type="text" id="buscarArticuloTaxista" placeholder="Buscar artículos..." style="width:100%; padding:10px 16px 10px 44px; background:var(--bg-input); border:1px solid var(--glass-border); border-radius:30px; color:var(--text-primary); outline:none; font-size:13px;" oninput="filtrarArticulosTaxista()">
                 </div>
 
-                <div id="listaArticulos" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <div id="listaArticulosTaxista" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
                     <div class="articulo-item" onclick="mostrarArticulo('documentos')" style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--hover-bg); border-radius:12px; border-left:3px solid var(--accent); cursor:pointer; transition:all 0.3s;">
                         <div>
                             <div style="font-weight:500; font-size:13px;">📄 Cómo subir documentos</div>
@@ -2145,7 +2154,9 @@
                 </div>
             </div>
 
+            <!-- ========== ESTADO DEL SISTEMA + CONTACTO RÁPIDO ========== -->
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+                <!-- Estado del sistema -->
                 <div style="background:var(--glass-bg); backdrop-filter:blur(12px); border:1px solid var(--glass-border); border-radius:20px; padding:20px;">
                     <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
                         <i class="fas fa-chart-line" style="color:var(--success); font-size:18px;"></i>
@@ -2173,6 +2184,7 @@
                     </div>
                 </div>
 
+                <!-- Contacto rápido -->
                 <div style="background:var(--glass-bg); backdrop-filter:blur(12px); border:1px solid var(--glass-border); border-radius:20px; padding:20px;">
                     <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
                         <i class="fas fa-headset" style="color:var(--accent); font-size:18px;"></i>
@@ -2194,6 +2206,249 @@
 
             <button class="btn-primary" style="margin-top:24px;" onclick="volverInicio()">← VOLVER AL INICIO</button>
         </div>
+
+        <style>
+            /* ==========================================================
+               ESTILOS PARA SOPORTE (IGUAL QUE ADMIN)
+               ========================================================== */
+
+            /* Grid animado de fondo */
+            @keyframes gridPulse {
+                0% {
+                    transform: translate(0, 0);
+                }
+                100% {
+                    transform: translate(30px, 30px);
+                }
+            }
+
+            /* Glow pulsante */
+            @keyframes pulseGlow {
+                0%,
+                100% {
+                    transform: scale(1);
+                    opacity: 0.3;
+                }
+                50% {
+                    transform: scale(1.05);
+                    opacity: 0.5;
+                }
+            }
+
+            /* Partículas flotantes */
+            @keyframes floatParticle {
+                0%,
+                100% {
+                    transform: translate(0, 0) scale(1);
+                    opacity: 0.3;
+                }
+                50% {
+                    transform: translate(-5px, -10px) scale(1.2);
+                    opacity: 0.8;
+                }
+            }
+
+            /* Holograma giratorio */
+            @keyframes spinHologram {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+
+            /* Artículos de base de conocimiento - hover */
+            .articulo-item:hover {
+                border-color: var(--accent) !important;
+                transform: translateX(4px);
+                box-shadow: var(--accent-glow);
+            }
+
+            /* Mensajes del chat con animación */
+            #chatAdminMensajes>div {
+                animation: fadeInUp 0.3s ease;
+            }
+
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* ========== RESPONSIVE PARA SOPORTE ========== */
+            @media (max-width: 900px) {
+                #listaArticulosTaxista {
+                    grid-template-columns: 1fr !important;
+                }
+                #seccion-soporte .btn-outline {
+                    font-size: 10px !important;
+                    padding: 6px 12px !important;
+                }
+            }
+
+            @media (max-width: 768px) {
+                #seccion-soporte .btn-outline {
+                    font-size: 9px !important;
+                    padding: 4px 10px !important;
+                }
+                #seccion-soporte h2 {
+                    font-size: 18px !important;
+                }
+
+                /* Chat en móvil - una columna */
+                #seccion-soporte>div[style*="grid-template-columns:1fr 1fr; gap:20px;"] {
+                    grid-template-columns: 1fr !important;
+                    gap: 16px !important;
+                }
+
+                /* Banner robot en móvil */
+                #seccion-soporte>div[style*="background:var(--glass-bg); backdrop-filter:blur(16px); border:1px solid var(--glass-border); border-radius:24px; padding:24px 32px; margin-bottom:24px;"] {
+                    flex-direction: column !important;
+                    text-align: center !important;
+                    padding: 20px !important;
+                }
+
+                #seccion-soporte>div[style*="background:var(--glass-bg); backdrop-filter:blur(16px); border:1px solid var(--glass-border); border-radius:24px; padding:24px 32px; margin-bottom:24px;"] .robot-container {
+                    width: 100px !important;
+                    height: 100px !important;
+                }
+
+                /* Base de conocimiento en móvil */
+                #listaArticulosTaxista {
+                    grid-template-columns: 1fr !important;
+                    gap: 8px !important;
+                }
+
+                .articulo-item {
+                    padding: 10px 12px !important;
+                    font-size: 12px !important;
+                }
+
+                /* Estado del sistema + Contacto en móvil */
+                #seccion-soporte>div[style*="display:grid; grid-template-columns:1fr 1fr; gap:20px;"] {
+                    grid-template-columns: 1fr !important;
+                    gap: 16px !important;
+                }
+
+                /* Botones de contacto en móvil */
+                #seccion-soporte>div[style*="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;"] {
+                    grid-template-columns: 1fr !important;
+                    gap: 8px !important;
+                }
+
+                #seccion-soporte>div[style*="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;"] button {
+                    font-size: 11px !important;
+                    padding: 10px !important;
+                }
+
+                /* Chat en móvil */
+                #seccion-soporte .chat-header {
+                    padding: 10px 14px !important;
+                }
+                #seccion-soporte .chat-header .avatar {
+                    width: 32px !important;
+                    height: 32px !important;
+                    font-size: 14px !important;
+                }
+                #seccion-soporte .chat-header .nombre {
+                    font-size: 13px !important;
+                }
+                #seccion-soporte .chat-body {
+                    padding: 12px !important;
+                    max-height: 200px !important;
+                    min-height: 150px !important;
+                }
+                #seccion-soporte .chat-body .burbuja {
+                    font-size: 13px !important;
+                    padding: 8px 12px !important;
+                }
+                #seccion-soporte .chat-footer {
+                    padding: 8px 12px !important;
+                    flex-wrap: wrap !important;
+                }
+                #seccion-soporte .chat-footer input {
+                    font-size: 12px !important;
+                    padding: 8px 12px !important;
+                    min-width: 120px !important;
+                }
+                #seccion-soporte .chat-footer .btn-enviar {
+                    width: 36px !important;
+                    height: 36px !important;
+                    font-size: 14px !important;
+                }
+
+                /* IA en móvil */
+                .ia-buttons {
+                    grid-template-columns: 1fr 1fr !important;
+                    gap: 6px !important;
+                }
+                .ia-buttons .ia-btn {
+                    padding: 8px !important;
+                }
+                .ia-buttons .ia-btn .icon {
+                    font-size: 18px !important;
+                }
+                .ia-buttons .ia-btn .label {
+                    font-size: 10px !important;
+                }
+
+                .holograma {
+                    width: 60px !important;
+                    height: 60px !important;
+                }
+                .holograma .icono {
+                    font-size: 28px !important;
+                }
+            }
+
+            @media (max-width: 480px) {
+                #seccion-soporte .btn-outline {
+                    font-size: 8px !important;
+                    padding: 4px 8px !important;
+                }
+
+                #seccion-soporte .banner-robot .robot-container {
+                    width: 80px !important;
+                    height: 80px !important;
+                }
+                #seccion-soporte .banner-robot .titulo {
+                    font-size: 18px !important;
+                }
+                #seccion-soporte .banner-robot .subtitulo {
+                    font-size: 12px !important;
+                }
+
+                #seccion-soporte .chat-body {
+                    max-height: 160px !important;
+                    min-height: 120px !important;
+                }
+                #seccion-soporte .chat-body .burbuja {
+                    font-size: 12px !important;
+                    padding: 6px 10px !important;
+                }
+
+                .ia-buttons {
+                    grid-template-columns: 1fr 1fr !important;
+                }
+                .ia-buttons .ia-btn .icon {
+                    font-size: 16px !important;
+                }
+                .ia-buttons .ia-btn .label {
+                    font-size: 9px !important;
+                }
+
+                .articulo-item {
+                    padding: 8px 10px !important;
+                    font-size: 11px !important;
+                }
+            }
+        </style>
 
         <!-- ==========================================================
         SECCIÓN SEGURIDAD
@@ -2485,6 +2740,7 @@
             </div>
             <button class="btn-primary" onclick="volverInicio()">← VOLVER AL INICIO</button>
         </div>
+
     </div>
 
     <!-- ==========================================================
@@ -2803,6 +3059,7 @@
                     document.getElementById('editLicencia').value = data.licencia || '';
                     document.getElementById('editDireccion').value = data.direccion || '';
                     document.getElementById('editVencimiento').value = data.vencimiento || '';
+                    document.getElementById('soporteNombreTaxista').textContent = data.nombre || 'Taxista';
 
                     if (data.vehiculo) {
                         vehiculoActual = data.vehiculo;
@@ -5255,8 +5512,8 @@
             });
         }
 
-        function enviarMensajeAdminNuevo() {
-            const input = document.getElementById('adminMsgInputNuevo');
+        function enviarMensajeAdminTaxista() {
+            const input = document.getElementById('adminMsgInputTaxista');
             const texto = input.value.trim();
 
             if (!validarMensaje(texto)) {
@@ -5307,8 +5564,8 @@
             registrarAuditoria('enviar_mensaje_admin', 'Envió mensaje al administrador');
         }
 
-        function enviarMensajeIANuevo() {
-            const input = document.getElementById('iaMsgInputNuevo');
+        function enviarMensajeIATaxista() {
+            const input = document.getElementById('iaMsgInputTaxista');
             const texto = input.value.trim();
 
             if (!validarMensaje(texto)) {
@@ -5371,21 +5628,1165 @@
             }
 
             if (m.includes('sos') || m.includes('emergencia') || m.includes('ayuda') || m.includes('peligro')) {
-                return '🆘 <strong>Botón de emergencia SOS:</strong><br>• Presiona el botón SOS en la sección SEGURIDAD<br>• También tienes un botón flotante rojo siempre visible<br>• Se enviará tu ubicación a tus contactos de confianza<br>• Se notificará a las autoridades locales<br><br>⚠️ Úsalo SOLO en casos de emergencia real.';
+                return '🆘 <strong>Botón de emergencia SOS:</strong><br        // ==========================================================
+        // 📍 COMPARTIR UBICACIÓN
+        // ==========================================================
+        function compartirUbicacion() {
+            if (!navigator.geolocation) {
+                Swal.fire('Error', 'Tu navegador no soporta geolocalización', 'error');
+                return;
             }
 
-            if (m.includes('hola') || m.includes('buenas') || m.includes('saludos')) {
-                return '👋 ¡Hola! Soy tu asistente IA de CupoTax.<br><br>Puedo ayudarte con:<br>📄 Documentos<br>💰 Cobros y ganancias<br>🚕 Viajes<br>🔧 Mantenimiento<br>📋 Licencias<br>🆘 Emergencias<br><br>¿En qué más puedo ayudarte?';
+            Swal.fire({
+                title: '📍 Obteniendo ubicación...',
+                text: 'Por favor espera',
+                allowOutsideClick: false,
+                didOpen: function() {
+                    Swal.showLoading();
+                }
+            });
+
+            navigator.geolocation.getCurrentPosition(function(pos) {
+                Swal.close();
+                const lat = pos.coords.latitude;
+                const lng = pos.coords.longitude;
+                const mapsLink = `https://maps.google.com/?q=${lat},${lng}`;
+                const mensaje = `🚕 Mi ubicación actual: ${mapsLink}`;
+
+                Swal.fire({
+                    title: 'Compartir ubicación',
+                    html: `
+                        <p style="font-size:0.8rem; word-break:break-all;">📍 ${mapsLink}</p>
+                        <div style="display:flex; gap:10px; margin-top:15px;">
+                            <button onclick="window.open('https://wa.me/?text=${encodeURIComponent(mensaje)}', '_blank')" style="flex:1; background:#25D366; border:none; padding:10px; border-radius:30px; color:white; cursor:pointer;">📱 WhatsApp</button>
+                            <button onclick="navigator.clipboard.writeText('${mapsLink}')" style="flex:1; background:var(--accent); border:none; padding:10px; border-radius:30px; color:#000; cursor:pointer;">🔗 Copiar enlace</button>
+                        </div>
+                    `,
+                    showConfirmButton: false,
+                    showCloseButton: true,
+                    background: 'var(--bg-card)',
+                    color: 'var(--text-primary)'
+                });
+                registrarAuditoria('compartir_ubicacion', 'Compartió su ubicación');
+            }, function() {
+                Swal.close();
+                Swal.fire('Error', 'No se pudo obtener tu ubicación', 'error');
+            });
+        }
+
+        // ==========================================================
+        // 📱 COMPARTIR VIAJE EN TIEMPO REAL
+        // ==========================================================
+        function compartirViajeEnTiempoReal() {
+            if (!navigator.geolocation) {
+                Swal.fire('Error', 'Tu navegador no soporta geolocalización', 'error');
+                return;
+            }
+            
+            Swal.fire({
+                title: '📍 Compartir viaje en tiempo real',
+                text: 'Se enviará un enlace a tus contactos de confianza para que sigan tu viaje',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonText: 'Compartir',
+                cancelButtonText: 'Cancelar',
+                background: 'var(--bg-card)',
+                color: 'var(--text-primary)'
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    navigator.geolocation.getCurrentPosition(function(pos) {
+                        const lat = pos.coords.latitude;
+                        const lng = pos.coords.longitude;
+                        const link = `https://maps.google.com/?q=${lat},${lng}`;
+                        
+                        if (contactos.length > 0) {
+                            Swal.fire({
+                                title: '✅ Ubicación compartida',
+                                text: 'Se envió el enlace a tus ' + contactos.length + ' contactos de confianza',
+                                icon: 'success',
+                                background: 'var(--bg-card)',
+                                color: 'var(--text-primary)',
+                                timer: 3000,
+                                showConfirmButton: false
+                            });
+                            registrarAuditoria('compartir_viaje_tiempo_real', 'Compartió viaje en tiempo real con ' + contactos.length + ' contactos');
+                        } else {
+                            Swal.fire({
+                                title: '⚠️ Sin contactos',
+                                text: 'Agrega contactos de confianza para compartir tu ubicación',
+                                icon: 'warning',
+                                background: 'var(--bg-card)',
+                                color: 'var(--text-primary)'
+                            });
+                        }
+                    }, function() {
+                        Swal.close();
+                        Swal.fire('Error', 'No se pudo obtener tu ubicación', 'error');
+                    });
+                }
+            });
+        }
+
+        // ==========================================================
+        // 🎵 AUDIO DE VIAJE
+        // ==========================================================
+        let grabandoAudio = false;
+        let audioInterval = null;
+
+        function toggleGrabacionAudio() {
+            grabandoAudio = !grabandoAudio;
+            
+            if (grabandoAudio) {
+                Swal.fire({
+                    title: '🎤 Grabando audio del viaje',
+                    text: 'El audio se está grabando en segundo plano',
+                    icon: 'info',
+                    background: 'var(--bg-card)',
+                    color: 'var(--text-primary)',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                
+                document.getElementById('btnAudioViaje').innerHTML = '<i class="fas fa-stop"></i> Detener grabación';
+                document.getElementById('btnAudioViaje').style.background = 'var(--danger)';
+                
+                audioInterval = setInterval(function() {
+                    console.log('🎤 Grabando audio...');
+                }, 5000);
+                
+                registrarAuditoria('iniciar_grabacion_audio', 'Inició grabación de audio');
+            } else {
+                if (audioInterval) {
+                    clearInterval(audioInterval);
+                    audioInterval = null;
+                }
+                
+                document.getElementById('btnAudioViaje').innerHTML = '<i class="fas fa-microphone"></i> Iniciar grabación de audio';
+                document.getElementById('btnAudioViaje').style.background = '';
+                
+                Swal.fire({
+                    title: '⏹️ Grabación detenida',
+                    text: 'El audio del viaje ha sido guardado',
+                    icon: 'success',
+                    background: 'var(--bg-card)',
+                    color: 'var(--text-primary)',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                
+                registrarAuditoria('detener_grabacion_audio', 'Detuvo grabación de audio');
+            }
+        }
+
+        // ==========================================================
+        // 🎁 BONOS Y RECOMPENSAS
+        // ==========================================================
+        function cargarBonos() {
+            const container = document.getElementById('bonos-lista');
+            if (!container) return;
+
+            database.ref('bonos/' + uidActual).once('value').then(function(snapshot) {
+                const bonosData = snapshot.val() || {};
+                let html = '';
+
+                const bonosPredeterminados = [
+                    { id: 'bono1', nombre: '🎉 Bono de bienvenida', descripcion: 'Completa 5 viajes y gana B/. 10', progreso: 0, meta: 5, completado: false },
+                    { id: 'bono2', nombre: '⭐ Bono de calidad', descripcion: 'Mantén 5 estrellas por 10 viajes', progreso: 0, meta: 10, completado: false },
+                    { id: 'bono3', nombre: '🚀 Bono de eficiencia', descripcion: 'Realiza 50 viajes en un mes', progreso: 0, meta: 50, completado: false }
+                ];
+
+                const bonos = Object.keys(bonosData).length > 0 ? 
+                    Object.values(bonosData) : bonosPredeterminados;
+
+                bonos.forEach(function(bono) {
+                    const progreso = bono.progreso || 0;
+                    const completado = bono.completado || false;
+                    const meta = bono.meta || 100;
+
+                    html += `
+                        <div style="background:var(--hover-bg); border-radius:12px; padding:12px; margin-bottom:8px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <div>
+                                    <div style="font-weight:600;">${sanitizar(bono.nombre || 'Bono')}</div>
+                                    <div style="font-size:11px; color:var(--text-secondary);">${sanitizar(bono.descripcion || '')}</div>
+                                </div>
+                                <span style="font-size:12px; font-weight:600; color:${completado ? 'var(--success)' : 'var(--warning)'};">
+                                    ${completado ? '✅ Completado' : (progreso + '%')}
+                                </span>
+                            </div>
+                            ${!completado ? `
+                                <div class="progress-bar" style="margin-top:6px;">
+                                    <div class="progress-fill" style="width:${Math.min(progreso, 100)}%;"></div>
+                                </div>
+                                <div style="font-size:9px; color:var(--text-tertiary); margin-top:2px;">
+                                    ${Math.min(progreso, 100)}% · ${Math.round(progreso * meta / 100)}/${meta}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = html || '<div style="text-align:center; padding:10px; color:var(--text-tertiary);">No hay bonos disponibles</div>';
+            });
+        }
+
+        // ==========================================================
+        // 🏆 LOGROS Y METAS
+        // ==========================================================
+        function cargarLogros() {
+            const container = document.getElementById('logros-lista');
+            if (!container) {
+                const seccionInicio = document.getElementById('seccion-inicio');
+                if (seccionInicio) {
+                    const div = document.createElement('div');
+                    div.className = 'card';
+                    div.style.marginBottom = '1.5rem';
+                    div.id = 'logros-container';
+                    div.innerHTML = `
+                        <div class="card-title"><i class="fas fa-trophy" style="color:var(--warning);"></i> LOGROS Y METAS</div>
+                        <div id="logros-lista">
+                            <div style="text-align:center; padding:10px; color:var(--text-tertiary); font-size:12px;">
+                                <i class="fas fa-spinner fa-spin"></i> Cargando logros...
+                            </div>
+                        </div>
+                    `;
+                    seccionInicio.insertBefore(div, seccionInicio.querySelector('.stats-grid').nextSibling);
+                }
+                return;
             }
 
-            return '🤔 No entendí tu pregunta. Puedes preguntarme sobre:<br><br>📄 Documentos<br>💰 Cobros / Ganancias<br>🚕 Viajes<br>🔧 Mantenimiento<br>📋 Licencias<br>🆘 Emergencias<br><br>💡 O escribe "ayuda" para ver todas las opciones.';
+            database.ref('logros/' + uidActual).once('value').then(function(snapshot) {
+                const logrosData = snapshot.val() || {};
+                let html = '';
+
+                const logrosPredeterminados = [
+                    { id: 'logro1', nombre: '🚀 Primer viaje', completado: false, progreso: 0, meta: 1 },
+                    { id: 'logro2', nombre: '⭐ 10 viajes completados', completado: false, progreso: 0, meta: 10 },
+                    { id: 'logro3', nombre: '💰 50 viajes completados', completado: false, progreso: 0, meta: 50 },
+                    { id: 'logro4', nombre: '🏆 Calificación 5 estrellas', completado: false, progreso: 0, meta: 5 },
+                    { id: 'logro5', nombre: '📈 100 viajes completados', completado: false, progreso: 0, meta: 100 }
+                ];
+
+                const logros = Object.keys(logrosData).length > 0 ? 
+                    Object.values(logrosData) : logrosPredeterminados;
+
+                html = '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:10px;">';
+                logros.forEach(function(logro) {
+                    const completado = logro.completado || false;
+                    const progreso = logro.progreso || 0;
+                    const meta = logro.meta || 100;
+                    const porcentaje = Math.min(Math.round((progreso / meta) * 100), 100);
+
+                    html += `
+                        <div style="background:var(--hover-bg); border-radius:12px; padding:10px; text-align:center; border:1px solid ${completado ? 'var(--success)' : 'var(--glass-border)'};">
+                            <div style="font-size:20px;">${logro.nombre ? logro.nombre.split(' ')[0] : '🏆'}</div>
+                            <div style="font-size:11px; font-weight:500; margin:4px 0;">${sanitizar(logro.nombre || 'Logro')}</div>
+                            ${completado ? 
+                                `<div style="font-size:10px; color:var(--success);">✅ Completado</div>` :
+                                `<div class="progress-bar" style="margin-top:6px;"><div class="progress-fill" style="width:${porcentaje}%;"></div></div>
+                                 <div style="font-size:9px; color:var(--text-tertiary); margin-top:2px;">${porcentaje}% · ${progreso}/${meta}</div>`
+                            }
+                        </div>
+                    `;
+                });
+                html += '</div>';
+
+                container.innerHTML = html;
+            });
         }
 
-        function preguntaIA(pregunta) {
-            document.getElementById('iaMsgInputNuevo').value = pregunta;
-            enviarMensajeIANuevo();
+        // ==========================================================
+        // 🗺️ MAPAS (INICIALIZACIÓN)
+        // ==========================================================
+        let mapaMiniRuta = null;
+        let mapaMiniCalor = null;
+        let mapaGrandeRuta = null;
+        let mapaGrandeCalor = null;
+
+        function inicializarMapas() {
+            try {
+                if (typeof mapboxgl === 'undefined') {
+                    console.warn('⚠️ Mapbox no disponible');
+                    return;
+                }
+
+                const containerRutaMini = document.getElementById('mapa-ruta-mini');
+                if (containerRutaMini) {
+                    mapaMiniRuta = new mapboxgl.Map({
+                        container: 'mapa-ruta-mini',
+                        style: 'mapbox://styles/mapbox/standard',
+                        center: [-82.52, 9.43],
+                        zoom: 13,
+                        interactive: false
+                    });
+                }
+
+                const containerCalorMini = document.getElementById('mapa-calor-mini');
+                if (containerCalorMini) {
+                    mapaMiniCalor = new mapboxgl.Map({
+                        container: 'mapa-calor-mini',
+                        style: 'mapbox://styles/mapbox/standard',
+                        center: [-82.52, 9.43],
+                        zoom: 12,
+                        interactive: false
+                    });
+                }
+
+                const containerRutaGrande = document.getElementById('mapa-ruta-grande');
+                if (containerRutaGrande) {
+                    mapaGrandeRuta = new mapboxgl.Map({
+                        container: 'mapa-ruta-grande',
+                        style: 'mapbox://styles/mapbox/standard',
+                        center: [-82.52, 9.43],
+                        zoom: 13
+                    });
+                    mapaGrandeRuta.addControl(new mapboxgl.NavigationControl());
+                }
+
+                const containerCalorGrande = document.getElementById('mapa-calor-grande');
+                if (containerCalorGrande) {
+                    mapaGrandeCalor = new mapboxgl.Map({
+                        container: 'mapa-calor-grande',
+                        style: 'mapbox://styles/mapbox/standard',
+                        center: [-82.52, 9.43],
+                        zoom: 12
+                    });
+                    mapaGrandeCalor.addControl(new mapboxgl.NavigationControl());
+                }
+            } catch(e) {
+                console.warn('⚠️ Error al inicializar mapas:', e);
+            }
         }
 
+        // ==========================================================
+        // 🎨 TEMAS VISUALES
+        // ==========================================================
+        function setTema(tema) {
+            document.body.classList.remove('style-fire', 'style-glass', 'style-neon', 'style-crimson', 'light-mode');
+            if (tema === 'fire') document.body.classList.add('style-fire');
+            else if (tema === 'glass') document.body.classList.add('style-glass');
+            else if (tema === 'neon') document.body.classList.add('style-neon');
+            else if (tema === 'crimson') document.body.classList.add('style-crimson');
+            else if (tema === 'light') document.body.classList.add('light-mode');
+
+            localStorage.setItem('cupotax-taxista-tema', tema);
+
+            document.querySelectorAll('.theme-card').forEach(function(card) {
+                card.classList.remove('active');
+            });
+            const cardMap = {
+                'fire': 'cardFire',
+                'glass': 'cardGlass',
+                'neon': 'cardNeon',
+                'crimson': 'cardCrimson',
+                'light': 'cardLight'
+            };
+            if (cardMap[tema]) {
+                document.getElementById(cardMap[tema]).classList.add('active');
+            }
+        }
+
+        function toggleLightMode() {
+            if (document.body.classList.contains('light-mode')) {
+                document.body.classList.remove('light-mode');
+                const tema = localStorage.getItem('cupotax-taxista-tema') || 'fire';
+                setTema(tema);
+            } else {
+                document.body.classList.add('light-mode');
+                localStorage.setItem('cupotax-taxista-tema', 'light');
+                document.getElementById('cardLight').classList.add('active');
+            }
+            document.getElementById('settingsPanel').classList.remove('open');
+        }
+
+        function resetearTema() {
+            document.body.classList.remove('style-glass', 'style-neon', 'style-crimson', 'light-mode');
+            document.body.classList.add('style-fire');
+            localStorage.setItem('cupotax-taxista-tema', 'fire');
+            document.querySelectorAll('.theme-card').forEach(function(card) {
+                card.classList.remove('active');
+            });
+            document.getElementById('cardFire').classList.add('active');
+            document.getElementById('settingsPanel').classList.remove('open');
+        }
+
+        function cargarTemaGuardado() {
+            const tema = localStorage.getItem('cupotax-taxista-tema') || 'fire';
+            setTema(tema);
+        }
+
+        function toggleTemas() {
+            document.getElementById('settingsPanel').classList.toggle('open');
+        }
+
+        // ==========================================================
+        // 📱 NAVEGACIÓN
+        // ==========================================================
+        document.querySelectorAll('.nav-item[data-seccion]').forEach(function(item) {
+            item.addEventListener('click', function() {
+                const seccion = this.dataset.seccion;
+                if (seccion === 'salir') {
+                    cerrarSesion();
+                    return;
+                }
+                document.querySelectorAll('.nav-item').forEach(function(i) {
+                    i.classList.remove('active');
+                });
+                this.classList.add('active');
+                mostrarSeccion(seccion);
+            });
+        });
+
+        document.querySelectorAll('.bottom-btn[data-seccion]').forEach(function(item) {
+            item.addEventListener('click', function() {
+                const seccion = this.dataset.seccion;
+                document.querySelectorAll('.bottom-btn').forEach(function(i) {
+                    i.classList.remove('active');
+                });
+                this.classList.add('active');
+                mostrarSeccion(seccion);
+                document.getElementById('menuMas').classList.remove('open');
+            });
+        });
+
+        document.querySelectorAll('.menu-mas button[data-seccion]').forEach(function(item) {
+            item.addEventListener('click', function() {
+                const seccion = this.dataset.seccion;
+                if (seccion === 'salir') {
+                    cerrarSesion();
+                    return;
+                }
+                document.querySelectorAll('.bottom-btn').forEach(function(i) {
+                    i.classList.remove('active');
+                });
+                const bottomBtn = document.querySelector(`.bottom-btn[data-seccion="${seccion}"]`);
+                if (bottomBtn) {
+                    bottomBtn.classList.add('active');
+                } else {
+                    document.getElementById('btnMasOpciones').classList.add('active');
+                }
+                mostrarSeccion(seccion);
+                document.getElementById('menuMas').classList.remove('open');
+            });
+        });
+
+        function mostrarSeccion(seccion) {
+            document.querySelectorAll('.seccion').forEach(function(sec) {
+                sec.classList.remove('active');
+            });
+
+            const target = document.getElementById('seccion-' + seccion);
+            if (target) {
+                target.classList.add('active');
+                if (seccion === 'mapas') {
+                    setTimeout(function() {
+                        try {
+                            if (mapaGrandeRuta) mapaGrandeRuta.resize();
+                            if (mapaGrandeCalor) mapaGrandeCalor.resize();
+                        } catch(e) {}
+                    }, 300);
+                }
+            }
+        }
+
+        function volverInicio() {
+            document.querySelectorAll('.nav-item').forEach(function(i) {
+                i.classList.remove('active');
+            });
+            document.querySelectorAll('.bottom-btn').forEach(function(i) {
+                i.classList.remove('active');
+            });
+            document.querySelector('.nav-item[data-seccion="inicio"]').classList.add('active');
+            document.querySelector('.bottom-btn[data-seccion="inicio"]').classList.add('active');
+            mostrarSeccion('inicio');
+        }
+
+        function irAPerfil() {
+            document.querySelectorAll('.nav-item').forEach(function(i) {
+                i.classList.remove('active');
+            });
+            document.querySelector('.nav-item[data-seccion="perfil"]').classList.add('active');
+            mostrarSeccion('perfil');
+        }
+
+        function irAMapas() {
+            document.querySelectorAll('.nav-item').forEach(function(i) {
+                i.classList.remove('active');
+            });
+            document.querySelector('.nav-item[data-seccion="mapas"]').classList.add('active');
+            mostrarSeccion('mapas');
+        }
+
+        function irASolicitudes() {
+            document.querySelectorAll('.nav-item').forEach(function(i) {
+                i.classList.remove('active');
+            });
+            document.querySelector('.nav-item[data-seccion="solicitudes"]').classList.add('active');
+            mostrarSeccion('solicitudes');
+        }
+
+        function irADocumentos() {
+            document.querySelectorAll('.nav-item').forEach(function(i) {
+                i.classList.remove('active');
+            });
+            document.querySelector('.nav-item[data-seccion="documentos"]').classList.add('active');
+            mostrarSeccion('documentos');
+        }
+
+        function irAMantenimiento() {
+            document.querySelectorAll('.nav-item').forEach(function(i) {
+                i.classList.remove('active');
+            });
+            document.querySelector('.nav-item[data-seccion="mantenimiento"]').classList.add('active');
+            mostrarSeccion('mantenimiento');
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        function toggleMenuMas() {
+            document.getElementById('menuMas').classList.toggle('open');
+        }
+
+        // ==========================================================
+        // 🔄 ESTADO DEL CONDUCTOR
+        // ==========================================================
+        function cambiarEstado(estado) {
+            if (estado) {
+                estadoActual = estado;
+            } else {
+                const estados = ['disponible', 'ocupado', 'pausa'];
+                const currentIndex = estados.indexOf(estadoActual);
+                estadoActual = estados[(currentIndex + 1) % estados.length];
+            }
+
+            const dot = document.getElementById('statusDot');
+            const texto = document.getElementById('estadoTexto');
+            const icono = document.getElementById('estadoIcono');
+            const statEstado = document.getElementById('statEstado');
+
+            switch (estadoActual) {
+                case 'disponible':
+                    dot.className = 'status-dot';
+                    texto.textContent = 'Disponible';
+                    statEstado.textContent = 'Disponible';
+                    icono.style.color = 'var(--success)';
+                    break;
+                case 'ocupado':
+                    dot.className = 'status-dot ocupado';
+                    texto.textContent = 'Ocupado';
+                    statEstado.textContent = 'Ocupado';
+                    icono.style.color = 'var(--danger)';
+                    break;
+                case 'pausa':
+                    dot.className = 'status-dot pausa';
+                    texto.textContent = 'En pausa';
+                    statEstado.textContent = 'En pausa';
+                    icono.style.color = 'var(--warning)';
+                    break;
+            }
+
+            if (uidActual) {
+                database.ref('usuarios/' + uidActual + '/estado').set(estadoActual);
+                registrarAuditoria('cambiar_estado', 'Estado cambiado a: ' + estadoActual);
+            }
+        }
+
+        // ==========================================================
+        // 👤 PERFIL - ACTUALIZAR
+        // ==========================================================
+        function actualizarPerfil() {
+            const nombre = document.getElementById('editNombre').value.trim();
+            const telefono = document.getElementById('editTelefono').value.trim();
+            const correo = document.getElementById('editCorreo').value.trim();
+            const licencia = document.getElementById('editLicencia').value.trim();
+            const direccion = document.getElementById('editDireccion').value.trim();
+            const vencimiento = document.getElementById('editVencimiento').value;
+            const password = document.getElementById('editPassword').value;
+
+            if (!nombre) {
+                Swal.fire('Error', 'El nombre es obligatorio', 'error');
+                return;
+            }
+
+            const updates = {
+                nombre: sanitizar(nombre),
+                telefono: sanitizar(telefono || ''),
+                email: sanitizar(correo || ''),
+                licencia: sanitizar(licencia || ''),
+                direccion: sanitizar(direccion || ''),
+                vencimiento: vencimiento || ''
+            };
+
+            if (password && password.length >= 6) {
+                const user = auth.currentUser;
+                if (user) {
+                    user.updatePassword(password).catch(function(error) {
+                        console.error('Error al actualizar contraseña:', error);
+                    });
+                }
+            } else if (password && password.length < 6) {
+                Swal.fire('Error', 'La contraseña debe tener al menos 6 caracteres', 'error');
+                return;
+            }
+
+            database.ref('usuarios/' + uidActual).update(updates).then(function() {
+                Swal.fire('✅ Perfil actualizado', '', 'success');
+                document.getElementById('taxistaNombre').textContent = nombre;
+                document.getElementById('topNombre').textContent = nombre;
+                document.getElementById('perfilNombre').textContent = nombre;
+                document.getElementById('editPassword').value = '';
+                registrarAuditoria('actualizar_perfil', 'Actualizó su perfil');
+            });
+        }
+
+        // ==========================================================
+        // 📸 FOTO DE PERFIL
+        // ==========================================================
+        document.getElementById('fotoInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = document.getElementById('fotoPerfilImg');
+                    const icono = document.getElementById('fotoIcono');
+                    img.src = event.target.result;
+                    img.style.display = 'block';
+                    icono.style.display = 'none';
+                    database.ref('usuarios/' + uidActual + '/fotoPerfil').set(event.target.result);
+                    registrarAuditoria('cambiar_foto_perfil', 'Cambió su foto de perfil');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function cargarFotoPerfil() {
+            database.ref('usuarios/' + uidActual + '/fotoPerfil').once('value').then(function(snapshot) {
+                const foto = snapshot.val();
+                if (foto) {
+                    const img = document.getElementById('fotoPerfilImg');
+                    const icono = document.getElementById('fotoIcono');
+                    img.src = foto;
+                    img.style.display = 'block';
+                    icono.style.display = 'none';
+                }
+            });
+        }
+
+        // ==========================================================
+        // 🔔 NOTIFICACIONES (panel)
+        // ==========================================================
+        function toggleNotificaciones() {
+            Swal.fire({
+                title: '🔔 Notificaciones',
+                text: 'Tienes notificaciones pendientes. Revisa la sección de Solicitudes.',
+                icon: 'info',
+                background: 'var(--bg-card)',
+                color: 'var(--text-primary)',
+                confirmButtonColor: 'var(--accent)'
+            });
+        }
+
+        // ==========================================================
+        // 🔥 ESCUCHAS EN TIEMPO REAL
+        // ==========================================================
+        function iniciarEscuchasFirebase() {
+            if (!uidActual) return;
+
+            database.ref('notificaciones').orderByChild('usuarioId').equalTo(uidActual).on('child_added', function(snapshot) {
+                const notif = snapshot.val();
+                if (!notif.leida) {
+                    Swal.fire({
+                        title: notif.titulo || 'Nueva notificación',
+                        text: notif.mensaje || '',
+                        icon: notif.tipo === 'viaje' ? 'success' : 'info',
+                        timer: 5000,
+                        showConfirmButton: true,
+                        background: 'var(--bg-card)',
+                        color: 'var(--text-primary)',
+                        confirmButtonColor: 'var(--accent)'
+                    });
+                    database.ref('notificaciones/' + snapshot.key + '/leida').set(true);
+                }
+            });
+        }
+
+        // ==========================================================
+        // 🔐 SEGURIDAD - 2FA
+        // ==========================================================
+        function toggle2FA() {
+            const estadoActual = document.getElementById('estado2FA').textContent.includes('Activado');
+            const nuevoEstado = !estadoActual;
+            
+            Swal.fire({
+                title: nuevoEstado ? '🔐 Activar 2FA' : '🔓 Desactivar 2FA',
+                text: nuevoEstado ? 'Se activará la verificación en 2 pasos para tu cuenta' : 'Se desactivará la verificación en 2 pasos',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: nuevoEstado ? 'Sí, activar' : 'Sí, desactivar',
+                cancelButtonText: 'Cancelar',
+                background: 'var(--bg-card)',
+                color: 'var(--text-primary)'
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    database.ref('usuarios/' + uidActual + '/seguridad/2fa').set(nuevoEstado).then(function() {
+                        actualizarEstado2FA(nuevoEstado);
+                        Swal.fire({
+                            title: nuevoEstado ? '✅ 2FA Activado' : '✅ 2FA Desactivado',
+                            icon: 'success',
+                            background: 'var(--bg-card)',
+                            color: 'var(--text-primary)',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        registrarAuditoria('toggle_2fa', nuevoEstado ? 'Activó 2FA' : 'Desactivó 2FA');
+                    });
+                }
+            });
+        }
+
+        function actualizarEstado2FA(activado) {
+            const estadoElem = document.getElementById('estado2FA');
+            const btnElem = document.getElementById('btn2FA');
+            if (activado) {
+                estadoElem.textContent = '✅ Activado';
+                estadoElem.style.color = 'var(--success)';
+                btnElem.textContent = 'Desactivar';
+                btnElem.style.background = 'var(--danger)';
+            } else {
+                estadoElem.textContent = '❌ Desactivado';
+                estadoElem.style.color = 'var(--danger)';
+                btnElem.textContent = 'Activar';
+                btnElem.style.background = 'var(--gradient-glow)';
+            }
+        }
+
+        function cargarEstado2FA() {
+            database.ref('usuarios/' + uidActual + '/seguridad/2fa').once('value').then(function(snapshot) {
+                const activado = snapshot.val() || false;
+                actualizarEstado2FA(activado);
+            });
+        }
+
+        // ==========================================================
+        // 📱 DISPOSITIVOS AUTORIZADOS
+        // ==========================================================
+        function cargarDispositivos() {
+            const container = document.getElementById('dispositivos-lista');
+            
+            database.ref('usuarios/' + uidActual + '/dispositivos').once('value').then(function(snapshot) {
+                const dispositivos = snapshot.val() || {};
+                let html = '';
+                
+                const dispositivosSimulados = [
+                    { nombre: 'Windows • Chrome', ubicacion: 'Panamá', fecha: 'Hoy, 1:35 p.m.', actual: true },
+                    { nombre: 'Android • Chrome', ubicacion: 'Panamá', fecha: '02/06/2026, 7:45 p.m.', actual: false }
+                ];
+                
+                const lista = Object.keys(dispositivos).length > 0 ? dispositivos : dispositivosSimulados;
+                
+                if (Array.isArray(lista)) {
+                    lista.forEach(function(disp, index) {
+                        const esActual = disp.actual || (index === 0);
+                        html += `
+                            <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--glass-border);">
+                                <div>
+                                    <div style="font-weight:500;">${sanitizar(disp.nombre || 'Dispositivo desconocido')}</div>
+                                    <div style="font-size:11px; color:var(--text-tertiary);">📍 ${sanitizar(disp.ubicacion || 'Ubicación desconocida')} • ${sanitizar(disp.fecha || 'Fecha desconocida')}</div>
+                                </div>
+                                <div>
+                                    ${esActual ? '<span style="font-size:10px; color:var(--success); font-weight:600;">✅ Este dispositivo</span>' : 
+                                    `<button class="btn-danger" onclick="cerrarSesionDispositivo('${index}')" style="padding:4px 12px; font-size:10px; border:none; border-radius:15px; cursor:pointer; color:#fff; background:var(--danger);">Cerrar sesión</button>`}
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    const dispositivosArray = Object.values(dispositivos);
+                    if (dispositivosArray.length > 0) {
+                        dispositivosArray.forEach(function(disp, index) {
+                            html += `
+                                <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--glass-border);">
+                                    <div>
+                                        <div style="font-weight:500;">${sanitizar(disp.nombre || 'Dispositivo desconocido')}</div>
+                                        <div style="font-size:11px; color:var(--text-tertiary);">📍 ${sanitizar(disp.ubicacion || 'Ubicación desconocida')} • ${sanitizar(disp.fecha || 'Fecha desconocida')}</div>
+                                    </div>
+                                    <div>
+                                        ${disp.actual ? '<span style="font-size:10px; color:var(--success); font-weight:600;">✅ Este dispositivo</span>' : 
+                                        `<button class="btn-danger" onclick="cerrarSesionDispositivo('${index}')" style="padding:4px 12px; font-size:10px; border:none; border-radius:15px; cursor:pointer; color:#fff; background:var(--danger);">Cerrar sesión</button>`}
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        html = '<div style="text-align:center; padding:10px; color:var(--text-tertiary); font-size:12px;">📱 No hay dispositivos conectados</div>';
+                    }
+                }
+                
+                container.innerHTML = html;
+            });
+        }
+
+        function cerrarSesionDispositivo(id) {
+            Swal.fire({
+                title: '¿Cerrar sesión en este dispositivo?',
+                text: 'Este dispositivo ya no podrá acceder a tu cuenta',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, cerrar',
+                cancelButtonText: 'Cancelar',
+                background: 'var(--bg-card)',
+                color: 'var(--text-primary)'
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    database.ref('usuarios/' + uidActual + '/dispositivos/' + id).remove().then(function() {
+                        Swal.fire({
+                            title: '✅ Sesión cerrada',
+                            icon: 'success',
+                            background: 'var(--bg-card)',
+                            color: 'var(--text-primary)',
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+                        cargarDispositivos();
+                        registrarAuditoria('cerrar_sesion_dispositivo', 'Cerró sesión en dispositivo');
+                    });
+                }
+            });
+        }
+
+        function cerrarTodasSesiones() {
+            Swal.fire({
+                title: '¿Cerrar todas las sesiones?',
+                text: 'Todos los dispositivos (excepto este) serán desconectados',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, cerrar todas',
+                cancelButtonText: 'Cancelar',
+                background: 'var(--bg-card)',
+                color: 'var(--text-primary)'
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    database.ref('usuarios/' + uidActual + '/dispositivos').set({
+                        actual: { nombre: 'Windows • Chrome', ubicacion: 'Panamá', fecha: new Date().toLocaleString(), actual: true }
+                    }).then(function() {
+                        Swal.fire({
+                            title: '✅ Todas las sesiones cerradas',
+                            text: 'Solo este dispositivo permanece conectado',
+                            icon: 'success',
+                            background: 'var(--bg-card)',
+                            color: 'var(--text-primary)',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        cargarDispositivos();
+                        registrarAuditoria('cerrar_todas_sesiones', 'Cerró todas las sesiones');
+                    });
+                }
+            });
+        }
+
+        // ==========================================================
+        // 📋 ACTIVIDAD RECIENTE
+        // ==========================================================
+        function cargarActividad() {
+            const container = document.getElementById('actividad-lista');
+            
+            database.ref('usuarios/' + uidActual + '/actividad').orderByChild('fecha').limitToLast(10).once('value').then(function(snapshot) {
+                const actividades = snapshot.val() || {};
+                let html = '';
+                
+                const actividadesSimuladas = [
+                    { accion: 'Inicio de sesión exitoso', dispositivo: 'Windows • Chrome', ubicacion: 'Panamá', fecha: 'Hoy, 1:35 p.m.' },
+                    { accion: 'Cambio de contraseña', dispositivo: 'Windows • Chrome', ubicacion: 'Panamá', fecha: '05/06/2026' },
+                    { accion: 'Inicio de sesión exitoso', dispositivo: 'Android • Chrome', ubicacion: 'Panamá', fecha: '02/06/2026, 7:45 p.m.' }
+                ];
+                
+                const lista = Object.keys(actividades).length > 0 ? Object.values(actividades) : actividadesSimuladas;
+                
+                lista.slice(0, 10).forEach(function(act) {
+                    const icono = act.accion.includes('Inicio de sesión') ? '🟢' :
+                                 act.accion.includes('contraseña') ? '🔑' :
+                                 act.accion.includes('2FA') ? '🔐' :
+                                 act.accion.includes('sesión') ? '🔒' : '📝';
+                    
+                    html += `
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid var(--glass-border);">
+                            <div>
+                                <div style="font-size:12px; font-weight:500;">${icono} ${sanitizar(act.accion || 'Actividad')}</div>
+                                <div style="font-size:10px; color:var(--text-tertiary);">${sanitizar(act.dispositivo || '')} ${act.ubicacion ? '• ' + sanitizar(act.ubicacion) : ''}</div>
+                            </div>
+                            <div style="font-size:10px; color:var(--text-tertiary);">${sanitizar(act.fecha || 'Fecha desconocida')}</div>
+                        </div>
+                    `;
+                });
+                
+                if (lista.length === 0) {
+                    html = '<div style="text-align:center; padding:10px; color:var(--text-tertiary); font-size:12px;">📋 No hay actividad registrada</div>';
+                }
+                
+                container.innerHTML = html;
+            });
+        }
+
+        function registrarAuditoria(accion, detalle) {
+            if (typeof database === 'undefined') return;
+            const user = auth.currentUser;
+            const data = {
+                usuario: user ? user.email : 'desconocido',
+                accion: accion,
+                detalle: sanitizar(detalle || ''),
+                timestamp: firebase.database.ServerValue.TIMESTAMP,
+                pagina: 'taxista'
+            };
+            database.ref('auditoria').push(data).catch(function(err) {
+                console.warn('No se pudo registrar auditoría:', err);
+            });
+        }
+
+        // ==========================================================
+        // 🚪 CERRAR SESIÓN
+        // ==========================================================
+        function cerrarSesion() {
+            Swal.fire({
+                title: '¿Cerrar sesión?',
+                text: '¿Estás seguro de que quieres salir?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, salir',
+                cancelButtonText: 'Cancelar',
+                background: 'var(--bg-card)',
+                color: 'var(--text-primary)',
+                confirmButtonColor: 'var(--danger)'
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    registrarAuditoria('cerrar_sesion', 'Cerró sesión');
+                    auth.signOut().then(function() {
+                        window.location.href = API_URL + '/login';
+                    });
+                }
+            });
+        }
+
+        // ==========================================================
+        // 📊 GRÁFICOS
+        // ==========================================================
+        function crearGraficoGanancias() {
+            let canvas = document.getElementById('graficoGanancias');
+            if (!canvas) {
+                const contenedor = document.querySelector('.stats-grid');
+                if (contenedor) {
+                    const div = document.createElement('div');
+                    div.className = 'stat-card';
+                    div.style.gridColumn = '1 / -1';
+                    div.innerHTML = `
+                        <div class="card-title"><i class="fas fa-chart-line" style="color:var(--success);"></i> GANANCIAS SEMANALES</div>
+                        <canvas id="graficoGanancias" style="width:100%; height:150px; max-height:150px;"></canvas>
+                    `;
+                    contenedor.parentNode.insertBefore(div, contenedor.nextSibling);
+                    canvas = document.getElementById('graficoGanancias');
+                }
+            }
+            
+            if (canvas && typeof Chart !== 'undefined') {
+                const data = {
+                    labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+                    datasets: [{
+                        label: 'Ganancias (B/.)',
+                        data: [45, 60, 35, 80, 55, 90, 70],
+                        borderColor: 'var(--accent)',
+                        backgroundColor: 'rgba(255, 106, 42, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                };
+                
+                new Chart(canvas, {
+                    type: 'line',
+                    data: data,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: 'var(--text-secondary)',
+                                    font: { size: 10 }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: { color: 'var(--text-tertiary)', font: { size: 9 } },
+                                grid: { color: 'var(--glass-border)' }
+                            },
+                            x: {
+                                ticks: { color: 'var(--text-tertiary)', font: { size: 9 } }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // ==========================================================
+        // 🔔 NOTIFICACIONES PUSH EN TIEMPO REAL
+        // ==========================================================
+        let notificacionesActivas = [];
+        let notificacionSound = null;
+        let notificacionTimeoutGlobal = null;
+
+        function mostrarNotificacion(tipo, titulo, mensaje, accion = null) {
+            const container = document.getElementById('notificacionesContainer');
+            if (!container) return;
+
+            const id = 'notif-' + Date.now();
+            const iconos = { solicitud: '🚕', alerta: '🚨', info: 'ℹ️', mantenimiento: '🔧', mensaje: '💬', bono: '🎁' };
+            const colores = { solicitud: 'var(--success)', alerta: 'var(--danger)', info: 'var(--accent)', mantenimiento: 'var(--warning)', mensaje: 'var(--accent)', bono: 'var(--warning)' };
+            
+            const icono = iconos[tipo] || '🔔';
+            const color = colores[tipo] || 'var(--accent)';
+            const tiempo = new Date().toLocaleTimeString();
+
+            const notif = document.createElement('div');
+            notif.className = 'notificacion-push';
+            notif.id = id;
+            notif.style.borderColor = color;
+
+            let botonAccion = '';
+            if (accion) {
+                botonAccion = `
+                    <button class="notif-accion notif-accion-ver" onclick="ejecutarAccionNotificacion('${id}', '${accion}')">
+                        ${accion === 'ver_solicitud' ? '👁️ Ver solicitud' :
+                         accion === 'ver_mensaje' ? '💬 Responder' :
+                         accion === 'ver_documento' ? '📄 Ver documento' :
+                         accion === 'ver_mantenimiento' ? '🔧 Ver servicio' : 'Ver'}
+                    </button>
+                `;
+            }
+
+            notif.innerHTML = `
+                <div class="notif-icono ${tipo}">${icono}</div>
+                <div class="notif-contenido">
+                    <div class="notif-titulo">${sanitizar(titulo)}</div>
+                    <div class="notif-mensaje">${sanitizar(mensaje)}</div>
+                    <div class="notif-tiempo">${tiempo}</div>
+                    ${botonAccion}
+                </div>
+                <button class="notif-cerrar" onclick="cerrarNotificacion('${id}')">✕</button>
+            `;
+
+            container.appendChild(notif);
+            notificacionesActivas.push(id);
+
+            try {
+                if (!notificacionSound) {
+                    notificacionSound = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3');
+                }
+                notificacionSound.volume = 0.3;
+                notificacionSound.currentTime = 0;
+                notificacionSound.play().catch(() => {});
+            } catch(e) {}
+
+            clearTimeout(notificacionTimeoutGlobal);
+            notificacionTimeoutGlobal = setTimeout(function() {
+                cerrarNotificacion(id);
+            }, 8000);
+
+            while (container.children.length > 5) {
+                const first = container.children[0];
+                if (first) {
+                    first.classList.add('saliendo');
+                    setTimeout(function() {
+                        if (first.parentNode) first.remove();
+                    }, 500);
+                }
+            }
+        }
+
+        function cerrarNotificacion(id) {
+            const notif = document.getElementById(id);
+            if (!notif) return;
+            notif.classList.add('saliendo');
+            setTimeout(function() {
+                if (notif.parentNode) notif.remove();
+            }, 500);
+            notificacionesActivas = notificacionesActivas.filter(n => n !== id);
+        }
+
+        function ejecutarAccionNotificacion(id, accion) {
+            cerrarNotificacion(id);
+            switch(accion) {
+                case 'ver_solicitud': irASolicitudes(); break;
+                case 'ver_mensaje': mostrarSeccion('mensajeria'); break;
+                case 'ver_documento': mostrarSeccion('documentos'); break;
+                case 'ver_mantenimiento': mostrarSeccion('mantenimiento'); break;
+                default: mostrarSeccion('inicio');
+            }
+        }
+
+        function iniciarEscuchasNotificaciones() {
+            if (!uidActual) return;
+
+            database.ref('solicitudes').orderByChild('estado').equalTo('pendiente').on('child_added', function(snapshot) {
+                const solicitud = snapshot.val();
+                if (solicitud.taxistaId !== uidActual) {
+                    mostrarNotificacion(
+                        'solicitud',
+                        '🚕 Nueva solicitud',
+                        `${solicitud.pasajero || 'Anónimo'} - ${solicitud.origen || 'N/A'} → ${solicitud.destino || 'N/A'}`,
+                        'ver_solicitud'
+                    );
+                }
+            });
+
+            database.ref('chats').orderByChild('taxistaId').equalTo(uidActual).on('child_added', function(snapshot) {
+                const chat = snapshot.val();
+                if (chat.ultimoMensaje) {
+                    mostrarNotificacion(
+                        'mensaje',
+                        `💬 Nuevo mensaje de ${chat.pasajero || 'Pasajero'}`,
+                        chat.ultimoMensaje || 'Nuevo mensaje',
+                        'ver_mensaje'
+                    );
+                }
+            });
+        }
+
+        // ==========================================================
+        // ✅ INICIALIZACIÓN COMPLETA
+        // ==========================================================
+        console.log('🚀 CupoTax - Panel de Taxista inicializado');
+        console.log('📱 Diseño responsive: Escritorio, Tablet y Móvil');
+        console.log('🔥 Firebase conectado en tiempo real');
+
+        // Fecha en el chat
+        document.addEventListener('DOMContentLoaded', function() {
+            const fecha = document.getElementById('fechaActualAdminTaxista');
+            if (fecha) {
+                const hoy = new Date();
+                fecha.textContent = hoy.toLocaleDateString('es-ES', { day: 'numeric', month: 'numeric', year: 'numeric' });
+            }
+            
+            // Animaciones de GSAP
+            if (typeof gsap !== 'undefined') {
+                gsap.from('.stat-card', {
+                    duration: 0.6,
+                    scale: 0.8,
+                    opacity: 0,
+                    stagger: 0.1,
+                    ease: 'back.out(1.7)'
+                });
+            }
+
+            // Inicializar notificaciones
+            setTimeout(function() {
+                iniciarEscuchasNotificaciones();
+            }, 2000);
+        });
+
+        // Función para mostrar mensajes de SOPORTE (base de conocimiento)
         function verHistorialSoporte() {
             Swal.fire({
                 title: '📜 Historial de soporte',
@@ -5416,7 +6817,7 @@
         }
 
         function abrirAsistenteIA() {
-            document.getElementById('iaMsgInputNuevo').focus();
+            document.getElementById('iaMsgInputTaxista').focus();
             Swal.fire({
                 title: '🤖 Asistente IA',
                 text: 'Escribe tu pregunta en el campo de texto y te ayudaré.',
@@ -5480,7 +6881,7 @@
                 'mantenimiento': '🔧 Mantenimiento preventivo',
                 'politicas': '📋 Políticas de la plataforma'
             };
-
+            
             Swal.fire({
                 title: titulos[articulo] || 'Artículo',
                 text: 'Este artículo se está cargando. Pronto tendrás más información.',
@@ -5495,441 +6896,22 @@
             mostrarBaseConocimiento();
         }
 
-        function filtrarArticulos() {
-            const busqueda = document.getElementById('buscarArticulo').value.toLowerCase();
+        function filtrarArticulosTaxista() {
+            const busqueda = document.getElementById('buscarArticuloTaxista').value.toLowerCase();
             const items = document.querySelectorAll('.articulo-item');
-            items.forEach(function(item) {
+            items.forEach(item => {
                 const texto = item.innerText.toLowerCase();
                 item.style.display = texto.includes(busqueda) ? 'flex' : 'none';
             });
         }
 
-        // ==========================================================
-        // 🔐 2FA
-        // ==========================================================
-        function toggle2FA() {
-            const estadoActual = document.getElementById('estado2FA').textContent.includes('Activado');
-            const nuevoEstado = !estadoActual;
-
-            Swal.fire({
-                title: nuevoEstado ? '🔐 Activar 2FA' : '🔓 Desactivar 2FA',
-                text: nuevoEstado ? 'Se activará la verificación en 2 pasos para tu cuenta' :
-                    'Se desactivará la verificación en 2 pasos',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: nuevoEstado ? 'Sí, activar' : 'Sí, desactivar',
-                cancelButtonText: 'Cancelar',
-                background: 'var(--bg-card)',
-                color: 'var(--text-primary)'
-            }).then(function(result) {
-                if (result.isConfirmed) {
-                    database.ref('usuarios/' + uidActual + '/seguridad/2fa').set(nuevoEstado).then(function() {
-                        actualizarEstado2FA(nuevoEstado);
-                        Swal.fire({
-                            title: nuevoEstado ? '✅ 2FA Activado' : '✅ 2FA Desactivado',
-                            icon: 'success',
-                            background: 'var(--bg-card)',
-                            color: 'var(--text-primary)',
-                            timer: 2000,
-                            showConfirmButton: false
-                        });
-                        registrarAuditoria('2fa', nuevoEstado ? '2FA activado' : '2FA desactivado');
-                    });
-                }
-            });
-        }
-
-        function actualizarEstado2FA(activado) {
-            const estadoElem = document.getElementById('estado2FA');
-            const btnElem = document.getElementById('btn2FA');
-            if (activado) {
-                estadoElem.textContent = '✅ Activado';
-                estadoElem.style.color = 'var(--success)';
-                btnElem.textContent = 'Desactivar';
-                btnElem.style.background = 'var(--danger)';
-            } else {
-                estadoElem.textContent = '❌ Desactivado';
-                estadoElem.style.color = 'var(--danger)';
-                btnElem.textContent = 'Activar';
-                btnElem.style.background = 'var(--gradient-glow)';
-            }
-        }
-
-        function cargarEstado2FA() {
-            database.ref('usuarios/' + uidActual + '/seguridad/2fa').once('value').then(function(snapshot) {
-                const activado = snapshot.val() || false;
-                actualizarEstado2FA(activado);
-            });
+        // Actualizar badges
+        function actualizarBadges() {
+            // Ya se actualiza en cada carga
         }
 
         // ==========================================================
-        // 📱 DISPOSITIVOS
-        // ==========================================================
-        function cargarDispositivos() {
-            const container = document.getElementById('dispositivos-lista');
-
-            const dispositivosSimulados = [
-                { nombre: 'Windows • Chrome', ubicacion: 'Panamá', fecha: 'Hoy, 1:35 p.m.', actual: true },
-                { nombre: 'Android • Chrome', ubicacion: 'Panamá', fecha: '02/06/2026, 7:45 p.m.', actual: false }
-            ];
-
-            let html = '';
-            dispositivosSimulados.forEach(function(disp, index) {
-                const esActual = disp.actual || (index === 0);
-                html += `
-                    <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--glass-border);">
-                        <div>
-                            <div style="font-weight:500;">${disp.nombre || 'Dispositivo desconocido'}</div>
-                            <div style="font-size:11px; color:var(--text-tertiary);">📍 ${disp.ubicacion || 'Ubicación desconocida'} • ${disp.fecha || 'Fecha desconocida'}</div>
-                        </div>
-                        <div>
-                            ${esActual ? '<span style="font-size:10px; color:var(--success); font-weight:600;">✅ Este dispositivo</span>' : 
-                            `<button class="btn-danger" onclick="cerrarSesionDispositivo('${index}')" style="padding:4px 12px; font-size:10px; border:none; border-radius:15px; cursor:pointer; color:#fff; background:var(--danger);">Cerrar sesión</button>`}
-                        </div>
-                    </div>
-                `;
-            });
-
-            container.innerHTML = html ||
-                '<div style="text-align:center; padding:10px; color:var(--text-tertiary); font-size:12px;">📱 No hay dispositivos conectados</div>';
-        }
-
-        function cerrarSesionDispositivo(id) {
-            Swal.fire({
-                title: '¿Cerrar sesión en este dispositivo?',
-                text: 'Este dispositivo ya no podrá acceder a tu cuenta',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Sí, cerrar',
-                cancelButtonText: 'Cancelar',
-                background: 'var(--bg-card)',
-                color: 'var(--text-primary)'
-            }).then(function(result) {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        title: '✅ Sesión cerrada',
-                        icon: 'success',
-                        background: 'var(--bg-card)',
-                        color: 'var(--text-primary)',
-                        timer: 1500,
-                        showConfirmButton: false
-                    });
-                    registrarAuditoria('cerrar_sesion_dispositivo', 'Cerró sesión en dispositivo');
-                }
-            });
-        }
-
-        function cerrarTodasSesiones() {
-            Swal.fire({
-                title: '¿Cerrar todas las sesiones?',
-                text: 'Todos los dispositivos (excepto este) serán desconectados',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Sí, cerrar todas',
-                cancelButtonText: 'Cancelar',
-                background: 'var(--bg-card)',
-                color: 'var(--text-primary)'
-            }).then(function(result) {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        title: '✅ Todas las sesiones cerradas',
-                        text: 'Solo este dispositivo permanece conectado',
-                        icon: 'success',
-                        background: 'var(--bg-card)',
-                        color: 'var(--text-primary)',
-                        timer: 2000,
-                        showConfirmButton: false
-                    });
-                    registrarAuditoria('cerrar_todas_sesiones', 'Cerró todas las sesiones');
-                }
-            });
-        }
-
-        // ==========================================================
-        // 📋 ACTIVIDAD RECIENTE
-        // ==========================================================
-        function cargarActividad() {
-            const container = document.getElementById('actividad-lista');
-
-            const actividadesSimuladas = [
-                { accion: 'Inicio de sesión exitoso', dispositivo: 'Windows • Chrome', ubicacion: 'Panamá',
-                    fecha: 'Hoy, 1:35 p.m.' },
-                { accion: 'Cambio de contraseña', dispositivo: 'Windows • Chrome', ubicacion: 'Panamá',
-                    fecha: '05/06/2026' }
-            ];
-
-            let html = '';
-            actividadesSimuladas.forEach(function(act) {
-                const icono = act.accion.includes('Inicio de sesión') ? '🟢' :
-                    act.accion.includes('contraseña') ? '🔑' :
-                    act.accion.includes('2FA') ? '🔐' :
-                    act.accion.includes('sesión') ? '🔒' : '📝';
-
-                html += `
-                    <div style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid var(--glass-border);">
-                        <div>
-                            <div style="font-size:12px; font-weight:500;">${icono} ${act.accion || 'Actividad'}</div>
-                            <div style="font-size:10px; color:var(--text-tertiary);">${act.dispositivo || ''} ${act.ubicacion ? '• ' + act.ubicacion : ''}</div>
-                        </div>
-                        <div style="font-size:10px; color:var(--text-tertiary);">${act.fecha || 'Fecha desconocida'}</div>
-                    </div>
-                `;
-            });
-
-            container.innerHTML = html ||
-                '<div style="text-align:center; padding:10px; color:var(--text-tertiary); font-size:12px;">📋 No hay actividad registrada</div>';
-        }
-
-        // ==========================================================
-        // 📍 COMPARTIR VIAJE EN TIEMPO REAL
-        // ==========================================================
-        function compartirViajeEnTiempoReal() {
-            if (!navigator.geolocation) {
-                Swal.fire('Error', 'Tu navegador no soporta geolocalización', 'error');
-                return;
-            }
-
-            Swal.fire({
-                title: '📍 Compartir viaje en tiempo real',
-                text: 'Se enviará un enlace a tus contactos de confianza para que sigan tu viaje',
-                icon: 'info',
-                showCancelButton: true,
-                confirmButtonText: 'Compartir',
-                cancelButtonText: 'Cancelar',
-                background: 'var(--bg-card)',
-                color: 'var(--text-primary)'
-            }).then(function(result) {
-                if (result.isConfirmed) {
-                    navigator.geolocation.getCurrentPosition(function(pos) {
-                        const lat = pos.coords.latitude;
-                        const lng = pos.coords.longitude;
-                        const link = `https://maps.google.com/?q=${lat},${lng}`;
-
-                        if (contactos.length > 0) {
-                            Swal.fire({
-                                title: '✅ Ubicación compartida',
-                                text: 'Se envió el enlace a tus ' + contactos.length +
-                                    ' contactos de confianza',
-                                icon: 'success',
-                                background: 'var(--bg-card)',
-                                color: 'var(--text-primary)',
-                                timer: 3000,
-                                showConfirmButton: false
-                            });
-                            registrarAuditoria('compartir_viaje_tiempo_real',
-                            'Compartió ubicación en tiempo real');
-                        } else {
-                            Swal.fire('⚠️ Sin contactos', 'Agrega contactos de confianza para compartir tu ubicación',
-                                'warning');
-                        }
-                    }, function(error) {
-                        Swal.close();
-                        Swal.fire('Error', 'No se pudo obtener tu ubicación', 'error');
-                    });
-                }
-            });
-        }
-
-        // ==========================================================
-        // 🎵 GRABACIÓN DE AUDIO
-        // ==========================================================
-        let grabandoAudio = false;
-        let audioInterval = null;
-
-        function toggleGrabacionAudio() {
-            grabandoAudio = !grabandoAudio;
-
-            if (grabandoAudio) {
-                Swal.fire({
-                    title: '🎤 Grabando audio del viaje',
-                    text: 'El audio se está grabando en segundo plano',
-                    icon: 'info',
-                    background: 'var(--bg-card)',
-                    color: 'var(--text-primary)',
-                    timer: 2000,
-                    showConfirmButton: false
-                });
-                audioInterval = setInterval(function() {
-                    console.log('🎤 Grabando audio...');
-                }, 5000);
-                registrarAuditoria('iniciar_grabacion_audio', 'Inició grabación de audio');
-            } else {
-                if (audioInterval) {
-                    clearInterval(audioInterval);
-                    audioInterval = null;
-                }
-                Swal.fire({
-                    title: '⏹️ Grabación detenida',
-                    text: 'El audio del viaje ha sido guardado',
-                    icon: 'success',
-                    background: 'var(--bg-card)',
-                    color: 'var(--text-primary)',
-                    timer: 2000,
-                    showConfirmButton: false
-                });
-                registrarAuditoria('detener_grabacion_audio', 'Detuvo grabación de audio');
-            }
-
-            const btn = document.getElementById('btnAudioViaje');
-            if (btn) {
-                btn.innerHTML = grabandoAudio ?
-                    '<i class="fas fa-stop"></i> Detener grabación' :
-                    '<i class="fas fa-microphone"></i> Iniciar grabación de audio';
-            }
-        }
-
-        // ==========================================================
-        // 📦 BONOS
-        // ==========================================================
-        function cargarBonos() {
-            const container = document.getElementById('bonos-lista');
-
-            const bonos = [
-                { nombre: '🎁 Bono de bienvenida', descripcion: 'B/. 5.00 para tu primer viaje', estado: 'activo' },
-                { nombre: '⭐ Bono de fidelidad', descripcion: 'B/. 2.00 por cada 10 viajes', estado: 'activo' }
-            ];
-
-            let html = '';
-            bonos.forEach(function(bono) {
-                html += `
-                    <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--glass-border);">
-                        <div>
-                            <div style="font-weight:500;">${bono.nombre}</div>
-                            <div style="font-size:11px; color:var(--text-secondary);">${bono.descripcion}</div>
-                        </div>
-                        <span style="font-size:10px; color:var(--success);">✅ ${bono.estado}</span>
-                    </div>
-                `;
-            });
-
-            container.innerHTML = html ||
-                '<div style="text-align:center; padding:10px; color:var(--text-tertiary); font-size:12px;">🎁 No hay bonos disponibles</div>';
-        }
-
-        // ==========================================================
-        // 🎨 TEMAS
-        // ==========================================================
-        function setTema(tema) {
-            document.body.classList.remove('style-fire', 'style-glass', 'style-neon', 'style-crimson', 'light-mode');
-            if (tema === 'fire') document.body.classList.add('style-fire');
-            else if (tema === 'glass') document.body.classList.add('style-glass');
-            else if (tema === 'neon') document.body.classList.add('style-neon');
-            else if (tema === 'crimson') document.body.classList.add('style-crimson');
-            else if (tema === 'light') document.body.classList.add('light-mode');
-
-            localStorage.setItem('cupotax-taxista-tema', tema);
-
-            document.querySelectorAll('.theme-card').forEach(function(card) {
-                card.classList.remove('active');
-            });
-            const cardMap = {
-                'fire': 'cardFire',
-                'glass': 'cardGlass',
-                'neon': 'cardNeon',
-                'crimson': 'cardCrimson',
-                'light': 'cardLight'
-            };
-            if (cardMap[tema]) {
-                document.getElementById(cardMap[tema]).classList.add('active');
-            }
-
-            Swal.fire({
-                title: 'Tema aplicado',
-                icon: 'success',
-                timer: 1500,
-                showConfirmButton: false,
-                background: 'var(--bg-card)',
-                color: 'var(--text-primary)'
-            });
-        }
-
-        function toggleLightMode() {
-            if (document.body.classList.contains('light-mode')) {
-                document.body.classList.remove('light-mode');
-                const tema = localStorage.getItem('cupotax-taxista-tema') || 'fire';
-                setTema(tema);
-            } else {
-                document.body.classList.add('light-mode');
-                localStorage.setItem('cupotax-taxista-tema', 'light');
-                document.getElementById('cardLight').classList.add('active');
-            }
-            document.getElementById('settingsPanel').classList.remove('open');
-        }
-
-        function resetearTema() {
-            document.body.classList.remove('style-glass', 'style-neon', 'style-crimson', 'light-mode');
-            document.body.classList.add('style-fire');
-            localStorage.setItem('cupotax-taxista-tema', 'fire');
-            document.querySelectorAll('.theme-card').forEach(function(card) {
-                card.classList.remove('active');
-            });
-            document.getElementById('cardFire').classList.add('active');
-            document.getElementById('settingsPanel').classList.remove('open');
-            Swal.fire({
-                title: 'Tema restaurado',
-                icon: 'success',
-                timer: 1500,
-                showConfirmButton: false,
-                background: 'var(--bg-card)',
-                color: 'var(--text-primary)'
-            });
-        }
-
-        function cargarTemaGuardado() {
-            const tema = localStorage.getItem('cupotax-taxista-tema') || 'fire';
-            setTema(tema);
-        }
-
-        function toggleTemas() {
-            document.getElementById('settingsPanel').classList.toggle('open');
-        }
-
-        // ==========================================================
-        // 📍 COMPARTIR UBICACIÓN
-        // ==========================================================
-        function compartirUbicacion() {
-            if (!navigator.geolocation) {
-                Swal.fire('Error', 'Tu navegador no soporta geolocalización', 'error');
-                return;
-            }
-
-            Swal.fire({
-                title: '📍 Obteniendo ubicación...',
-                text: 'Por favor espera',
-                allowOutsideClick: false,
-                didOpen: function() { Swal.showLoading(); }
-            });
-
-            navigator.geolocation.getCurrentPosition(function(pos) {
-                Swal.close();
-                const lat = pos.coords.latitude;
-                const lng = pos.coords.longitude;
-                const mapsLink = `https://maps.google.com/?q=${lat},${lng}`;
-                const mensaje = `🚕 Mi ubicación actual: ${mapsLink}`;
-
-                Swal.fire({
-                    title: 'Compartir ubicación',
-                    html: `
-                        <p style="font-size:0.8rem; word-break:break-all;">📍 ${mapsLink}</p>
-                        <div style="display:flex; gap:10px; margin-top:15px;">
-                            <button onclick="window.open('https://wa.me/?text=${encodeURIComponent(mensaje)}', '_blank')" style="flex:1; background:#25D366; border:none; padding:10px; border-radius:30px; color:white; cursor:pointer;">📱 WhatsApp</button>
-                            <button onclick="navigator.clipboard.writeText('${mapsLink}')" style="flex:1; background:var(--accent); border:none; padding:10px; border-radius:30px; color:#000; cursor:pointer;">🔗 Copiar enlace</button>
-                        </div>
-                    `,
-                    showConfirmButton: false,
-                    showCloseButton: true,
-                    background: 'var(--bg-card)',
-                    color: 'var(--text-primary)'
-                });
-                registrarAuditoria('compartir_ubicacion', 'Compartió ubicación en vivo');
-            }, function(error) {
-                Swal.close();
-                Swal.fire('Error', 'No se pudo obtener tu ubicación', 'error');
-            });
-        }
-
-        // ==========================================================
-        // 🚨 SISTEMA SOS
+        // 🚨 SOS - EMERGENCIA
         // ==========================================================
         let clickCountSos = 0;
         let sosTimeout = null;
@@ -5948,9 +6930,6 @@
                 clickCountSos = 0;
                 sosTimeout = null;
             }
-            setTimeout(function() {
-                if (clickCountSos > 0 && !sosTimeout) clickCountSos = 0;
-            }, 500);
         }
 
         function mostrarOpcionesSOS() {
@@ -5958,10 +6937,10 @@
                 title: '🆘 ¿Qué está sucediendo?',
                 html: `
                     <div style="text-align:left;">
-                        <button onclick="seleccionarSOS('Accidente de tránsito', 'Se ha producido un accidente')" style="width:100%; margin-bottom:8px; background:var(--bg-card); border:1px solid var(--accent); padding:12px; border-radius:16px; cursor:pointer; color:var(--text-primary);">🚗 Accidente</button>
-                        <button onclick="seleccionarSOS('Asalto / Robo', 'Estoy siendo víctima de un asalto')" style="width:100%; margin-bottom:8px; background:var(--bg-card); border:1px solid var(--accent); padding:12px; border-radius:16px; cursor:pointer; color:var(--text-primary);">🔫 Asalto</button>
-                        <button onclick="seleccionarSOS('Problema médico', 'Necesito asistencia médica')" style="width:100%; margin-bottom:8px; background:var(--bg-card); border:1px solid var(--accent); padding:12px; border-radius:16px; cursor:pointer; color:var(--text-primary);">🏥 Médico</button>
-                        <button onclick="seleccionarSOS('Otro', 'Describir situación')" style="width:100%; background:var(--bg-card); border:1px solid var(--accent); padding:12px; border-radius:16px; cursor:pointer; color:var(--text-primary);">📝 Otro</button>
+                        <button class="sos-option" onclick="seleccionarSOS('Accidente de tránsito', 'Se ha producido un accidente')" style="width:100%; margin-bottom:8px; background:var(--bg-card); border:1px solid var(--accent); padding:12px; border-radius:16px; cursor:pointer; color:var(--text-primary);">🚗 Accidente</button>
+                        <button class="sos-option" onclick="seleccionarSOS('Asalto / Robo', 'Estoy siendo víctima de un asalto')" style="width:100%; margin-bottom:8px; background:var(--bg-card); border:1px solid var(--accent); padding:12px; border-radius:16px; cursor:pointer; color:var(--text-primary);">🔫 Asalto</button>
+                        <button class="sos-option" onclick="seleccionarSOS('Problema médico', 'Necesito asistencia médica')" style="width:100%; margin-bottom:8px; background:var(--bg-card); border:1px solid var(--accent); padding:12px; border-radius:16px; cursor:pointer; color:var(--text-primary);">🏥 Médico</button>
+                        <button class="sos-option" onclick="seleccionarSOS('Otro', 'Describir situación')" style="width:100%; background:var(--bg-card); border:1px solid var(--accent); padding:12px; border-radius:16px; cursor:pointer; color:var(--text-primary);">📝 Otro</button>
                     </div>
                 `,
                 showConfirmButton: false,
@@ -5986,11 +6965,6 @@
                     color: 'var(--text-primary)'
                 }).then(function(result) {
                     if (result.isConfirmed && result.value) {
-                        if (detectarAtaque(result.value)) {
-                            reportarAtaque('XSS_SOS', 'Intento de XSS en SOS: ' + result.value);
-                            Swal.fire('🚨 Ataque detectado', 'Se ha detectado un intento de ataque', 'error');
-                            return;
-                        }
                         enviarSOS(tipo, result.value);
                     }
                 });
@@ -6024,567 +6998,12 @@
                     background: 'var(--bg-card)',
                     color: 'var(--text-primary)'
                 });
-                registrarAuditoria('sos_activado', 'SOS activado: ' + tipo);
+                registrarAuditoria('activar_sos', 'Activó SOS: ' + tipo);
             });
         }
 
-        // ==========================================================
-        // 🚕 ESTADO DEL CONDUCTOR
-        // ==========================================================
-        function cambiarEstado() {
-            const estados = ['disponible', 'ocupado', 'pausa'];
-            const currentIndex = estados.indexOf(estadoActual);
-            estadoActual = estados[(currentIndex + 1) % estados.length];
-
-            const dot = document.getElementById('statusDot');
-            const texto = document.getElementById('estadoTexto');
-            const icono = document.getElementById('estadoIcono');
-            const statEstado = document.getElementById('statEstado');
-
-            switch (estadoActual) {
-                case 'disponible':
-                    dot.className = 'status-dot';
-                    texto.textContent = 'Disponible';
-                    statEstado.textContent = 'Disponible';
-                    icono.style.color = 'var(--success)';
-                    break;
-                case 'ocupado':
-                    dot.className = 'status-dot ocupado';
-                    texto.textContent = 'Ocupado';
-                    statEstado.textContent = 'Ocupado';
-                    icono.style.color = 'var(--danger)';
-                    break;
-                case 'pausa':
-                    dot.className = 'status-dot pausa';
-                    texto.textContent = 'En pausa';
-                    statEstado.textContent = 'En pausa';
-                    icono.style.color = 'var(--warning)';
-                    break;
-            }
-
-            if (uidActual) {
-                database.ref('usuarios/' + uidActual + '/estado').set(estadoActual);
-                registrarAuditoria('cambiar_estado', 'Estado cambiado a: ' + estadoActual);
-            }
-        }
-
-        // ==========================================================
-        // 👤 ACTUALIZAR PERFIL
-        // ==========================================================
-        function actualizarPerfil() {
-            const nombre = document.getElementById('editNombre').value.trim();
-            const telefono = document.getElementById('editTelefono').value.trim();
-            const correo = document.getElementById('editCorreo').value.trim();
-            const licencia = document.getElementById('editLicencia').value.trim();
-            const direccion = document.getElementById('editDireccion').value.trim();
-            const vencimiento = document.getElementById('editVencimiento').value;
-            const password = document.getElementById('editPassword').value;
-
-            if (!nombre) {
-                Swal.fire('Error', 'El nombre es obligatorio', 'error');
-                return;
-            }
-
-            const updates = {
-                nombre: sanitizar(nombre),
-                telefono: sanitizar(telefono || ''),
-                email: correo || '',
-                licencia: sanitizar(licencia || ''),
-                direccion: sanitizar(direccion || ''),
-                vencimiento: vencimiento || ''
-            };
-
-            if (password && password.length >= 6) {
-                const user = auth.currentUser;
-                if (user) {
-                    user.updatePassword(password).catch(function(error) {
-                        console.error('Error al actualizar contraseña:', error);
-                    });
-                }
-            } else if (password && password.length < 6) {
-                Swal.fire('Error', 'La contraseña debe tener al menos 6 caracteres', 'error');
-                return;
-            }
-
-            database.ref('usuarios/' + uidActual).update(updates).then(function() {
-                Swal.fire({
-                    title: '✅ Perfil actualizado',
-                    icon: 'success',
-                    background: 'var(--bg-card)',
-                    color: 'var(--text-primary)',
-                    timer: 2000,
-                    showConfirmButton: false
-                });
-                document.getElementById('taxistaNombre').textContent = nombre;
-                document.getElementById('topNombre').textContent = nombre;
-                document.getElementById('perfilNombre').textContent = nombre;
-                document.getElementById('editPassword').value = '';
-                registrarAuditoria('actualizar_perfil', 'Actualizó su perfil');
-                cargarDatosUsuario(uidActual);
-            }).catch(function(error) {
-                Swal.fire('Error', 'No se pudo actualizar el perfil: ' + error.message, 'error');
-            });
-        }
-
-        // ==========================================================
-        // 📸 FOTO DE PERFIL
-        // ==========================================================
-        document.getElementById('fotoInput').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const img = document.getElementById('fotoPerfilImg');
-                    const icono = document.getElementById('fotoIcono');
-                    img.src = event.target.result;
-                    img.style.display = 'block';
-                    icono.style.display = 'none';
-                    database.ref('usuarios/' + uidActual + '/fotoPerfil').set(event.target.result);
-                    registrarAuditoria('cambiar_foto_perfil', 'Cambió foto de perfil');
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // ==========================================================
-        // 🔔 NOTIFICACIONES (panel)
-        // ==========================================================
-        function toggleNotificaciones() {
-            Swal.fire({
-                title: '🔔 Notificaciones',
-                text: 'Tienes notificaciones pendientes. Revisa la sección de Solicitudes.',
-                icon: 'info',
-                background: 'var(--bg-card)',
-                color: 'var(--text-primary)',
-                confirmButtonColor: 'var(--accent)'
-            });
-        }
-
-        // ==========================================================
-        // 📱 NAVEGACIÓN
-        // ==========================================================
-        document.querySelectorAll('.nav-item[data-seccion]').forEach(function(item) {
-            item.addEventListener('click', function() {
-                const seccion = this.dataset.seccion;
-                if (seccion === 'salir') {
-                    cerrarSesion();
-                    return;
-                }
-                document.querySelectorAll('.nav-item').forEach(function(i) {
-                    i.classList.remove('active');
-                });
-                this.classList.add('active');
-                mostrarSeccion(seccion);
-            });
-        });
-
-        document.querySelectorAll('.bottom-btn[data-seccion]').forEach(function(item) {
-            item.addEventListener('click', function() {
-                const seccion = this.dataset.seccion;
-                document.querySelectorAll('.bottom-btn').forEach(function(i) {
-                    i.classList.remove('active');
-                });
-                this.classList.add('active');
-                mostrarSeccion(seccion);
-                document.getElementById('menuMas').classList.remove('open');
-            });
-        });
-
-        document.querySelectorAll('.menu-mas button[data-seccion]').forEach(function(item) {
-            item.addEventListener('click', function() {
-                const seccion = this.dataset.seccion;
-                if (seccion === 'salir') {
-                    cerrarSesion();
-                    return;
-                }
-                document.querySelectorAll('.bottom-btn').forEach(function(i) {
-                    i.classList.remove('active');
-                });
-                const bottomBtn = document.querySelector(`.bottom-btn[data-seccion="${seccion}"]`);
-                if (bottomBtn) {
-                    bottomBtn.classList.add('active');
-                } else {
-                    document.getElementById('btnMasOpciones').classList.add('active');
-                }
-                mostrarSeccion(seccion);
-                document.getElementById('menuMas').classList.remove('open');
-            });
-        });
-
-        function mostrarSeccion(seccion) {
-            document.querySelectorAll('.seccion').forEach(function(sec) {
-                sec.classList.remove('active');
-            });
-            const target = document.getElementById('seccion-' + seccion);
-            if (target) {
-                target.classList.add('active');
-                if (seccion === 'mapas') {
-                    setTimeout(function() {
-                        if (mapaGrandeRuta) mapaGrandeRuta.resize();
-                        if (mapaGrandeCalor) mapaGrandeCalor.resize();
-                    }, 300);
-                }
-                if (seccion === 'solicitudes') {
-                    cargarSolicitudesCompletas(uidActual);
-                }
-            }
-        }
-
-        function volverInicio() {
-            document.querySelectorAll('.nav-item').forEach(function(i) {
-                i.classList.remove('active');
-            });
-            document.querySelectorAll('.bottom-btn').forEach(function(i) {
-                i.classList.remove('active');
-            });
-            document.querySelector('.nav-item[data-seccion="inicio"]').classList.add('active');
-            document.querySelector('.bottom-btn[data-seccion="inicio"]').classList.add('active');
-            mostrarSeccion('inicio');
-        }
-
-        function irAPerfil() {
-            document.querySelectorAll('.nav-item').forEach(function(i) {
-                i.classList.remove('active');
-            });
-            document.querySelector('.nav-item[data-seccion="perfil"]').classList.add('active');
-            mostrarSeccion('perfil');
-        }
-
-        function irAMapas() {
-            document.querySelectorAll('.nav-item').forEach(function(i) {
-                i.classList.remove('active');
-            });
-            document.querySelector('.nav-item[data-seccion="mapas"]').classList.add('active');
-            mostrarSeccion('mapas');
-        }
-
-        function irASolicitudes() {
-            document.querySelectorAll('.nav-item').forEach(function(i) {
-                i.classList.remove('active');
-            });
-            document.querySelector('.nav-item[data-seccion="solicitudes"]').classList.add('active');
-            mostrarSeccion('solicitudes');
-            cargarSolicitudesCompletas(uidActual);
-        }
-
-        function irADocumentos() {
-            document.querySelectorAll('.nav-item').forEach(function(i) {
-                i.classList.remove('active');
-            });
-            document.querySelector('.nav-item[data-seccion="documentos"]').classList.add('active');
-            mostrarSeccion('documentos');
-        }
-
-        function irAMantenimiento() {
-            document.querySelectorAll('.nav-item').forEach(function(i) {
-                i.classList.remove('active');
-            });
-            document.querySelector('.nav-item[data-seccion="mantenimiento"]').classList.add('active');
-            mostrarSeccion('mantenimiento');
-        }
-
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
-        }
-
-        function toggleMenuMas() {
-            document.getElementById('menuMas').classList.toggle('open');
-        }
-
-        // ==========================================================
-        // 🗺️ MAPAS
-        // ==========================================================
-        mapboxgl.accessToken = 'pk.eyJ1IjoiY3Vwb3RheCIsImEiOiJjbW91OWR4OXAwNDIxMnNxMTVlbzdkOGFkIn0.qVOJg2P9CzlD8aLladqjtg';
-        let mapaMiniRuta = null;
-        let mapaMiniCalor = null;
-        let mapaGrandeRuta = null;
-        let mapaGrandeCalor = null;
-        let markerTaxi = null;
-
-        function inicializarMapas() {
-            const containerRutaMini = document.getElementById('mapa-ruta-mini');
-            if (containerRutaMini) {
-                mapaMiniRuta = new mapboxgl.Map({
-                    container: 'mapa-ruta-mini',
-                    style: 'mapbox://styles/mapbox/standard',
-                    center: [-82.52, 9.43],
-                    zoom: 14,
-                    interactive: false
-                });
-
-                mapaMiniRuta.on('load', function() {
-                    if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition(function(pos) {
-                            const lat = pos.coords.latitude;
-                            const lng = pos.coords.longitude;
-                            mapaMiniRuta.flyTo({ center: [lng, lat], zoom: 14 });
-                            const el = document.createElement('div');
-                            el.innerHTML = '🚕';
-                            el.style.fontSize = '32px';
-                            el.style.filter = 'drop-shadow(0 0 10px var(--accent))';
-                            if (markerTaxi) markerTaxi.remove();
-                            markerTaxi = new mapboxgl.Marker(el)
-                                .setLngLat([lng, lat])
-                                .addTo(mapaMiniRuta);
-                            if (uidActual) {
-                                database.ref('usuarios/' + uidActual + '/ubicacion').set({
-                                    lat: lat,
-                                    lng: lng,
-                                    timestamp: Date.now()
-                                });
-                            }
-                        }, function(error) {
-                            console.log('Error obteniendo ubicación:', error);
-                            const el = document.createElement('div');
-                            el.innerHTML = '🚕';
-                            el.style.fontSize = '32px';
-                            el.style.filter = 'drop-shadow(0 0 10px var(--accent))';
-                            markerTaxi = new mapboxgl.Marker(el)
-                                .setLngLat([-82.52, 9.43])
-                                .addTo(mapaMiniRuta);
-                        });
-                    }
-
-                    setInterval(function() {
-                        if (navigator.geolocation) {
-                            navigator.geolocation.getCurrentPosition(function(pos) {
-                                const lat = pos.coords.latitude;
-                                const lng = pos.coords.longitude;
-                                if (markerTaxi) {
-                                    markerTaxi.setLngLat([lng, lat]);
-                                }
-                                if (uidActual) {
-                                    database.ref('usuarios/' + uidActual + '/ubicacion').set({
-                                        lat: lat,
-                                        lng: lng,
-                                        timestamp: Date.now()
-                                    });
-                                }
-                            }, function() {});
-                        }
-                    }, 30000);
-                });
-            }
-
-            const containerRutaGrande = document.getElementById('mapa-ruta-grande');
-            if (containerRutaGrande) {
-                mapaGrandeRuta = new mapboxgl.Map({
-                    container: 'mapa-ruta-grande',
-                    style: 'mapbox://styles/mapbox/standard',
-                    center: [-82.52, 9.43],
-                    zoom: 13
-                });
-                mapaGrandeRuta.addControl(new mapboxgl.NavigationControl());
-            }
-
-            const containerCalorGrande = document.getElementById('mapa-calor-grande');
-            if (containerCalorGrande) {
-                mapaGrandeCalor = new mapboxgl.Map({
-                    container: 'mapa-calor-grande',
-                    style: 'mapbox://styles/mapbox/dark-v11',
-                    center: [-82.52, 9.43],
-                    zoom: 13
-                });
-                mapaGrandeCalor.addControl(new mapboxgl.NavigationControl());
-                mapaGrandeCalor.on('load', function() {
-                    const puntos = [
-                        [-82.52, 9.43, 100],
-                        [-82.55, 9.40, 80],
-                        [-82.50, 9.45, 60],
-                        [-82.48, 9.42, 40],
-                        [-82.58, 9.38, 50]
-                    ];
-                    const features = puntos.map(function(p) {
-                        return {
-                            type: 'Feature',
-                            geometry: { type: 'Point', coordinates: [p[0], p[1]] },
-                            properties: { weight: p[2] }
-                        };
-                    });
-                    mapaGrandeCalor.addSource('calor-source', {
-                        type: 'geojson',
-                        data: { type: 'FeatureCollection', features: features }
-                    });
-                    mapaGrandeCalor.addLayer({
-                        id: 'calor-layer',
-                        type: 'heatmap',
-                        source: 'calor-source',
-                        paint: {
-                            'heatmap-weight': ['get', 'weight'],
-                            'heatmap-intensity': 1,
-                            'heatmap-color': [
-                                'interpolate', ['linear'], ['heatmap-density'],
-                                0, 'rgba(0,0,255,0)',
-                                0.2, 'rgba(0,255,255,0.5)',
-                                0.4, 'rgba(0,255,0,0.7)',
-                                0.6, 'rgba(255,255,0,0.8)',
-                                0.8, 'rgba(255,128,0,0.9)',
-                                1, 'rgba(255,0,0,1)'
-                            ],
-                            'heatmap-radius': 40
-                        }
-                    });
-                });
-            }
-        }
-
-        // ==========================================================
-        // 🔄 ESCUCHAS EN TIEMPO REAL
-        // ==========================================================
-        function iniciarEscuchasFirebase() {
-            if (!uidActual) return;
-
-            database.ref('notificaciones').orderByChild('taxistaId').equalTo(uidActual).on('child_added', function(
-                snapshot) {
-                const notif = snapshot.val();
-                if (!notif.leida) {
-                    mostrarPush(
-                        notif.tipo === 'solicitud' ? '🚕' :
-                        notif.tipo === 'bono' ? '🎁' :
-                        notif.tipo === 'mantenimiento' ? '🔧' : '🔔',
-                        notif.titulo || 'Nueva notificación',
-                        notif.mensaje || '',
-                        notif.tipo || 'info'
-                    );
-                }
-            });
-
-            database.ref('usuarios/' + uidActual + '/saldo').on('value', function(snapshot) {
-                // Actualizar saldo si es necesario
-            });
-        }
-
-        // ==========================================================
-        // 📢 NOTIFICACIONES PUSH
-        // ==========================================================
-        function mostrarPush(icono, titulo, mensaje, tipo) {
-            const container = document.getElementById('notificacionesContainer');
-            if (!container) return;
-
-            const id = 'push-' + Date.now();
-            const notif = document.createElement('div');
-            notif.className = 'notificacion-push';
-            notif.id = id;
-
-            const colores = {
-                'solicitud': 'var(--success)',
-                'alerta': 'var(--danger)',
-                'info': 'var(--accent)',
-                'mantenimiento': 'var(--warning)'
-            };
-
-            notif.style.borderColor = colores[tipo] || 'var(--accent)';
-            notif.innerHTML = `
-                <div class="notif-icono ${tipo || 'info'}">${icono}</div>
-                <div class="notif-contenido">
-                    <div class="notif-titulo">${sanitizar(titulo)}</div>
-                    <div class="notif-mensaje">${sanitizar(mensaje)}</div>
-                    <div class="notif-tiempo">${new Date().toLocaleTimeString()}</div>
-                </div>
-                <button class="notif-cerrar" onclick="cerrarPush('${id}')">✕</button>
-            `;
-
-            container.appendChild(notif);
-
-            try {
-                const audio = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3');
-                audio.volume = 0.2;
-                audio.play().catch(function(e) {});
-            } catch (e) {}
-
-            setTimeout(function() {
-                cerrarPush(id);
-            }, 8000);
-
-            while (container.children.length > 5) {
-                const first = container.children[0];
-                if (first) {
-                    first.classList.add('saliendo');
-                    setTimeout(function() {
-                        if (first.parentNode) first.remove();
-                    }, 500);
-                }
-            }
-        }
-
-        function cerrarPush(id) {
-            const notif = document.getElementById(id);
-            if (notif) {
-                notif.classList.add('saliendo');
-                setTimeout(function() {
-                    if (notif.parentNode) notif.remove();
-                }, 500);
-            }
-        }
-
-        // ==========================================================
-        // 🚪 CERRAR SESIÓN
-        // ==========================================================
-        function cerrarSesion() {
-            Swal.fire({
-                title: '¿Cerrar sesión?',
-                text: '¿Estás seguro de que quieres salir?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Sí, salir',
-                cancelButtonText: 'Cancelar',
-                background: 'var(--bg-card)',
-                color: 'var(--text-primary)',
-                confirmButtonColor: 'var(--danger)'
-            }).then(function(result) {
-                if (result.isConfirmed) {
-                    registrarAuditoria('logout', 'Cierre de sesión manual');
-                    auth.signOut().then(function() {
-                        window.location.href = API_URL + '/login';
-                    });
-                }
-            });
-        }
-
-        // ==========================================================
-        // ✅ INICIALIZACIÓN DE FECHA EN CHAT
-        // ==========================================================
-        document.addEventListener('DOMContentLoaded', function() {
-            const fecha = document.getElementById('fechaActualAdmin');
-            if (fecha) {
-                const hoy = new Date();
-                fecha.textContent = hoy.toLocaleDateString('es-ES', {
-                    day: 'numeric',
-                    month: 'numeric',
-                    year: 'numeric'
-                });
-            }
-
-            // Inicializar contador de notificaciones push
-            const container = document.getElementById('notificacionesContainer');
-            if (container) {
-                container.innerHTML = '';
-            }
-        });
-
-        // ==========================================================
-        // 🛡️ PROTECCIÓN CONTRA ATAQUES EN CHAT (ESCRIBIENDO)
-        // ==========================================================
-        document.addEventListener('DOMContentLoaded', function() {
-            const chatInput = document.getElementById('chatInputMsg');
-            if (chatInput) {
-                let escribiendoTimeout = null;
-                chatInput.addEventListener('input', function() {
-                    if (!chatActivoId) return;
-                    const chatRef = database.ref('chats/' + chatActivoId);
-                    chatRef.child('escribiendo').set(true);
-                    clearTimeout(escribiendoTimeout);
-                    escribiendoTimeout = setTimeout(function() {
-                        chatRef.child('escribiendo').set(false);
-                    }, 1500);
-                });
-            }
-        });
-
-        console.log('✅ CupoTax - Panel de Taxista cargado correctamente');
-        console.log('🛡️ Seguridad activa: Sanitización, Anti-XSS, Auditoría, Inactividad (30min)');
-        console.log('📱 Responsive: PC, Tablet, Móvil');
-        console.log('🔥 Firebase conectado en tiempo real');
+        console.log('✅ CupoTax - Panel de Taxista completamente cargado');
+        console.log('🛡️ Seguridad: XSS, sanitización y auditoría activas');
     </script>
 
 </body>
