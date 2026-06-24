@@ -1,52 +1,54 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <!-- ============================================================
-    SECCIÓN 1: METADATOS Y CONFIGURACIÓN
-    - viewport: mobile-first (se ajusta a cualquier pantalla)
-    - title: CupoTax - Iniciar Sesión
-    - charset: UTF-8 para caracteres especiales
-    - Thymeleaf para integración con Spring Boot
-    ============================================================ -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>CupoTax - Iniciar Sesión</title>
 
-    <!-- ============================================================
-    SECCIÓN 2: FUENTES Y BIBLIOTECAS EXTERNAS
-    - Inter: fuente principal (moderna y legible)
-    - Font Awesome 6: íconos
-    - SweetAlert2: alertas y modales bonitos
-    ============================================================ -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+    </script>
 
-    <!-- ============================================================
-    SECCIÓN 3: SONIDO DE CAMPANITA (para login exitoso)
-    ============================================================ -->
-    <audio id="campanita" preload="auto" style="display:none;">
-        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg">
-    </audio>
+    <!-- ======================================== -->
+    <!-- 🔥 FIREBASE SDKs                         -->
+    <!-- ======================================== -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js">
+    </script>
 
-    <!-- ============================================================
-    SECCIÓN 4: FIREBASE SDKs
-    - Firebase App: inicialización
-    - Firebase Auth: autenticación de usuarios
-    - Firebase Database: Realtime Database para datos en vivo
-    ============================================================ -->
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+    <!-- ======================================== -->
+    <!-- 🔥 CONFIGURACIÓN DE FIREBASE             -->
+    <!-- ======================================== -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAfucjkHq7mhA29hu_swDnp38DyTP8tqdA",
+            authDomain: "cupotax.firebaseapp.com",
+            databaseURL: "https://cupotax-default-rtdb.firebaseio.com",
+            projectId: "cupotax",
+            storageBucket: "cupotax.firebasestorage.app",
+            messagingSenderId: "146730589510",
+            appId: "1:146730589510:web:9f0c712f042f719ea81947"
+        };
 
-    <!-- ============================================================
-    SECCIÓN 5: ESTILOS CSS COMPLETOS
-    ============================================================ -->
+        if (typeof firebase !== 'undefined') {
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+                console.log('✅ Firebase inicializado correctamente');
+            }
+        }
+
+        const auth = firebase.auth();
+        const database = firebase.database();
+        const API_URL = '';
+    </script>
+
     <style>
         /* ==========================================================
-           SUB-SECCIÓN 5.1: RESET Y VARIABLES CSS
-           - Reset universal
-           - 5 temas visuales: Fire, Glass, Neon, Crimson, Light
+           RESET Y VARIABLES CSS
            ========================================================== */
         * {
             margin: 0;
@@ -59,7 +61,6 @@
             --bg-gradient-end: #1E1E1E;
             --glass-bg: rgba(30, 30, 30, 0.85);
             --glass-border: rgba(255, 106, 42, 0.3);
-            --navbar-bg: rgba(10, 10, 10, 0.9);
             --text-primary: #FFFFFF;
             --text-secondary: #B3B3B3;
             --accent: #FF6A2A;
@@ -67,6 +68,8 @@
             --accent-glow: 0 0 15px rgba(255, 106, 42, 0.4);
             --card-bg: rgba(30, 30, 30, 0.85);
             --input-bg: rgba(255, 255, 255, 0.08);
+            --success: #43E97B;
+            --danger: #FF3D2E;
         }
 
         body.style-glass {
@@ -74,7 +77,6 @@
             --bg-gradient-end: #0A2540;
             --glass-bg: rgba(22, 38, 58, 0.55);
             --glass-border: rgba(255, 255, 255, 0.08);
-            --navbar-bg: rgba(16, 26, 43, 0.6);
             --text-primary: #FFFFFF;
             --text-secondary: #A8B2D1;
             --accent: #3A86FF;
@@ -82,6 +84,8 @@
             --accent-glow: 0 0 15px rgba(58, 134, 255, 0.3);
             --card-bg: rgba(22, 38, 58, 0.55);
             --input-bg: rgba(255, 255, 255, 0.08);
+            --success: #43E97B;
+            --danger: #e74c3c;
         }
 
         body.style-neon {
@@ -89,7 +93,6 @@
             --bg-gradient-end: #1A1D2E;
             --glass-bg: rgba(26, 29, 46, 0.7);
             --glass-border: rgba(255, 76, 205, 0.3);
-            --navbar-bg: rgba(16, 18, 30, 0.8);
             --text-primary: #FFFFFF;
             --text-secondary: #A0A3BD;
             --accent: #FF4ECD;
@@ -97,6 +100,8 @@
             --accent-glow: 0 0 15px rgba(255, 76, 205, 0.4);
             --card-bg: rgba(26, 29, 46, 0.7);
             --input-bg: rgba(255, 255, 255, 0.08);
+            --success: #C77DFF;
+            --danger: #FF2FD8;
         }
 
         body.style-crimson {
@@ -104,7 +109,6 @@
             --bg-gradient-end: #2D1515;
             --glass-bg: rgba(45, 21, 21, 0.55);
             --glass-border: rgba(255, 100, 100, 0.15);
-            --navbar-bg: rgba(26, 14, 14, 0.9);
             --text-primary: #FFFFFF;
             --text-secondary: #D1A8A8;
             --accent: #E63946;
@@ -112,28 +116,8 @@
             --accent-glow: 0 0 15px rgba(230, 57, 70, 0.4);
             --card-bg: rgba(45, 21, 21, 0.55);
             --input-bg: rgba(255, 255, 255, 0.08);
-        }
-
-        body.style-crimson::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 20% 30%, rgba(230, 57, 70, 0.12), rgba(255, 100, 100, 0.05), transparent);
-            pointer-events: none;
-            z-index: -2;
-        }
-
-        body.style-crimson .btn-login {
-            background: linear-gradient(135deg, #E63946, #FF6B6B);
-        }
-
-        body.style-crimson .forgot-link a,
-        body.style-crimson .register-link a,
-        body.style-crimson .back-link a {
-            color: #E63946;
+            --success: #FF6B6B;
+            --danger: #E63946;
         }
 
         body.light-mode {
@@ -141,7 +125,6 @@
             --bg-gradient-end: #FFFFFF;
             --glass-bg: rgba(255, 255, 255, 0.95);
             --glass-border: rgba(0, 0, 0, 0.1);
-            --navbar-bg: #FFFFFF;
             --text-primary: #000000;
             --text-secondary: #555555;
             --accent: #FF6A2A;
@@ -149,6 +132,8 @@
             --accent-glow: 0 0 10px rgba(255, 106, 42, 0.2);
             --card-bg: #FFFFFF;
             --input-bg: #F5F5F5;
+            --success: #2ecc71;
+            --danger: #e74c3c;
         }
 
         body {
@@ -161,11 +146,9 @@
             align-items: center;
             justify-content: center;
             position: relative;
+            padding: 1.5rem;
         }
 
-        /* ==========================================================
-           SUB-SECCIÓN 5.2: FONDO CON IMAGEN
-           ========================================================== */
         body::before {
             content: "";
             position: fixed;
@@ -187,13 +170,12 @@
         }
 
         /* ==========================================================
-           SUB-SECCIÓN 5.3: CONTENEDOR PRINCIPAL
+           CONTENEDOR PRINCIPAL
            ========================================================== */
         .login-container {
             width: 100%;
             max-width: 450px;
-            padding: 2rem;
-            margin: 2rem;
+            margin: 0 auto;
         }
 
         .login-card {
@@ -201,18 +183,14 @@
             backdrop-filter: blur(12px);
             border-radius: 28px;
             border: 1px solid var(--glass-border);
-            padding: 2rem;
+            padding: 2.2rem 2rem;
             transition: all 0.3s;
         }
 
-        /* ==========================================================
-           SUB-SECCIÓN 5.4: LOGO Y TÍTULO
-           ========================================================== */
         .logo {
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
-
         .logo h1 {
             font-size: 2rem;
             background: linear-gradient(135deg, var(--accent), var(--accent-neon));
@@ -220,7 +198,6 @@
             background-clip: text;
             color: transparent;
         }
-
         .logo span {
             font-size: 0.7rem;
             color: var(--text-secondary);
@@ -231,14 +208,13 @@
             text-align: center;
             margin-bottom: 1.5rem;
         }
-
         .login-title h2 {
             color: var(--accent);
-            font-size: 1.5rem;
+            font-size: 1.3rem;
         }
 
         /* ==========================================================
-           SUB-SECCIÓN 5.5: FORMULARIO
+           FORMULARIO
            ========================================================== */
         .form-group {
             margin-bottom: 1rem;
@@ -247,34 +223,42 @@
         .form-group label {
             display: block;
             color: var(--accent);
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             margin-bottom: 0.3rem;
             letter-spacing: 0.5px;
+            font-weight: 600;
         }
 
         .form-group input {
             width: 100%;
-            padding: 0.8rem;
+            padding: 0.7rem 1rem;
             background: var(--input-bg);
             border: 1px solid var(--glass-border);
             border-radius: 14px;
             color: var(--text-primary);
             transition: all 0.3s;
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
         }
 
         .form-group input:focus {
             outline: none;
             border-color: var(--accent);
-            box-shadow: 0 0 10px var(--accent-glow);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        .form-group input::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.6;
         }
 
         /* ==========================================================
-           SUB-SECCIÓN 5.6: BOTONES
+           BOTONES
            ========================================================== */
         .btn-login {
             background: linear-gradient(135deg, var(--accent), var(--accent-neon));
             border: none;
-            padding: 0.8rem;
+            padding: 0.9rem;
             border-radius: 40px;
             font-weight: 700;
             cursor: pointer;
@@ -282,75 +266,23 @@
             margin-top: 0.5rem;
             color: #000;
             transition: all 0.3s;
+            font-size: 1rem;
         }
-
         .btn-login:hover {
             transform: translateY(-2px);
             box-shadow: var(--accent-glow);
         }
-
-        /* ==========================================================
-           SUB-SECCIÓN 5.7: ENLACES
-           ========================================================== */
-        .forgot-link {
-            text-align: right;
-            margin-top: 0.5rem;
-            margin-bottom: 0.5rem;
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
 
-        .forgot-link a {
-            color: var(--accent);
-            text-decoration: none;
-            font-size: 0.75rem;
-            cursor: pointer;
-        }
-
-        .forgot-link a:hover {
-            text-decoration: underline;
-        }
-
-        .register-link {
-            text-align: center;
-            margin-top: 1.5rem;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-
-        .register-link a {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .register-link a:hover {
-            text-decoration: underline;
-        }
-
-        .back-link {
-            text-align: center;
-            margin-top: 1rem;
-        }
-
-        .back-link a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.8rem;
-            cursor: pointer;
-        }
-
-        .back-link a:hover {
-            text-decoration: underline;
-        }
-
-        /* ==========================================================
-           SUB-SECCIÓN 5.8: SPINNER DE CARGA
-           ========================================================== */
         .loading-spinner {
             display: inline-block;
-            width: 18px;
-            height: 18px;
-            border: 2px solid rgba(0, 0, 0, 0.3);
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(0, 0, 0, 0.25);
             border-radius: 50%;
             border-top-color: #000;
             animation: spin 0.8s linear infinite;
@@ -364,8 +296,53 @@
             }
         }
 
+        .forgot-link {
+            text-align: right;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .forgot-link a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+        .forgot-link a:hover {
+            text-decoration: underline;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .register-link a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 0.8rem;
+        }
+        .back-link a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
         /* ==========================================================
-           SUB-SECCIÓN 5.9: PANEL DE AJUSTES
+           SETTINGS PANEL
            ========================================================== */
         .settings-toggle {
             position: fixed;
@@ -386,7 +363,6 @@
             color: var(--accent);
             transition: all 0.3s;
         }
-
         .settings-toggle:hover {
             transform: scale(1.1);
             box-shadow: var(--accent-glow);
@@ -396,7 +372,7 @@
             position: fixed;
             bottom: 90px;
             right: 24px;
-            width: 260px;
+            width: 280px;
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             border-radius: 20px;
@@ -405,15 +381,13 @@
             z-index: 10000;
             display: none;
         }
-
         .settings-panel.open {
             display: block !important;
         }
-
         .settings-panel h4 {
             color: var(--accent);
-            margin-bottom: 0.5rem;
             text-align: center;
+            margin-bottom: 0.5rem;
         }
 
         .theme-card {
@@ -421,14 +395,13 @@
             cursor: pointer;
             border-radius: 12px;
             margin-bottom: 0.5rem;
-            transition: all 0.3s;
             text-align: center;
+            transition: all 0.3s;
+            color: var(--text-primary);
         }
-
         .theme-card:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
         }
-
         .theme-card.active {
             background: var(--accent);
             color: #000;
@@ -443,15 +416,15 @@
             border-radius: 30px;
             cursor: pointer;
             margin-top: 0.5rem;
+            transition: all 0.3s;
         }
-
         .btn-reset:hover {
             background: var(--accent);
             color: #000;
         }
 
         /* ==========================================================
-           SUB-SECCIÓN 5.10: RESPONSIVE
+           RESPONSIVE
            ========================================================== */
         @media (max-width: 480px) {
             body {
@@ -459,39 +432,40 @@
             }
 
             .login-container {
-                padding: 0.5rem;
                 margin: 0.5rem;
             }
-
             .login-card {
-                padding: 1.5rem;
+                padding: 1.5rem 1rem;
                 border-radius: 20px;
             }
 
             .logo h1 {
                 font-size: 1.6rem;
             }
-
             .login-title h2 {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
 
             .form-group input {
-                padding: 0.7rem;
-                font-size: 0.95rem;
+                padding: 0.6rem 0.8rem;
+                font-size: 0.85rem;
+                border-radius: 12px;
+            }
+            .form-group label {
+                font-size: 0.65rem;
             }
 
             .btn-login {
                 padding: 0.7rem;
-                font-size: 0.95rem;
+                font-size: 0.9rem;
             }
 
             .settings-panel {
                 width: 90%;
                 right: 5%;
                 bottom: 80px;
+                padding: 0.8rem;
             }
-
             .settings-toggle {
                 bottom: 20px;
                 right: 20px;
@@ -499,29 +473,36 @@
                 height: 45px;
                 font-size: 20px;
             }
+
+            .register-link {
+                font-size: 0.75rem;
+                margin-top: 1rem;
+            }
+            .back-link a {
+                font-size: 0.7rem;
+            }
+            .forgot-link a {
+                font-size: 0.65rem;
+            }
         }
 
         @media (max-width: 360px) {
             .login-card {
-                padding: 1rem;
+                padding: 1rem 0.8rem;
             }
 
             .logo h1 {
                 font-size: 1.3rem;
             }
 
-            .login-title h2 {
-                font-size: 1rem;
-            }
-
             .form-group input {
-                padding: 0.6rem;
-                font-size: 0.85rem;
+                padding: 0.5rem 0.7rem;
+                font-size: 0.8rem;
             }
 
             .btn-login {
                 padding: 0.6rem;
-                font-size: 0.85rem;
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -529,22 +510,13 @@
 
 <body>
 
-    <!-- ============================================================
-    SECCIÓN 6: AUDIO DE CAMPANITA (para login exitoso)
-    ============================================================ -->
-    <audio id="campanita" preload="auto" style="display:none;">
-        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg">
-    </audio>
-
-    <!-- ============================================================
-    SECCIÓN 7: CONTENEDOR PRINCIPAL
-    ============================================================ -->
+    <!-- ==========================================================
+    CONTENEDOR PRINCIPAL
+    ========================================================== -->
     <div class="login-container">
         <div class="login-card">
 
-            <!-- ==========================================================
-            SUB-SECCIÓN 7.1: LOGO Y TÍTULO
-            ========================================================== -->
+            <!-- LOGO -->
             <div class="logo">
                 <h1>CupoTax</h1>
                 <span>TRANSPORTE INTELIGENTE</span>
@@ -554,40 +526,32 @@
                 <h2>Iniciar Sesión</h2>
             </div>
 
-            <!-- ==========================================================
-            SUB-SECCIÓN 7.2: FORMULARIO DE LOGIN
-            ========================================================== -->
-            <form id="loginForm" onsubmit="loginFirebase(event)">
+            <!-- FORMULARIO -->
+            <form id="loginForm" onsubmit="return false;">
 
-                <!-- Campo: Usuario o Correo -->
                 <div class="form-group">
                     <label>USUARIO O CORREO</label>
-                    <input type="text" id="username" placeholder="Ingresa tu usuario o email" required>
+                    <input type="text" id="username" placeholder="Ingresa tu usuario o email" required autocomplete="username">
                 </div>
 
-                <!-- Campo: Contraseña -->
                 <div class="form-group">
                     <label>CONTRASEÑA</label>
-                    <input type="password" id="password" placeholder="••••••••" required>
+                    <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
                 </div>
 
-                <!-- Enlace: Olvidaste tu contraseña -->
                 <div class="forgot-link">
                     <a onclick="abrirRecuperacion()">¿Olvidaste tu contraseña?</a>
                 </div>
 
-                <!-- Botón: Ingresar -->
-                <button type="submit" class="btn-login" id="btnLogin">INGRESAR</button>
+                <button type="submit" class="btn-login" id="btnLogin" onclick="loginFirebase(event)">
+                    INGRESAR
+                </button>
 
             </form>
 
-            <!-- ==========================================================
-            SUB-SECCIÓN 7.3: ENLACES ADICIONALES
-            ========================================================== -->
             <div class="register-link">
                 ¿No tienes cuenta? <a onclick="navegarA('register')">Regístrate aquí</a>
             </div>
-
             <div class="back-link">
                 <a onclick="navegarA('')">← Volver al inicio</a>
             </div>
@@ -595,89 +559,128 @@
         </div>
     </div>
 
-    <!-- ============================================================
-    SECCIÓN 8: PANEL DE AJUSTES (TEMAS)
-    ============================================================ -->
+    <!-- ==========================================================
+    PANEL DE AJUSTES
+    ========================================================== -->
     <div class="settings-toggle" onclick="toggleSettingsPanel()">
         <i class="fas fa-palette"></i>
     </div>
     <div id="settingsPanel" class="settings-panel">
-        <h4>🎨 Personalizar</h4>
-        <div class="theme-card active" onclick="setEstilo('fire')" id="cardFire">🔥 Naranja Fuego</div>
+        <h4>🎨 Personalizar interfaz</h4>
+        <div class="theme-card" onclick="setEstilo('fire')" id="cardFire">🔥 Naranja Fuego</div>
         <div class="theme-card" onclick="setEstilo('glass')" id="cardGlass">🌀 Glass Azul</div>
         <div class="theme-card" onclick="setEstilo('neon')" id="cardNeon">🎨 Neon Glow</div>
         <div class="theme-card" onclick="setEstilo('crimson')" id="cardCrimson">🔴 Crimson Glass</div>
-        <div class="theme-card" onclick="toggleLightMode()">☀️ Claro / Oscuro</div>
-        <button class="btn-reset" onclick="resetearEstilos()">Restaurar</button>
+        <div class="theme-card" onclick="toggleLightMode()" id="cardLight">☀️ Claro / Oscuro</div>
+        <button class="btn-reset" onclick="resetearEstilos()">Restaurar predeterminado</button>
     </div>
 
-    <!-- ============================================================
-    SECCIÓN 9: JAVASCRIPT - TODA LA LÓGICA (CORREGIDA - TODOS LOS ROLES)
-    ============================================================ -->
+    <!-- ==========================================================
+    JAVASCRIPT COMPLETO
+    ========================================================== -->
     <script>
         // ==========================================================
-        // 🔥 SECCIÓN 9.1: CONFIGURACIÓN DE FIREBASE
-        // ==========================================================
-        const firebaseConfig = {
-            apiKey: "AIzaSyAfucjkHq7mhA29hu_swDnp38DyTP8tqdA",
-            authDomain: "cupotax.firebaseapp.com",
-            databaseURL: "https://cupotax-default-rtdb.firebaseio.com",
-            projectId: "cupotax",
-            storageBucket: "cupotax.firebasestorage.app",
-            messagingSenderId: "146730589510",
-            appId: "1:146730589510:web:3601a7f2b9093826a81947",
-            measurementId: "G-FG3LJLTMZX"
-        };
-
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const database = firebase.database();
-        const API_URL = '';
-
-        // ==========================================================
-        // 📋 SECCIÓN 9.2: DATOS DE PRESTATARIAS CON LOGOS
+        // 📋 DATOS DE PRESTATARIAS (para logo en login)
         // ==========================================================
         const PRESTATARIAS = {
-            sincotavecop: {
-                nombre: 'SINCOTAVECOP',
-                logo: 'SINCOTAVECOP.png',
-                color: '#3B82F6'
-            },
-            la_union: {
-                nombre: 'LA UNION',
-                logo: 'LAUNION.png',
-                color: '#10B981'
-            },
-            taxi_25: {
-                nombre: 'EXPRESO TAXI 25 S.A',
-                logo: 'TAXI25.png',
-                color: '#06B6D4'
-            },
-            urraca: {
-                nombre: 'COOPERATIVA URRACA R.L.',
-                logo: 'URRACA.png',
-                color: '#22C55E'
-            },
-            chiriqui_grande: {
-                nombre: 'COOPERATIVA CHIRIQUI GRANDE',
-                logo: 'CHIRIQUIGRANDE.png',
-                color: '#4ADE80'
-            },
-            tranceibosa: {
-                nombre: 'TRANCEIBOSA',
-                logo: 'TRANCEIBOSA.png',
-                color: '#14B8A6'
-            },
-            selectivo_bocas: {
-                nombre: 'SELECTIVO BOCAS S.A.',
-                logo: 'SELECTIVOBOCAS.png',
-                color: '#84CC16'
-            }
+            sincotavecop: { nombre: 'SINCOTAVECOP', logo: 'SINCOTAVECOP.png', color: '#3B82F6' },
+            la_union: { nombre: 'LA UNION', logo: 'LAUNION.png', color: '#10B981' },
+            taxi_25: { nombre: 'EXPRESO TAXI 25 S.A', logo: 'TAXI25.png', color: '#06B6D4' },
+            urraca: { nombre: 'COOPERATIVA URRACA R.L.', logo: 'URRACA.png', color: '#22C55E' },
+            chiriqui_grande: { nombre: 'COOPERATIVA CHIRIQUI GRANDE', logo: 'CHIRIQUIGRANDE.png', color: '#4ADE80' },
+            tranceibosa: { nombre: 'TRANCEIBOSA', logo: 'TRANCEIBOSA.png', color: '#14B8A6' },
+            selectivo_bocas: { nombre: 'SELECTIVO BOCAS S.A.', logo: 'SELECTIVOBOCAS.png', color: '#84CC16' }
         };
-        const LOGO_BASE_PATH = 'static/';
+
+        const LOGO_BASE_PATH = './static/';
 
         // ==========================================================
-        // 📱 SECCIÓN 9.3: FUNCIONES DE NAVEGACIÓN
+        // 🛡️ FUNCIONES DE SEGURIDAD
+        // ==========================================================
+
+        // Sanitización de texto
+        function sanitizar(texto) {
+            if (!texto) return '';
+            return texto
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;')
+                .replace(/\//g, '&#047;')
+                .replace(/`/g, '&#096;')
+                .replace(/=/g, '&#061;');
+        }
+
+        // Detectar caracteres peligrosos
+        function detectarAtaque(texto) {
+            if (!texto) return false;
+            const patronesPeligrosos = [
+                /<script/i, /<\/script>/i, /onerror\s*=/i, /onload\s*=/i,
+                /onclick\s*=/i, /eval\s*\(/i, /document\.cookie/i, /alert\s*\(/i,
+                /prompt\s*\(/i, /confirm\s*\(/i, /fetch\s*\(/i, /xmlhttprequest/i,
+                /\.exe/i, /\.bat/i, /\.sh/i, /\.cmd/i, /\.dmg/i, /\.app/i
+            ];
+            for (const patron of patronesPeligrosos) {
+                if (patron.test(texto)) return true;
+            }
+            return false;
+        }
+
+        // ==========================================================
+        // 🔐 SISTEMA DE INTENTOS FALLIDOS
+        // ==========================================================
+        let intentosFallidos = {};
+        let bloqueosActivos = {};
+
+        function verificarBloqueo(email) {
+            if (!email) return true;
+            const bloqueo = bloqueosActivos[email];
+            if (!bloqueo) return true;
+            if (Date.now() > bloqueo) {
+                delete bloqueosActivos[email];
+                delete intentosFallidos[email];
+                return true;
+            }
+            return false;
+        }
+
+        function registrarIntentoFallido(email) {
+            if (!email) return;
+            if (!intentosFallidos[email]) intentosFallidos[email] = 0;
+            intentosFallidos[email]++;
+
+            if (intentosFallidos[email] >= 5) {
+                const tiempos = [5, 15, 30, 60];
+                const index = Math.min(Math.floor((intentosFallidos[email] - 5) / 3), tiempos.length - 1);
+                const minutos = tiempos[index] || 60;
+                bloqueosActivos[email] = Date.now() + (minutos * 60 * 1000);
+                intentosFallidos[email] = 0;
+
+                registrarAuditoria('bloqueo_seguridad', 'Bloqueado por 5 intentos fallidos: ' + email);
+            }
+        }
+
+        function resetearIntentos(email) {
+            if (email) {
+                delete intentosFallidos[email];
+                delete bloqueosActivos[email];
+            }
+        }
+
+        // ==========================================================
+        // 🎵 FUNCIÓN DE SONIDO
+        // ==========================================================
+        function playCampanita() {
+            try {
+                const audio = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3');
+                audio.volume = 0.3;
+                audio.play().catch(function(e) { console.log('Error al reproducir sonido:', e); });
+            } catch (e) { console.log('Error con el sonido:', e); }
+        }
+
+        // ==========================================================
+        // 📱 FUNCIONES DE NAVEGACIÓN
         // ==========================================================
         function navegarA(pagina) {
             if (pagina === '') window.location.href = API_URL + '/';
@@ -686,28 +689,16 @@
         }
 
         // ==========================================================
-        // 🎵 SECCIÓN 9.4: FUNCIÓN CAMPANITA
-        // ==========================================================
-        function playCampanita() {
-            const audio = document.getElementById('campanita');
-            if (audio) {
-                audio.currentTime = 0;
-                audio.play().catch(function(e) {
-                    console.log('Error al reproducir sonido:', e);
-                });
-            }
-        }
-
-        // ==========================================================
-        // 🔐 SECCIÓN 9.5: LOGIN CON FIREBASE (CORREGIDO - TODOS LOS ROLES)
+        // 🔐 LOGIN CON FIREBASE
         // ==========================================================
         async function loginFirebase(event) {
             event.preventDefault();
 
-            var usernameOrEmail = document.getElementById('username').value.trim();
-            var password = document.getElementById('password').value;
-            var btn = document.getElementById('btnLogin');
-            var originalText = btn.innerHTML;
+            const btn = document.getElementById('btnLogin');
+            const originalText = btn.innerText;
+
+            const usernameOrEmail = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
 
             if (!usernameOrEmail || !password) {
                 Swal.fire({
@@ -721,86 +712,125 @@
                 return;
             }
 
+            // Detectar ataques en entrada
+            if (detectarAtaque(usernameOrEmail) || detectarAtaque(password)) {
+                registrarAuditoria('ataque_login', 'Intento de XSS en login');
+                Swal.fire({
+                    title: '🚨 Ataque detectado',
+                    text: 'Se ha detectado un intento de ataque. Tu IP ha sido registrada.',
+                    icon: 'error',
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)',
+                    confirmButtonColor: 'var(--accent)'
+                });
+                return;
+            }
+
             btn.innerHTML = '<span class="loading-spinner"></span> Verificando...';
             btn.disabled = true;
 
             try {
-                var email = usernameOrEmail;
+                let email = usernameOrEmail;
 
-                // Si NO es email, buscar el email por username en la base de datos
+                // Si NO es email, buscar por username
                 if (!usernameOrEmail.includes('@')) {
-                    var snapshot = await database.ref('usuarios').orderByChild('username').equalTo(usernameOrEmail)
-                        .once('value');
+                    const snapshot = await database.ref('usuarios').orderByChild('username')
+                        .equalTo(usernameOrEmail.toLowerCase()).once('value');
 
                     if (!snapshot.exists()) {
+                        registrarIntentoFallido(usernameOrEmail);
                         throw new Error('Usuario no encontrado');
                     }
 
-                    var foundEmail = null;
+                    let foundEmail = null;
                     snapshot.forEach(function(child) {
                         foundEmail = child.val().email;
                     });
 
                     if (!foundEmail) {
+                        registrarIntentoFallido(usernameOrEmail);
                         throw new Error('Usuario no encontrado');
                     }
                     email = foundEmail;
                 }
 
-                // Autenticar con Firebase
-                var userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
-                var user = userCredential.user;
-
-                // Obtener datos del usuario desde Realtime Database
-                var snapshot = await database.ref('usuarios/' + user.uid).once('value');
-                var userData = snapshot.val();
-
-                if (!userData) {
-                    throw new Error('No se encontraron datos de usuario en la base de datos');
+                // Verificar bloqueo
+                if (!verificarBloqueo(email)) {
+                    const bloqueo = bloqueosActivos[email];
+                    const tiempoRestante = Math.ceil((bloqueo - Date.now()) / 60000);
+                    throw new Error('Cuenta bloqueada. Espera ' + tiempoRestante + ' minutos e intenta nuevamente.');
                 }
 
-                // Guardar datos en localStorage para sesión
+                // Autenticar
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+
+                // Obtener datos del usuario
+                const snapshot = await database.ref('usuarios/' + user.uid).once('value');
+                const userData = snapshot.val();
+
+                if (!userData) {
+                    throw new Error('No se encontraron datos de usuario');
+                }
+
+                // Verificar estado
+                if (userData.estado === 'Inactivo' || userData.estado === 'Bloqueado') {
+                    throw new Error('Tu cuenta está bloqueada. Contacta al administrador.');
+                }
+
+                // Resetear intentos fallidos
+                resetearIntentos(email);
+
+                // Guardar en localStorage
                 localStorage.setItem('usuarioUid', user.uid);
                 localStorage.setItem('usuarioEmail', user.email);
-                localStorage.setItem('usuarioNombre', userData.nombre || userData.nombreCompleto || 'Usuario');
+                localStorage.setItem('usuarioNombre', sanitizar(userData.nombre || userData.nombreCompleto || 'Usuario'));
                 localStorage.setItem('usuarioRol', userData.rol || 'USUARIO');
-                localStorage.setItem('usuarioTipoBusero', userData.tipoBusero || '');  
+                localStorage.setItem('usuarioTipoBusero', userData.tipoBusero || '');
                 localStorage.setItem('usuarioPrestataria', userData.prestataria || '');
                 localStorage.setItem('usuarioUsername', userData.username || '');
+                localStorage.setItem('usuarioCedula', userData.cedula || '');
+                localStorage.setItem('usuarioTelefono', userData.telefono || '');
 
-                // Guardar logo de la prestataria si tiene
+                if (userData.vehiculo) {
+                    localStorage.setItem('usuarioVehiculo', JSON.stringify(userData.vehiculo));
+                }
+
                 if (userData.prestataria && PRESTATARIAS[userData.prestataria]) {
                     localStorage.setItem('usuarioLogo', PRESTATARIAS[userData.prestataria].logo);
                     localStorage.setItem('usuarioPrestatariaNombre', PRESTATARIAS[userData.prestataria].nombre);
                 }
 
-                // Registrar última conexión
-                await database.ref('usuarios/' + user.uid).update({
-                    ultimaConexion: new Date().toISOString()
-                });
+                // Actualizar última conexión
+                await database.ref('usuarios/' + user.uid + '/ultimaConexion').set(new Date().toISOString());
+
+                // Registrar auditoría
+                registrarAuditoria('login_exitoso', 'Inicio de sesión: ' + user.email);
 
                 // Reproducir campanita
                 playCampanita();
 
-                // Obtener información de la prestataria para mostrar
-                var prestatariaId = userData.prestataria || '';
-                var prestatariaInfo = prestatariaId && PRESTATARIAS[prestatariaId] ? PRESTATARIAS[prestatariaId] : null;
-                var logoPath = prestatariaInfo ? LOGO_BASE_PATH + prestatariaInfo.logo : '/CUPOTAX.png';
-                var prestatariaNombre = prestatariaInfo ? prestatariaInfo.nombre : 'CupoTax';
+                // Obtener información de prestataria
+                let prestatariaInfo = null;
+                if (userData.prestataria && PRESTATARIAS[userData.prestataria]) {
+                    prestatariaInfo = PRESTATARIAS[userData.prestataria];
+                }
+                const prestatariaNombre = prestatariaInfo ? prestatariaInfo.nombre : 'CupoTax';
+                const logoPath = prestatariaInfo ? LOGO_BASE_PATH + prestatariaInfo.logo : '/CUPOTAX.png';
 
-                // Mostrar mensaje de éxito con logo
+                // Mostrar mensaje de éxito
                 Swal.fire({
                     title: '🎉 ¡Bienvenido/a!',
                     html: `
-                                <div style="text-align: center;">
-                                    <div style="margin: 0 auto 1rem; width: 80px; height: 80px; border-radius: 50%; overflow: hidden; border: 3px solid var(--accent);">
-                                        <img src="${logoPath}" alt="${prestatariaNombre}" style="width: 100%; height: 100%; object-fit: contain; background: white;" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\\'fas fa-building\\' style=\\'font-size: 3rem; color: var(--accent);\\'></i>';">
-                                    </div>
-                                    <h3 style="color: var(--accent);">${prestatariaNombre}</h3>
-                                    <p style="color: var(--text-secondary);">Hola <strong>${userData.nombre || userData.nombreCompleto || 'Usuario'}</strong></p>
-                                    <p style="color: var(--text-secondary); font-size: 0.8rem;">Rol: ${userData.rol || 'USUARIO'}</p>
-                                </div>
-                            `,
+                        <div style="text-align: center;">
+                            <div style="margin: 0 auto 1rem; width: 80px; height: 80px; border-radius: 50%; overflow: hidden; border: 3px solid var(--accent);">
+                                <img src="${logoPath}" alt="${prestatariaNombre}" style="width: 100%; height: 100%; object-fit: contain; background: white;" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\\'fas fa-building\\' style=\\'font-size: 3rem; color: var(--accent);\\'></i>';">
+                            </div>
+                            <h3 style="color: var(--accent);">${prestatariaNombre}</h3>
+                            <p style="color: var(--text-secondary);">Hola <strong>${sanitizar(userData.nombre || userData.nombreCompleto || 'Usuario')}</strong></p>
+                            <p style="color: var(--text-secondary); font-size: 0.8rem;">Rol: ${userData.rol || 'USUARIO'}</p>
+                        </div>
+                    `,
                     icon: 'success',
                     timer: 2500,
                     showConfirmButton: false,
@@ -808,56 +838,40 @@
                     color: 'var(--text-primary)'
                 });
 
-                // ==========================================================
-                // 🔥 SECCIÓN CORREGIDA: REDIRECCIÓN SEGÚN ROL (TODOS LOS ROLES)
-                // ==========================================================
+                // Redirigir según rol
                 setTimeout(function() {
-                    var rol = userData.rol || 'USUARIO';
-                    var redirectUrl = '/';
+                    const rol = userData.rol || 'USUARIO';
+                    let redirectUrl = '/';
 
-                    // ==========================================================
-                    // TODOS LOS ROLES SOPORTADOS EN EL REGISTER:
-                    // - ADMIN → /admin
-                    // - TAXISTA → /taxista
-                    // - BUSERO → /busero (NORMAL y DAVID_PANAMA)
-                    // - ESTUDIANTE → /usuario
-                    // - USUARIO → /usuario
-                    // ==========================================================
-                    if (rol === 'ADMIN') {
-                        redirectUrl = '/admin';
-                    } else if (rol === 'TAXISTA') {
-                        redirectUrl = '/taxista';
-                    } else if (rol === 'BUSERO') {
-                        redirectUrl = '/busero';
-                    } else if (rol === 'ESTUDIANTE') {
-                        // Estudiante usa el mismo panel que usuario
-                        redirectUrl = '/usuario';
-                    } else {
-                        // USUARIO y cualquier otro rol
-                        redirectUrl = '/usuario';
-                    }
+                    if (rol === 'ADMIN') redirectUrl = '/admin';
+                    else if (rol === 'TAXISTA') redirectUrl = '/taxista';
+                    else if (rol === 'BUSERO') redirectUrl = '/busero';
+                    else redirectUrl = '/usuario';
 
-                    console.log('✅ Redirigiendo a:', redirectUrl);
-                    console.log('📋 Rol:', rol);
-                    console.log('📋 Tipo Busero:', userData.tipoBusero || 'N/A');
                     window.location.href = API_URL + redirectUrl;
                 }, 2500);
 
             } catch (error) {
                 console.error('Error en login:', error);
 
-                var mensaje = 'Error al iniciar sesión';
+                let mensaje = 'Error al iniciar sesión';
+
                 if (error.code === 'auth/user-not-found') {
                     mensaje = 'No existe una cuenta con este correo o usuario';
                 } else if (error.code === 'auth/wrong-password') {
                     mensaje = 'Contraseña incorrecta';
+                    if (document.getElementById('username').value.trim()) {
+                        registrarIntentoFallido(document.getElementById('username').value.trim());
+                    }
                 } else if (error.code === 'auth/invalid-email') {
                     mensaje = 'Correo electrónico inválido';
                 } else if (error.code === 'auth/too-many-requests') {
-                    mensaje = 'Demasiados intentos. Intenta más tarde';
+                    mensaje = 'Demasiados intentos. Espera unos minutos e intenta nuevamente.';
                 } else if (error.message) {
                     mensaje = error.message;
                 }
+
+                registrarAuditoria('login_fallido', 'Intento fallido: ' + mensaje);
 
                 Swal.fire({
                     title: 'Error',
@@ -874,20 +888,29 @@
         }
 
         // ==========================================================
-        // 🔑 SECCIÓN 9.6: RECUPERACIÓN DE CONTRASEÑA
+        // 🔑 RECUPERACIÓN DE CONTRASEÑA (4 métodos)
         // ==========================================================
         function abrirRecuperacion() {
             Swal.fire({
                 title: 'Recuperar contraseña',
                 html: `
-                            <select id="metodoRecuperacion" style="background:var(--input-bg); color:var(--text-primary); border:1px solid var(--accent); border-radius:12px; padding:8px; width:100%; margin-bottom:12px;">
-                                <option value="email">📧 Recuperar con correo electrónico</option>
+                    <div style="text-align: left;">
+                        <div class="form-group">
+                            <label>MÉTODO DE RECUPERACIÓN</label>
+                            <select id="metodoRecuperacion" style="width:100%; padding:0.7rem; background:var(--input-bg); color:var(--text-primary); border:1px solid var(--accent); border-radius:12px;">
+                                <option value="email">📧 Recuperar por correo electrónico</option>
+                                <option value="sms">📱 Recuperar por SMS</option>
+                                <option value="whatsapp">💬 Recuperar por WhatsApp</option>
                                 <option value="pin">🔐 Recuperar con PIN de seguridad</option>
-                                <option value="sms">📱 Recuperar con SMS (teléfono)</option>
                             </select>
-                            <input type="text" id="valorRecuperacion" placeholder="Correo / PIN / Teléfono" style="background:var(--input-bg); color:var(--text-primary); border:1px solid var(--accent); border-radius:12px; padding:8px; width:100%;">
-                            <div id="pinHint" style="font-size:0.7rem; color:var(--text-secondary); margin-top:5px; text-align:left;"></div>
-                        `,
+                        </div>
+                        <div class="form-group">
+                            <label id="labelRecuperacion">CORREO ELECTRÓNICO</label>
+                            <input type="text" id="valorRecuperacion" placeholder="Ingresa tu correo electrónico" style="width:100%; padding:0.7rem; background:var(--input-bg); color:var(--text-primary); border:1px solid var(--glass-border); border-radius:12px;">
+                        </div>
+                        <div id="pinHint" style="font-size:0.7rem; color:var(--text-secondary); margin-top:0.3rem;"></div>
+                    </div>
+                `,
                 showCancelButton: true,
                 confirmButtonText: 'Recuperar',
                 cancelButtonText: 'Cancelar',
@@ -895,102 +918,147 @@
                 color: 'var(--text-primary)',
                 confirmButtonColor: 'var(--accent)',
                 didOpen: function() {
-                    var select = document.getElementById('metodoRecuperacion');
-                    var hint = document.getElementById('pinHint');
-                    if (select && hint) {
-                        select.addEventListener('change', function() {
-                            if (select.value === 'pin') {
-                                hint.innerHTML = '💡 Ingresa el PIN de 6 dígitos que registraste al crear tu cuenta';
-                            } else if (select.value === 'email') {
-                                hint.innerHTML = '💡 Ingresa el correo electrónico con el que te registraste';
-                            } else {
-                                hint.innerHTML = '💡 Ingresa tu número de teléfono (ej: 6663-7549)';
-                            }
-                        });
-                    }
+                    const select = document.getElementById('metodoRecuperacion');
+                    const input = document.getElementById('valorRecuperacion');
+                    const label = document.getElementById('labelRecuperacion');
+                    const hint = document.getElementById('pinHint');
+
+                    select.addEventListener('change', function() {
+                        const metodo = select.value;
+                        if (metodo === 'email') {
+                            label.textContent = 'CORREO ELECTRÓNICO';
+                            input.placeholder = 'Ingresa tu correo electrónico';
+                            hint.innerHTML = '💡 Se enviará un enlace de restablecimiento a tu correo.';
+                        } else if (metodo === 'sms') {
+                            label.textContent = 'NÚMERO DE TELÉFONO';
+                            input.placeholder = 'Ej: 6663-7549';
+                            hint.innerHTML = '💡 Se enviará un código de verificación por SMS.';
+                        } else if (metodo === 'whatsapp') {
+                            label.textContent = 'NÚMERO DE TELÉFONO';
+                            input.placeholder = 'Ej: 6663-7549';
+                            hint.innerHTML = '💡 Se enviará un enlace de recuperación por WhatsApp.';
+                        } else if (metodo === 'pin') {
+                            label.textContent = 'PIN DE SEGURIDAD (6 dígitos)';
+                            input.placeholder = 'Ingresa tu PIN de 6 dígitos';
+                            hint.innerHTML = '💡 Ingresa el PIN que registraste al crear tu cuenta.';
+                        }
+                    });
                 },
                 preConfirm: function() {
-                    var metodo = document.getElementById('metodoRecuperacion').value;
-                    var valor = document.getElementById('valorRecuperacion').value;
-                    if (!valor) Swal.showValidationMessage('Completa el campo');
+                    const metodo = document.getElementById('metodoRecuperacion').value;
+                    const valor = document.getElementById('valorRecuperacion').value.trim();
+                    if (!valor) {
+                        Swal.showValidationMessage('Completa el campo');
+                        return null;
+                    }
                     return { metodo: metodo, valor: valor };
                 }
             }).then(function(result) {
-                if (result.isConfirmed) {
-                    recuperarContraseñaFirebase(result.value.metodo, result.value.valor);
+                if (result.isConfirmed && result.value) {
+                    procesarRecuperacion(result.value.metodo, result.value.valor);
                 }
             });
         }
 
-        async function recuperarContraseñaFirebase(metodo, valor) {
+        async function procesarRecuperacion(metodo, valor) {
             try {
+                let emailEncontrado = null;
+                let telefonoEncontrado = null;
+                let nombreEncontrado = null;
+
                 if (metodo === 'email') {
-                    await firebase.auth().sendPasswordResetEmail(valor);
+                    // Buscar usuario por email
+                    const snapshot = await database.ref('usuarios').orderByChild('email').equalTo(valor.toLowerCase())
+                        .once('value');
+                    if (!snapshot.exists()) {
+                        throw new Error('No existe una cuenta con este correo electrónico');
+                    }
+                    emailEncontrado = valor.toLowerCase();
+                    snapshot.forEach(function(child) {
+                        nombreEncontrado = child.val().nombre;
+                    });
+                    await auth.sendPasswordResetEmail(emailEncontrado);
+                    registrarAuditoria('recuperacion_email', 'Recuperación por email: ' + emailEncontrado);
                     Swal.fire({
-                        title: 'Correo enviado',
-                        text: 'Se ha enviado un enlace para restablecer tu contraseña a ' + valor,
+                        title: '📧 Correo enviado',
+                        text: 'Se ha enviado un enlace para restablecer tu contraseña a ' + emailEncontrado,
                         icon: 'success',
                         background: 'var(--card-bg)',
                         color: 'var(--text-primary)',
                         confirmButtonColor: 'var(--accent)'
                     });
-                } else if (metodo === 'pin') {
-                    var snapshot = await database.ref('usuarios').orderByChild('pinSeguridad').equalTo(valor).once(
-                        'value');
+                    return;
+                }
 
+                if (metodo === 'sms' || metodo === 'whatsapp') {
+                    // Buscar usuario por teléfono
+                    const snapshot = await database.ref('usuarios').orderByChild('telefono').equalTo(valor).once(
+                    'value');
                     if (!snapshot.exists()) {
+                        throw new Error('No existe una cuenta con este número de teléfono');
+                    }
+                    snapshot.forEach(function(child) {
+                        emailEncontrado = child.val().email;
+                        telefonoEncontrado = child.val().telefono;
+                        nombreEncontrado = child.val().nombre;
+                    });
+
+                    const mensaje = metodo === 'sms' ?
+                        '📱 Se ha enviado un código de verificación por SMS a ' + telefonoEncontrado :
+                        '💬 Se ha enviado un enlace de recuperación por WhatsApp a ' + telefonoEncontrado;
+
+                    registrarAuditoria('recuperacion_' + metodo, 'Recuperación por ' + metodo + ': ' + telefonoEncontrado);
+
+                    // Simular envío (en producción se usaría Twilio o API de WhatsApp)
+                    Swal.fire({
+                        title: metodo === 'sms' ? '📱 Código enviado' : '💬 Enlace enviado',
+                        text: mensaje + '. En la versión final se integrará el servicio real.',
+                        icon: 'success',
+                        background: 'var(--card-bg)',
+                        color: 'var(--text-primary)',
+                        confirmButtonColor: 'var(--accent)'
+                    });
+
+                    // En producción, aquí se enviaría el código/enlace real
+                    return;
+                }
+
+                if (metodo === 'pin') {
+                    // Verificar PIN
+                    if (!/^\d{6}$/.test(valor)) {
+                        throw new Error('El PIN debe ser de 6 dígitos');
+                    }
+
+                    const snapshot = await database.ref('usuarios').orderByChild('pinSeguridad').equalTo(valor).once(
+                        'value');
+                    if (!snapshot.exists()) {
+                        registrarAuditoria('recuperacion_pin_fallido', 'PIN incorrecto');
                         throw new Error('PIN de seguridad incorrecto');
                     }
 
-                    var userEmail = null;
                     snapshot.forEach(function(child) {
-                        userEmail = child.val().email;
+                        emailEncontrado = child.val().email;
+                        nombreEncontrado = child.val().nombre;
                     });
 
-                    if (userEmail) {
-                        await firebase.auth().sendPasswordResetEmail(userEmail);
-                        Swal.fire({
-                            title: 'PIN verificado',
-                            text: 'Se ha enviado un enlace para restablecer tu contraseña a ' + userEmail,
-                            icon: 'success',
-                            background: 'var(--card-bg)',
-                            color: 'var(--text-primary)',
-                            confirmButtonColor: 'var(--accent)'
-                        });
-                    } else {
-                        throw new Error('No se encontró un email asociado a este PIN');
-                    }
-                } else if (metodo === 'sms') {
-                    var snapshot = await database.ref('usuarios').orderByChild('telefono').equalTo(valor).once(
-                        'value');
+                    // Enviar enlace al correo
+                    await auth.sendPasswordResetEmail(emailEncontrado);
+                    registrarAuditoria('recuperacion_pin_exitoso', 'PIN verificado para: ' + emailEncontrado);
 
-                    if (!snapshot.exists()) {
-                        throw new Error('Número de teléfono no registrado');
-                    }
-
-                    var userEmail = null;
-                    var userTelefono = null;
-                    snapshot.forEach(function(child) {
-                        userEmail = child.val().email;
-                        userTelefono = child.val().telefono;
+                    Swal.fire({
+                        title: '🔐 PIN verificado',
+                        text: 'Se ha enviado un enlace para restablecer tu contraseña a ' + emailEncontrado,
+                        icon: 'success',
+                        background: 'var(--card-bg)',
+                        color: 'var(--text-primary)',
+                        confirmButtonColor: 'var(--accent)'
                     });
-
-                    if (userEmail) {
-                        await firebase.auth().sendPasswordResetEmail(userEmail);
-                        Swal.fire({
-                            title: 'Teléfono verificado',
-                            text: 'Se ha enviado un enlace para restablecer tu contraseña al correo asociado a ' +
-                                userTelefono,
-                            icon: 'success',
-                            background: 'var(--card-bg)',
-                            color: 'var(--text-primary)',
-                            confirmButtonColor: 'var(--accent)'
-                        });
-                    } else {
-                        throw new Error('No se encontró un email asociado a este teléfono');
-                    }
+                    return;
                 }
+
             } catch (error) {
+                console.error('Error en recuperación:', error);
+                registrarAuditoria('recuperacion_error', 'Error: ' + error.message);
                 Swal.fire({
                     title: 'Error',
                     text: error.message,
@@ -1003,7 +1071,26 @@
         }
 
         // ==========================================================
-        // 🎨 SECCIÓN 9.7: PANEL DE AJUSTES (TEMAS)
+        // 🛡️ AUDITORÍA
+        // ==========================================================
+        function registrarAuditoria(accion, detalle) {
+            if (typeof database === 'undefined') return;
+
+            const data = {
+                accion: accion,
+                detalle: detalle || '',
+                ip: '0.0.0.0',
+                timestamp: firebase.database.ServerValue.TIMESTAMP,
+                pagina: 'login'
+            };
+
+            database.ref('auditoria').push(data).catch(function(err) {
+                console.warn('No se pudo registrar auditoría:', err);
+            });
+        }
+
+        // ==========================================================
+        // 🎨 PANEL DE AJUSTES (TEMAS)
         // ==========================================================
         function toggleSettingsPanel() {
             document.getElementById('settingsPanel').classList.toggle('open');
@@ -1018,14 +1105,8 @@
             localStorage.setItem('cupotax-login-estilo', estilo);
             localStorage.removeItem('cupotax-login-light');
             actualizarCards(estilo);
-            var nombreTema = estilo === 'fire' ? 'Naranja Fuego' : estilo === 'glass' ? 'Glass Azul' : estilo === 'neon' ?
-                'Neon Glow' : 'Crimson Glass';
-            Swal.fire({
-                title: 'Estilo ' + nombreTema + ' aplicado',
-                icon: 'success',
-                timer: 1500,
-                showConfirmButton: false
-            });
+            Swal.fire({ title: 'Estilo aplicado', icon: 'success', timer: 1500, showConfirmButton: false,
+                background: 'var(--card-bg)', color: 'var(--text-primary)' });
         }
 
         function toggleLightMode() {
@@ -1041,12 +1122,9 @@
                 document.body.classList.add('light-mode');
                 localStorage.setItem('cupotax-login-light', 'true');
             }
-            Swal.fire({
-                title: document.body.classList.contains('light-mode') ? 'Modo claro' : 'Modo oscuro',
-                icon: 'success',
-                timer: 1500,
-                showConfirmButton: false
-            });
+            Swal.fire({ title: document.body.classList.contains('light-mode') ? 'Modo claro' : 'Modo oscuro',
+                icon: 'success', timer: 1500, showConfirmButton: false, background: 'var(--card-bg)',
+                color: 'var(--text-primary)' });
         }
 
         function resetearEstilos() {
@@ -1055,13 +1133,8 @@
             localStorage.setItem('cupotax-login-estilo', 'fire');
             localStorage.removeItem('cupotax-login-light');
             actualizarCards('fire');
-            Swal.fire({
-                title: 'Estilos restaurados',
-                text: 'Volviste a Naranja Fuego',
-                icon: 'success',
-                timer: 1500,
-                showConfirmButton: false
-            });
+            Swal.fire({ title: 'Estilos restaurados', icon: 'success', timer: 1500, showConfirmButton: false,
+                background: 'var(--card-bg)', color: 'var(--text-primary)' });
         }
 
         function actualizarCards(estilo) {
@@ -1069,6 +1142,7 @@
             document.getElementById('cardGlass')?.classList.remove('active');
             document.getElementById('cardNeon')?.classList.remove('active');
             document.getElementById('cardCrimson')?.classList.remove('active');
+            document.getElementById('cardLight')?.classList.remove('active');
             if (estilo === 'fire') document.getElementById('cardFire')?.classList.add('active');
             else if (estilo === 'glass') document.getElementById('cardGlass')?.classList.add('active');
             else if (estilo === 'neon') document.getElementById('cardNeon')?.classList.add('active');
@@ -1076,58 +1150,39 @@
         }
 
         // ==========================================================
-        // 🔥 SECCIÓN 9.8: INICIALIZACIÓN
+        // 🔥 INICIALIZACIÓN
         // ==========================================================
-        // Cargar tema guardado
-        var estiloGuardado = localStorage.getItem('cupotax-login-estilo') || 'fire';
-        var lightGuardado = localStorage.getItem('cupotax-login-light') === 'true';
-        if (estiloGuardado === 'glass') document.body.classList.add('style-glass');
-        else if (estiloGuardado === 'neon') document.body.classList.add('style-neon');
-        else if (estiloGuardado === 'crimson') document.body.classList.add('style-crimson');
-        else document.body.classList.add('style-fire');
-        if (lightGuardado) document.body.classList.add('light-mode');
-        actualizarCards(estiloGuardado);
+        document.addEventListener('DOMContentLoaded', function() {
+            var estiloGuardado = localStorage.getItem('cupotax-login-estilo') || 'fire';
+            var lightGuardado = localStorage.getItem('cupotax-login-light') === 'true';
 
-        // ==========================================================
-        // 🔄 SECCIÓN 9.9: VERIFICAR SESIÓN ACTIVA (CORREGIDO - TODOS LOS ROLES)
-        // ==========================================================
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-                console.log('Usuario ya autenticado:', user.email);
-                // Redirigir automáticamente al dashboard correspondiente
-                database.ref('usuarios/' + user.uid).once('value').then(function(snapshot) {
-                    var userData = snapshot.val();
-                    if (userData) {
-                        var rol = userData.rol || 'USUARIO';
-                        var redirectUrl = '/';
-                        
-                        // ==========================================================
-                        // TODOS LOS ROLES SOPORTADOS (IGUAL QUE EN EL LOGIN)
-                        // ==========================================================
-                        if (rol === 'ADMIN') {
-                            redirectUrl = '/admin';
-                        } else if (rol === 'TAXISTA') {
-                            redirectUrl = '/taxista';
-                        } else if (rol === 'BUSERO') {
-                            redirectUrl = '/busero';
-                        } else if (rol === 'ESTUDIANTE') {
-                            redirectUrl = '/usuario';
-                        } else {
-                            redirectUrl = '/usuario';
+            document.body.classList.remove('style-fire', 'style-glass', 'style-neon', 'style-crimson', 'light-mode');
+            if (estiloGuardado === 'glass') document.body.classList.add('style-glass');
+            else if (estiloGuardado === 'neon') document.body.classList.add('style-neon');
+            else if (estiloGuardado === 'crimson') document.body.classList.add('style-crimson');
+            else document.body.classList.add('style-fire');
+            if (lightGuardado) document.body.classList.add('light-mode');
+            actualizarCards(estiloGuardado);
+
+            // Verificar sesión activa
+            auth.onAuthStateChanged(function(user) {
+                if (user) {
+                    database.ref('usuarios/' + user.uid).once('value').then(function(snapshot) {
+                        const userData = snapshot.val();
+                        if (userData) {
+                            const rol = userData.rol || 'USUARIO';
+                            let redirectUrl = '/';
+                            if (rol === 'ADMIN') redirectUrl = '/admin';
+                            else if (rol === 'TAXISTA') redirectUrl = '/taxista';
+                            else if (rol === 'BUSERO') redirectUrl = '/busero';
+                            else redirectUrl = '/usuario';
+                            window.location.href = API_URL + redirectUrl;
                         }
-                        
-                        console.log('✅ Sesión activa - Redirigiendo a:', redirectUrl);
-                        window.location.href = API_URL + redirectUrl;
-                    }
-                }).catch(function(error) {
-                    console.error('Error al obtener datos del usuario:', error);
-                });
-            }
+                    });
+                }
+            });
         });
 
-        // ==========================================================
-        // ❌ SECCIÓN 9.10: CERRAR PANEL AL HACER CLIC FUERA
-        // ==========================================================
         window.onclick = function(e) {
             var panel = document.getElementById('settingsPanel');
             var btn = document.querySelector('.settings-toggle');
