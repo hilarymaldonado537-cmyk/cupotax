@@ -5,19 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>CupoTax - Registro</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+    </script>
 
     <!-- ======================================== -->
     <!-- 🔥 FIREBASE SDKs                         -->
     <!-- ======================================== -->
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js">
+    </script>
 
     <!-- ======================================== -->
-    <!-- 🔥 CONFIGURACIÓN CORRECTA DE FIREBASE    -->
+    <!-- 🔥 CONFIGURACIÓN DE FIREBASE             -->
     <!-- ======================================== -->
     <script>
         const firebaseConfig = {
@@ -27,35 +31,36 @@
             projectId: "cupotax",
             storageBucket: "cupotax.firebasestorage.app",
             messagingSenderId: "146730589510",
-            appId: "1:146730589510:web:9f0c712f042f719ea81947",
-            measurementId: "G-M7899Y3BE2"
+            appId: "1:146730589510:web:9f0c712f042f719ea81947"
         };
 
         if (typeof firebase !== 'undefined') {
             if (!firebase.apps.length) {
                 firebase.initializeApp(firebaseConfig);
                 console.log('✅ Firebase inicializado correctamente');
-            } else {
-                console.log('ℹ️ Firebase ya estaba inicializado');
             }
-        } else {
-            console.error('❌ Firebase no está cargado');
-            alert('Error: Firebase no se cargó correctamente. Recarga la página.');
         }
 
         const auth = firebase.auth();
         const database = firebase.database();
+        const API_URL = '';
     </script>
 
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* ==========================================================
+           RESET Y VARIABLES CSS
+           ========================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body.style-fire {
             --bg-gradient-start: #0A0A0A;
             --bg-gradient-end: #1E1E1E;
             --glass-bg: rgba(30, 30, 30, 0.85);
             --glass-border: rgba(255, 106, 42, 0.3);
-            --navbar-bg: rgba(10, 10, 10, 0.9);
             --text-primary: #FFFFFF;
             --text-secondary: #B3B3B3;
             --accent: #FF6A2A;
@@ -63,7 +68,7 @@
             --accent-glow: 0 0 15px rgba(255, 106, 42, 0.4);
             --card-bg: rgba(30, 30, 30, 0.85);
             --input-bg: rgba(255, 255, 255, 0.08);
-            --success: #FFA15C;
+            --success: #43E97B;
             --danger: #FF3D2E;
         }
 
@@ -72,7 +77,6 @@
             --bg-gradient-end: #0A2540;
             --glass-bg: rgba(22, 38, 58, 0.55);
             --glass-border: rgba(255, 255, 255, 0.08);
-            --navbar-bg: rgba(16, 26, 43, 0.6);
             --text-primary: #FFFFFF;
             --text-secondary: #A8B2D1;
             --accent: #3A86FF;
@@ -89,7 +93,6 @@
             --bg-gradient-end: #1A1D2E;
             --glass-bg: rgba(26, 29, 46, 0.7);
             --glass-border: rgba(255, 76, 205, 0.3);
-            --navbar-bg: rgba(16, 18, 30, 0.8);
             --text-primary: #FFFFFF;
             --text-secondary: #A0A3BD;
             --accent: #FF4ECD;
@@ -106,7 +109,6 @@
             --bg-gradient-end: #2D1515;
             --glass-bg: rgba(45, 21, 21, 0.55);
             --glass-border: rgba(255, 100, 100, 0.15);
-            --navbar-bg: rgba(26, 14, 14, 0.9);
             --text-primary: #FFFFFF;
             --text-secondary: #D1A8A8;
             --accent: #E63946;
@@ -123,7 +125,6 @@
             --bg-gradient-end: #FFFFFF;
             --glass-bg: rgba(255, 255, 255, 0.95);
             --glass-border: rgba(0, 0, 0, 0.1);
-            --navbar-bg: #FFFFFF;
             --text-primary: #000000;
             --text-secondary: #555555;
             --accent: #FF6A2A;
@@ -145,7 +146,7 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            padding: 2rem;
+            padding: 1.5rem;
         }
 
         body::before {
@@ -164,67 +165,274 @@
             z-index: -2;
         }
 
-        body.light-mode::before { opacity: 0.6; }
+        body.light-mode::before {
+            opacity: 0.6;
+        }
 
-        .register-container { width: 100%; max-width: 850px; margin: 2rem auto; }
+        /* ==========================================================
+           CONTENEDOR PRINCIPAL
+           ========================================================== */
+        .register-container {
+            width: 100%;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
         .register-card {
             background: var(--glass-bg);
             backdrop-filter: blur(12px);
             border-radius: 28px;
             border: 1px solid var(--glass-border);
-            padding: 2rem;
+            padding: 2.2rem 2rem;
             transition: all 0.3s;
         }
 
-        .logo { text-align: center; margin-bottom: 1rem; }
+        .logo {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
         .logo h1 {
-            font-size: 1.8rem;
+            font-size: 2rem;
             background: linear-gradient(135deg, var(--accent), var(--accent-neon));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
-        .logo span { font-size: 0.7rem; color: var(--text-secondary); letter-spacing: 2px; }
+        .logo span {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            letter-spacing: 2px;
+        }
 
-        .register-title { text-align: center; margin-bottom: 1.5rem; }
-        .register-title h2 { color: var(--accent); font-size: 1.3rem; }
+        .register-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .register-title h2 {
+            color: var(--accent);
+            font-size: 1.3rem;
+        }
 
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        .form-group { margin-bottom: 1rem; }
+        /* ==========================================================
+           FORMULARIO
+           ========================================================== */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
         .form-group label {
             display: block;
             color: var(--accent);
             font-size: 0.7rem;
             margin-bottom: 0.3rem;
             letter-spacing: 0.5px;
+            font-weight: 600;
         }
-        .form-group input, .form-group select {
+
+        .form-group input,
+        .form-group select {
             width: 100%;
-            padding: 0.7rem;
+            padding: 0.7rem 1rem;
             background: var(--input-bg);
             border: 1px solid var(--glass-border);
-            border-radius: 12px;
+            border-radius: 14px;
             color: var(--text-primary);
             transition: all 0.3s;
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
         }
-        .form-group input:focus, .form-group select:focus {
+
+        .form-group input:focus,
+        .form-group select:focus {
             outline: none;
             border-color: var(--accent);
-            box-shadow: 0 0 8px var(--accent-glow);
+            box-shadow: 0 0 12px var(--accent-glow);
         }
-        .required-star { color: var(--danger); margin-left: 2px; }
 
-        .password-strength { height: 4px; margin-top: 0.3rem; border-radius: 4px; transition: all 0.3s; }
-        .password-strength.weak { background: #e74c3c; width: 33%; }
-        .password-strength.medium { background: #f39c12; width: 66%; }
-        .password-strength.strong { background: #2ecc71; width: 100%; }
-        .password-hint { font-size: 0.6rem; margin-top: 0.2rem; color: var(--text-secondary); }
-        .pin-helper { font-size: 0.65rem; color: var(--text-secondary); margin-top: 0.2rem; }
+        .form-group input::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.6;
+        }
 
+        .form-group select option {
+            background: var(--bg-gradient-start);
+            color: var(--text-primary);
+        }
+
+        .required-star {
+            color: var(--danger);
+            margin-left: 2px;
+        }
+
+        .password-strength {
+            height: 4px;
+            margin-top: 0.3rem;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        .password-strength.weak {
+            background: #e74c3c;
+            width: 33%;
+        }
+        .password-strength.medium {
+            background: #f39c12;
+            width: 66%;
+        }
+        .password-strength.strong {
+            background: #2ecc71;
+            width: 100%;
+        }
+
+        .password-hint {
+            font-size: 0.6rem;
+            margin-top: 0.2rem;
+            color: var(--text-secondary);
+        }
+
+        .pin-helper {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            margin-top: 0.2rem;
+        }
+
+        /* ==========================================================
+           PRESTATARIAS
+           ========================================================== */
+        .prestataria-field {
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .prestataria-field label {
+            display: block;
+            color: var(--accent);
+            font-size: 0.7rem;
+            margin-bottom: 0.3rem;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .prestataria-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .prestataria-option {
+            background: var(--input-bg);
+            border: 2px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1rem 0.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .prestataria-option:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: var(--accent-glow);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .prestataria-option.selected {
+            border-color: var(--accent);
+            background: rgba(255, 106, 42, 0.12);
+            box-shadow: var(--accent-glow), inset 0 0 30px rgba(255, 106, 42, 0.05);
+            transform: translateY(-4px);
+        }
+
+        .prestataria-option .logo-container {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 0.5rem;
+            border-radius: 14px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.3rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            flex-shrink: 0;
+        }
+
+        .prestataria-option.selected .logo-container {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(255, 106, 42, 0.2);
+        }
+
+        .prestataria-option .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s;
+        }
+
+        .prestataria-option:hover .logo-container img {
+            transform: scale(1.05);
+        }
+
+        .prestataria-option .prestataria-nombre {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.1rem;
+            line-height: 1.2;
+            word-break: break-word;
+        }
+
+        .prestataria-option .badge-tipo {
+            display: inline-block;
+            font-size: 0.5rem;
+            padding: 0.1rem 0.6rem;
+            border-radius: 20px;
+            background: rgba(255, 106, 42, 0.12);
+            color: var(--accent);
+            margin-top: 0.2rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .prestataria-option .prestataria-check {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: #000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            font-weight: 700;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+        .prestataria-option.selected .prestataria-check {
+            display: flex;
+        }
+
+        /* ==========================================================
+           BOTONES
+           ========================================================== */
         .btn-register {
             background: linear-gradient(135deg, var(--accent), var(--accent-neon));
             border: none;
-            padding: 0.8rem;
+            padding: 0.9rem;
             border-radius: 40px;
             font-weight: 700;
             cursor: pointer;
@@ -232,13 +440,47 @@
             margin-top: 1rem;
             color: #000;
             transition: all 0.3s;
+            font-size: 1rem;
         }
-        .btn-register:hover { transform: translateY(-2px); box-shadow: var(--accent-glow); }
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--accent-glow);
+        }
+        .btn-register:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
 
-        .login-link { text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-secondary); }
-        .login-link a { color: var(--accent); text-decoration: none; font-weight: 600; cursor: pointer; }
-        .back-link { text-align: center; margin-top: 1rem; }
-        .back-link a { color: var(--text-secondary); text-decoration: none; font-size: 0.8rem; cursor: pointer; }
+        .login-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .login-link a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 0.8rem;
+        }
+        .back-link a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+        .back-link a:hover {
+            text-decoration: underline;
+        }
 
         .terminos-checkbox {
             display: flex;
@@ -247,119 +489,51 @@
             margin: 1.5rem 0 1rem;
             flex-wrap: wrap;
         }
-        .terminos-checkbox input { width: 20px; height: 20px; cursor: pointer; accent-color: var(--accent); }
-        .terminos-checkbox label { color: var(--text-secondary); font-size: 0.75rem; }
-        .terminos-checkbox a { color: var(--accent); cursor: pointer; text-decoration: none; }
-
-        .prestataria-field { margin-top: 0.5rem; margin-bottom: 1rem; }
-        .prestataria-field label {
-            display: block;
-            color: var(--accent);
-            font-size: 0.7rem;
-            margin-bottom: 0.3rem;
-            letter-spacing: 0.5px;
-        }
-
-        .prestataria-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 1rem;
-            margin-top: 0.8rem;
-        }
-
-        .prestataria-option {
-            background: var(--input-bg);
-            border: 2px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 1.2rem 0.8rem;
-            text-align: center;
+        .terminos-checkbox input {
+            width: 20px;
+            height: 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            backdrop-filter: blur(4px);
-            min-height: 180px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .prestataria-option:hover {
-            transform: translateY(-6px) scale(1.02);
-            border-color: var(--accent);
-            box-shadow: var(--accent-glow);
-            background: rgba(255, 255, 255, 0.05);
-        }
-        .prestataria-option.selected {
-            border-color: var(--accent);
-            background: rgba(255, 106, 42, 0.15);
-            box-shadow: var(--accent-glow), inset 0 0 30px rgba(255, 106, 42, 0.05);
-            transform: translateY(-4px);
-        }
-        .prestataria-option .logo-container {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 0.6rem;
-            border-radius: 16px;
-            overflow: hidden;
-            background: rgba(255, 255, 255, 0.08);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.5rem;
-            transition: all 0.3s;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            accent-color: var(--accent);
             flex-shrink: 0;
         }
-        .prestataria-option.selected .logo-container {
-            border-color: var(--accent);
-            box-shadow: 0 0 20px rgba(255, 106, 42, 0.2);
-            background: rgba(255, 255, 255, 0.05);
+        .terminos-checkbox label {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
         }
-        .prestataria-option .logo-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            transition: transform 0.3s;
-        }
-        .prestataria-option:hover .logo-container img { transform: scale(1.05); }
-        .prestataria-option .prestataria-nombre {
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 0.2rem;
-            line-height: 1.2;
-            word-break: break-word;
-        }
-        .prestataria-option .prestataria-sub { font-size: 0.6rem; color: var(--text-secondary); opacity: 0.8; }
-        .prestataria-option .badge-tipo {
-            display: inline-block;
-            font-size: 0.5rem;
-            padding: 0.15rem 0.6rem;
-            border-radius: 20px;
-            background: rgba(255, 106, 42, 0.15);
+        .terminos-checkbox a {
             color: var(--accent);
-            margin-top: 0.3rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 500;
         }
-        .prestataria-option .prestataria-check {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: var(--accent);
-            color: #000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            font-weight: 700;
-            box-shadow: 0 0 15px var(--accent-glow);
+        .terminos-checkbox a:hover {
+            text-decoration: underline;
         }
-        .prestataria-option.selected .prestataria-check { display: flex; }
 
+        /* ==========================================================
+           LOADING SPINNER
+           ========================================================== */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(0, 0, 0, 0.25);
+            border-radius: 50%;
+            border-top-color: #000;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ==========================================================
+           SETTINGS PANEL
+           ========================================================== */
         .settings-toggle {
             position: fixed;
             bottom: 24px;
@@ -379,7 +553,10 @@
             color: var(--accent);
             transition: all 0.3s;
         }
-        .settings-toggle:hover { transform: scale(1.1); box-shadow: var(--accent-glow); }
+        .settings-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: var(--accent-glow);
+        }
 
         .settings-panel {
             position: fixed;
@@ -394,8 +571,15 @@
             z-index: 10000;
             display: none;
         }
-        .settings-panel.open { display: block !important; }
-        .settings-panel h4 { color: var(--accent); text-align: center; margin-bottom: 0.5rem; }
+        .settings-panel.open {
+            display: block !important;
+        }
+        .settings-panel h4 {
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
         .theme-card {
             padding: 0.5rem;
             cursor: pointer;
@@ -403,9 +587,16 @@
             margin-bottom: 0.5rem;
             text-align: center;
             transition: all 0.3s;
+            color: var(--text-primary);
         }
-        .theme-card:hover { background: rgba(255, 255, 255, 0.1); }
-        .theme-card.active { background: var(--accent); color: #000; }
+        .theme-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .theme-card.active {
+            background: var(--accent);
+            color: #000;
+        }
+
         .btn-reset {
             width: 100%;
             padding: 0.5rem;
@@ -415,42 +606,157 @@
             border-radius: 30px;
             cursor: pointer;
             margin-top: 0.5rem;
+            transition: all 0.3s;
         }
-        .btn-reset:hover { background: var(--accent); color: #000; }
-
-        .prestataria-option {
-            animation: fadeInUp 0.4s ease forwards;
-            opacity: 0;
-        }
-        .prestataria-option:nth-child(1) { animation-delay: 0.05s; }
-        .prestataria-option:nth-child(2) { animation-delay: 0.10s; }
-        .prestataria-option:nth-child(3) { animation-delay: 0.15s; }
-        .prestataria-option:nth-child(4) { animation-delay: 0.20s; }
-        .prestataria-option:nth-child(5) { animation-delay: 0.25s; }
-        .prestataria-option:nth-child(6) { animation-delay: 0.30s; }
-        .prestataria-option:nth-child(7) { animation-delay: 0.35s; }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .btn-reset:hover {
+            background: var(--accent);
+            color: #000;
         }
 
-        @media (max-width: 750px) {
-            .form-row { grid-template-columns: 1fr; gap: 0; }
-            .register-container { margin: 1rem; }
-            .register-card { padding: 1.5rem; }
-            .prestataria-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+        /* ==========================================================
+           RESPONSIVE
+           ========================================================== */
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .register-container {
+                margin: 0.5rem;
+            }
+            .register-card {
+                padding: 1.5rem 1rem;
+                border-radius: 20px;
+            }
+
+            .logo h1 {
+                font-size: 1.6rem;
+            }
+
+            .prestataria-grid {
+                grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+                gap: 0.5rem;
+            }
+
+            .prestataria-option {
+                min-height: 120px;
+                padding: 0.8rem 0.3rem;
+            }
+            .prestataria-option .logo-container {
+                width: 50px;
+                height: 50px;
+            }
+            .prestataria-option .prestataria-nombre {
+                font-size: 0.55rem;
+            }
+
+            .settings-panel {
+                width: 90%;
+                right: 5%;
+                bottom: 80px;
+            }
+            .settings-toggle {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+
+            .btn-register {
+                padding: 0.75rem;
+                font-size: 0.9rem;
+            }
         }
 
         @media (max-width: 480px) {
-            body { padding: 0.5rem; }
-            .register-card { padding: 1rem; border-radius: 16px; }
-            .prestataria-grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); }
-            .prestataria-option { padding: 0.5rem; }
-            .prestataria-option .logo-container { width: 40px; height: 40px; }
-            .prestataria-option .prestataria-nombre { font-size: 0.5rem; }
-            .form-group input, .form-group select { padding: 0.6rem; font-size: 0.9rem; }
-            .btn-register { padding: 0.7rem; font-size: 0.9rem; }
+            body {
+                padding: 0.5rem;
+            }
+
+            .register-card {
+                padding: 1rem 0.8rem;
+                border-radius: 16px;
+            }
+
+            .logo h1 {
+                font-size: 1.3rem;
+            }
+            .register-title h2 {
+                font-size: 1rem;
+            }
+
+            .prestataria-grid {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+                gap: 0.4rem;
+            }
+
+            .prestataria-option {
+                min-height: 90px;
+                padding: 0.5rem 0.2rem;
+                border-radius: 12px;
+            }
+            .prestataria-option .logo-container {
+                width: 35px;
+                height: 35px;
+                border-radius: 10px;
+            }
+            .prestataria-option .prestataria-nombre {
+                font-size: 0.45rem;
+            }
+            .prestataria-option .badge-tipo {
+                font-size: 0.4rem;
+                padding: 0.05rem 0.4rem;
+            }
+            .prestataria-option .prestataria-check {
+                width: 18px;
+                height: 18px;
+                font-size: 0.5rem;
+                top: 4px;
+                right: 4px;
+            }
+
+            .form-group input,
+            .form-group select {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.85rem;
+                border-radius: 12px;
+            }
+            .form-group label {
+                font-size: 0.65rem;
+            }
+
+            .btn-register {
+                padding: 0.65rem;
+                font-size: 0.85rem;
+            }
+
+            .terminos-checkbox label {
+                font-size: 0.65rem;
+            }
+
+            .settings-panel {
+                width: 92%;
+                right: 4%;
+                bottom: 70px;
+                padding: 0.8rem;
+            }
+            .settings-toggle {
+                bottom: 14px;
+                right: 14px;
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+
+            .login-link {
+                font-size: 0.75rem;
+                margin-top: 1rem;
+            }
+            .back-link a {
+                font-size: 0.7rem;
+            }
         }
     </style>
 </head>
@@ -479,29 +785,29 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>NOMBRE COMPLETO <span class="required-star">*</span></label>
-                        <input type="text" id="nombreCompleto" placeholder="Ej: Hilary Maldonado" required>
+                        <input type="text" id="nombreCompleto" placeholder="Ej: Hilary Maldonado" required autocomplete="name">
                     </div>
                     <div class="form-group">
                         <label>CÉDULA <span class="required-star">*</span></label>
-                        <input type="text" id="cedula" placeholder="Ej: 1-761-1069" required>
+                        <input type="text" id="cedula" placeholder="Ej: 1-761-1069" required autocomplete="off">
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
                         <label>CORREO ELECTRÓNICO <span class="required-star">*</span></label>
-                        <input type="email" id="email" placeholder="Ej: usuario@correo.com" required>
+                        <input type="email" id="email" placeholder="Ej: usuario@correo.com" required autocomplete="email">
                     </div>
                     <div class="form-group">
                         <label>TELÉFONO <span class="required-star">*</span></label>
-                        <input type="tel" id="telefono" placeholder="Ej: 6663-7549" required>
+                        <input type="tel" id="telefono" placeholder="Ej: 6663-7549" required autocomplete="tel">
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
                         <label>USUARIO <span class="required-star">*</span></label>
-                        <input type="text" id="username" placeholder="Ej: Hilary" required>
+                        <input type="text" id="username" placeholder="Ej: Hilary" required autocomplete="username">
                     </div>
                     <div class="form-group">
                         <label>ROL <span class="required-star">*</span></label>
@@ -510,7 +816,7 @@
                             <option value="ESTUDIANTE">Estudiante</option>
                             <option value="TAXISTA">Taxista</option>
                             <option value="BUSERO_NORMAL">🚌 Busero Normal (Rutas urbanas)</option>
-                            <option value="BUSERO_DAVID_PANAMA">🚍 Busero David/Panamá (Rutas interprovinciales)</option>
+                            <option value="BUSERO_DAVID_PANAMA">🚍 Busero David/Panamá (Interprovincial)</option>
                             <option value="ADMIN">Administrador</option>
                         </select>
                     </div>
@@ -522,8 +828,7 @@
                     <div id="prestatariaGrid" class="prestataria-grid"></div>
                     <input type="hidden" id="prestatariaSeleccionada" value="">
                     <div class="pin-helper">
-                        <i class="fas fa-building"></i> 
-                        Selecciona la empresa de transportes a la que perteneces
+                        <i class="fas fa-building"></i> Selecciona la empresa de transportes a la que perteneces
                     </div>
                 </div>
 
@@ -531,21 +836,21 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>CONTRASEÑA <span class="required-star">*</span></label>
-                        <input type="password" id="password" oninput="validarPassword()" placeholder="••••••••" required>
+                        <input type="password" id="password" oninput="validarPassword()" placeholder="••••••••" required autocomplete="new-password">
                         <div id="passwordStrength" class="password-strength"></div>
-                        <div id="passwordHint" class="password-hint">Contraseña fuerte.</div>
+                        <div id="passwordHint" class="password-hint">Mínimo 8 caracteres, mayúsculas, números y símbolos.</div>
                     </div>
                     <div class="form-group">
                         <label>CONFIRMAR CONTRASEÑA <span class="required-star">*</span></label>
-                        <input type="password" id="confirmPassword" oninput="validarConfirmacion()" placeholder="••••••••" required>
+                        <input type="password" id="confirmPassword" oninput="validarConfirmacion()" placeholder="••••••••" required autocomplete="new-password">
                         <div id="confirmHint" class="password-hint">Las contraseñas coinciden</div>
                     </div>
                 </div>
 
-                <!-- PIN -->
+                <!-- PIN DE SEGURIDAD -->
                 <div class="form-group">
                     <label>PIN DE SEGURIDAD (6 dígitos) <span class="required-star">*</span></label>
-                    <input type="password" id="pinSeguridad" maxlength="6" pattern="[0-9]{6}" placeholder="Ej: 123456" required>
+                    <input type="password" id="pinSeguridad" maxlength="6" pattern="[0-9]{6}" placeholder="Ej: 123456" required autocomplete="off">
                     <div class="pin-helper">🔐 Guarda este PIN. Lo necesitarás para recuperar tu contraseña.</div>
                 </div>
 
@@ -561,31 +866,31 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>PLACA <span class="required-star">*</span></label>
-                            <input type="text" id="placa" placeholder="Ej: AF6339">
+                            <input type="text" id="placa" placeholder="Ej: AF6339" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label>MODELO <span class="required-star">*</span></label>
-                            <input type="text" id="modelo" placeholder="Ej: Toyota Hiace">
+                            <input type="text" id="modelo" placeholder="Ej: Toyota Hiace" autocomplete="off">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label>COLOR <span class="required-star">*</span></label>
-                            <input type="text" id="color" placeholder="Ej: Blanco">
+                            <input type="text" id="color" placeholder="Ej: Blanco" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label>AÑO DEL VEHÍCULO <span class="required-star">*</span></label>
-                            <input type="number" id="anio" placeholder="Ej: 2023">
+                            <input type="number" id="anio" placeholder="Ej: 2023" autocomplete="off">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label>CAPACIDAD <span class="required-star">*</span></label>
-                            <input type="number" id="capacidad" placeholder="Número de pasajeros">
+                            <input type="number" id="capacidad" placeholder="Número de pasajeros" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label id="numeroVehiculoLabel">NÚMERO DE VEHÍCULO</label>
-                            <input type="text" id="numeroVehiculo" placeholder="Ej: T-001">
+                            <input type="text" id="numeroVehiculo" placeholder="Ej: T-001" autocomplete="off">
                         </div>
                     </div>
 
@@ -609,7 +914,7 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label>NÚMERO DE CHASIS</label>
-                                <input type="text" id="chasis" placeholder="Número de chasis">
+                                <input type="text" id="chasis" placeholder="Número de chasis" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label>FECHA DE MATRÍCULA</label>
@@ -667,7 +972,7 @@
                     </label>
                 </div>
 
-                <button type="button" class="btn-register" onclick="iniciarRegistro()">
+                <button type="button" class="btn-register" id="btnRegister" onclick="iniciarRegistro()">
                     REGISTRARME
                 </button>
 
@@ -711,12 +1016,65 @@
             la_union: { id: 'la_union', nombre: 'LA UNION', logo: 'LAUNION.png', color: '#10B981' },
             taxi_25: { id: 'taxi_25', nombre: 'EXPRESO TAXI 25 S.A', logo: 'TAXI25.png', color: '#06B6D4' },
             urraca: { id: 'urraca', nombre: 'COOPERATIVA URRACA R.L.', logo: 'URRACA.png', color: '#22C55E' },
-            chiriqui_grande: { id: 'chiriqui_grande', nombre: 'COOPERATIVA CHIRIQUI GRANDE', logo: 'CHIRIQUIGRANDE.png', color: '#4ADE80' },
+            chiriqui_grande: { id: 'chiriqui_grande', nombre: 'COOPERATIVA CHIRIQUI GRANDE', logo: 'CHIRIQUIGRANDE.png',
+                color: '#4ADE80' },
             tranceibosa: { id: 'tranceibosa', nombre: 'TRANCEIBOSA', logo: 'TRANCEIBOSA.png', color: '#14B8A6' },
-            selectivo_bocas: { id: 'selectivo_bocas', nombre: 'SELECTIVO BOCAS S.A.', logo: 'SELECTIVOBOCAS.png', color: '#84CC16' }
+            selectivo_bocas: { id: 'selectivo_bocas', nombre: 'SELECTIVO BOCAS S.A.', logo: 'SELECTIVOBOCAS.png',
+                color: '#84CC16' }
         };
 
         const LOGO_BASE_PATH = './static/';
+
+        // ==========================================================
+        // 🛡️ FUNCIONES DE SEGURIDAD
+        // ==========================================================
+
+        // Sanitización de texto (anti-XSS)
+        function sanitizar(texto) {
+            if (!texto) return '';
+            return texto
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;')
+                .replace(/\//g, '&#047;')
+                .replace(/`/g, '&#096;')
+                .replace(/=/g, '&#061;');
+        }
+
+        // Detectar caracteres peligrosos en texto
+        function detectarAtaque(texto) {
+            if (!texto) return false;
+            const patronesPeligrosos = [
+                /<script/i, /<\/script>/i, /onerror\s*=/i, /onload\s*=/i,
+                /onclick\s*=/i, /eval\s*\(/i, /document\.cookie/i, /alert\s*\(/i,
+                /prompt\s*\(/i, /confirm\s*\(/i, /fetch\s*\(/i, /xmlhttprequest/i,
+                /\.exe/i, /\.bat/i, /\.sh/i, /\.cmd/i, /\.dmg/i, /\.app/i
+            ];
+            for (const patron of patronesPeligrosos) {
+                if (patron.test(texto)) return true;
+            }
+            return false;
+        }
+
+        // Validar formato de cédula panameña
+        function isValidCedula(cedula) {
+            const regex = /^[0-9]{1,2}-[0-9]{3,4}-[0-9]{3,5}$/;
+            return regex.test(cedula);
+        }
+
+        // Validar formato de teléfono
+        function isValidPhone(telefono) {
+            const regex = /^[0-9]{3,4}-[0-9]{4}$/;
+            return regex.test(telefono);
+        }
+
+        // Validar que solo tenga caracteres seguros
+        function esTextoSeguro(texto) {
+            const regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s.,\-_]+$/;
+            return regex.test(texto);
+        }
 
         // ==========================================================
         // 🎵 FUNCIÓN DE SONIDO
@@ -727,19 +1085,6 @@
                 audio.volume = 0.3;
                 audio.play().catch(function(e) { console.log('Error al reproducir sonido:', e); });
             } catch (e) { console.log('Error con el sonido:', e); }
-        }
-
-        // ==========================================================
-        // ✅ VALIDACIONES
-        // ==========================================================
-        function isValidCedula(cedula) {
-            const regex = /^[0-9]{1,2}-[0-9]{3,4}-[0-9]{3,5}$/;
-            return regex.test(cedula);
-        }
-
-        function isValidPhone(telefono) {
-            const regex = /^[0-9]{3,4}-[0-9]{4}$/;
-            return regex.test(telefono);
         }
 
         // ==========================================================
@@ -764,17 +1109,19 @@
                 const div = document.createElement('div');
                 div.className = 'prestataria-option';
                 div.dataset.id = p.id;
-                div.onclick = function() { seleccionarPrestataria(p.id); playCampanita(); };
+                div.onclick = function() {
+                    seleccionarPrestataria(p.id);
+                    playCampanita();
+                };
 
                 const rutaImagen = LOGO_BASE_PATH + p.logo;
-                
+
                 div.innerHTML = `
                     <div class="logo-container">
-                        <img src="${rutaImagen}" alt="${p.nombre}" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\\'font-size: 2rem; color: var(--accent);\\'>🏢</span>';">
+                        <img src="${rutaImagen}" alt="${p.nombre}" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\\'font-size: 1.8rem; color: var(--accent);\\'>🏢</span>';">
                     </div>
                     <div class="prestataria-nombre">${p.nombre}</div>
-                    <div class="prestataria-sub">${tipos[p.id] || ''}</div>
-                    <div class="badge-tipo">${p.id.toUpperCase().replace('_', ' ')}</div>
+                    <div class="badge-tipo">${tipos[p.id] || ''}</div>
                     <div class="prestataria-check"><i class="fas fa-check"></i></div>
                 `;
 
@@ -787,17 +1134,17 @@
         // ==========================================================
         function seleccionarPrestataria(id) {
             document.getElementById('prestatariaSeleccionada').value = id;
-            
+
             document.querySelectorAll('.prestataria-option').forEach(function(el) {
                 el.classList.toggle('selected', el.dataset.id === id);
             });
-            
+
             const prestataria = prestatarias[id];
             if (prestataria) {
                 const label = document.querySelector('.prestataria-field label');
                 if (label) {
                     label.innerHTML = `
-                        ✅ ${prestataria.nombre} 
+                        ✅ ${prestataria.nombre}
                         <span style="font-size: 0.6rem; color: var(--text-secondary);">
                             (Seleccionada)
                         </span>
@@ -834,6 +1181,7 @@
                 document.querySelectorAll('.prestataria-option').forEach(function(el) {
                     el.classList.remove('selected');
                 });
+                document.getElementById('prestatariaSeleccionada').value = '';
             }
 
             // Mostrar campos según rol
@@ -881,9 +1229,71 @@
         }
 
         // ==========================================================
+        // 🔐 VALIDACIONES DE CONTRASEÑA
+        // ==========================================================
+        function validarPassword() {
+            var password = document.getElementById('password').value;
+            var strengthDiv = document.getElementById('passwordStrength');
+            var hintDiv = document.getElementById('passwordHint');
+
+            var strength = 0;
+            var message = '';
+
+            if (password.length >= 8) strength++;
+            if (password.match(/[A-Z]/)) strength++;
+            if (password.match(/[a-z]/)) strength++;
+            if (password.match(/[0-9]/)) strength++;
+            if (password.match(/[^A-Za-z0-9]/)) strength++;
+
+            if (password.length === 0) {
+                strengthDiv.className = 'password-strength';
+                hintDiv.innerHTML = 'Mínimo 8 caracteres, mayúsculas, números y símbolos.';
+            } else if (strength <= 2) {
+                strengthDiv.className = 'password-strength weak';
+                message = 'Contraseña débil. Usa al menos 8 caracteres, mayúsculas, números y símbolos.';
+            } else if (strength <= 4) {
+                strengthDiv.className = 'password-strength medium';
+                message = 'Contraseña media. Añade más variedad.';
+            } else {
+                strengthDiv.className = 'password-strength strong';
+                message = 'Contraseña fuerte. ✓';
+            }
+            hintDiv.innerHTML = message;
+        }
+
+        function validarConfirmacion() {
+            var password = document.getElementById('password').value;
+            var confirm = document.getElementById('confirmPassword').value;
+            var hint = document.getElementById('confirmHint');
+
+            if (confirm.length === 0) {
+                hint.innerHTML = 'Las contraseñas coinciden';
+                hint.style.color = 'var(--text-secondary)';
+            } else if (password === confirm) {
+                hint.innerHTML = '✓ Las contraseñas coinciden';
+                hint.style.color = '#2ecc71';
+            } else {
+                hint.innerHTML = '✗ Las contraseñas no coinciden';
+                hint.style.color = '#e74c3c';
+            }
+        }
+
+        // ==========================================================
+        // 📱 FUNCIONES DE NAVEGACIÓN
+        // ==========================================================
+        function navegarA(pagina) {
+            if (pagina === '') window.location.href = API_URL + '/';
+            else if (pagina === 'login') window.location.href = API_URL + '/login.html';
+            else window.location.href = API_URL + '/' + pagina;
+        }
+
+        // ==========================================================
         // 📝 REGISTRO PRINCIPAL CON FIREBASE
         // ==========================================================
         async function iniciarRegistro() {
+            const btn = document.getElementById('btnRegister');
+            const originalText = btn.innerText;
+
             // 1. Validar términos
             const terminos = document.getElementById('terminos').checked;
             if (!terminos) {
@@ -901,12 +1311,12 @@
             // 2. Obtener valores
             const nombreCompleto = document.getElementById('nombreCompleto').value.trim();
             const cedula = document.getElementById('cedula').value.trim();
-            const email = document.getElementById('email').value.trim();
+            const email = document.getElementById('email').value.trim().toLowerCase();
             const telefono = document.getElementById('telefono').value.trim();
-            const username = document.getElementById('username').value.trim();
+            const username = document.getElementById('username').value.trim().toLowerCase();
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
-            const pin = document.getElementById('pinSeguridad').value;
+            const pin = document.getElementById('pinSeguridad').value.trim();
             const rol = document.getElementById('rol').value;
             const prestataria = document.getElementById('prestatariaSeleccionada').value;
 
@@ -923,7 +1333,32 @@
                 return;
             }
 
-            // 4. Validar cédula
+            // 4. Sanitizar y validar nombre
+            if (detectarAtaque(nombreCompleto)) {
+                Swal.fire({
+                    title: '🚨 Ataque detectado',
+                    text: 'El nombre contiene caracteres maliciosos. Intenta nuevamente.',
+                    icon: 'error',
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)',
+                    confirmButtonColor: 'var(--accent)'
+                });
+                registrarAuditoria('ataque_registro', 'Intento de XSS en nombre: ' + nombreCompleto);
+                return;
+            }
+            if (!esTextoSeguro(nombreCompleto)) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'El nombre contiene caracteres no permitidos.',
+                    icon: 'error',
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)',
+                    confirmButtonColor: 'var(--accent)'
+                });
+                return;
+            }
+
+            // 5. Validar cédula
             if (!isValidCedula(cedula)) {
                 Swal.fire({
                     title: 'Error',
@@ -936,7 +1371,7 @@
                 return;
             }
 
-            // 5. Validar teléfono
+            // 6. Validar teléfono
             if (!isValidPhone(telefono)) {
                 Swal.fire({
                     title: 'Error',
@@ -949,7 +1384,20 @@
                 return;
             }
 
-            // 6. Validar contraseña
+            // 7. Validar username (solo letras, números, guiones y guiones bajos)
+            if (!/^[a-zA-Z0-9\-_]+$/.test(username)) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'El usuario solo puede contener letras, números, guiones y guiones bajos.',
+                    icon: 'error',
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)',
+                    confirmButtonColor: 'var(--accent)'
+                });
+                return;
+            }
+
+            // 8. Validar contraseña
             if (password !== confirmPassword) {
                 Swal.fire({
                     title: 'Error',
@@ -962,11 +1410,10 @@
                 return;
             }
 
-            // 7. Validar PIN
-            if (!/^\d{6}$/.test(pin)) {
+            if (password.length < 8) {
                 Swal.fire({
                     title: 'Error',
-                    text: 'El PIN debe ser de 6 dígitos',
+                    text: 'La contraseña debe tener al menos 8 caracteres',
                     icon: 'error',
                     background: 'var(--card-bg)',
                     color: 'var(--text-primary)',
@@ -975,7 +1422,20 @@
                 return;
             }
 
-            // 8. Validar prestataria (conductores)
+            // 9. Validar PIN
+            if (!/^\d{6}$/.test(pin)) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'El PIN debe ser de 6 dígitos (solo números)',
+                    icon: 'error',
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)',
+                    confirmButtonColor: 'var(--accent)'
+                });
+                return;
+            }
+
+            // 10. Validar prestataria (conductores)
             if ((rol === 'TAXISTA' || rol === 'BUSERO_NORMAL' || rol === 'BUSERO_DAVID_PANAMA') && !prestataria) {
                 Swal.fire({
                     title: 'Error',
@@ -988,7 +1448,7 @@
                 return;
             }
 
-            // 9. Validar vehículo (conductores)
+            // 11. Validar vehículo (conductores)
             if (rol === 'TAXISTA' || rol === 'BUSERO_NORMAL' || rol === 'BUSERO_DAVID_PANAMA') {
                 const placa = document.getElementById('placa').value.trim();
                 const modelo = document.getElementById('modelo').value.trim();
@@ -1024,21 +1484,67 @@
                 }
             }
 
-            // 10. Mostrar loading
-            const btn = document.querySelector('.btn-register');
-            const originalText = btn.innerText;
-            btn.innerText = 'Registrando...';
+            // 12. Verificar que username no esté duplicado
+            btn.innerText = 'Verificando usuario...';
             btn.disabled = true;
 
             try {
-                // 11. Crear usuario en Firebase Auth
-                console.log('📝 Creando usuario en Firebase Auth...');
+                const snapshotUsername = await database.ref('usuarios').orderByChild('username').equalTo(username).once(
+                    'value');
+                if (snapshotUsername.exists()) {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'El nombre de usuario ya está en uso. Elige otro.',
+                        icon: 'error',
+                        background: 'var(--card-bg)',
+                        color: 'var(--text-primary)',
+                        confirmButtonColor: 'var(--accent)'
+                    });
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                    return;
+                }
+
+                // 13. Verificar que cédula no esté duplicada
+                const snapshotCedula = await database.ref('usuarios').orderByChild('cedula').equalTo(cedula).once('value');
+                if (snapshotCedula.exists()) {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Esta cédula ya está registrada. Si eres tú, inicia sesión.',
+                        icon: 'error',
+                        background: 'var(--card-bg)',
+                        color: 'var(--text-primary)',
+                        confirmButtonColor: 'var(--accent)'
+                    });
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                    return;
+                }
+
+                // 14. Verificar que teléfono no esté duplicado
+                const snapshotTelefono = await database.ref('usuarios').orderByChild('telefono').equalTo(telefono).once(
+                    'value');
+                if (snapshotTelefono.exists()) {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Este número de teléfono ya está registrado.',
+                        icon: 'error',
+                        background: 'var(--card-bg)',
+                        color: 'var(--text-primary)',
+                        confirmButtonColor: 'var(--accent)'
+                    });
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                    return;
+                }
+
+                // 15. Crear usuario en Firebase Auth
+                btn.innerText = 'Creando cuenta...';
                 const userCredential = await auth.createUserWithEmailAndPassword(email, password);
                 const user = userCredential.user;
                 console.log('✅ Usuario creado en Firebase Auth:', user.uid);
 
-                // 12. Preparar datos para Realtime Database
-                // Determinar el tipo de busero
+                // 16. Preparar datos para Realtime Database
                 let tipoBusero = '';
                 let rolFinal = rol;
                 if (rol === 'BUSERO_NORMAL') {
@@ -1051,8 +1557,8 @@
 
                 const userData = {
                     uid: user.uid,
-                    nombre: nombreCompleto,
-                    nombreCompleto: nombreCompleto,
+                    nombre: sanitizar(nombreCompleto),
+                    nombreCompleto: sanitizar(nombreCompleto),
                     email: email,
                     telefono: telefono,
                     cedula: cedula,
@@ -1067,12 +1573,12 @@
                     saldo: 0
                 };
 
-                // 13. Agregar datos del vehículo
+                // 17. Agregar datos del vehículo
                 if (rol === 'TAXISTA' || rol === 'BUSERO_NORMAL' || rol === 'BUSERO_DAVID_PANAMA') {
                     userData.vehiculo = {
-                        placa: document.getElementById('placa').value.trim(),
-                        modelo: document.getElementById('modelo').value.trim(),
-                        color: document.getElementById('color').value.trim(),
+                        placa: document.getElementById('placa').value.trim().toUpperCase(),
+                        modelo: sanitizar(document.getElementById('modelo').value.trim()),
+                        color: sanitizar(document.getElementById('color').value.trim()),
                         anio: document.getElementById('anio').value,
                         capacidad: document.getElementById('capacidad').value,
                         numeroVehiculo: document.getElementById('numeroVehiculo').value.trim() || 'N/A'
@@ -1091,25 +1597,25 @@
                     }
                 }
 
-                // 14. Guardar en Realtime Database
-                console.log('📝 Guardando en Realtime Database...');
+                // 18. Guardar en Realtime Database
+                btn.innerText = 'Guardando datos...';
                 await database.ref('usuarios/' + user.uid).set(userData);
                 console.log('✅ Usuario guardado en Realtime Database');
 
-                // 15. Actualizar prestataria (conductores)
+                // 19. Actualizar prestataria (conductores)
                 if (rol === 'TAXISTA' || rol === 'BUSERO_NORMAL' || rol === 'BUSERO_DAVID_PANAMA') {
                     if (prestataria) {
-                        console.log('📝 Actualizando prestataria:', prestataria);
-                        const prestatariaRef = database.ref('prestatarias/' + prestataria + '/conductores');
                         const conductorData = {};
                         conductorData[user.uid] = {
-                            nombre: nombreCompleto,
+                            nombre: sanitizar(nombreCompleto),
                             rol: rolFinal,
                             tipoBusero: tipoBusero,
-                            placa: document.getElementById('placa').value.trim(),
-                            fechaRegistro: new Date().toISOString()
+                            placa: document.getElementById('placa').value.trim().toUpperCase(),
+                            cupo: document.getElementById('numeroVehiculo').value.trim() || 'N/A',
+                            fechaRegistro: new Date().toISOString(),
+                            estado: 'Activo'
                         };
-                        await prestatariaRef.update(conductorData);
+                        await database.ref('prestatarias/' + prestataria + '/conductores').update(conductorData);
 
                         const statsRef = database.ref('prestatarias/' + prestataria + '/stats');
                         const snapshot = await statsRef.once('value');
@@ -1124,40 +1630,51 @@
                     }
                 }
 
-                // 16. Guardar en localStorage
+                // 20. Guardar en localStorage
                 localStorage.setItem('usuarioUid', user.uid);
                 localStorage.setItem('usuarioEmail', email);
-                localStorage.setItem('usuarioNombre', nombreCompleto);
+                localStorage.setItem('usuarioNombre', sanitizar(nombreCompleto));
                 localStorage.setItem('usuarioRol', rolFinal);
                 localStorage.setItem('usuarioTipoBusero', tipoBusero);
                 localStorage.setItem('usuarioPrestataria', prestataria || '');
+                localStorage.setItem('usuarioUsername', username);
+                localStorage.setItem('usuarioCedula', cedula);
+                localStorage.setItem('usuarioTelefono', telefono);
 
-                // 17. Reproducir campanita
+                if (prestataria && prestatarias[prestataria]) {
+                    localStorage.setItem('usuarioLogo', prestatarias[prestataria].logo);
+                    localStorage.setItem('usuarioPrestatariaNombre', prestatarias[prestataria].nombre);
+                }
+
+                // 21. Registrar auditoría
+                registrarAuditoria('registro_exitoso', 'Usuario registrado: ' + email);
+
+                // 22. Reproducir campanita
                 playCampanita();
 
-                // 18. Mostrar mensaje de éxito
+                // 23. Mostrar mensaje de éxito
                 let prestatariaInfo = null;
                 if (prestataria && prestatarias[prestataria]) {
                     prestatariaInfo = prestatarias[prestataria];
                 }
 
                 const prestatariaNombre = prestatariaInfo ? prestatariaInfo.nombre : 'CupoTax';
-                const logoPath = prestatariaInfo ? '/static/' + prestatariaInfo.logo : '/CUPOTAX.png';
+                const logoPath = prestatariaInfo ? LOGO_BASE_PATH + prestatariaInfo.logo : '/CUPOTAX.png';
 
-                // Determinar el panel de redirección
                 let redirectUrl = '/';
                 if (rol === 'ADMIN') redirectUrl = '/admin';
                 else if (rol === 'TAXISTA') redirectUrl = '/taxista';
                 else if (rol === 'BUSERO_NORMAL' || rol === 'BUSERO_DAVID_PANAMA') redirectUrl = '/busero';
                 else redirectUrl = '/usuario';
 
-                // Mensaje específico para buseros
                 let mensajeEspecifico = '';
                 if (rol === 'BUSERO_NORMAL') {
                     mensajeEspecifico = '🚌 Has sido registrado como Busero Normal (Rutas urbanas)';
                 } else if (rol === 'BUSERO_DAVID_PANAMA') {
                     mensajeEspecifico = '🚍 Has sido registrado como Busero David/Panamá (Rutas interprovinciales)';
                 }
+
+                btn.innerText = '✅ Completado';
 
                 Swal.fire({
                     title: '🎉 ¡Registro exitoso!',
@@ -1167,20 +1684,21 @@
                                 <img src="${logoPath}" alt="${prestatariaNombre}" style="width: 100%; height: 100%; object-fit: contain; background: white;" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\\'fas fa-building\\' style=\\'font-size: 3rem; color: var(--accent);\\'></i>';">
                             </div>
                             <h3 style="color: var(--accent);">${prestatariaNombre}</h3>
-                            <p style="color: var(--text-secondary);">Bienvenido/a <strong>${nombreCompleto}</strong></p>
+                            <p style="color: var(--text-secondary);">Bienvenido/a <strong>${sanitizar(nombreCompleto)}</strong></p>
                             <p style="color: var(--text-secondary); font-size: 0.8rem;">Rol: ${rol === 'BUSERO_NORMAL' ? '🚌 Busero Normal' : rol === 'BUSERO_DAVID_PANAMA' ? '🚍 Busero David/Panamá' : rol}</p>
                             ${mensajeEspecifico ? `<p style="color: var(--success); font-size: 0.8rem; margin-top: 4px;">${mensajeEspecifico}</p>` : ''}
+                            <p style="font-size: 0.7rem; color: var(--text-tertiary); margin-top: 8px;">🔐 Guarda tu PIN: <strong>${pin}</strong></p>
                         </div>
                     `,
                     icon: 'success',
-                    timer: 3000,
+                    timer: 4000,
                     showConfirmButton: true,
                     confirmButtonText: 'Ir a mi panel',
                     background: 'var(--card-bg)',
                     color: 'var(--text-primary)',
                     confirmButtonColor: 'var(--accent)'
                 }).then(() => {
-                    window.location.href = redirectUrl;
+                    window.location.href = API_URL + redirectUrl;
                 });
 
             } catch (error) {
@@ -1188,16 +1706,20 @@
 
                 let mensaje = 'Error al registrarse. Intenta de nuevo.';
                 if (error.code === 'auth/email-already-in-use') {
-                    mensaje = 'Este correo electrónico ya está registrado.';
+                    mensaje = 'Este correo electrónico ya está registrado. Inicia sesión.';
                 } else if (error.code === 'auth/weak-password') {
-                    mensaje = 'La contraseña es demasiado débil. Usa al menos 6 caracteres.';
+                    mensaje = 'La contraseña es demasiado débil. Usa al menos 8 caracteres.';
                 } else if (error.code === 'auth/invalid-email') {
                     mensaje = 'El correo electrónico no es válido.';
                 } else if (error.code === 'auth/configuration-not-found') {
                     mensaje = 'Error de configuración de Firebase. Verifica que Authentication esté habilitado.';
+                } else if (error.code === 'auth/too-many-requests') {
+                    mensaje = 'Demasiados intentos. Espera unos minutos e intenta nuevamente.';
                 } else if (error.message) {
                     mensaje = error.message;
                 }
+
+                registrarAuditoria('error_registro', 'Error: ' + error.code);
 
                 Swal.fire({
                     title: '❌ Error en el registro',
@@ -1214,63 +1736,28 @@
         }
 
         // ==========================================================
-        // 🔐 VALIDACIONES DE CONTRASEÑA
+        // 🛡️ AUDITORÍA
         // ==========================================================
-        function validarPassword() {
-            var password = document.getElementById('password').value;
-            var strengthDiv = document.getElementById('passwordStrength');
-            var hintDiv = document.getElementById('passwordHint');
+        function registrarAuditoria(accion, detalle) {
+            if (typeof database === 'undefined') return;
 
-            var strength = 0;
-            var message = '';
+            const ip = '0.0.0.0';
+            const data = {
+                accion: accion,
+                detalle: detalle || '',
+                ip: ip,
+                timestamp: firebase.database.ServerValue.TIMESTAMP,
+                pagina: 'register'
+            };
 
-            if (password.length >= 8) strength++;
-            if (password.match(/[A-Z]/)) strength++;
-            if (password.match(/[a-z]/)) strength++;
-            if (password.match(/[0-9]/)) strength++;
-            if (password.match(/[^A-Za-z0-9]/)) strength++;
-
-            if (password.length === 0) {
-                strengthDiv.className = 'password-strength';
-                hintDiv.innerHTML = '';
-            } else if (strength <= 2) {
-                strengthDiv.className = 'password-strength weak';
-                message = 'Contraseña débil. Usa al menos 8 caracteres, mayúsculas, números y símbolos.';
-            } else if (strength <= 4) {
-                strengthDiv.className = 'password-strength medium';
-                message = 'Contraseña media. Añade más variedad.';
-            } else {
-                strengthDiv.className = 'password-strength strong';
-                message = 'Contraseña fuerte.';
-            }
-            hintDiv.innerHTML = message;
-        }
-
-        function validarConfirmacion() {
-            var password = document.getElementById('password').value;
-            var confirm = document.getElementById('confirmPassword').value;
-            var hint = document.getElementById('confirmHint');
-
-            if (confirm.length === 0) {
-                hint.innerHTML = '';
-            } else if (password === confirm) {
-                hint.innerHTML = '✓ Las contraseñas coinciden';
-                hint.style.color = '#2ecc71';
-            } else {
-                hint.innerHTML = '✗ Las contraseñas no coinciden';
-                hint.style.color = '#e74c3c';
-            }
+            database.ref('auditoria').push(data).catch(function(err) {
+                console.warn('No se pudo registrar auditoría:', err);
+            });
         }
 
         // ==========================================================
-        // 📱 FUNCIONES DE NAVEGACIÓN
+        // 📜 VER TÉRMINOS Y PRIVACIDAD
         // ==========================================================
-        function navegarA(pagina) {
-            if (pagina === '') window.location.href = '/';
-            else if (pagina === 'login') window.location.href = '/login.html';
-            else window.location.href = '/' + pagina;
-        }
-
         function verTerminos() {
             Swal.fire({
                 title: 'Términos y Condiciones',
@@ -1329,7 +1816,8 @@
             localStorage.setItem('cupotax-register-estilo', estilo);
             localStorage.removeItem('cupotax-register-light');
             actualizarCards(estilo);
-            Swal.fire({ title: 'Estilo aplicado', icon: 'success', timer: 1500, showConfirmButton: false, background: 'var(--card-bg)', color: 'var(--text-primary)' });
+            Swal.fire({ title: 'Estilo aplicado', icon: 'success', timer: 1500, showConfirmButton: false,
+                background: 'var(--card-bg)', color: 'var(--text-primary)' });
         }
 
         function toggleLightMode() {
@@ -1345,7 +1833,9 @@
                 document.body.classList.add('light-mode');
                 localStorage.setItem('cupotax-register-light', 'true');
             }
-            Swal.fire({ title: document.body.classList.contains('light-mode') ? 'Modo claro' : 'Modo oscuro', icon: 'success', timer: 1500, showConfirmButton: false, background: 'var(--card-bg)', color: 'var(--text-primary)' });
+            Swal.fire({ title: document.body.classList.contains('light-mode') ? 'Modo claro' : 'Modo oscuro',
+                icon: 'success', timer: 1500, showConfirmButton: false, background: 'var(--card-bg)',
+                color: 'var(--text-primary)' });
         }
 
         function resetearEstilos() {
@@ -1354,7 +1844,8 @@
             localStorage.setItem('cupotax-register-estilo', 'fire');
             localStorage.removeItem('cupotax-register-light');
             actualizarCards('fire');
-            Swal.fire({ title: 'Estilos restaurados', icon: 'success', timer: 1500, showConfirmButton: false, background: 'var(--card-bg)', color: 'var(--text-primary)' });
+            Swal.fire({ title: 'Estilos restaurados', icon: 'success', timer: 1500, showConfirmButton: false,
+                background: 'var(--card-bg)', color: 'var(--text-primary)' });
         }
 
         function actualizarCards(estilo) {
@@ -1388,16 +1879,35 @@
 
             document.getElementById('rol').addEventListener('change', toggleCamposPorRol);
             toggleCamposPorRol();
+
+            // Verificar si ya hay sesión activa
+            auth.onAuthStateChanged(function(user) {
+                if (user) {
+                    database.ref('usuarios/' + user.uid).once('value').then(function(snapshot) {
+                        const userData = snapshot.val();
+                        if (userData) {
+                            const rol = userData.rol || 'USUARIO';
+                            let redirectUrl = '/';
+                            if (rol === 'ADMIN') redirectUrl = '/admin';
+                            else if (rol === 'TAXISTA') redirectUrl = '/taxista';
+                            else if (rol === 'BUSERO') redirectUrl = '/busero';
+                            else redirectUrl = '/usuario';
+                            window.location.href = API_URL + redirectUrl;
+                        }
+                    });
+                }
+            });
         });
 
         window.onclick = function(e) {
             var panel = document.getElementById('settingsPanel');
             var btn = document.querySelector('.settings-toggle');
-            if (panel && panel.classList.contains('open') && !panel.contains(e.target) && e.target !== btn && !btn.contains(e.target)) {
+            if (panel && panel.classList.contains('open') && !panel.contains(e.target) && e.target !== btn && !btn
+                .contains(e.target)) {
                 panel.classList.remove('open');
             }
         }
     </script>
 
 </body>
-</html> 
+</html>
