@@ -597,6 +597,45 @@
         /* ==========================================================
            MAPA
            ========================================================== */
+        .map-wrapper {
+            position: relative;
+        }
+
+        /* BOTONES DE MODO DEL MAPA */
+        .map-mode-selector {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border-radius: 40px;
+            padding: 6px;
+            border: 1px solid var(--glass-border);
+            z-index: 10;
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        .map-mode-btn {
+            background: transparent;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 30px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.7rem;
+            transition: all 0.3s;
+            min-height: 32px;
+            white-space: nowrap;
+        }
+        .map-mode-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .map-mode-btn.active {
+            background: var(--accent);
+            color: #000;
+        }
+
         #map {
             width: 100%;
             height: 320px;
@@ -680,33 +719,167 @@
             color: #fff;
         }
 
-        .map-style-selector {
+        /* FEEDBACK AGENT - BOTÓN FLOTANTE */
+        .feedback-float-btn {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            border-radius: 40px;
-            padding: 6px;
-            border: 1px solid var(--glass-border);
+            bottom: 20px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 2px solid var(--text-primary);
+            box-shadow: 0 0 20px rgba(255, 106, 42, 0.4);
+            cursor: pointer;
             z-index: 10;
             display: flex;
-            gap: 5px;
-        }
-        .style-btn {
-            background: transparent;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 30px;
-            color: var(--text-secondary);
-            cursor: pointer;
-            font-size: 0.75rem;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #000;
             transition: all 0.3s;
-            min-height: 32px;
         }
-        .style-btn:hover {
+        .feedback-float-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 106, 42, 0.6);
+        }
+
+        /* FEEDBACK AGENT - PANEL */
+        .feedback-panel {
+            display: none;
+            position: absolute;
+            bottom: 90px;
+            right: 20px;
+            width: 340px;
+            max-height: 420px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid var(--accent);
+            box-shadow: var(--accent-glow);
+            z-index: 20;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+        .feedback-panel.open {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feedback-panel .feedback-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+        .feedback-panel .feedback-header h4 {
+            color: var(--accent);
+            font-size: 1rem;
+        }
+        .feedback-panel .feedback-header .close-feedback {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.4rem;
+            cursor: pointer;
+        }
+        .feedback-panel .feedback-header .close-feedback:hover {
+            color: var(--danger);
+        }
+
+        .feedback-panel .feedback-location {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.8rem;
+            padding: 8px 12px;
+            background: var(--input-bg);
+            border-radius: 12px;
+        }
+        .feedback-panel .feedback-location strong {
+            color: var(--text-primary);
+        }
+
+        .feedback-panel textarea {
+            width: 100%;
+            padding: 10px 14px;
+            background: var(--input-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            resize: vertical;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            min-height: 70px;
+            outline: none;
+        }
+        .feedback-panel textarea:focus {
+            border-color: var(--accent);
+        }
+        .feedback-panel textarea::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.6;
+        }
+
+        .feedback-panel .feedback-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .feedback-panel .feedback-buttons button {
+            flex: 1;
+            padding: 8px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            min-height: 40px;
+            transition: all 0.3s;
+        }
+        .feedback-panel .feedback-buttons .btn-feedback-voice {
+            background: var(--input-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
+        }
+        .feedback-panel .feedback-buttons .btn-feedback-voice:hover {
+            border-color: var(--accent);
+        }
+        .feedback-panel .feedback-buttons .btn-feedback-voice.listening {
+            background: var(--danger);
+            color: #fff;
+            border-color: var(--danger);
+        }
+        .feedback-panel .feedback-buttons .btn-feedback-submit {
             background: var(--accent);
             color: #000;
+        }
+        .feedback-panel .feedback-buttons .btn-feedback-submit:hover {
+            box-shadow: var(--accent-glow);
+        }
+
+        .feedback-panel .feedback-message {
+            margin-top: 10px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            display: none;
+        }
+        .feedback-panel .feedback-message.success {
+            display: block;
+            background: rgba(67, 233, 123, 0.15);
+            color: var(--success);
+            border: 1px solid rgba(67, 233, 123, 0.3);
+        }
+        .feedback-panel .feedback-message.error {
+            display: block;
+            background: rgba(255, 61, 46, 0.15);
+            color: var(--danger);
+            border: 1px solid rgba(255, 61, 46, 0.3);
         }
 
         .weather-info {
@@ -762,6 +935,154 @@
         }
         .mapboxgl-popup-content button {
             min-height: 32px;
+        }
+
+        /* ==========================================================
+           CONDUCTOR EN CAMINO (SEGUIMIENTO)
+           ========================================================== */
+        .conductor-seguimiento {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 12px 16px;
+            margin: 10px 0;
+            border-left: 4px solid #3A86FF;
+            display: none;
+        }
+        .conductor-seguimiento.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        .conductor-seguimiento .conductor-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .conductor-seguimiento .conductor-nombre {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .conductor-seguimiento .conductor-eta {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .conductor-seguimiento .conductor-eta strong {
+            color: var(--accent);
+        }
+        .conductor-seguimiento .conductor-estado {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+        }
+        .conductor-seguimiento .conductor-estado .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #3A86FF;
+            animation: pulse-dot 1.5s infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        /* ==========================================================
+           CALIFICACIÓN (MODAL)
+           ========================================================== */
+        .modal-calificacion {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-calificacion.active {
+            display: flex;
+        }
+        .modal-calificacion-content {
+            background: var(--card-bg);
+            border: 1px solid var(--accent);
+            border-radius: 24px;
+            max-width: 420px;
+            width: 90%;
+            padding: 2rem;
+            text-align: center;
+            animation: modalFadeIn 0.3s ease;
+        }
+        .modal-calificacion-content h3 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .modal-calificacion-content p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+        .modal-calificacion-content .estrellas {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 1rem 0;
+        }
+        .modal-calificacion-content .estrellas button {
+            background: transparent;
+            border: none;
+            font-size: 2.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-tertiary);
+            padding: 4px;
+        }
+        .modal-calificacion-content .estrellas button:hover,
+        .modal-calificacion-content .estrellas button.active {
+            color: #F9D423;
+            transform: scale(1.1);
+        }
+        .modal-calificacion-content .comentario-input {
+            width: 100%;
+            padding: 10px 14px;
+            background: var(--input-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            resize: vertical;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            min-height: 60px;
+            margin: 0.5rem 0;
+            outline: none;
+        }
+        .modal-calificacion-content .comentario-input:focus {
+            border-color: var(--accent);
+        }
+        .modal-calificacion-content .btn-calificar {
+            background: var(--accent);
+            border: none;
+            padding: 0.8rem;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            color: #000;
+            font-size: 1rem;
+            min-height: 48px;
+            transition: all 0.3s;
+        }
+        .modal-calificacion-content .btn-calificar:hover {
+            box-shadow: var(--accent-glow);
+        }
+        .modal-calificacion-content .btn-calificar:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         /* ==========================================================
@@ -1744,6 +2065,29 @@
                 height: 44px;
                 font-size: 1.1rem;
             }
+            .feedback-float-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+                bottom: 16px;
+                right: 16px;
+            }
+            .feedback-panel {
+                width: 300px;
+                right: 16px;
+                bottom: 80px;
+            }
+            .map-mode-selector {
+                top: 8px;
+                left: 8px;
+                padding: 4px;
+                gap: 2px;
+            }
+            .map-mode-btn {
+                padding: 4px 10px;
+                font-size: 0.6rem;
+                min-height: 28px;
+            }
         }
 
         @media (max-width: 768px) {
@@ -1778,14 +2122,17 @@
             .emergencia-grid-2 {
                 grid-template-columns: 1fr 1fr;
             }
-            .map-style-selector {
-                top: 70px;
-                right: 5px;
+            .map-mode-selector {
+                top: 60px;
+                left: 8px;
                 padding: 4px;
+                gap: 2px;
+                flex-wrap: wrap;
             }
-            .style-btn {
-                padding: 4px 10px;
-                font-size: 0.65rem;
+            .map-mode-btn {
+                padding: 4px 8px;
+                font-size: 0.55rem;
+                min-height: 24px;
             }
             .notificaciones-panel {
                 width: calc(100% - 2rem);
@@ -1878,6 +2225,24 @@
                 height: 40px;
                 font-size: 1rem;
             }
+            .feedback-float-btn {
+                width: 48px;
+                height: 48px;
+                font-size: 1.1rem;
+                bottom: 16px;
+                right: 16px;
+            }
+            .feedback-panel {
+                width: 280px;
+                right: 12px;
+                bottom: 75px;
+                padding: 0.8rem;
+            }
+            .feedback-panel .feedback-buttons button {
+                font-size: 0.7rem;
+                padding: 6px;
+                min-height: 34px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1903,12 +2268,16 @@
                 max-height: 200px;
                 padding: 10px;
             }
-            .map-style-selector {
-                top: 60px;
+            .map-mode-selector {
+                top: 55px;
+                left: 4px;
+                padding: 3px;
+                gap: 2px;
             }
-            .style-btn {
-                padding: 3px 8px;
-                font-size: 0.55rem;
+            .map-mode-btn {
+                padding: 3px 6px;
+                font-size: 0.5rem;
+                min-height: 20px;
             }
             .weather-info {
                 font-size: 0.6rem;
@@ -2111,6 +2480,30 @@
                 width: 36px;
                 height: 36px;
                 font-size: 0.9rem;
+            }
+            .feedback-float-btn {
+                width: 44px;
+                height: 44px;
+                font-size: 1rem;
+                bottom: 14px;
+                right: 14px;
+            }
+            .feedback-panel {
+                width: 240px;
+                right: 10px;
+                bottom: 68px;
+                padding: 0.6rem;
+                max-height: 340px;
+            }
+            .feedback-panel textarea {
+                font-size: 0.8rem;
+                padding: 8px 10px;
+                min-height: 50px;
+            }
+            .feedback-panel .feedback-buttons button {
+                font-size: 0.65rem;
+                padding: 4px;
+                min-height: 30px;
             }
         }
     </style>
@@ -2342,13 +2735,37 @@
 
                     <div class="map-container">
                         <div class="map-wrapper">
-                            <div class="map-style-selector">
-                                <button class="style-btn" onclick="cambiarEstiloMapa('standard')">🌆 Calles</button>
-                                <button class="style-btn" onclick="cambiarEstiloMapa('satellite')">🛰️ Satélite</button>
-                                <button class="style-btn" onclick="cambiarEstiloMapa('dark')">🌙 Oscuro</button>
+                            <!-- MAP MODE SELECTOR -->
+                            <div class="map-mode-selector" id="mapModeSelector">
+                                <button class="map-mode-btn active" data-mode="standard" onclick="cambiarModoMapa('standard')">🌍 Estándar</button>
+                                <button class="map-mode-btn" data-mode="satellite" onclick="cambiarModoMapa('satellite')">🛰️ Satélite</button>
+                                <button class="map-mode-btn" data-mode="navigation" onclick="cambiarModoMapa('navigation')">🧭 Navegación</button>
+                                <button class="map-mode-btn" data-mode="dark" onclick="cambiarModoMapa('dark')">🌙 Oscuro</button>
                             </div>
                             <div id="map"></div>
-                            <div id="weatherInfo" class="weather-info">
+                            <!-- FEEDBACK AGENT BUTTON -->
+                            <button class="feedback-float-btn" onclick="toggleFeedbackPanel()" aria-label="Reportar problema">
+                                <i class="fas fa-comment-dots"></i>
+                            </button>
+                            <!-- FEEDBACK AGENT PANEL -->
+                            <div class="feedback-panel" id="feedbackPanel">
+                                <div class="feedback-header">
+                                    <h4>📝 Reportar problema</h4>
+                                    <button class="close-feedback" onclick="toggleFeedbackPanel()">✕</button>
+                                </div>
+                                <div class="feedback-location" id="feedbackLocation">
+                                    <strong>📍 Ubicación:</strong> <span id="feedbackDireccion">Obteniendo ubicación...</span>
+                                </div>
+                                <textarea id="feedbackInput" placeholder="Describe el problema... (Ej: La calle está cerrada, el negocio ya no existe, etc.)"></textarea>
+                                <div class="feedback-buttons">
+                                    <button class="btn-feedback-voice" id="feedbackVoiceBtn" onclick="toggleFeedbackVoice()">
+                                        <i class="fas fa-microphone"></i> Hablar
+                                    </button>
+                                    <button class="btn-feedback-submit" onclick="enviarFeedback()">📤 Enviar</button>
+                                </div>
+                                <div class="feedback-message" id="feedbackMessage"></div>
+                            </div>
+                            <div class="weather-info">
                                 <i class="fas fa-cloud-sun"></i> <span id="weatherTemp">Cargando clima...</span>
                             </div>
                         </div>
@@ -2358,6 +2775,22 @@
                                 Haz clic en un lugar del mapa para ver información
                             </div>
                             <div id="infoPanelContent" style="display: none;"></div>
+                        </div>
+                    </div>
+
+                    <!-- CONDUCTOR EN CAMINO (SEGUIMIENTO) -->
+                    <div class="conductor-seguimiento" id="conductorSeguimiento">
+                        <div class="conductor-info">
+                            <div class="conductor-nombre" id="conductorNombre">🚗 Conductor en camino</div>
+                            <div class="conductor-eta">⏱️ Llega en <strong id="conductorETA">--</strong></div>
+                        </div>
+                        <div class="conductor-estado">
+                            <span class="dot"></span>
+                            <span id="conductorEstadoTexto">El conductor está en camino hacia ti</span>
+                        </div>
+                        <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
+                            <button class="btn-outline" onclick="cancelarViaje()" style="padding:6px 16px; font-size:0.7rem; width:auto; border-color:var(--danger); color:var(--danger);">❌ Cancelar viaje</button>
+                            <button class="btn-outline" onclick="verConductorEnMapa()" style="padding:6px 16px; font-size:0.7rem; width:auto;">📍 Ver en mapa</button>
                         </div>
                     </div>
 
@@ -2760,6 +3193,26 @@
     </div>
 
     <!-- ==========================================================
+    MODAL CALIFICACIÓN
+    ========================================================== -->
+    <div class="modal-calificacion" id="modalCalificacion">
+        <div class="modal-calificacion-content">
+            <h3>⭐ Califica tu viaje</h3>
+            <p>¿Cómo fue tu experiencia con <strong id="calificacionConductorNombre">el conductor</strong>?</p>
+            <div class="estrellas" id="estrellasContainer">
+                <button data-valor="1" onclick="seleccionarEstrella(1)">☆</button>
+                <button data-valor="2" onclick="seleccionarEstrella(2)">☆</button>
+                <button data-valor="3" onclick="seleccionarEstrella(3)">☆</button>
+                <button data-valor="4" onclick="seleccionarEstrella(4)">☆</button>
+                <button data-valor="5" onclick="seleccionarEstrella(5)">☆</button>
+            </div>
+            <div style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:0.5rem;" id="estrellaSeleccionada">Selecciona una calificación</div>
+            <textarea class="comentario-input" id="calificacionComentario" placeholder="Deja un comentario (opcional)..."></textarea>
+            <button class="btn-calificar" id="btnCalificar" onclick="enviarCalificacion()" disabled>Enviar calificación</button>
+        </div>
+    </div>
+
+    <!-- ==========================================================
     SETTINGS
     ========================================================== -->
     <div class="settings-toggle" onclick="toggleSettingsPanel()">
@@ -3066,13 +3519,11 @@
         function iniciarLecturaAutomatica() {
             if (!modoVozActivo) return;
 
-            // Leer el título de la sección actual
             const titulo = document.querySelector('.seccion.active h2')?.textContent ||
                 document.querySelector('.welcome-header h1')?.textContent ||
                 'Panel principal';
             leerTexto('📍 ' + titulo);
 
-            // Leer estadísticas principales
             document.querySelectorAll('.stat-card .stat-value').forEach(function(el) {
                 const label = el.closest('.stat-card')?.querySelector('.stat-label')?.textContent || '';
                 if (label) {
@@ -3080,7 +3531,6 @@
                 }
             });
 
-            // Leer tarjetas principales
             document.querySelectorAll('.card .card-title').forEach(function(el) {
                 const card = el.closest('.card');
                 if (card) {
@@ -3100,12 +3550,10 @@
         function leerTexto(texto, velocidad = 1) {
             if (!modoVozActivo && !document.getElementById('voiceFloatBtn').classList.contains('listening')) return;
 
-            // Cancelar lectura anterior
             window.speechSynthesis?.cancel();
 
             if (!texto || texto.trim() === '') return;
 
-            // Validar que no sea texto malicioso
             if (detectarAtaque(texto)) {
                 console.warn('🚨 Texto malicioso detectado en TTS');
                 return;
@@ -3121,7 +3569,6 @@
             utterance.rate = velocidad;
             utterance.pitch = 1;
 
-            // Seleccionar voz en español si está disponible
             const voces = window.speechSynthesis.getVoices();
             const vozEspanol = voces.find(v => v.lang.startsWith('es'));
             if (vozEspanol) utterance.voice = vozEspanol;
@@ -3295,7 +3742,6 @@
                 }
             }
 
-            // Si no se reconoció ningún comando
             leerTexto('No entendí tu comando. Di "Ayuda" para ver los comandos disponibles.');
         }
 
@@ -3379,16 +3825,29 @@
         }
 
         // ==========================================================
-        // 🚗 VEHÍCULOS REALES EN EL MAPA
+        // 🗺️ MAPA - MÚLTIPLES MODOS
         // ==========================================================
 
         let mapboxMap;
+        let mapModeActual = 'standard';
         let currentRouteLayer = null;
         let marcadoresVehiculos = {};
         let vehiculosReales = [];
-        let intervaloTaxisReales = null;
         let ubicacionUsuario = { lat: 9.4333, lng: -82.5167 };
         let escuchaVehiculos = null;
+        let viajeActivoId = null;
+        let conductorUbicacionEscucha = null;
+        let markerConductor = null;
+        let etaInterval = null;
+        let viajeActualData = null;
+
+        // ESTILOS DE MAPA
+        const mapStyles = {
+            standard: 'mapbox://styles/mapbox/standard',
+            satellite: 'mapbox://styles/mapbox/satellite-streets-v12',
+            navigation: 'mapbox://styles/mapbox/navigation-night-v1',
+            dark: 'mapbox://styles/mapbox/dark-v11'
+        };
 
         function initMapboxMap() {
             mapboxgl.accessToken = 'pk.eyJ1IjoiY3Vwb3RheCIsImEiOiJjbW91OWR4OXAwNDIxMnNxMTVlbzdkOGFkIn0.qVOJg2P9CzlD8aLladqjtg';
@@ -3401,7 +3860,7 @@
 
             mapboxMap = new mapboxgl.Map({
                 container: 'map',
-                style: 'mapbox://styles/mapbox/standard',
+                style: mapStyles.standard,
                 center: [ch.lng, ch.lat],
                 zoom: 14,
                 pitch: 45,
@@ -3422,7 +3881,6 @@
                     mapboxMap.setPaintProperty('building', 'fill-extrusion-opacity', 0.6);
                 } catch (e) {}
 
-                // Cargar vehículos reales
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
                         function(pos) {
@@ -3440,25 +3898,35 @@
                     cargarVehiculosReales();
                 }
 
-                // Escuchar cambios en tiempo real
                 iniciarEscuchaVehiculosReales();
+
+                // Obtener dirección para Feedback
+                obtenerDireccionFeedback(ubicacionUsuario.lat, ubicacionUsuario.lng);
 
                 if (document.getElementById('weatherTemp')) cargarClima();
             });
 
             mapboxMap.on('click', function(e) {
                 obtenerInfoLugarPorCoordenadas(e.lngLat.lng, e.lngLat.lat);
+                // Actualizar ubicación para Feedback
+                obtenerDireccionFeedback(e.lngLat.lat, e.lngLat.lng);
             });
         }
 
-        function cambiarEstiloMapa(tipo) {
-            let estilo = '';
-            if (tipo === 'standard') estilo = 'mapbox://styles/mapbox/standard';
-            else if (tipo === 'satellite') estilo = 'mapbox://styles/mapbox/satellite-streets-v12';
-            else if (tipo === 'dark') estilo = 'mapbox://styles/mapbox/dark-v11';
+        function cambiarModoMapa(modo) {
+            mapModeActual = modo;
 
+            // Actualizar botones
+            document.querySelectorAll('.map-mode-btn').forEach(function(btn) {
+                btn.classList.remove('active');
+                if (btn.dataset.mode === modo) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Cambiar estilo del mapa
             if (mapboxMap) {
-                mapboxMap.setStyle(estilo);
+                mapboxMap.setStyle(mapStyles[modo] || mapStyles.standard);
                 mapboxMap.once('style.load', function() {
                     if (!mapboxMap.hasControl('geolocate')) {
                         mapboxMap.addControl(new mapboxgl.GeolocateControl({
@@ -3470,9 +3938,133 @@
                     mapboxMap.on('click', function(e) {
                         obtenerInfoLugarPorCoordenadas(e.lngLat.lng, e.lngLat.lat);
                     });
-                    cargarVehiculosReales();
+                    if (modo === 'navigation') {
+                        // En modo navegación, ocultar vehículos y mostrar ruta
+                        ocultarVehiculos();
+                        if (viajeActualData) {
+                            mostrarRutaNavegacion(viajeActualData);
+                        }
+                    } else {
+                        mostrarVehiculos();
+                        if (currentRouteLayer) {
+                            if (mapboxMap.getLayer('route')) mapboxMap.removeLayer('route');
+                            if (mapboxMap.getSource('route')) mapboxMap.removeSource('route');
+                            currentRouteLayer = null;
+                        }
+                    }
                     if (document.getElementById('weatherTemp')) cargarClima();
                 });
+            }
+
+            if (modoVozActivo) {
+                const nombres = { standard: 'Estándar', satellite: 'Satélite', navigation: 'Navegación', dark: 'Oscuro' };
+                leerTexto('Cambiando a modo ' + nombres[modo]);
+            }
+
+            registrarAuditoria('cambiar_modo_mapa', 'Cambió a modo: ' + modo);
+        }
+
+        function ocultarVehiculos() {
+            Object.values(marcadoresVehiculos).forEach(function(m) { m.remove(); });
+            marcadoresVehiculos = {};
+            document.getElementById('infoPanelContent').style.display = 'none';
+            document.getElementById('infoPanelEmpty').style.display = 'block';
+            document.getElementById('infoPanelEmpty').innerHTML = '🧭 <br>Modo navegación activo';
+        }
+
+        function mostrarVehiculos() {
+            cargarVehiculosReales();
+        }
+
+        function mostrarRutaNavegacion(viaje) {
+            if (!viaje || !mapboxMap) return;
+            const origen = viaje.origen || 'Changuinola';
+            const destino = viaje.destino || 'David';
+
+            calcularRutaNavegacion(origen, destino);
+        }
+
+        async function calcularRutaNavegacion(origen, destino) {
+            try {
+                const geocodeUrl = function(q) {
+                    return 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + encodeURIComponent(q) +
+                        '.json?access_token=' + mapboxgl.accessToken + '&country=pa&limit=1';
+                };
+
+                const [origenRes, destinoRes] = await Promise.all([
+                    fetch(geocodeUrl(origen)).then(function(r) { return r.json(); }),
+                    fetch(geocodeUrl(destino)).then(function(r) { return r.json(); })
+                ]);
+
+                if (!origenRes.features?.length || !destinoRes.features?.length) return;
+
+                const ori = origenRes.features[0].center;
+                const dest = destinoRes.features[0].center;
+
+                const routeRes = await fetch(
+                    'https://api.mapbox.com/directions/v5/mapbox/driving/' + ori[0] + ',' + ori[1] + ';' + dest[0] +
+                    ',' + dest[1] +
+                    '?access_token=' + mapboxgl.accessToken + '&geometries=geojson&steps=true&language=es'
+                );
+                const routeData = await routeRes.json();
+
+                if (routeData.routes?.length) {
+                    const route = routeData.routes[0];
+                    const steps = route.legs[0].steps;
+
+                    if (currentRouteLayer) {
+                        if (mapboxMap.getLayer('route')) mapboxMap.removeLayer('route');
+                        if (mapboxMap.getSource('route')) mapboxMap.removeSource('route');
+                    }
+
+                    mapboxMap.addSource('route', {
+                        type: 'geojson',
+                        data: {
+                            type: 'Feature',
+                            geometry: route.geometry
+                        }
+                    });
+
+                    mapboxMap.addLayer({
+                        id: 'route',
+                        type: 'line',
+                        source: 'route',
+                        layout: {
+                            'line-join': 'round',
+                            'line-cap': 'round'
+                        },
+                        paint: {
+                            'line-color': '#3A86FF',
+                            'line-width': 5,
+                            'line-opacity': 0.9
+                        }
+                    });
+
+                    currentRouteLayer = true;
+
+                    const stepsList = document.getElementById('routeStepsList');
+                    stepsList.innerHTML = steps.map(function(step) {
+                        return '<div class="route-step"><i class="fas fa-arrow-right"></i><span>' + (step
+                            .maneuver.instruction || 'Continuar') + '</span><span style="margin-left: auto;">' +
+                            (step.distance / 1000).toFixed(1) + ' km</span></div>';
+                    }).join('');
+
+                    stepsList.innerHTML =
+                        '<div class="route-step" style="background: rgba(58,134,255,0.2); border-radius: 12px;"><i class="fas fa-info-circle"></i><span><strong>' +
+                        (route.distance / 1000).toFixed(1) + ' km · ' + Math.round(route.duration / 60) +
+                        ' min</strong></span></div>' + stepsList.innerHTML;
+
+                    document.getElementById('routeInstructionsPanel').style.display = 'block';
+                    mapboxMap.fitBounds(new mapboxgl.LngLatBounds().extend(ori).extend(dest), { padding: 50 });
+
+                    if (modoVozActivo) {
+                        leerTexto('Ruta calculada: ' + (route.distance / 1000).toFixed(1) +
+                            ' kilómetros, aproximadamente ' + Math.round(route.duration / 60) +
+                            ' minutos.');
+                    }
+                }
+            } catch (e) {
+                console.error('Error calculando ruta de navegación:', e);
             }
         }
 
@@ -3481,7 +4073,7 @@
         // ==========================================================
 
         function cargarVehiculosReales() {
-            if (!mapboxMap) return;
+            if (!mapboxMap || mapModeActual === 'navigation') return;
 
             database.ref('usuarios')
                 .orderByChild('rol')
@@ -3491,7 +4083,6 @@
 
                     snapshot.forEach(function(child) {
                         const user = child.val();
-                        // Solo taxistas o buseros con ubicación
                         if ((user.rol === 'TAXISTA' || user.rol === 'BUSERO') && user.ubicacion) {
                             const dist = calcularDistancia(
                                 ubicacionUsuario.lat,
@@ -3500,7 +4091,6 @@
                                 user.ubicacion.lng
                             );
 
-                            // Mostrar solo vehículos a menos de 5 km
                             if (dist < 5) {
                                 vehiculosReales.push({
                                     id: child.key,
@@ -3520,13 +4110,8 @@
                         }
                     });
 
-                    // Ordenar por distancia (más cercano primero)
                     vehiculosReales.sort((a, b) => a.distancia - b.distancia);
-
-                    // Actualizar marcadores en el mapa
                     actualizarMarcadoresReales(vehiculosReales);
-
-                    // Actualizar lista en el panel lateral
                     actualizarListaVehiculos(vehiculosReales);
 
                     if (modoVozActivo && vehiculosReales.length > 0) {
@@ -3547,8 +4132,9 @@
 
             escuchaVehiculos = database.ref('usuarios');
             escuchaVehiculos.on('value', function() {
-                // Recargar vehículos cuando haya cambios
-                cargarVehiculosReales();
+                if (mapModeActual !== 'navigation') {
+                    cargarVehiculosReales();
+                }
             });
         }
 
@@ -3568,16 +4154,14 @@
         // ==========================================================
 
         function actualizarMarcadoresReales(vehiculos) {
-            // Limpiar marcadores anteriores
             Object.values(marcadoresVehiculos).forEach(function(m) { m.remove(); });
             marcadoresVehiculos = {};
 
-            if (!mapboxMap) return;
+            if (!mapboxMap || mapModeActual === 'navigation') return;
 
             vehiculos.forEach(function(v, index) {
                 const color = v.tipo === 'TAXISTA' ? '#FFD700' : '#FF3D2E';
 
-                // Crear elemento del marcador con número
                 const el = document.createElement('div');
                 el.className = 'vehicle-dot';
                 el.style.cssText =
@@ -3585,13 +4169,11 @@
                     '; width:16px; height:16px; border-radius:50%; border:2px solid white; box-shadow:0 0 10px ' +
                     color + '; cursor:pointer; position:relative;';
 
-                // Número del vehículo
                 const numero = document.createElement('span');
                 numero.className = 'vehicle-number';
                 numero.textContent = index + 1;
                 el.appendChild(numero);
 
-                // Popup con información
                 const popup = new mapboxgl.Popup({ offset: 25, closeButton: true, closeOnClick: false })
                     .setHTML(`
                         <strong>${v.tipo === 'TAXISTA' ? '🚕 Taxi' : '🚌 Bus'} #${index + 1}</strong><br>
@@ -3625,7 +4207,7 @@
             const panelContent = document.getElementById('infoPanelContent');
             const panelEmpty = document.getElementById('infoPanelEmpty');
 
-            if (!panelContent || !panelEmpty) return;
+            if (!panelContent || !panelEmpty || mapModeActual === 'navigation') return;
 
             if (vehiculos.length === 0) {
                 panelContent.style.display = 'none';
@@ -3677,7 +4259,6 @@
         function solicitarVehiculo(conductorId) {
             if (!conductorId) return;
 
-            // Buscar el conductor en la lista de vehículos
             const conductor = vehiculosReales.find(v => v.id === conductorId);
             if (!conductor) {
                 Swal.fire('Error', 'Conductor no encontrado', 'error');
@@ -3723,7 +4304,6 @@
                 confirmButtonColor: 'var(--accent)'
             }).then(function(result) {
                 if (result.isConfirmed) {
-                    // Guardar solicitud en Firebase
                     const solicitud = {
                         pasajero: usuarioActual?.nombre || 'Anónimo',
                         usuarioId: uidActual,
@@ -3753,10 +4333,529 @@
                             leerTexto('Solicitud enviada a ' + conductor.nombre +
                                 '. Espera la confirmación.');
                         }
+
+                        // Escuchar respuesta del conductor
+                        database.ref('solicitudes').orderByChild('conductorId').equalTo(conductorId).limitToLast(1)
+                            .on('child_added', function(snap) {
+                                const data = snap.val();
+                                if (data.estado === 'aceptado') {
+                                    iniciarSeguimientoConductor(snap.key, conductorId, data);
+                                }
+                            });
                     }).catch(function(error) {
                         Swal.fire('Error', 'No se pudo enviar la solicitud: ' + error.message, 'error');
                     });
                 }
+            });
+        }
+
+        // ==========================================================
+        // 🚗 SEGUIMIENTO DEL CONDUCTOR EN VIVO
+        // ==========================================================
+
+        function iniciarSeguimientoConductor(viajeId, conductorId, data) {
+            viajeActivoId = viajeId;
+            viajeActualData = data || {};
+
+            const conductor = vehiculosReales.find(v => v.id === conductorId);
+            if (conductor) {
+                document.getElementById('conductorNombre').textContent = '🚗 ' + sanitizar(conductor.nombre) +
+                    ' está en camino';
+            }
+
+            document.getElementById('conductorSeguimiento').classList.add('active');
+
+            // Cambiar a modo navegación automáticamente
+            cambiarModoMapa('navigation');
+
+            // Escuchar ubicación del conductor
+            if (conductorUbicacionEscucha) {
+                conductorUbicacionEscucha.off();
+            }
+
+            conductorUbicacionEscucha = database.ref('usuarios/' + conductorId + '/ubicacion');
+            conductorUbicacionEscucha.on('value', function(snapshot) {
+                const ubicacion = snapshot.val();
+                if (!ubicacion) return;
+
+                actualizarMarcadorConductor(ubicacion.lat, ubicacion.lng);
+                calcularETA(ubicacion.lat, ubicacion.lng);
+            });
+
+            // Escuchar cambios en el estado del viaje
+            database.ref('viajes/' + viajeId).on('value', function(snapshot) {
+                const viaje = snapshot.val();
+                if (!viaje) return;
+
+                if (viaje.estado === 'completado') {
+                    finalizarSeguimientoConductor();
+                    // Mostrar modal de calificación
+                    setTimeout(function() {
+                        mostrarModalCalificacion(conductorId);
+                    }, 2000);
+                }
+
+                if (viaje.estado === 'cancelado') {
+                    finalizarSeguimientoConductor();
+                    Swal.fire({
+                        title: '❌ Viaje cancelado',
+                        text: 'El viaje ha sido cancelado.',
+                        icon: 'info',
+                        background: 'var(--card-bg)',
+                        color: 'var(--text-primary)'
+                    });
+                }
+            });
+
+            if (modoVozActivo) {
+                leerTexto('Conductor en camino. Tiempo estimado de llegada: calculando...');
+            }
+
+            registrarAuditoria('seguimiento_conductor', 'Inició seguimiento del conductor');
+        }
+
+        function actualizarMarcadorConductor(lat, lng) {
+            if (markerConductor) {
+                markerConductor.remove();
+                markerConductor = null;
+            }
+
+            if (!mapboxMap) return;
+
+            const el = document.createElement('div');
+            el.style.cssText = `
+                background: #3A86FF;
+                width: 22px;
+                height: 22px;
+                border-radius: 50%;
+                border: 3px solid white;
+                box-shadow: 0 0 25px rgba(58, 134, 255, 0.8);
+                position: relative;
+                animation: pulse-dot 1.5s infinite;
+            `;
+
+            const popup = new mapboxgl.Popup({ offset: 20, closeButton: true })
+                .setHTML(`
+                    <strong>🚗 Conductor</strong><br>
+                    ${sanitizar(viajeActualData?.conductorNombre || 'En camino')}<br>
+                    ⏱️ Llega en <strong id="etaPopup">--</strong>
+                `);
+
+            markerConductor = new mapboxgl.Marker(el)
+                .setLngLat([lng, lat])
+                .setPopup(popup)
+                .addTo(mapboxMap);
+
+            // Centrar el mapa en el conductor
+            mapboxMap.flyTo({
+                center: [lng, lat],
+                zoom: 15,
+                pitch: 60
+            });
+        }
+
+        function calcularETA(lat, lng) {
+            const dist = calcularDistancia(ubicacionUsuario.lat, ubicacionUsuario.lng, lat, lng);
+            const velocidadPromedio = 40; // km/h
+            const tiempoMin = Math.round((dist / velocidadPromedio) * 60);
+
+            const eta = tiempoMin < 1 ? 'Menos de 1 min' :
+                tiempoMin < 2 ? '1 min' :
+                tiempoMin + ' min';
+
+            document.getElementById('conductorETA').textContent = eta;
+            document.getElementById('etaPopup').textContent = eta;
+
+            // Actualizar estado
+            const estadoTexto = tiempoMin < 2 ? 'El conductor está casi llegando' :
+                tiempoMin < 5 ? 'El conductor está muy cerca' :
+                'El conductor está en camino';
+            document.getElementById('conductorEstadoTexto').textContent = estadoTexto;
+        }
+
+        function finalizarSeguimientoConductor() {
+            document.getElementById('conductorSeguimiento').classList.remove('active');
+
+            if (markerConductor) {
+                markerConductor.remove();
+                markerConductor = null;
+            }
+
+            if (conductorUbicacionEscucha) {
+                conductorUbicacionEscucha.off();
+                conductorUbicacionEscucha = null;
+            }
+
+            if (etaInterval) {
+                clearInterval(etaInterval);
+                etaInterval = null;
+            }
+
+            viajeActivoId = null;
+            viajeActualData = null;
+
+            // Volver a modo estándar
+            cambiarModoMapa('standard');
+
+            registrarAuditoria('finalizar_seguimiento', 'Finalizó seguimiento del conductor');
+        }
+
+        function verConductorEnMapa() {
+            if (markerConductor) {
+                const lngLat = markerConductor.getLngLat();
+                mapboxMap.flyTo({
+                    center: [lngLat.lng, lngLat.lat],
+                    zoom: 16,
+                    pitch: 60
+                });
+            }
+        }
+
+        // ==========================================================
+        // ❌ CANCELAR VIAJE
+        // ==========================================================
+
+        function cancelarViaje() {
+            if (!viajeActivoId) {
+                Swal.fire('Error', 'No hay un viaje activo para cancelar', 'error');
+                return;
+            }
+
+            const tiempoTranscurrido = Date.now() - new Date(viajeActualData?.fecha || Date.now()).getTime();
+            const minutosTranscurridos = tiempoTranscurrido / 60000;
+            const penalizacion = minutosTranscurridos > 2 ? ' (se aplicará penalización de B/. 0.50)' : ' (sin penalización)';
+
+            Swal.fire({
+                title: '¿Cancelar viaje?',
+                text: '¿Estás seguro de que quieres cancelar el viaje?' + penalizacion,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, cancelar',
+                cancelButtonText: 'No, continuar',
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)',
+                confirmButtonColor: 'var(--danger)'
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    const updates = {
+                        estado: 'cancelado',
+                        fechaCancelacion: new Date().toISOString(),
+                        penalizacion: minutosTranscurridos > 2 ? 0.50 : 0
+                    };
+
+                    database.ref('viajes/' + viajeActivoId).update(updates).then(function() {
+                        Swal.fire({
+                            title: '✅ Viaje cancelado',
+                            text: minutosTranscurridos > 2 ?
+                                'El viaje ha sido cancelado. Se ha aplicado una penalización de B/. 0.50.' :
+                                'El viaje ha sido cancelado sin penalización.',
+                            icon: 'info',
+                            background: 'var(--card-bg)',
+                            color: 'var(--text-primary)'
+                        });
+                        finalizarSeguimientoConductor();
+                        registrarAuditoria('cancelar_viaje', 'Canceló viaje');
+                    });
+                }
+            });
+        }
+
+        // ==========================================================
+        // ⭐ CALIFICACIÓN Y COMENTARIOS
+        // ==========================================================
+
+        let calificacionSeleccionada = 0;
+        let calificacionConductorId = null;
+        let calificacionViajeId = null;
+
+        function mostrarModalCalificacion(conductorId) {
+            calificacionConductorId = conductorId;
+            calificacionSeleccionada = 0;
+
+            const conductor = vehiculosReales.find(v => v.id === conductorId);
+            if (conductor) {
+                document.getElementById('calificacionConductorNombre').textContent = sanitizar(conductor.nombre);
+            }
+
+            document.querySelectorAll('#estrellasContainer button').forEach(function(btn) {
+                btn.textContent = '☆';
+                btn.classList.remove('active');
+            });
+
+            document.getElementById('estrellaSeleccionada').textContent = 'Selecciona una calificación';
+            document.getElementById('calificacionComentario').value = '';
+            document.getElementById('btnCalificar').disabled = true;
+
+            document.getElementById('modalCalificacion').classList.add('active');
+
+            if (modoVozActivo) {
+                leerTexto('Por favor, califica tu viaje. Selecciona de 1 a 5 estrellas.');
+            }
+        }
+
+        function seleccionarEstrella(valor) {
+            calificacionSeleccionada = valor;
+
+            document.querySelectorAll('#estrellasContainer button').forEach(function(btn, index) {
+                if (index < valor) {
+                    btn.textContent = '★';
+                    btn.classList.add('active');
+                } else {
+                    btn.textContent = '☆';
+                    btn.classList.remove('active');
+                }
+            });
+
+            const textos = ['', 'Muy malo', 'Malo', 'Regular', 'Bueno', 'Excelente'];
+            document.getElementById('estrellaSeleccionada').textContent = textos[valor] + ' (' + valor +
+                ' estrellas)';
+            document.getElementById('btnCalificar').disabled = false;
+
+            if (modoVozActivo) {
+                leerTexto('Seleccionaste ' + valor + ' estrellas. ' + textos[valor]);
+            }
+        }
+
+        function enviarCalificacion() {
+            if (calificacionSeleccionada === 0 || !calificacionConductorId) {
+                Swal.fire('Error', 'Selecciona una calificación', 'error');
+                return;
+            }
+
+            const comentario = document.getElementById('calificacionComentario').value.trim();
+
+            if (detectarAtaque(comentario)) {
+                Swal.fire({
+                    title: '🚨 Ataque detectado',
+                    text: 'El comentario contiene caracteres maliciosos',
+                    icon: 'error',
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)'
+                });
+                return;
+            }
+
+            const calificacion = {
+                taxistaId: calificacionConductorId,
+                calificacion: calificacionSeleccionada,
+                comentario: sanitizar(comentario || 'Sin comentario'),
+                fecha: new Date().toISOString(),
+                usuarioId: uidActual,
+                usuarioNombre: usuarioActual?.nombre || 'Anónimo'
+            };
+
+            database.ref('calificaciones').push(calificacion).then(function() {
+                // Actualizar promedio del conductor
+                database.ref('usuarios/' + calificacionConductorId + '/valoraciones').transaction(function(
+                current) {
+                    return (current || 0) + 1;
+                });
+
+                database.ref('usuarios/' + calificacionConductorId + '/calificacion').transaction(function(
+                    current) {
+                    return current ? (current + calificacionSeleccionada) / 2 : calificacionSeleccionada;
+                });
+
+                Swal.fire({
+                    title: '✅ Calificación enviada',
+                    text: 'Gracias por calificar tu viaje.',
+                    icon: 'success',
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
+                document.getElementById('modalCalificacion').classList.remove('active');
+                registrarAuditoria('calificar_viaje', 'Calificó viaje con ' + calificacionSeleccionada +
+                    ' estrellas');
+
+                if (modoVozActivo) {
+                    leerTexto('Calificación enviada. ¡Gracias por tu feedback!');
+                }
+            });
+        }
+
+        // ==========================================================
+        // 💬 FEEDBACK AGENT
+        // ==========================================================
+
+        let feedbackVoiceActive = false;
+        let feedbackRecognition = null;
+
+        function toggleFeedbackPanel() {
+            const panel = document.getElementById('feedbackPanel');
+            panel.classList.toggle('open');
+            if (panel.classList.contains('open')) {
+                document.getElementById('feedbackInput').focus();
+                actualizarUbicacionFeedback();
+            }
+        }
+
+        function actualizarUbicacionFeedback() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(pos) {
+                    obtenerDireccionFeedback(pos.coords.latitude, pos.coords.longitude);
+                }, function() {
+                    document.getElementById('feedbackDireccion').textContent = 'Ubicación no disponible';
+                });
+            }
+        }
+
+        async function obtenerDireccionFeedback(lat, lng) {
+            try {
+                const url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + lng + ',' + lat +
+                    '.json?access_token=' + mapboxgl.accessToken + '&country=pa&language=es&limit=1';
+                const respuesta = await fetch(url);
+                const datos = await respuesta.json();
+
+                if (datos.features && datos.features.length > 0) {
+                    const lugar = datos.features[0];
+                    const direccion = lugar.place_name || lugar.text || 'Ubicación';
+                    document.getElementById('feedbackDireccion').textContent = sanitizar(direccion);
+                } else {
+                    document.getElementById('feedbackDireccion').textContent = 'Ubicación desconocida';
+                }
+            } catch (e) {
+                document.getElementById('feedbackDireccion').textContent = 'Ubicación desconocida';
+            }
+        }
+
+        function toggleFeedbackVoice() {
+            const btn = document.getElementById('feedbackVoiceBtn');
+
+            if (feedbackVoiceActive) {
+                // Detener grabación
+                if (feedbackRecognition) {
+                    feedbackRecognition.stop();
+                    feedbackRecognition = null;
+                }
+                feedbackVoiceActive = false;
+                btn.classList.remove('listening');
+                btn.innerHTML = '<i class="fas fa-microphone"></i> Hablar';
+                return;
+            }
+
+            // Iniciar grabación
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                Swal.fire('Error', 'Tu navegador no soporta reconocimiento de voz', 'error');
+                return;
+            }
+
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            feedbackRecognition = new SpeechRecognition();
+            feedbackRecognition.lang = 'es-ES';
+            feedbackRecognition.continuous = false;
+            feedbackRecognition.interimResults = true;
+
+            feedbackRecognition.onstart = function() {
+                feedbackVoiceActive = true;
+                btn.classList.add('listening');
+                btn.innerHTML = '<i class="fas fa-stop"></i> Detener';
+                document.getElementById('feedbackInput').placeholder = '🎙️ Escuchando...';
+            };
+
+            feedbackRecognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('feedbackInput').value = transcript;
+                if (event.results[0].isFinal) {
+                    feedbackRecognition.stop();
+                }
+            };
+
+            feedbackRecognition.onend = function() {
+                feedbackVoiceActive = false;
+                btn.classList.remove('listening');
+                btn.innerHTML = '<i class="fas fa-microphone"></i> Hablar';
+                document.getElementById('feedbackInput').placeholder = 'Describe el problema...';
+            };
+
+            feedbackRecognition.onerror = function(event) {
+                feedbackVoiceActive = false;
+                btn.classList.remove('listening');
+                btn.innerHTML = '<i class="fas fa-microphone"></i> Hablar';
+                document.getElementById('feedbackInput').placeholder = 'Describe el problema...';
+                Swal.fire('Error', 'No se pudo reconocer la voz: ' + event.error, 'error');
+            };
+
+            feedbackRecognition.start();
+        }
+
+        function enviarFeedback() {
+            const texto = document.getElementById('feedbackInput').value.trim();
+            const direccion = document.getElementById('feedbackDireccion').textContent || 'Ubicación desconocida';
+            const messageEl = document.getElementById('feedbackMessage');
+
+            if (!texto) {
+                messageEl.className = 'feedback-message error';
+                messageEl.textContent = '⚠️ Por favor, describe el problema.';
+                messageEl.style.display = 'block';
+                return;
+            }
+
+            if (detectarAtaque(texto)) {
+                messageEl.className = 'feedback-message error';
+                messageEl.textContent = '🚨 Se ha detectado un intento de ataque.';
+                messageEl.style.display = 'block';
+                registrarAuditoria('ataque_feedback', 'Intento de XSS en feedback: ' + texto);
+                return;
+            }
+
+            const feedback = {
+                usuarioId: uidActual,
+                usuarioNombre: usuarioActual?.nombre || 'Anónimo',
+                ubicacion: direccion,
+                reporte: sanitizar(texto),
+                fecha: new Date().toISOString(),
+                estado: 'pendiente'
+            };
+
+            // Obtener coordenadas si es posible
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(pos) {
+                    feedback.lat = pos.coords.latitude;
+                    feedback.lng = pos.coords.longitude;
+                    guardarFeedback(feedback);
+                }, function() {
+                    guardarFeedback(feedback);
+                });
+            } else {
+                guardarFeedback(feedback);
+            }
+        }
+
+        function guardarFeedback(feedback) {
+            database.ref('feedback').push(feedback).then(function() {
+                document.getElementById('feedbackInput').value = '';
+                const messageEl = document.getElementById('feedbackMessage');
+                messageEl.className = 'feedback-message success';
+                messageEl.textContent = '✅ ¡Gracias por tu feedback! Nos ayuda a mejorar.';
+                messageEl.style.display = 'block';
+
+                // Notificar al admin
+                database.ref('admin/notificaciones').push({
+                    tipo: 'feedback',
+                    mensaje: 'Nuevo feedback de ' + feedback.usuarioNombre,
+                    fecha: new Date().toISOString(),
+                    leida: false
+                });
+
+                registrarAuditoria('enviar_feedback', 'Envió feedback: ' + feedback.reporte.substring(0, 50));
+
+                if (modoVozActivo) {
+                    leerTexto('Feedback enviado. ¡Gracias por tu contribución!');
+                }
+
+                setTimeout(function() {
+                    document.getElementById('feedbackPanel').classList.remove('open');
+                    messageEl.style.display = 'none';
+                }, 4000);
+
+            }).catch(function(error) {
+                const messageEl = document.getElementById('feedbackMessage');
+                messageEl.className = 'feedback-message error';
+                messageEl.textContent = '❌ Error al enviar: ' + error.message;
+                messageEl.style.display = 'block';
             });
         }
 
@@ -3766,8 +4865,6 @@
 
         async function cargarClima() {
             try {
-                // Usar API de clima real (OpenWeather o similar)
-                // Por ahora, simulamos con datos realistas
                 const temp = Math.floor(Math.random() * 15 + 25);
                 const clima = temp > 30 ? '☀️ Soleado' : temp > 25 ? '⛅ Parcialmente nublado' : '🌧️ Lluvioso';
                 document.getElementById('weatherTemp').innerHTML = temp + '°C ' + clima;
@@ -4187,6 +5284,12 @@
                                         }
                                         database.ref('viajes/' + res.key).off();
                                         cargarViajesUsuario(uidActual);
+
+                                        // Iniciar seguimiento
+                                        if (viaje.taxistaId) {
+                                            iniciarSeguimientoConductor(res.key, viaje.taxistaId,
+                                            viaje);
+                                        }
                                     } else if (viaje.estado === 'rechazado') {
                                         Swal.fire({
                                             title: '❌ Viaje rechazado',
@@ -4216,6 +5319,12 @@
                                         }
                                         database.ref('viajes/' + res.key).off();
                                         cargarViajesUsuario(uidActual);
+                                        // Mostrar calificación
+                                        if (viaje.taxistaId) {
+                                            setTimeout(function() {
+                                                mostrarModalCalificacion(viaje.taxistaId);
+                                            }, 2000);
+                                        }
                                     }
                                 }
                             });
@@ -4633,7 +5742,6 @@
         }
 
         function abrirNuevoChatConductor() {
-            // Tu código existente para abrir nuevo chat
             Swal.fire({
                 title: 'Nuevo mensaje',
                 text: 'Selecciona un conductor con el que hayas viajado recientemente.',
@@ -5114,7 +6222,6 @@
                 document.getElementById('sidebar').classList.remove('open');
             }
 
-            // Leer la sección en modo voz
             if (modoVozActivo) {
                 const titulo = document.querySelector('.seccion.active h2')?.textContent ||
                     document.querySelector('.welcome-header h1')?.textContent ||
@@ -5693,7 +6800,6 @@
                     iniciarControlInactividad();
                     registrarAuditoria('inicio_sesion', 'Usuario inició sesión en panel');
 
-                    // Cargar voces para TTS
                     if ('speechSynthesis' in window) {
                         window.speechSynthesis.getVoices();
                         window.speechSynthesis.onvoiceschanged = function() {
@@ -5748,6 +6854,10 @@
         console.log('🛡️ Seguridad activa: Sanitización, Anti-XSS, Auditoría, Inactividad (30min)');
         console.log('🎤 Modo voz activo para inclusión');
         console.log('🚗 Vehículos reales desde Firebase');
+        console.log('🗺️ 4 modos de mapa: Estándar, Satélite, Navegación, Oscuro');
+        console.log('💬 Feedback Agent integrado');
+        console.log('🚗 Seguimiento en vivo del conductor');
+        console.log('⭐ Calificación de viajes');
         console.log('📱 Responsive: PC, Tablet, Móvil');
         console.log('🔥 Firebase conectado en tiempo real');
     </script>
