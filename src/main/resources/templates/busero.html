@@ -54,6 +54,9 @@
             --sidebar-bg: #0D0D14;
             --hover-bg: #1F1F28;
             --bg-image-opacity: 0.15;
+            --font-size-base: 16px;
+            --font-size-large: 20px;
+            --font-size-xl: 24px;
         }
 
         body.style-glass {
@@ -75,6 +78,9 @@
             --sidebar-bg: #0F172A;
             --hover-bg: #1E2A3A;
             --bg-image-opacity: 0.12;
+            --font-size-base: 16px;
+            --font-size-large: 20px;
+            --font-size-xl: 24px;
         }
 
         body.style-neon {
@@ -96,6 +102,9 @@
             --sidebar-bg: #0F1220;
             --hover-bg: #2A2D3E;
             --bg-image-opacity: 0.1;
+            --font-size-base: 16px;
+            --font-size-large: 20px;
+            --font-size-xl: 24px;
         }
 
         body.style-crimson {
@@ -117,6 +126,9 @@
             --sidebar-bg: #1A0F0F;
             --hover-bg: #3A2525;
             --bg-image-opacity: 0.12;
+            --font-size-base: 16px;
+            --font-size-large: 20px;
+            --font-size-xl: 24px;
         }
 
         body.light-mode {
@@ -138,6 +150,23 @@
             --sidebar-bg: #FFFFFF;
             --hover-bg: #F0F0F0;
             --bg-image-opacity: 0.02;
+            --font-size-base: 16px;
+            --font-size-large: 20px;
+            --font-size-xl: 24px;
+        }
+
+        /* ==========================================================
+           MODO TAMAÑO GRANDE (ACCESIBILIDAD)
+           ========================================================== */
+        body.font-large {
+            --font-size-base: 20px;
+            --font-size-large: 26px;
+            --font-size-xl: 32px;
+        }
+        body.font-xl {
+            --font-size-base: 24px;
+            --font-size-large: 32px;
+            --font-size-xl: 40px;
         }
 
         body {
@@ -147,6 +176,7 @@
             transition: all 0.3s ease;
             min-height: 100vh;
             overflow-x: hidden;
+            font-size: var(--font-size-base);
         }
 
         body::before {
@@ -167,6 +197,154 @@
         }
 
         /* ==========================================================
+           OVERLAY DE INACTIVIDAD
+           ========================================================== */
+        #inactividadOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        #inactividadOverlay.active {
+            display: flex;
+        }
+        #inactividadOverlay h2 {
+            font-size: 1.8rem;
+            color: var(--accent);
+        }
+        #inactividadOverlay p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+        #inactividadOverlay .countdown {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        /* ==========================================================
+           BOTÓN DE VOZ FLOTANTE (ACCESIBILIDAD)
+           ========================================================== */
+        .voice-float-btn {
+            position: fixed;
+            bottom: 90px;
+            right: 24px;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 3px solid var(--text-primary);
+            box-shadow: 0 0 30px rgba(255, 106, 42, 0.6);
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #000;
+            transition: all 0.3s;
+            animation: pulse-voice 2s infinite;
+        }
+        .voice-float-btn:hover {
+            transform: scale(1.1);
+        }
+        .voice-float-btn.listening {
+            background: var(--danger);
+            color: #fff;
+            animation: pulse-voice-danger 1s infinite;
+        }
+        .voice-float-btn.active {
+            background: var(--success);
+            color: #000;
+        }
+
+        @keyframes pulse-voice {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 106, 42, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(255, 106, 42, 0.8); }
+        }
+        @keyframes pulse-voice-danger {
+            0%, 100% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(239, 68, 68, 0.8); }
+        }
+
+        .voice-status-bar {
+            position: fixed;
+            bottom: 170px;
+            right: 24px;
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--accent);
+            border-radius: 16px;
+            padding: 12px 16px;
+            max-width: 280px;
+            z-index: 999;
+            display: none;
+            font-size: 0.85rem;
+            box-shadow: var(--accent-glow);
+        }
+        .voice-status-bar.open {
+            display: block;
+            animation: fadeInUp 0.3s ease;
+        }
+        .voice-status-bar .status-text {
+            color: var(--text-secondary);
+        }
+        .voice-status-bar .status-text strong {
+            color: var(--accent);
+        }
+        .voice-status-bar .close-status {
+            position: absolute;
+            top: 4px;
+            right: 8px;
+            background: none;
+            border: none;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==========================================================
+           BOTÓN DE ACCESIBILIDAD (TAMAÑO DE FUENTE)
+           ========================================================== */
+        .accessibility-toggle {
+            position: fixed;
+            bottom: 170px;
+            right: 24px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--accent);
+            cursor: pointer;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--accent);
+            transition: all 0.3s;
+        }
+        .accessibility-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: var(--accent-glow);
+        }
+
+        /* ==========================================================
            SIDEBAR
            ========================================================== */
         .sidebar {
@@ -182,6 +360,14 @@
             overflow-y: auto;
             z-index: 100;
             transition: transform 0.3s ease;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
         }
 
         .sidebar-logo {
@@ -349,15 +535,8 @@
             background: var(--warning);
         }
         @keyframes pulse-dot {
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.5;
-                transform: scale(0.8);
-            }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
         }
         .estado-texto {
             font-size: 13px;
@@ -426,14 +605,8 @@
             display: block;
         }
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* ==========================================================
@@ -529,31 +702,330 @@
         }
 
         /* ==========================================================
-           MAPAS
+           MAPA
            ========================================================== */
-        .map-container {
+        .map-wrapper {
+            position: relative;
+        }
+
+        /* BOTONES DE MODO DEL MAPA */
+        .map-mode-selector {
+            position: absolute;
+            top: 10px;
+            left: 10px;
             background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            border-radius: 40px;
+            padding: 6px;
             border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 0.8rem;
-            overflow: hidden;
+            z-index: 10;
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
         }
-        .map-container:hover {
-            border-color: var(--accent);
-            box-shadow: var(--accent-glow);
+        .map-mode-btn {
+            background: transparent;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 30px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.7rem;
+            transition: all 0.3s;
+            min-height: 32px;
+            white-space: nowrap;
         }
-        #mapa-ruta,
-        #mapa-calor,
-        #mapa-completo {
+        .map-mode-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .map-mode-btn.active {
+            background: var(--accent);
+            color: #000;
+        }
+
+        #mapa-busero {
             width: 100%;
-            height: 300px;
+            height: 320px;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .map-container {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .map-wrapper {
+            flex: 2;
+            position: relative;
+        }
+        .info-panel {
+            flex: 1;
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            padding: 1rem;
+            max-height: 420px;
+            overflow-y: auto;
+            transition: all 0.3s;
+        }
+        .info-panel h4 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        .info-panel-empty {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 2rem;
+            font-size: 0.9rem;
+        }
+        .info-panel .vehiculo-lista-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid var(--glass-border);
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 8px;
+        }
+        .info-panel .vehiculo-lista-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .info-panel .vehiculo-lista-item .vehiculo-info {
+            flex: 1;
+        }
+        .info-panel .vehiculo-lista-item .vehiculo-nombre {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .info-panel .vehiculo-lista-item .vehiculo-detalle {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        .info-panel .vehiculo-lista-item .vehiculo-distancia {
+            font-size: 0.7rem;
+            color: var(--text-tertiary);
+        }
+
+        /* FEEDBACK AGENT - BOTÓN FLOTANTE */
+        .feedback-float-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 2px solid var(--text-primary);
+            box-shadow: 0 0 20px rgba(255, 106, 42, 0.4);
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #000;
+            transition: all 0.3s;
+        }
+        .feedback-float-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 106, 42, 0.6);
+        }
+
+        /* FEEDBACK AGENT - PANEL */
+        .feedback-panel {
+            display: none;
+            position: absolute;
+            bottom: 90px;
+            right: 20px;
+            width: 340px;
+            max-height: 420px;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid var(--accent);
+            box-shadow: var(--accent-glow);
+            z-index: 20;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+        .feedback-panel.open {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feedback-panel .feedback-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+        .feedback-panel .feedback-header h4 {
+            color: var(--accent);
+            font-size: 1rem;
+        }
+        .feedback-panel .feedback-header .close-feedback {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.4rem;
+            cursor: pointer;
+        }
+        .feedback-panel .feedback-header .close-feedback:hover {
+            color: var(--danger);
+        }
+
+        .feedback-panel .feedback-location {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.8rem;
+            padding: 8px 12px;
+            background: var(--bg-input);
             border-radius: 12px;
         }
-        .map-small {
-            height: 180px !important;
+        .feedback-panel .feedback-location strong {
+            color: var(--text-primary);
         }
-        .map-large {
-            height: 400px !important;
+
+        .feedback-panel textarea {
+            width: 100%;
+            padding: 10px 14px;
+            background: var(--bg-input);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            resize: vertical;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            min-height: 70px;
+            outline: none;
+        }
+        .feedback-panel textarea:focus {
+            border-color: var(--accent);
+        }
+        .feedback-panel textarea::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.6;
+        }
+
+        .feedback-panel .feedback-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .feedback-panel .feedback-buttons button {
+            flex: 1;
+            padding: 8px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            min-height: 40px;
+            transition: all 0.3s;
+        }
+        .feedback-panel .feedback-buttons .btn-feedback-voice {
+            background: var(--bg-input);
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
+        }
+        .feedback-panel .feedback-buttons .btn-feedback-voice:hover {
+            border-color: var(--accent);
+        }
+        .feedback-panel .feedback-buttons .btn-feedback-voice.listening {
+            background: var(--danger);
+            color: #fff;
+            border-color: var(--danger);
+        }
+        .feedback-panel .feedback-buttons .btn-feedback-submit {
+            background: var(--accent);
+            color: #000;
+        }
+        .feedback-panel .feedback-buttons .btn-feedback-submit:hover {
+            box-shadow: var(--accent-glow);
+        }
+
+        .feedback-panel .feedback-message {
+            margin-top: 10px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            display: none;
+        }
+        .feedback-panel .feedback-message.success {
+            display: block;
+            background: rgba(67, 233, 123, 0.15);
+            color: var(--success);
+            border: 1px solid rgba(67, 233, 123, 0.3);
+        }
+        .feedback-panel .feedback-message.error {
+            display: block;
+            background: rgba(255, 61, 46, 0.15);
+            color: var(--danger);
+            border: 1px solid rgba(255, 61, 46, 0.3);
+        }
+
+        .weather-info {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border-radius: 12px;
+            padding: 8px 14px;
+            font-size: 0.75rem;
+            z-index: 10;
+            display: flex;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        /* ==========================================================
+           VEHICLE DOT (MARCADORES EN MAPA)
+           ========================================================== */
+        .vehicle-dot {
+            transition: transform 0.2s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        .vehicle-dot:hover {
+            transform: scale(1.4);
+        }
+        .vehicle-number {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #000;
+            color: #fff;
+            font-size: 8px;
+            font-weight: 700;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #fff;
+        }
+
+        .mapboxgl-popup-content {
+            background: var(--bg-card) !important;
+            backdrop-filter: blur(10px);
+            border-radius: 16px !important;
+            border: 1px solid var(--accent);
+            color: var(--text-primary);
+            padding: 14px !important;
+        }
+        .mapboxgl-popup-content button {
+            min-height: 32px;
         }
 
         /* ==========================================================
@@ -568,6 +1040,7 @@
             cursor: pointer;
             color: #000;
             transition: all 0.3s;
+            min-height: 44px;
         }
         .btn-primary:hover {
             transform: translateY(-2px);
@@ -583,6 +1056,7 @@
             font-size: 0.75rem;
             cursor: pointer;
             transition: all 0.3s;
+            min-height: 36px;
         }
         .btn-outline:hover {
             background: rgba(255, 255, 255, 0.08);
@@ -597,6 +1071,7 @@
             cursor: pointer;
             color: #000;
             transition: all 0.3s;
+            min-height: 36px;
         }
         .btn-success:hover {
             transform: scale(1.02);
@@ -612,6 +1087,7 @@
             cursor: pointer;
             color: #fff;
             transition: all 0.3s;
+            min-height: 36px;
         }
         .btn-danger:hover {
             transform: scale(1.02);
@@ -628,16 +1104,12 @@
             width: 100%;
             color: #fff;
             animation: pulse-sos 2s infinite;
+            min-height: 56px;
+            font-size: 1.1rem;
         }
         @keyframes pulse-sos {
-            0%,
-            100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.02);
-                background: #c0392b;
-            }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); background: #c0392b; }
         }
 
         /* ==========================================================
@@ -663,6 +1135,9 @@
             border-radius: 12px;
             color: var(--text-primary);
             transition: all 0.3s;
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+            min-height: 44px;
         }
         .form-group input:focus,
         .form-group select:focus,
@@ -793,14 +1268,8 @@
             animation: slideUp 0.3s ease;
         }
         @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .menu-mas button {
             display: flex;
@@ -854,6 +1323,27 @@
             }
             .seat-grid {
                 grid-template-columns: repeat(5, 1fr);
+            }
+            .map-mode-selector {
+                top: 8px;
+                left: 8px;
+                padding: 4px;
+                gap: 2px;
+            }
+            .map-mode-btn {
+                padding: 4px 10px;
+                font-size: 0.6rem;
+                min-height: 28px;
+            }
+            .feedback-float-btn {
+                width: 48px;
+                height: 48px;
+                font-size: 1.2rem;
+            }
+            .feedback-panel {
+                width: 300px;
+                right: 16px;
+                bottom: 80px;
             }
         }
 
@@ -928,6 +1418,42 @@
             .seat-grid {
                 grid-template-columns: repeat(5, 1fr);
             }
+            .map-container {
+                flex-direction: column;
+            }
+            .info-panel {
+                max-height: 280px;
+            }
+            .map-mode-selector {
+                top: 60px;
+                left: 8px;
+                padding: 4px;
+                gap: 2px;
+                flex-wrap: wrap;
+            }
+            .map-mode-btn {
+                padding: 4px 8px;
+                font-size: 0.55rem;
+                min-height: 24px;
+            }
+            .feedback-float-btn {
+                width: 44px;
+                height: 44px;
+                font-size: 1.1rem;
+                bottom: 16px;
+                right: 16px;
+            }
+            .feedback-panel {
+                width: 280px;
+                right: 12px;
+                bottom: 75px;
+                padding: 0.8rem;
+            }
+            .feedback-panel .feedback-buttons button {
+                font-size: 0.7rem;
+                padding: 6px;
+                min-height: 34px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -939,6 +1465,56 @@
             }
             .sidebar-logo h1 {
                 font-size: 1.2rem;
+            }
+            .main-content {
+                padding: 0.8rem;
+                padding-top: 65px;
+            }
+            #mapa-busero {
+                height: 200px;
+            }
+            .info-panel {
+                max-height: 200px;
+                padding: 10px;
+            }
+            .map-mode-selector {
+                top: 55px;
+                left: 4px;
+                padding: 3px;
+                gap: 2px;
+            }
+            .map-mode-btn {
+                padding: 3px 6px;
+                font-size: 0.5rem;
+                min-height: 20px;
+            }
+            .weather-info {
+                font-size: 0.6rem;
+                padding: 4px 8px;
+            }
+            .feedback-float-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+                bottom: 14px;
+                right: 14px;
+            }
+            .feedback-panel {
+                width: 240px;
+                right: 10px;
+                bottom: 68px;
+                padding: 0.6rem;
+                max-height: 340px;
+            }
+            .feedback-panel textarea {
+                font-size: 0.8rem;
+                padding: 8px 10px;
+                min-height: 50px;
+            }
+            .feedback-panel .feedback-buttons button {
+                font-size: 0.65rem;
+                padding: 4px;
+                min-height: 30px;
             }
         }
 
@@ -1004,6 +1580,7 @@
             text-align: center;
             transition: all 0.3s;
             color: var(--text-primary);
+            min-height: 36px;
         }
         .theme-card:hover {
             background: rgba(255, 255, 255, 0.1);
@@ -1021,8 +1598,36 @@
             border-radius: 30px;
             cursor: pointer;
             margin-top: 0.5rem;
+            min-height: 36px;
         }
         .btn-reset:hover {
+            background: var(--accent);
+            color: #000;
+        }
+
+        /* ==========================================================
+           ACCESIBILIDAD: OPCIONES DE TAMAÑO
+           ========================================================== */
+        .font-size-options {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            justify-content: center;
+        }
+        .font-size-btn {
+            background: var(--bg-input);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+            min-height: 36px;
+        }
+        .font-size-btn:hover,
+        .font-size-btn.active {
+            border-color: var(--accent);
             background: var(--accent);
             color: #000;
         }
@@ -1171,41 +1776,6 @@
         }
 
         /* ==========================================================
-           OVERLAY DE INACTIVIDAD
-           ========================================================== */
-        #inactividadOverlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(12px);
-            z-index: 99999;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-        #inactividadOverlay.active {
-            display: flex;
-        }
-        #inactividadOverlay h2 {
-            font-size: 1.8rem;
-            color: var(--accent);
-        }
-        #inactividadOverlay p {
-            color: var(--text-secondary);
-            font-size: 1rem;
-        }
-        #inactividadOverlay .countdown {
-            font-size: 3rem;
-            font-weight: 800;
-            color: var(--accent);
-        }
-
-        /* ==========================================================
            NOTIFICACIONES PUSH
            ========================================================== */
         .notificacion-push {
@@ -1302,24 +1872,12 @@
         }
 
         @keyframes notifSlideIn {
-            from {
-                opacity: 0;
-                transform: translateX(80px) scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0) scale(1);
-            }
+            from { opacity: 0; transform: translateX(80px) scale(0.9); }
+            to { opacity: 1; transform: translateX(0) scale(1); }
         }
         @keyframes notifSlideOut {
-            from {
-                opacity: 1;
-                transform: translateX(0) scale(1);
-            }
-            to {
-                opacity: 0;
-                transform: translateX(80px) scale(0.9);
-            }
+            from { opacity: 1; transform: translateX(0) scale(1); }
+            to { opacity: 0; transform: translateX(80px) scale(0.9); }
         }
 
         @media (max-width: 480px) {
@@ -1336,119 +1894,6 @@
                 font-size: 22px;
                 width: 36px;
                 height: 36px;
-            }
-        }
-
-        /* ==========================================================
-           RESPONSIVE GLOBAL
-           ========================================================== */
-        @media (max-width: 768px) {
-            #seccion-mensajeria .soporte-chat {
-                grid-template-columns: 1fr !important;
-                gap: 16px !important;
-            }
-            #seccion-mensajeria .btn-outline {
-                font-size: 10px !important;
-                padding: 6px 12px !important;
-            }
-            #seccion-mensajeria h2 {
-                font-size: 18px !important;
-            }
-            #seccion-perfil .perfil-grid {
-                grid-template-columns: 1fr !important;
-                gap: 16px !important;
-            }
-            #seccion-perfil .perfil-foto-container {
-                width: 80px !important;
-                height: 80px !important;
-            }
-            #seccion-vehiculo .vehiculo-grid {
-                grid-template-columns: 1fr !important;
-                gap: 12px !important;
-            }
-            #seccion-vehiculo .vehiculo-metricas {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 8px !important;
-            }
-            #seccion-documentos .documentos-grid {
-                grid-template-columns: 1fr !important;
-                gap: 16px !important;
-            }
-            #seccion-documentos .documentos-stats {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 10px !important;
-            }
-            #seccion-mantenimiento .mantenimiento-grid {
-                grid-template-columns: 1fr !important;
-                gap: 16px !important;
-            }
-            #seccion-seguridad .seguridad-grid {
-                grid-template-columns: 1fr !important;
-                gap: 12px !important;
-            }
-            #seccion-seguridad .numeros-emergencia {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 8px !important;
-            }
-            #seccion-seguridad .btn-sos {
-                font-size: 16px !important;
-                padding: 14px !important;
-            }
-            #seccion-pasajeros .pasajero-item {
-                padding: 12px !important;
-            }
-            #seccion-viajes .viajes-stats {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 10px !important;
-            }
-            #seccion-notificaciones .notificacion-item {
-                padding: 12px !important;
-            }
-        }
-
-        @media (max-width: 480px) {
-            #seccion-mensajeria .btn-outline {
-                font-size: 9px !important;
-                padding: 4px 10px !important;
-            }
-            #seccion-perfil .perfil-foto-container {
-                width: 60px !important;
-                height: 60px !important;
-            }
-            #seccion-vehiculo .vehiculo-metricas {
-                grid-template-columns: 1fr 1fr !important;
-            }
-            #seccion-vehiculo #vehiculoFotoContainer {
-                width: 80px !important;
-                height: 80px !important;
-            }
-            #seccion-documentos .documentos-stats {
-                grid-template-columns: 1fr !important;
-                gap: 8px !important;
-            }
-            #seccion-mantenimiento .mantenimiento-grid {
-                grid-template-columns: 1fr !important;
-            }
-            #seccion-seguridad .numeros-emergencia {
-                grid-template-columns: 1fr !important;
-            }
-            #seccion-seguridad .btn-sos {
-                font-size: 14px !important;
-                padding: 12px !important;
-            }
-            #seccion-pasajeros .pasajero-item {
-                padding: 10px !important;
-            }
-            #seccion-viajes .viajes-stats {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 8px !important;
-            }
-            #seccion-notificaciones .notificacion-item {
-                padding: 10px !important;
-            }
-            .seat-grid {
-                grid-template-columns: repeat(4, 1fr) !important;
-                gap: 3px !important;
             }
         }
 
@@ -1682,13 +2127,8 @@
         }
 
         @keyframes iaBlink {
-            0%,
-            100% {
-                opacity: 0.2;
-            }
-            50% {
-                opacity: 1;
-            }
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
         }
     </style>
 </head>
@@ -1707,6 +2147,33 @@
             <button class="btn-outline" onclick="cerrarSesionForzada()">Cerrar sesión</button>
         </div>
     </div>
+
+    <!-- ==========================================================
+    BOTÓN DE VOZ FLOTANTE (ACCESIBILIDAD)
+    ========================================================== -->
+    <button class="voice-float-btn" id="voiceFloatBtn" onclick="toggleModoVoz()" aria-label="Activar modo de voz">
+        <i class="fas fa-microphone"></i>
+    </button>
+
+    <!-- ==========================================================
+    ESTADO DE VOZ
+    ========================================================== -->
+    <div class="voice-status-bar" id="voiceStatusBar">
+        <button class="close-status" onclick="cerrarStatusVoz()">✕</button>
+        <div class="status-text" id="voiceStatusText">
+            <strong>🎤 Modo voz:</strong> <span id="voiceStatusLabel">Desactivado</span>
+        </div>
+        <div style="font-size:0.7rem; color:var(--text-tertiary); margin-top:4px;" id="voiceLastCommand">
+            Di "Ayuda" para ver comandos
+        </div>
+    </div>
+
+    <!-- ==========================================================
+    BOTÓN DE ACCESIBILIDAD (TAMAÑO DE FUENTE)
+    ========================================================== -->
+    <button class="accessibility-toggle" onclick="toggleFontSize()" aria-label="Cambiar tamaño de fuente">
+        <i class="fas fa-text-height"></i>
+    </button>
 
     <!-- ==========================================================
     BOTÓN HAMBURGUESA
@@ -1845,19 +2312,15 @@
                 </div>
             </div>
 
-            <div class="card" style="margin-bottom:1.5rem;">
-                <div class="card-title"><i class="fas fa-bus"></i> MI VEHÍCULO</div>
-                <div style="font-size:16px; font-weight:700;" id="vehiculoModelo">Cargando...</div>
-                <div style="font-size:11px; color:var(--text-tertiary);">Placa: <span id="vehiculoPlaca">Cargando...</span> | Interno: <span id="vehiculoInterno">Cargando...</span></div>
-                <div style="font-size:11px; color:var(--text-tertiary);">Capacidad: <span id="vehiculoCapacidad">0</span> pasajeros</div>
-                <div style="margin-top:8px;">
-                    <div style="display:flex; justify-content:space-between; font-size:11px;">
-                        <span>⛽ Combustible</span>
-                        <span id="vehiculoCombustible">0%</span>
-                    </div>
-                    <div class="progress-bar" style="margin-top:4px;"><div class="progress-fill" id="combustibleFill" style="width:0%"></div></div>
+            <!-- MENSAJE DE BIENVENIDA: LISTO PARA COMENZAR UNA NUEVA RUTA -->
+            <div class="card" style="margin-bottom:1.5rem; background: var(--gradient-glow); border: none; text-align:center; padding:1.5rem;">
+                <div style="font-size:2.5rem; margin-bottom:0.5rem;">🚌</div>
+                <h2 style="color:#000; font-size:1.5rem; font-weight:700;">¡Listo para comenzar una nueva ruta!</h2>
+                <p style="color:rgba(0,0,0,0.7); font-size:1rem;">Tu vehículo está preparado para llevar a los pasajeros a su destino</p>
+                <div style="display:flex; gap:10px; justify-content:center; margin-top:12px; flex-wrap:wrap;">
+                    <button class="btn-primary" onclick="mostrarSeccion('ruta')" style="background:#000; color:var(--accent); width:auto; padding:0.5rem 1.5rem;">🗺️ Ver mi ruta</button>
+                    <button class="btn-primary" onclick="mostrarSeccion('pasajeros')" style="background:#000; color:var(--accent); width:auto; padding:0.5rem 1.5rem;">👥 Ver pasajeros</button>
                 </div>
-                <button class="btn-outline" style="margin-top:8px; font-size:11px;" onclick="mostrarSeccion('vehiculo')">Ver detalles →</button>
             </div>
 
             <div class="grid-2">
@@ -1878,15 +2341,83 @@
                     </div>
                 </div>
             </div>
+
+            <div class="card" style="margin-bottom:1.5rem;">
+                <div class="card-title"><i class="fas fa-bus"></i> MI VEHÍCULO</div>
+                <div style="font-size:16px; font-weight:700;" id="vehiculoModelo">Cargando...</div>
+                <div style="font-size:11px; color:var(--text-tertiary);">Placa: <span id="vehiculoPlaca">Cargando...</span> | Interno: <span id="vehiculoInterno">Cargando...</span></div>
+                <div style="font-size:11px; color:var(--text-tertiary);">Capacidad: <span id="vehiculoCapacidad">0</span> pasajeros</div>
+                <div style="margin-top:8px;">
+                    <div style="display:flex; justify-content:space-between; font-size:11px;">
+                        <span>⛽ Combustible</span>
+                        <span id="vehiculoCombustible">0%</span>
+                    </div>
+                    <div class="progress-bar" style="margin-top:4px;"><div class="progress-fill" id="combustibleFill" style="width:0%"></div></div>
+                </div>
+                <button class="btn-outline" style="margin-top:8px; font-size:11px;" onclick="mostrarSeccion('vehiculo')">Ver detalles →</button>
+            </div>
         </div>
 
         <!-- ==========================================================
-        SECCIÓN RUTA
+        SECCIÓN RUTA (CON MAPA COMPLETO)
         ========================================================== -->
         <div id="seccion-ruta" class="seccion">
             <h2 style="margin-bottom:20px;">🗺️ MI RUTA</h2>
 
-            <div class="card" style="margin-bottom:16px;">
+            <div class="map-container">
+                <div class="map-wrapper">
+                    <!-- MAP MODE SELECTOR -->
+                    <div class="map-mode-selector" id="mapModeSelector">
+                        <button class="map-mode-btn active" data-mode="standard" onclick="cambiarModoMapa('standard')">🌍 Estándar</button>
+                        <button class="map-mode-btn" data-mode="satellite" onclick="cambiarModoMapa('satellite')">🛰️ Satélite</button>
+                        <button class="map-mode-btn" data-mode="navigation" onclick="cambiarModoMapa('navigation')">🧭 Navegación</button>
+                        <button class="map-mode-btn" data-mode="dark" onclick="cambiarModoMapa('dark')">🌙 Oscuro</button>
+                    </div>
+                    <div id="mapa-busero"></div>
+                    <!-- FEEDBACK AGENT BUTTON -->
+                    <button class="feedback-float-btn" onclick="toggleFeedbackPanel()" aria-label="Reportar problema">
+                        <i class="fas fa-comment-dots"></i>
+                    </button>
+                    <!-- FEEDBACK AGENT PANEL -->
+                    <div class="feedback-panel" id="feedbackPanel">
+                        <div class="feedback-header">
+                            <h4>📝 Reportar problema</h4>
+                            <button class="close-feedback" onclick="toggleFeedbackPanel()">✕</button>
+                        </div>
+                        <div class="feedback-location" id="feedbackLocation">
+                            <strong>📍 Ubicación:</strong> <span id="feedbackDireccion">Obteniendo ubicación...</span>
+                        </div>
+                        <textarea id="feedbackInput" placeholder="Describe el problema... (Ej: La calle está cerrada, el negocio ya no existe, etc.)"></textarea>
+                        <div class="feedback-buttons">
+                            <button class="btn-feedback-voice" id="feedbackVoiceBtn" onclick="toggleFeedbackVoice()">
+                                <i class="fas fa-microphone"></i> Hablar
+                            </button>
+                            <button class="btn-feedback-submit" onclick="enviarFeedback()">📤 Enviar</button>
+                        </div>
+                        <div class="feedback-message" id="feedbackMessage"></div>
+                    </div>
+                    <div class="weather-info">
+                        <i class="fas fa-cloud-sun"></i> <span id="weatherTemp">Cargando clima...</span>
+                    </div>
+                </div>
+                <div class="info-panel" id="infoPanel">
+                    <div class="info-panel-empty" id="infoPanelEmpty">
+                        <i class="fas fa-info-circle"></i><br>
+                        Haz clic en un lugar del mapa para ver información
+                    </div>
+                    <div id="infoPanelContent" style="display: none;"></div>
+                </div>
+            </div>
+
+            <div id="routeInstructionsPanel" class="route-instructions" style="display: none;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <strong><i class="fas fa-directions"></i> Instrucciones de ruta</strong>
+                    <button onclick="cerrarInstrucciones()" style="background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.2rem; padding:4px 8px;">✕</button>
+                </div>
+                <div id="routeStepsList"></div>
+            </div>
+
+            <div class="card" style="margin-bottom:16px; margin-top:16px;">
                 <div class="card-title"><i class="fas fa-route"></i> RUTA ASIGNADA</div>
                 <div style="font-size:18px; font-weight:700;" id="rutaNombreDetalle">Cargando...</div>
                 <div style="display:flex; gap:16px; margin-top:8px; flex-wrap:wrap;">
@@ -2528,6 +3059,16 @@
         <div class="theme-card" onclick="setTema('neon')" id="cardNeon">🎨 Neon Glow</div>
         <div class="theme-card" onclick="setTema('crimson')" id="cardCrimson">🔴 Crimson Glass</div>
         <div class="theme-card" onclick="toggleLightMode()" id="cardLight">☀️ Claro / Oscuro</div>
+
+        <hr style="border-color:var(--glass-border); margin:0.8rem 0;">
+
+        <h4 style="font-size:0.85rem;">🔤 Tamaño de fuente</h4>
+        <div class="font-size-options">
+            <button class="font-size-btn active" onclick="setFontSize('normal')">Normal</button>
+            <button class="font-size-btn" onclick="setFontSize('large')">Grande</button>
+            <button class="font-size-btn" onclick="setFontSize('xl')">XL</button>
+        </div>
+
         <button class="btn-reset" onclick="resetearTema()">Restaurar predeterminado</button>
     </div>
 
@@ -2703,56 +3244,1108 @@
         }
 
         // ==========================================================
-        // 📦 FUNCIONES UTILITARIAS
+        // 🎤 SISTEMA DE VOZ COMPLETO (INCLUSIÓN)
         // ==========================================================
-        function obtenerIniciales(nombre) {
-            if (!nombre) return '??';
-            const palabras = nombre.trim().split(' ');
-            if (palabras.length === 1) {
-                return palabras[0].substring(0, 2).toUpperCase();
+
+        let modoVozActivo = false;
+        let recognition = null;
+        let isListening = false;
+        let ultimoMensajeLeido = '';
+        let fontSizeLevel = 'normal';
+        let hablando = false;
+
+        // Inicializar reconocimiento de voz
+        function initVoiceRecognition() {
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                document.getElementById('voiceStatus').innerHTML = '❌ Tu navegador no soporta reconocimiento de voz';
+                return false;
             }
-            return (palabras[0][0] + palabras[palabras.length - 1][0]).toUpperCase();
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.lang = 'es-ES';
+            recognition.continuous = false;
+            recognition.interimResults = true;
+            recognition.maxAlternatives = 1;
+
+            recognition.onstart = function() {
+                isListening = true;
+                document.getElementById('voiceFloatBtn').classList.add('listening');
+                actualizarStatusVoz('🎙️ Escuchando... Habla ahora', true);
+                if (modoVozActivo) {
+                    leerTexto('Estoy escuchando. Habla ahora.');
+                }
+            };
+
+            recognition.onend = function() {
+                isListening = false;
+                document.getElementById('voiceFloatBtn').classList.remove('listening');
+                actualizarStatusVoz('🎤 En espera', false);
+            };
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                actualizarStatusVoz('📝 ' + transcript, true);
+
+                if (event.results[0].isFinal) {
+                    if (detectarAtaque(transcript)) {
+                        registrarAuditoria('ataque_voz', 'Intento de XSS en comando de voz: ' + transcript);
+                        leerTexto('Comando no válido.');
+                        return;
+                    }
+                    procesarComandoVoz(transcript);
+                    if (modoVozActivo) {
+                        leerTexto('Comando recibido: ' + transcript);
+                    }
+                }
+            };
+
+            recognition.onerror = function(event) {
+                let mensaje = '🎤 Error: ';
+                if (event.error === 'not-allowed') mensaje += 'Permiso denegado. Habilita el micrófono.';
+                else if (event.error === 'no-speech') mensaje += 'No se detectó voz. Intenta nuevamente.';
+                else if (event.error === 'network') mensaje += 'Error de red. Verifica tu conexión.';
+                else mensaje += event.error;
+                actualizarStatusVoz(mensaje, false);
+            };
+            return true;
         }
 
-        function formatearFecha(fecha) {
-            if (!fecha) return 'N/A';
-            return new Date(fecha).toLocaleDateString('es-ES', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
+        function startVoiceRecognition() {
+            if (!recognition) {
+                if (!initVoiceRecognition()) return;
+            }
+            try {
+                recognition.start();
+            } catch (e) {
+                if (recognition) recognition.stop();
+                setTimeout(function() { recognition.start(); }, 100);
+            }
         }
 
-        // ==========================================================
-        // 🚀 INICIALIZACIÓN
-        // ==========================================================
-        document.addEventListener('DOMContentLoaded', function() {
-            auth.onAuthStateChanged(function(user) {
-                if (user) {
-                    uidActual = user.uid;
-                    cargarDatosUsuario(uidActual);
-                    cargarTemaGuardado();
-                    iniciarControlInactividad();
-                    registrarAuditoria('inicio_sesion', 'Busero inició sesión');
-                    generarAsientos();
-                } else {
-                    window.location.href = API_URL + '/login';
+        function stopVoiceRecognition() {
+            if (recognition && isListening) {
+                recognition.stop();
+            }
+        }
+
+        // Toggle modo voz (lectura automática)
+        function toggleModoVoz() {
+            modoVozActivo = !modoVozActivo;
+            const btn = document.getElementById('voiceFloatBtn');
+            const label = document.getElementById('voiceStatusLabel');
+
+            if (modoVozActivo) {
+                btn.classList.add('active');
+                btn.innerHTML = '<i class="fas fa-volume-up"></i>';
+                label.textContent = 'Activado';
+                actualizarStatusVoz('🔊 Modo voz activado', true);
+                leerTexto('🧏 Modo voz activado. Todo el contenido se leerá automáticamente.');
+                iniciarLecturaAutomatica();
+                registrarAuditoria('modo_voz', 'Activó modo voz');
+            } else {
+                btn.classList.remove('active');
+                btn.innerHTML = '<i class="fas fa-microphone"></i>';
+                label.textContent = 'Desactivado';
+                actualizarStatusVoz('🔇 Modo voz desactivado', false);
+                detenerLecturaAutomatica();
+                leerTexto('Modo voz desactivado');
+                registrarAuditoria('modo_voz', 'Desactivó modo voz');
+            }
+        }
+
+        // Lectura automática de contenido
+        function iniciarLecturaAutomatica() {
+            if (!modoVozActivo) return;
+
+            const titulo = document.querySelector('.seccion.active h2')?.textContent ||
+                document.querySelector('.welcome-header h1')?.textContent ||
+                'Panel principal';
+            leerTexto('📍 ' + titulo);
+
+            document.querySelectorAll('.stat-card .stat-value').forEach(function(el) {
+                const label = el.closest('.stat-card')?.querySelector('.stat-label')?.textContent || '';
+                if (label) {
+                    leerTexto(label + ': ' + el.textContent);
                 }
             });
-        });
+
+            document.querySelectorAll('.card .card-title').forEach(function(el) {
+                const card = el.closest('.card');
+                if (card) {
+                    const value = card.querySelector('.card-value')?.textContent || '';
+                    if (value) {
+                        leerTexto(el.textContent + ': ' + value);
+                    }
+                }
+            });
+        }
+
+        function detenerLecturaAutomatica() {
+            window.speechSynthesis?.cancel();
+        }
+
+        // Texto a voz (TTS)
+        function leerTexto(texto, velocidad = 1) {
+            if (!modoVozActivo && !document.getElementById('voiceFloatBtn').classList.contains('listening')) return;
+
+            window.speechSynthesis?.cancel();
+
+            if (!texto || texto.trim() === '') return;
+
+            if (detectarAtaque(texto)) {
+                console.warn('🚨 Texto malicioso detectado en TTS');
+                return;
+            }
+
+            if (!('speechSynthesis' in window)) {
+                console.warn('⚠️ Speech Synthesis no soportado');
+                return;
+            }
+
+            const utterance = new SpeechSynthesisUtterance(sanitizar(texto));
+            utterance.lang = 'es-ES';
+            utterance.rate = velocidad;
+            utterance.pitch = 1;
+
+            const voces = window.speechSynthesis.getVoices();
+            const vozEspanol = voces.find(v => v.lang.startsWith('es'));
+            if (vozEspanol) utterance.voice = vozEspanol;
+
+            utterance.onstart = function() {
+                hablando = true;
+            };
+            utterance.onend = function() {
+                hablando = false;
+            };
+            utterance.onerror = function(e) {
+                console.warn('Error en TTS:', e);
+                hablando = false;
+            };
+
+            window.speechSynthesis.speak(utterance);
+            ultimoMensajeLeido = texto;
+            document.getElementById('voiceLastCommand').textContent = '🔊 ' + texto.substring(0, 50) + (texto.length > 50 ?
+                '...' : '');
+        }
+
+        function actualizarStatusVoz(texto, escuchando) {
+            const bar = document.getElementById('voiceStatusBar');
+            const textEl = document.getElementById('voiceStatusText');
+            if (texto) {
+                bar.classList.add('open');
+                textEl.innerHTML = texto;
+            }
+            if (escuchando) {
+                bar.style.borderColor = 'var(--danger)';
+            } else {
+                bar.style.borderColor = 'var(--accent)';
+            }
+        }
+
+        function cerrarStatusVoz() {
+            document.getElementById('voiceStatusBar').classList.remove('open');
+        }
+
+        // ==========================================================
+        // 🗣️ COMANDOS DE VOZ
+        // ==========================================================
+
+        function procesarComandoVoz(texto) {
+            if (!texto || texto.trim() === '') return;
+            texto = texto.toLowerCase().trim();
+
+            // Comandos de navegación
+            if (texto.includes('ir a inicio') || texto.includes('inicio')) {
+                mostrarSeccionBusero('inicio');
+                leerTexto('Navegando a Inicio');
+                return;
+            }
+            if (texto.includes('ir a ruta') || texto.includes('ruta') || texto.includes('mi ruta')) {
+                mostrarSeccionBusero('ruta');
+                leerTexto('Navegando a Mi Ruta');
+                return;
+            }
+            if (texto.includes('ir a pasajeros') || texto.includes('pasajeros')) {
+                mostrarSeccionBusero('pasajeros');
+                leerTexto('Navegando a Pasajeros');
+                return;
+            }
+            if (texto.includes('ir a historial') || texto.includes('historial') || texto.includes('mis viajes')) {
+                mostrarSeccionBusero('viajes');
+                leerTexto('Navegando a Historial de viajes');
+                return;
+            }
+            if (texto.includes('ir a ingresos') || texto.includes('ingresos') || texto.includes('ganancias')) {
+                mostrarSeccionBusero('ingresos');
+                leerTexto('Navegando a Ingresos');
+                return;
+            }
+            if (texto.includes('ir a vehiculo') || texto.includes('vehiculo') || texto.includes('mi vehiculo')) {
+                mostrarSeccionBusero('vehiculo');
+                leerTexto('Navegando a Mi Vehículo');
+                return;
+            }
+            if (texto.includes('ir a mantenimiento') || texto.includes('mantenimiento')) {
+                mostrarSeccionBusero('mantenimiento');
+                leerTexto('Navegando a Mantenimiento');
+                return;
+            }
+            if (texto.includes('ir a documentos') || texto.includes('documentos')) {
+                mostrarSeccionBusero('documentos');
+                leerTexto('Navegando a Documentos');
+                return;
+            }
+            if (texto.includes('ir a mensajeria') || texto.includes('mensajeria') || texto.includes('mensajes')) {
+                mostrarSeccionBusero('mensajeria');
+                leerTexto('Navegando a Mensajería');
+                return;
+            }
+            if (texto.includes('ir a seguridad') || texto.includes('seguridad')) {
+                mostrarSeccionBusero('seguridad');
+                leerTexto('Navegando a Centro de seguridad');
+                return;
+            }
+            if (texto.includes('ir a perfil') || texto.includes('perfil') || texto.includes('mi perfil')) {
+                mostrarSeccionBusero('perfil');
+                leerTexto('Navegando a Mi Perfil');
+                return;
+            }
+            if (texto.includes('ir atrás') || texto.includes('atrás') || texto.includes('volver')) {
+                mostrarSeccionBusero('inicio');
+                leerTexto('Volviendo al inicio');
+                return;
+            }
+
+            // Comandos de acción
+            if (texto.includes('hola') || texto.includes('buenas') || texto.includes('saludos')) {
+                leerTexto('👋 ¡Hola! Soy tu asistente. ¿En qué puedo ayudarte?');
+                return;
+            }
+            if (texto.includes('gracias')) {
+                leerTexto('🙏 ¡De nada! Estoy aquí para ayudarte con tus viajes.');
+                return;
+            }
+            if (texto.includes('ayuda') || texto.includes('comandos') || texto.includes('que puedo decir')) {
+                mostrarComandosVozBusero();
+                return;
+            }
+            if (texto.includes('sos') || texto.includes('emergencia') || texto.includes('ayuda urgente')) {
+                activarSOS();
+                leerTexto('Activando sistema de emergencia');
+                return;
+            }
+            if (texto.includes('compartir ubicación') || texto.includes('compartir viaje')) {
+                compartirUbicacion();
+                leerTexto('Compartiendo ubicación');
+                return;
+            }
+            if (texto.includes('repetir')) {
+                if (ultimoMensajeLeido) {
+                    leerTexto(ultimoMensajeLeido);
+                } else {
+                    leerTexto('No hay mensaje anterior para repetir.');
+                }
+                return;
+            }
+
+            leerTexto('No entendí tu comando. Di "Ayuda" para ver los comandos disponibles.');
+        }
+
+        function mostrarComandosVozBusero() {
+            const comandos = `
+                🗣️ <strong>Comandos de voz disponibles:</strong><br><br>
+                📍 <strong>Navegación:</strong><br>
+                • "Ir a Inicio"<br>
+                • "Ir a Mi Ruta"<br>
+                • "Ir a Pasajeros"<br>
+                • "Ir a Historial"<br>
+                • "Ir a Ingresos"<br>
+                • "Ir a Vehículo"<br>
+                • "Ir a Mantenimiento"<br>
+                • "Ir a Documentos"<br>
+                • "Ir a Mensajería"<br>
+                • "Ir a Seguridad"<br>
+                • "Ir a Perfil"<br>
+                • "Ir atrás"<br><br>
+                🚌 <strong>Acciones:</strong><br>
+                • "Compartir ubicación"<br>
+                • "SOS" o "Emergencia"<br>
+                • "Ayuda"<br>
+                • "Repetir"<br>
+            `;
+            leerTexto('Comandos de voz disponibles. Revisa el chat para ver la lista completa.');
+        }
+
+        // ==========================================================
+        // 📏 TAMAÑO DE FUENTE (ACCESIBILIDAD)
+        // ==========================================================
+
+        function toggleFontSize() {
+            const levels = ['normal', 'large', 'xl'];
+            const currentIndex = levels.indexOf(fontSizeLevel);
+            const nextIndex = (currentIndex + 1) % levels.length;
+            setFontSize(levels[nextIndex]);
+        }
+
+        function setFontSize(level) {
+            fontSizeLevel = level;
+            document.body.classList.remove('font-large', 'font-xl');
+            if (level === 'large') {
+                document.body.classList.add('font-large');
+            } else if (level === 'xl') {
+                document.body.classList.add('font-xl');
+            }
+            localStorage.setItem('cupotax-font-size', level);
+
+            document.querySelectorAll('.font-size-btn').forEach(function(btn) {
+                btn.classList.remove('active');
+                if (btn.textContent.toLowerCase() === level) {
+                    btn.classList.add('active');
+                }
+            });
+
+            const labels = { normal: 'Normal', large: 'Grande', xl: 'XL' };
+            leerTexto('Tamaño de fuente cambiado a ' + labels[level]);
+        }
+
+        function cargarFontSize() {
+            const level = localStorage.getItem('cupotax-font-size') || 'normal';
+            setFontSize(level);
+        }
+
+        // ==========================================================
+        // 🗺️ MAPA - MÚLTIPLES MODOS
+        // ==========================================================
+
+        let mapboxMapBusero;
+        let mapModeActual = 'standard';
+        let currentRouteLayer = null;
+        let marcadoresVehiculos = {};
+        let vehiculosReales = [];
+        let ubicacionUsuario = { lat: 9.4333, lng: -82.5167 };
+        let escuchaVehiculos = null;
+
+        // ESTILOS DE MAPA
+        const mapStyles = {
+            standard: 'mapbox://styles/mapbox/standard',
+            satellite: 'mapbox://styles/mapbox/satellite-streets-v12',
+            navigation: 'mapbox://styles/mapbox/navigation-night-v1',
+            dark: 'mapbox://styles/mapbox/dark-v11'
+        };
+
+        function initMapboxMapBusero() {
+            mapboxgl.accessToken = 'pk.eyJ1IjoiY3Vwb3RheCIsImEiOiJjbW91OWR4OXAwNDIxMnNxMTVlbzdkOGFkIn0.qVOJg2P9CzlD8aLladqjtg';
+            const ch = { lat: 9.4333, lng: -82.5167 };
+
+            if (mapboxMapBusero) {
+                mapboxMapBusero.remove();
+                mapboxMapBusero = null;
+            }
+
+            mapboxMapBusero = new mapboxgl.Map({
+                container: 'mapa-busero',
+                style: mapStyles.standard,
+                center: [ch.lng, ch.lat],
+                zoom: 13,
+                pitch: 45,
+                bearing: 0
+            });
+
+            mapboxMapBusero.addControl(new mapboxgl.NavigationControl());
+            mapboxMapBusero.addControl(new mapboxgl.GeolocateControl({
+                positionOptions: { enableHighAccuracy: true },
+                trackUserLocation: true,
+                showUserHeading: true
+            }));
+
+            mapboxMapBusero.on('load', function() {
+                try {
+                    mapboxMapBusero.setPaintProperty('building', 'fill-extrusion-height', ['get', 'height']);
+                    mapboxMapBusero.setPaintProperty('building', 'fill-extrusion-color', '#aaa');
+                    mapboxMapBusero.setPaintProperty('building', 'fill-extrusion-opacity', 0.6);
+                } catch (e) {}
+
+                // Obtener ubicación del usuario
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        function(pos) {
+                            ubicacionUsuario.lat = pos.coords.latitude;
+                            ubicacionUsuario.lng = pos.coords.longitude;
+                            mapboxMapBusero.setCenter([pos.coords.longitude, pos.coords.latitude]);
+                            mapboxMapBusero.setZoom(14);
+                            cargarVehiculosRealesBusero();
+                        },
+                        function() {
+                            cargarVehiculosRealesBusero();
+                        }
+                    );
+                } else {
+                    cargarVehiculosRealesBusero();
+                }
+
+                iniciarEscuchaVehiculosRealesBusero();
+
+                // Obtener dirección para Feedback
+                obtenerDireccionFeedbackBusero(ubicacionUsuario.lat, ubicacionUsuario.lng);
+
+                if (document.getElementById('weatherTemp')) cargarClimaBusero();
+            });
+
+            mapboxMapBusero.on('click', function(e) {
+                obtenerInfoLugarPorCoordenadasBusero(e.lngLat.lng, e.lngLat.lat);
+                obtenerDireccionFeedbackBusero(e.lngLat.lat, e.lngLat.lng);
+            });
+        }
+
+        function cambiarModoMapa(modo) {
+            mapModeActual = modo;
+
+            document.querySelectorAll('.map-mode-btn').forEach(function(btn) {
+                btn.classList.remove('active');
+                if (btn.dataset.mode === modo) {
+                    btn.classList.add('active');
+                }
+            });
+
+            if (mapboxMapBusero) {
+                mapboxMapBusero.setStyle(mapStyles[modo] || mapStyles.standard);
+                mapboxMapBusero.once('style.load', function() {
+                    if (!mapboxMapBusero.hasControl('geolocate')) {
+                        mapboxMapBusero.addControl(new mapboxgl.GeolocateControl({
+                            positionOptions: { enableHighAccuracy: true },
+                            trackUserLocation: true,
+                            showUserHeading: true
+                        }));
+                    }
+                    mapboxMapBusero.on('click', function(e) {
+                        obtenerInfoLugarPorCoordenadasBusero(e.lngLat.lng, e.lngLat.lat);
+                    });
+                    cargarVehiculosRealesBusero();
+                    if (document.getElementById('weatherTemp')) cargarClimaBusero();
+                });
+            }
+
+            if (modoVozActivo) {
+                const nombres = { standard: 'Estándar', satellite: 'Satélite', navigation: 'Navegación', dark: 'Oscuro' };
+                leerTexto('Cambiando a modo ' + nombres[modo]);
+            }
+
+            registrarAuditoria('cambiar_modo_mapa', 'Cambió a modo: ' + modo);
+        }
+
+        // ==========================================================
+        // 📍 CARGAR VEHÍCULOS REALES DESDE FIREBASE
+        // ==========================================================
+
+        function cargarVehiculosRealesBusero() {
+            if (!mapboxMapBusero) return;
+
+            database.ref('usuarios')
+                .orderByChild('rol')
+                .once('value')
+                .then(function(snapshot) {
+                    vehiculosReales = [];
+
+                    snapshot.forEach(function(child) {
+                        const user = child.val();
+                        if (user.rol === 'BUSERO' && user.ubicacion) {
+                            const dist = calcularDistanciaBusero(
+                                ubicacionUsuario.lat,
+                                ubicacionUsuario.lng,
+                                user.ubicacion.lat,
+                                user.ubicacion.lng
+                            );
+
+                            if (dist < 5) {
+                                vehiculosReales.push({
+                                    id: child.key,
+                                    nombre: user.nombre || 'Busero',
+                                    placa: user.vehiculo?.placa || 'N/A',
+                                    modelo: user.vehiculo?.modelo || 'N/A',
+                                    capacidad: user.vehiculo?.capacidad || 0,
+                                    lat: user.ubicacion.lat,
+                                    lng: user.ubicacion.lng,
+                                    tipo: user.rol,
+                                    disponible: user.disponible !== false,
+                                    distancia: dist,
+                                    calificacion: user.calificacion || 0,
+                                    valoraciones: user.valoraciones || 0
+                                });
+                            }
+                        }
+                    });
+
+                    vehiculosReales.sort((a, b) => a.distancia - b.distancia);
+                    actualizarMarcadoresRealesBusero(vehiculosReales);
+                    actualizarListaVehiculosBusero(vehiculosReales);
+
+                    if (modoVozActivo && vehiculosReales.length > 0) {
+                        leerTexto('Hay ' + vehiculosReales.length +
+                            ' buses cercanos. El más cercano está a ' +
+                            (vehiculosReales[0].distancia * 1000).toFixed(0) + ' metros.');
+                    }
+
+                }).catch(function(error) {
+                    console.error('Error cargando vehículos:', error);
+                });
+        }
+
+        function iniciarEscuchaVehiculosRealesBusero() {
+            if (escuchaVehiculos) {
+                escuchaVehiculos.off();
+            }
+
+            escuchaVehiculos = database.ref('usuarios');
+            escuchaVehiculos.on('value', function() {
+                cargarVehiculosRealesBusero();
+            });
+        }
+
+        function calcularDistanciaBusero(lat1, lng1, lat2, lng2) {
+            const R = 6371;
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLng = (lng2 - lng1) * Math.PI / 180;
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLng / 2) * Math.sin(dLng / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c;
+        }
+
+        // ==========================================================
+        // 📌 MARCADORES EN EL MAPA
+        // ==========================================================
+
+        function actualizarMarcadoresRealesBusero(vehiculos) {
+            Object.values(marcadoresVehiculos).forEach(function(m) { m.remove(); });
+            marcadoresVehiculos = {};
+
+            if (!mapboxMapBusero) return;
+
+            vehiculos.forEach(function(v, index) {
+                const color = '#FF3D2E'; // Rojo para buses
+
+                const el = document.createElement('div');
+                el.className = 'vehicle-dot';
+                el.style.cssText =
+                    'background:' + color +
+                    '; width:16px; height:16px; border-radius:50%; border:2px solid white; box-shadow:0 0 10px ' +
+                    color + '; cursor:pointer; position:relative;';
+
+                const numero = document.createElement('span');
+                numero.className = 'vehicle-number';
+                numero.textContent = index + 1;
+                el.appendChild(numero);
+
+                const popup = new mapboxgl.Popup({ offset: 25, closeButton: true, closeOnClick: false })
+                    .setHTML(`
+                        <strong>🚌 Bus #${index + 1}</strong><br>
+                        👤 ${sanitizar(v.nombre)}<br>
+                        🚗 ${v.placa}<br>
+                        ${v.modelo} • ${v.capacidad} pasajeros<br>
+                        📏 ${(v.distancia * 1000).toFixed(0)} m<br>
+                        ⭐ ${v.calificacion.toFixed(1)} (${v.valoraciones} valoraciones)<br>
+                        ${v.disponible ? '✅ Disponible' : '🔴 No disponible'}<br>
+                    `);
+
+                const marker = new mapboxgl.Marker(el)
+                    .setLngLat([v.lng, v.lat])
+                    .setPopup(popup)
+                    .addTo(mapboxMapBusero);
+
+                marcadoresVehiculos[v.id] = marker;
+            });
+        }
+
+        // ==========================================================
+        // 📋 LISTA DE VEHÍCULOS EN PANEL LATERAL
+        // ==========================================================
+
+        function actualizarListaVehiculosBusero(vehiculos) {
+            const panelContent = document.getElementById('infoPanelContent');
+            const panelEmpty = document.getElementById('infoPanelEmpty');
+
+            if (!panelContent || !panelEmpty) return;
+
+            if (vehiculos.length === 0) {
+                panelContent.style.display = 'none';
+                panelEmpty.style.display = 'block';
+                panelEmpty.innerHTML = `
+                    <i class="fas fa-search"></i><br>
+                    No hay buses cercanos<br>
+                    <span style="font-size:0.7rem;">Intenta ampliar tu búsqueda</span>
+                `;
+                return;
+            }
+
+            panelEmpty.style.display = 'none';
+            let html = `
+                <h4 style="color:var(--accent); margin-bottom:8px;">🚌 Buses cercanos (${vehiculos.length})</h4>
+                <div style="max-height:320px; overflow-y:auto;">
+            `;
+
+            vehiculos.forEach(function(v, index) {
+                const estadoColor = v.disponible ? 'var(--success)' : 'var(--text-tertiary)';
+                const estadoText = v.disponible ? 'Disponible' : 'Ocupado';
+
+                html += `
+                    <div class="vehiculo-lista-item">
+                        <div class="vehiculo-info">
+                            <div class="vehiculo-nombre">#${index + 1} 🚌 ${sanitizar(v.nombre)}</div>
+                            <div class="vehiculo-detalle">${v.placa} • ${v.modelo}</div>
+                            <div class="vehiculo-distancia">📏 ${(v.distancia * 1000).toFixed(0)} m • ⭐ ${v.calificacion.toFixed(1)}</div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-size:0.7rem; color:${estadoColor}; font-weight:600;">${estadoText}</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            panelContent.innerHTML = html;
+            panelContent.style.display = 'block';
+        }
+
+        // ==========================================================
+        // 💬 FEEDBACK AGENT
+        // ==========================================================
+
+        let feedbackVoiceActiveBusero = false;
+        let feedbackRecognitionBusero = null;
+
+        function toggleFeedbackPanel() {
+            const panel = document.getElementById('feedbackPanel');
+            panel.classList.toggle('open');
+            if (panel.classList.contains('open')) {
+                document.getElementById('feedbackInput').focus();
+                actualizarUbicacionFeedbackBusero();
+            }
+        }
+
+        function actualizarUbicacionFeedbackBusero() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(pos) {
+                    obtenerDireccionFeedbackBusero(pos.coords.latitude, pos.coords.longitude);
+                }, function() {
+                    document.getElementById('feedbackDireccion').textContent = 'Ubicación no disponible';
+                });
+            }
+        }
+
+        async function obtenerDireccionFeedbackBusero(lat, lng) {
+            try {
+                const url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + lng + ',' + lat +
+                    '.json?access_token=' + mapboxgl.accessToken + '&country=pa&language=es&limit=1';
+                const respuesta = await fetch(url);
+                const datos = await respuesta.json();
+
+                if (datos.features && datos.features.length > 0) {
+                    const lugar = datos.features[0];
+                    const direccion = lugar.place_name || lugar.text || 'Ubicación';
+                    document.getElementById('feedbackDireccion').textContent = sanitizar(direccion);
+                } else {
+                    document.getElementById('feedbackDireccion').textContent = 'Ubicación desconocida';
+                }
+            } catch (e) {
+                document.getElementById('feedbackDireccion').textContent = 'Ubicación desconocida';
+            }
+        }
+
+        function toggleFeedbackVoice() {
+            const btn = document.getElementById('feedbackVoiceBtn');
+
+            if (feedbackVoiceActiveBusero) {
+                if (feedbackRecognitionBusero) {
+                    feedbackRecognitionBusero.stop();
+                    feedbackRecognitionBusero = null;
+                }
+                feedbackVoiceActiveBusero = false;
+                btn.classList.remove('listening');
+                btn.innerHTML = '<i class="fas fa-microphone"></i> Hablar';
+                return;
+            }
+
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                Swal.fire('Error', 'Tu navegador no soporta reconocimiento de voz', 'error');
+                return;
+            }
+
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            feedbackRecognitionBusero = new SpeechRecognition();
+            feedbackRecognitionBusero.lang = 'es-ES';
+            feedbackRecognitionBusero.continuous = false;
+            feedbackRecognitionBusero.interimResults = true;
+
+            feedbackRecognitionBusero.onstart = function() {
+                feedbackVoiceActiveBusero = true;
+                btn.classList.add('listening');
+                btn.innerHTML = '<i class="fas fa-stop"></i> Detener';
+                document.getElementById('feedbackInput').placeholder = '🎙️ Escuchando...';
+            };
+
+            feedbackRecognitionBusero.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('feedbackInput').value = transcript;
+                if (event.results[0].isFinal) {
+                    feedbackRecognitionBusero.stop();
+                }
+            };
+
+            feedbackRecognitionBusero.onend = function() {
+                feedbackVoiceActiveBusero = false;
+                btn.classList.remove('listening');
+                btn.innerHTML = '<i class="fas fa-microphone"></i> Hablar';
+                document.getElementById('feedbackInput').placeholder = 'Describe el problema...';
+            };
+
+            feedbackRecognitionBusero.onerror = function(event) {
+                feedbackVoiceActiveBusero = false;
+                btn.classList.remove('listening');
+                btn.innerHTML = '<i class="fas fa-microphone"></i> Hablar';
+                document.getElementById('feedbackInput').placeholder = 'Describe el problema...';
+                Swal.fire('Error', 'No se pudo reconocer la voz: ' + event.error, 'error');
+            };
+
+            feedbackRecognitionBusero.start();
+        }
+
+        function enviarFeedback() {
+            const texto = document.getElementById('feedbackInput').value.trim();
+            const direccion = document.getElementById('feedbackDireccion').textContent || 'Ubicación desconocida';
+            const messageEl = document.getElementById('feedbackMessage');
+
+            if (!texto) {
+                messageEl.className = 'feedback-message error';
+                messageEl.textContent = '⚠️ Por favor, describe el problema.';
+                messageEl.style.display = 'block';
+                return;
+            }
+
+            if (detectarAtaque(texto)) {
+                messageEl.className = 'feedback-message error';
+                messageEl.textContent = '🚨 Se ha detectado un intento de ataque.';
+                messageEl.style.display = 'block';
+                registrarAuditoria('ataque_feedback', 'Intento de XSS en feedback: ' + texto);
+                return;
+            }
+
+            const feedback = {
+                buseroId: uidActual,
+                buseroNombre: usuarioActual?.nombre || 'Anónimo',
+                ubicacion: direccion,
+                reporte: sanitizar(texto),
+                fecha: new Date().toISOString(),
+                estado: 'pendiente'
+            };
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(pos) {
+                    feedback.lat = pos.coords.latitude;
+                    feedback.lng = pos.coords.longitude;
+                    guardarFeedbackBusero(feedback);
+                }, function() {
+                    guardarFeedbackBusero(feedback);
+                });
+            } else {
+                guardarFeedbackBusero(feedback);
+            }
+        }
+
+        function guardarFeedbackBusero(feedback) {
+            database.ref('feedback').push(feedback).then(function() {
+                document.getElementById('feedbackInput').value = '';
+                const messageEl = document.getElementById('feedbackMessage');
+                messageEl.className = 'feedback-message success';
+                messageEl.textContent = '✅ ¡Gracias por tu feedback! Nos ayuda a mejorar.';
+                messageEl.style.display = 'block';
+
+                database.ref('admin/notificaciones').push({
+                    tipo: 'feedback',
+                    mensaje: 'Nuevo feedback de ' + feedback.buseroNombre,
+                    fecha: new Date().toISOString(),
+                    leida: false
+                });
+
+                registrarAuditoria('enviar_feedback', 'Envió feedback: ' + feedback.reporte.substring(0, 50));
+
+                if (modoVozActivo) {
+                    leerTexto('Feedback enviado. ¡Gracias por tu contribución!');
+                }
+
+                setTimeout(function() {
+                    document.getElementById('feedbackPanel').classList.remove('open');
+                    messageEl.style.display = 'none';
+                }, 4000);
+
+            }).catch(function(error) {
+                const messageEl = document.getElementById('feedbackMessage');
+                messageEl.className = 'feedback-message error';
+                messageEl.textContent = '❌ Error al enviar: ' + error.message;
+                messageEl.style.display = 'block';
+            });
+        }
+
+        // ==========================================================
+        // 🌤️ CLIMA
+        // ==========================================================
+
+        async function cargarClimaBusero() {
+            try {
+                const temp = Math.floor(Math.random() * 15 + 25);
+                const clima = temp > 30 ? '☀️ Soleado' : temp > 25 ? '⛅ Parcialmente nublado' : '🌧️ Lluvioso';
+                document.getElementById('weatherTemp').innerHTML = temp + '°C ' + clima;
+            } catch (e) {
+                document.getElementById('weatherTemp').innerHTML = '🌡️ 28°C';
+            }
+        }
+
+        // ==========================================================
+        // 📍 INFO DE LUGAR EN EL MAPA
+        // ==========================================================
+
+        async function obtenerInfoLugarPorCoordenadasBusero(lng, lat) {
+            try {
+                const url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + lng + ',' + lat +
+                    '.json?access_token=' + mapboxgl.accessToken + '&country=pa&language=es&types=poi,address,locality,neighborhood,place';
+                const respuesta = await fetch(url);
+                const datos = await respuesta.json();
+
+                if (datos.features && datos.features.length > 0) {
+                    const lugar = datos.features[0];
+                    const nombre = lugar.text || lugar.place_name.split(',')[0];
+                    const direccion = lugar.place_name;
+                    const categoria = lugar.properties?.category || lugar.properties?.maki || 'Lugar';
+
+                    let icono = '<i class="fas fa-map-marker-alt"></i>';
+                    if (categoria === 'school') icono = '<i class="fas fa-school"></i>';
+                    else if (categoria === 'hospital') icono = '<i class="fas fa-hospital"></i>';
+                    else if (categoria === 'restaurant') icono = '<i class="fas fa-utensils"></i>';
+                    else if (categoria === 'gas station') icono = '<i class="fas fa-gas-pump"></i>';
+                    else if (categoria === 'hotel') icono = '<i class="fas fa-hotel"></i>';
+
+                    const panelContent = document.getElementById('infoPanelContent');
+                    const panelEmpty = document.getElementById('infoPanelEmpty');
+
+                    panelContent.innerHTML = `
+                        <div style="display:flex; gap:10px; margin-bottom:10px;">
+                            <div style="background:var(--accent); width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.6rem;">${icono}</div>
+                            <div><h3 style="color:var(--accent); font-size:1.1rem;">${sanitizar(nombre)}</h3><div style="font-size:0.8rem; color:var(--text-secondary);">${sanitizar(categoria)}</div></div>
+                        </div>
+                        <div style="font-size:0.85rem; margin-bottom:8px;"><i class="fas fa-map-pin"></i> ${sanitizar(direccion)}</div>
+                        <div style="display:flex; gap:8px; margin-top:10px;">
+                            <button onclick="abrirEnGoogleMapsBusero(${lat}, ${lng})" style="background:transparent; border:1px solid var(--glass-border); border-radius:20px; padding:6px 12px; font-size:0.7rem; cursor:pointer; color:var(--text-secondary); min-height:36px;"><i class="fab fa-google"></i> Maps</button>
+                        </div>
+                    `;
+                    panelContent.style.display = 'block';
+                    panelEmpty.style.display = 'none';
+
+                    if (modoVozActivo) {
+                        leerTexto('Has seleccionado: ' + nombre);
+                    }
+                } else {
+                    mostrarInfoPanelVacioBusero();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                mostrarInfoPanelVacioBusero();
+            }
+        }
+
+        function mostrarInfoPanelVacioBusero() {
+            const pc = document.getElementById('infoPanelContent');
+            const pe = document.getElementById('infoPanelEmpty');
+            if (pc) pc.style.display = 'none';
+            if (pe) pe.style.display = 'block';
+        }
+
+        function abrirEnGoogleMapsBusero(lat, lng) {
+            window.open('https://maps.google.com/?q=' + lat + ',' + lng, '_blank');
+        }
+
+        // ==========================================================
+        // 🚌 ACTUALIZAR UBICACIÓN EN TIEMPO REAL
+        // ==========================================================
+
+        let intervalUbicacionBusero = null;
+
+        function iniciarActualizacionUbicacionBusero() {
+            if (!navigator.geolocation) {
+                console.warn('⚠️ Geolocalización no soportada');
+                return;
+            }
+
+            intervalUbicacionBusero = setInterval(function() {
+                navigator.geolocation.getCurrentPosition(
+                    function(pos) {
+                        database.ref('usuarios/' + uidActual + '/ubicacion').set({
+                            lat: pos.coords.latitude,
+                            lng: pos.coords.longitude,
+                            timestamp: firebase.database.ServerValue.TIMESTAMP
+                        });
+                    },
+                    function(err) {
+                        console.warn('⚠️ Error obteniendo ubicación:', err);
+                    },
+                    { enableHighAccuracy: true }
+                );
+            }, 5000);
+        }
+
+        // ==========================================================
+        // 📦 FUNCIONES UTILITARIAS (EXISTENTES)
+        // ==========================================================
+
+        function cargarTemaGuardado() {
+            const tema = localStorage.getItem('cupotax-busero-tema') || 'fire';
+            setTema(tema);
+            cargarFontSize();
+        }
+
+        function setTema(tema) {
+            document.body.classList.remove('style-fire', 'style-glass', 'style-neon', 'style-crimson', 'light-mode');
+            if (tema === 'fire') document.body.classList.add('style-fire');
+            else if (tema === 'glass') document.body.classList.add('style-glass');
+            else if (tema === 'neon') document.body.classList.add('style-neon');
+            else if (tema === 'crimson') document.body.classList.add('style-crimson');
+            else if (tema === 'light') document.body.classList.add('light-mode');
+
+            localStorage.setItem('cupotax-busero-tema', tema);
+
+            document.querySelectorAll('.theme-card').forEach(function(card) {
+                card.classList.remove('active');
+            });
+            const cardMap = {
+                'fire': 'cardFire',
+                'glass': 'cardGlass',
+                'neon': 'cardNeon',
+                'crimson': 'cardCrimson',
+                'light': 'cardLight'
+            };
+            if (cardMap[tema]) {
+                document.getElementById(cardMap[tema]).classList.add('active');
+            }
+        }
+
+        function toggleLightMode() {
+            if (document.body.classList.contains('light-mode')) {
+                document.body.classList.remove('light-mode');
+                const tema = localStorage.getItem('cupotax-busero-tema') || 'fire';
+                setTema(tema);
+            } else {
+                document.body.classList.add('light-mode');
+                localStorage.setItem('cupotax-busero-tema', 'light');
+                document.getElementById('cardLight').classList.add('active');
+            }
+            document.getElementById('settingsPanel').classList.remove('open');
+        }
+
+        function resetearTema() {
+            document.body.classList.remove('style-glass', 'style-neon', 'style-crimson', 'light-mode');
+            document.body.classList.add('style-fire');
+            localStorage.setItem('cupotax-busero-tema', 'fire');
+            localStorage.removeItem('cupotax-font-size');
+            document.querySelectorAll('.theme-card').forEach(function(card) {
+                card.classList.remove('active');
+            });
+            document.getElementById('cardFire').classList.add('active');
+            document.getElementById('settingsPanel').classList.remove('open');
+            setFontSize('normal');
+            Swal.fire({
+                title: 'Tema restaurado',
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false,
+                background: 'var(--bg-card)',
+                color: 'var(--text-primary)'
+            });
+        }
+
+        function toggleTemas() {
+            document.getElementById('settingsPanel').classList.toggle('open');
+        }
+
+        // ==========================================================
+        // 📱 NAVEGACIÓN
+        // ==========================================================
+
+        function mostrarSeccionBusero(seccion) {
+            document.querySelectorAll('.seccion').forEach(function(sec) {
+                sec.classList.remove('active');
+            });
+            const target = document.getElementById('seccion-' + seccion);
+            if (target) {
+                target.classList.add('active');
+                if (seccion === 'ruta') {
+                    setTimeout(function() {
+                        if (!mapboxMapBusero) {
+                            initMapboxMapBusero();
+                        } else {
+                            mapboxMapBusero.resize();
+                        }
+                        generarAsientosBusero();
+                    }, 200);
+                }
+                if (seccion === 'viajes') {
+                    cargarViajesBusero(uidActual);
+                }
+                if (seccion === 'ingresos') {
+                    cargarIngresosBusero(uidActual);
+                }
+                if (seccion === 'mensajeria') {
+                    cargarSoporteAdminBusero(uidActual);
+                }
+                if (seccion === 'notificaciones') {
+                    cargarNotificacionesCompletasBusero(uidActual);
+                }
+            }
+
+            if (modoVozActivo) {
+                const titulo = document.querySelector('.seccion.active h2')?.textContent ||
+                    seccion.charAt(0).toUpperCase() + seccion.slice(1);
+                leerTexto('Sección: ' + titulo);
+            }
+        }
+
+        function volverInicio() {
+            document.querySelectorAll('.nav-item').forEach(function(i) {
+                i.classList.remove('active');
+            });
+            document.querySelectorAll('.bottom-btn').forEach(function(i) {
+                i.classList.remove('active');
+            });
+            document.querySelector('.nav-item[data-seccion="inicio"]').classList.add('active');
+            document.querySelector('.bottom-btn[data-seccion="inicio"]').classList.add('active');
+            mostrarSeccionBusero('inicio');
+        }
+
+        function irAPerfil() {
+            document.querySelectorAll('.nav-item').forEach(function(i) {
+                i.classList.remove('active');
+            });
+            document.querySelector('.nav-item[data-seccion="perfil"]').classList.add('active');
+            mostrarSeccionBusero('perfil');
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        function toggleMenuMas() {
+            document.getElementById('menuMas').classList.toggle('open');
+        }
 
         // ==========================================================
         // 👤 DATOS DEL USUARIO
         // ==========================================================
+
         let uidActual = null;
         let usuarioActual = null;
         let vehiculoActual = null;
         let estadoActual = 'en_ruta';
         let contactos = [];
 
-        function cargarDatosUsuario(uid) {
+        function cargarDatosBusero(uid) {
             database.ref('usuarios/' + uid).once('value').then(function(snapshot) {
                 const data = snapshot.val();
                 if (data) {
@@ -2782,7 +4375,6 @@
                             '%';
                         document.getElementById('combustibleFill').style.width = (vehiculoActual.combustible || 0) + '%';
 
-                        // Detalles
                         document.getElementById('vehiculoPlacaDetalle').textContent = vehiculoActual.placa ||
                         'Sin placa';
                         document.getElementById('vehiculoModeloDetalle').textContent = vehiculoActual.modelo ||
@@ -2795,7 +4387,6 @@
                             'Sin interno';
                         document.getElementById('vehiculoAnioDetalle').textContent = vehiculoActual.anio || 'Sin año';
 
-                        // Ruta
                         if (vehiculoActual.rutaAsignada) {
                             const partes = vehiculoActual.rutaAsignada.split(' - ');
                             document.getElementById('rutaNombreDetalle').textContent = vehiculoActual.rutaAsignada;
@@ -2806,21 +4397,20 @@
                             document.getElementById('rutaDestinoDetalle').textContent = partes[1] || 'Sin destino';
                         }
 
-                        // Capacidad
                         document.getElementById('statCapacidad').textContent = vehiculoActual.capacidad || 40;
                     }
 
-                    cargarEstadisticas(uid);
-                    cargarNotificaciones(uid);
-                    cargarPasajerosFrecuentes(uid);
-                    cargarViajes(uid);
-                    cargarIngresos(uid);
-                    cargarMantenimiento(uid);
-                    cargarDocumentos(uid);
-                    cargarContactos(uid);
-                    cargarSoporteAdmin(uid);
+                    cargarEstadisticasBusero(uid);
+                    cargarNotificacionesBusero(uid);
+                    cargarPasajerosFrecuentesBusero(uid);
+                    cargarViajesBusero(uid);
+                    cargarIngresosBusero(uid);
+                    cargarMantenimientoBusero(uid);
+                    cargarDocumentosBusero(uid);
+                    cargarContactosBusero(uid);
+                    cargarSoporteAdminBusero(uid);
 
-                    actualizarBadges();
+                    actualizarBadgesBusero();
                 }
             }).catch(function(error) {
                 console.error('Error cargando usuario:', error);
@@ -2830,7 +4420,8 @@
         // ==========================================================
         // 📊 ESTADÍSTICAS
         // ==========================================================
-        function cargarEstadisticas(uid) {
+
+        function cargarEstadisticasBusero(uid) {
             const hoy = new Date().toISOString().split('T')[0];
 
             database.ref('viajes').orderByChild('buseroId').equalTo(uid).once('value').then(function(snapshot) {
@@ -2854,11 +4445,11 @@
                 const porcentaje = Math.min((ingresos / meta) * 100, 100);
                 document.getElementById('ingresosProgress').style.width = porcentaje + '%';
 
-                cargarCalificacionPromedio(uid);
+                cargarCalificacionPromedioBusero(uid);
             });
         }
 
-        function cargarCalificacionPromedio(uid) {
+        function cargarCalificacionPromedioBusero(uid) {
             database.ref('calificaciones').orderByChild('buseroId').equalTo(uid).once('value').then(function(snapshot) {
                 let total = 0,
                     suma = 0;
@@ -2879,7 +4470,8 @@
         // ==========================================================
         // 🪑 ASIENTOS
         // ==========================================================
-        function generarAsientos() {
+
+        function generarAsientosBusero() {
             const grid = document.getElementById('seatGrid');
             if (!grid) return;
 
@@ -2904,7 +4496,6 @@
                 grid.appendChild(seat);
             }
 
-            // Actualizar estadísticas
             const libres = capacidad - ocupados - reservados;
             document.getElementById('ocupacionActual').textContent = Math.round((ocupados / capacidad) * 100) + '%';
             document.getElementById('ocupacionFill').style.width = ((ocupados / capacidad) * 100) + '%';
@@ -2916,7 +4507,8 @@
         // ==========================================================
         // 🔔 NOTIFICACIONES
         // ==========================================================
-        function cargarNotificaciones(uid) {
+
+        function cargarNotificacionesBusero(uid) {
             const container = document.getElementById('notificacionesRapidas');
 
             database.ref('notificaciones').orderByChild('buseroId').equalTo(uid).limitToLast(5).on('value', function(
@@ -2933,7 +4525,7 @@
                         notif.tipo === 'mantenimiento' ? '🔧' : '📢';
 
                     html += `
-                        <div style="margin-bottom:10px; cursor:pointer;" onclick="marcarNotificacionLeida('${child.key}')">
+                        <div style="margin-bottom:10px; cursor:pointer;" onclick="marcarNotificacionLeidaBusero('${child.key}')">
                             <div style="font-weight:500;">${icono} ${sanitizar(notif.titulo || 'Notificación')}</div>
                             <div style="font-size:10px; color:var(--text-tertiary);">${sanitizar(notif.mensaje || '')}</div>
                             <div style="font-size:9px; color:${notif.leida ? 'var(--text-tertiary)' : 'var(--success)'};">${notif.leida ? 'Leída' : '● Nueva'}</div>
@@ -2950,14 +4542,45 @@
             });
         }
 
-        function marcarNotificacionLeida(id) {
+        function marcarNotificacionLeidaBusero(id) {
             database.ref('notificaciones/' + id).update({ leida: true });
+        }
+
+        function cargarNotificacionesCompletasBusero(uid) {
+            const container = document.getElementById('notificaciones-lista');
+
+            database.ref('notificaciones').orderByChild('buseroId').equalTo(uid).limitToLast(20).once('value')
+                .then(function(snapshot) {
+                    let html = '';
+                    let count = 0;
+
+                    snapshot.forEach(function(child) {
+                        const notif = child.val();
+                        count++;
+                        html += `
+                            <div class="card" style="margin-bottom:12px;">
+                                <div style="display:flex; justify-content:space-between;">
+                                    <div><strong>${notif.titulo || 'Notificación'}</strong></div>
+                                    <div style="font-size:11px; color:var(--text-tertiary);">${formatearFecha(notif.fecha)}</div>
+                                </div>
+                                <div style="font-size:13px; color:var(--text-secondary);">${sanitizar(notif.mensaje || '')}</div>
+                            </div>
+                        `;
+                    });
+
+                    if (count === 0) {
+                        html = '<div style="text-align:center; padding:20px; color:var(--text-tertiary);">🔔 No hay notificaciones</div>';
+                    }
+
+                    container.innerHTML = html;
+                });
         }
 
         // ==========================================================
         // ⭐ PASAJEROS FRECUENTES
         // ==========================================================
-        function cargarPasajerosFrecuentes(uid) {
+
+        function cargarPasajerosFrecuentesBusero(uid) {
             const container = document.getElementById('pasajerosFrecuentes');
 
             database.ref('calificaciones').orderByChild('buseroId').equalTo(uid).once('value').then(function(snapshot) {
@@ -3001,7 +4624,8 @@
         // ==========================================================
         // 📜 VIAJES
         // ==========================================================
-        function cargarViajes(uid) {
+
+        function cargarViajesBusero(uid) {
             const container = document.getElementById('historial-viajes');
 
             database.ref('viajes').orderByChild('buseroId').equalTo(uid).once('value').then(function(snapshot) {
@@ -3045,7 +4669,8 @@
         // ==========================================================
         // 💰 INGRESOS
         // ==========================================================
-        function cargarIngresos(uid) {
+
+        function cargarIngresosBusero(uid) {
             const hoy = new Date().toISOString().split('T')[0];
             const semana = new Date();
             semana.setDate(semana.getDate() - 7);
@@ -3067,7 +4692,6 @@
                 document.getElementById('ingresoSemana').textContent = 'B/. ' + semanaTotal.toFixed(2);
                 document.getElementById('ingresoMes').textContent = 'B/. ' + mesTotal.toFixed(2);
 
-                // Resumen del día
                 document.getElementById('ingresoTotal').textContent = 'B/. ' + hoyTotal.toFixed(2);
                 document.getElementById('ingresoEfectivo').textContent = 'B/. ' + (hoyTotal * 0.7).toFixed(2);
                 document.getElementById('ingresoQR').textContent = 'B/. ' + (hoyTotal * 0.25).toFixed(2);
@@ -3078,6 +4702,7 @@
         // ==========================================================
         // 🔧 MANTENIMIENTO
         // ==========================================================
+
         let mantenimientoData = {};
 
         const SERVICIOS_MANTENIMIENTO_BUSERO = [
@@ -3088,7 +4713,7 @@
             { id: 'motor', nombre: '🚕 Motor', kmRecomendado: 15000 }
         ];
 
-        function cargarMantenimiento(uid) {
+        function cargarMantenimientoBusero(uid) {
             const container = document.getElementById('servicios-mantenimiento');
 
             database.ref('mantenimiento_servicios/' + uid).once('value').then(function(snapshot) {
@@ -3167,7 +4792,7 @@
                             timer: 1500,
                             showConfirmButton: false
                         });
-                        cargarMantenimiento(uidActual);
+                        cargarMantenimientoBusero(uidActual);
                         registrarAuditoria('completar_mantenimiento', 'Completó servicio: ' + servicio.nombre);
                     });
                 }
@@ -3177,9 +4802,10 @@
         // ==========================================================
         // 📄 DOCUMENTOS
         // ==========================================================
+
         let documentosData = {};
 
-        function cargarDocumentos(uid) {
+        function cargarDocumentosBusero(uid) {
             const containerConductor = document.getElementById('documentosConductorContainer');
             const containerVehiculo = document.getElementById('documentosVehiculoContainer');
 
@@ -3199,7 +4825,7 @@
 
                 tiposConductor.forEach(function(tipo) {
                     const doc = documentosData[tipo.id] || {};
-                    const estado = doc.vencimiento ? calcularEstadoDoc(doc.vencimiento) : 'desconocido';
+                    const estado = doc.vencimiento ? calcularEstadoDocBusero(doc.vencimiento) : 'desconocido';
                     if (estado === 'vigente') vigentes++;
                     else if (estado === 'por_vencer') porVencer++;
                     else vencidos++;
@@ -3230,7 +4856,7 @@
 
                 tiposVehiculo.forEach(function(tipo) {
                     const doc = documentosData[tipo.id] || {};
-                    const estado = doc.vencimiento ? calcularEstadoDoc(doc.vencimiento) : 'desconocido';
+                    const estado = doc.vencimiento ? calcularEstadoDocBusero(doc.vencimiento) : 'desconocido';
                     if (estado === 'vigente') vigentes++;
                     else if (estado === 'por_vencer') porVencer++;
                     else vencidos++;
@@ -3275,7 +4901,7 @@
             });
         }
 
-        function calcularEstadoDoc(fechaVencimiento) {
+        function calcularEstadoDocBusero(fechaVencimiento) {
             if (!fechaVencimiento) return 'desconocido';
             const hoy = new Date();
             const venc = new Date(fechaVencimiento);
@@ -3338,7 +4964,7 @@
                         database.ref('documentos/' + uidActual + '/' + id).set(data).then(function() {
                             Swal.fire('✅ Documento subido', 'El documento ha sido guardado correctamente',
                                 'success');
-                            cargarDocumentos(uidActual);
+                            cargarDocumentosBusero(uidActual);
                             registrarAuditoria('subir_documento', 'Subió documento');
                         });
                     };
@@ -3354,7 +4980,8 @@
         // ==========================================================
         // 👤 CONTACTOS DE CONFIANZA
         // ==========================================================
-        function cargarContactos(uid) {
+
+        function cargarContactosBusero(uid) {
             const container = document.getElementById('contactos-lista');
 
             database.ref('contactos').orderByChild('buseroId').equalTo(uid).once('value').then(function(snapshot) {
@@ -3440,8 +5067,8 @@
             database.ref('contactos').push(contacto).then(function() {
                 document.getElementById('contactoInput').value = '';
                 Swal.fire('✅ Contacto agregado', nombre + ' ha sido agregado a tus contactos de confianza',
-                'success');
-                cargarContactos(uidActual);
+                    'success');
+                cargarContactosBusero(uidActual);
                 registrarAuditoria('agregar_contacto', 'Agregó contacto: ' + nombre);
             });
         }
@@ -3464,7 +5091,7 @@
                 if (result.isConfirmed) {
                     database.ref('contactos/' + id).remove().then(function() {
                         Swal.fire('🗑️ Contacto eliminado', nombre + ' ha sido eliminado', 'success');
-                        cargarContactos(uidActual);
+                        cargarContactosBusero(uidActual);
                         registrarAuditoria('eliminar_contacto', 'Eliminó contacto: ' + nombre);
                     });
                 }
@@ -3474,9 +5101,10 @@
         // ==========================================================
         // 💬 SOPORTE ADMIN (CHAT CON ADMINISTRADOR DE PRESTATARIA)
         // ==========================================================
+
         let adminEscuchaBusero = null;
 
-        function cargarSoporteAdmin(uid) {
+        function cargarSoporteAdminBusero(uid) {
             const container = document.getElementById('chatAdminMensajes');
 
             const prestatariaId = usuarioActual?.prestataria || 'general';
@@ -3517,7 +5145,6 @@
                 container.scrollTop = container.scrollHeight;
             });
 
-            // Fecha
             const fechaEl = document.getElementById('fechaAdminBusero');
             if (fechaEl) {
                 fechaEl.textContent = new Date().toLocaleDateString('es-ES', {
@@ -3565,7 +5192,6 @@
 
             database.ref('chats_conductores/' + prestatariaId + '/' + uidActual + '/mensajes').push(mensaje).then(
                 function() {
-                    // Notificar al admin
                     database.ref('chats_conductores/' + prestatariaId + '/notificaciones').push({
                         buseroId: uidActual,
                         mensaje: sanitizar(texto),
@@ -3576,8 +5202,7 @@
                     input.value = '';
                     registrarAuditoria('enviar_mensaje_admin', 'Envió mensaje al administrador de prestataria');
 
-                    // Recargar mensajes
-                    cargarSoporteAdmin(uidActual);
+                    cargarSoporteAdminBusero(uidActual);
 
                     Swal.fire({
                         title: '✅ Mensaje enviado',
@@ -3705,6 +5330,7 @@
         // ==========================================================
         // 📍 COMPARTIR UBICACIÓN
         // ==========================================================
+
         function compartirUbicacion() {
             if (!navigator.geolocation) {
                 Swal.fire('Error', 'Tu navegador no soporta geolocalización', 'error');
@@ -3749,6 +5375,7 @@
         // ==========================================================
         // 🚨 SISTEMA SOS
         // ==========================================================
+
         let clickCountSosBusero = 0;
         let sosTimeoutBusero = null;
 
@@ -3846,6 +5473,7 @@
         // ==========================================================
         // 🚌 ESTADO DEL BUSERO
         // ==========================================================
+
         function cambiarEstado() {
             const estados = ['en_ruta', 'descanso', 'fuera'];
             const currentIndex = estados.indexOf(estadoActual);
@@ -3886,6 +5514,7 @@
         // ==========================================================
         // 👤 ACTUALIZAR PERFIL
         // ==========================================================
+
         function actualizarPerfil() {
             const nombre = document.getElementById('editNombre').value.trim();
             const telefono = document.getElementById('editTelefono').value.trim();
@@ -3929,7 +5558,7 @@
                 document.getElementById('perfilNombre').textContent = nombre;
                 document.getElementById('editPassword').value = '';
                 registrarAuditoria('actualizar_perfil', 'Actualizó su perfil');
-                cargarDatosUsuario(uidActual);
+                cargarDatosBusero(uidActual);
             }).catch(function(error) {
                 Swal.fire('Error', 'No se pudo actualizar el perfil: ' + error.message, 'error');
             });
@@ -3938,6 +5567,7 @@
         // ==========================================================
         // 📸 FOTO DE PERFIL
         // ==========================================================
+
         document.getElementById('fotoInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -3955,7 +5585,6 @@
             }
         });
 
-        // Foto del vehículo
         document.getElementById('fotoVehiculoInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -3973,6 +5602,7 @@
         // ==========================================================
         // 📢 NOTIFICACIONES PUSH
         // ==========================================================
+
         function mostrarPushBusero(icono, titulo, mensaje, tipo) {
             const container = document.getElementById('notificacionesContainer');
             if (!container) return;
@@ -4036,6 +5666,7 @@
         // ==========================================================
         // 🔄 ESCUCHAS EN TIEMPO REAL
         // ==========================================================
+
         function iniciarEscuchasFirebaseBusero() {
             if (!uidActual) return;
 
@@ -4053,237 +5684,55 @@
                     );
                 }
             });
-        }
 
-        // ==========================================================
-        // 🎨 TEMAS
-        // ==========================================================
-        function setTema(tema) {
-            document.body.classList.remove('style-fire', 'style-glass', 'style-neon', 'style-crimson', 'light-mode');
-            if (tema === 'fire') document.body.classList.add('style-fire');
-            else if (tema === 'glass') document.body.classList.add('style-glass');
-            else if (tema === 'neon') document.body.classList.add('style-neon');
-            else if (tema === 'crimson') document.body.classList.add('style-crimson');
-            else if (tema === 'light') document.body.classList.add('light-mode');
+            database.ref('usuarios/' + uidActual + '/estado').on('value', function(snapshot) {
+                const estado = snapshot.val() || 'en_ruta';
+                estadoActual = estado;
+                const dot = document.getElementById('statusDot');
+                const texto = document.getElementById('estadoTexto');
+                const icono = document.getElementById('estadoIcono');
+                const statEstado = document.getElementById('statEstado');
 
-            localStorage.setItem('cupotax-busero-tema', tema);
-
-            document.querySelectorAll('.theme-card').forEach(function(card) {
-                card.classList.remove('active');
-            });
-            const cardMap = {
-                'fire': 'cardFire',
-                'glass': 'cardGlass',
-                'neon': 'cardNeon',
-                'crimson': 'cardCrimson',
-                'light': 'cardLight'
-            };
-            if (cardMap[tema]) {
-                document.getElementById(cardMap[tema]).classList.add('active');
-            }
-
-            Swal.fire({
-                title: 'Tema aplicado',
-                icon: 'success',
-                timer: 1500,
-                showConfirmButton: false,
-                background: 'var(--bg-card)',
-                color: 'var(--text-primary)'
-            });
-        }
-
-        function toggleLightMode() {
-            if (document.body.classList.contains('light-mode')) {
-                document.body.classList.remove('light-mode');
-                const tema = localStorage.getItem('cupotax-busero-tema') || 'fire';
-                setTema(tema);
-            } else {
-                document.body.classList.add('light-mode');
-                localStorage.setItem('cupotax-busero-tema', 'light');
-                document.getElementById('cardLight').classList.add('active');
-            }
-            document.getElementById('settingsPanel').classList.remove('open');
-        }
-
-        function resetearTema() {
-            document.body.classList.remove('style-glass', 'style-neon', 'style-crimson', 'light-mode');
-            document.body.classList.add('style-fire');
-            localStorage.setItem('cupotax-busero-tema', 'fire');
-            document.querySelectorAll('.theme-card').forEach(function(card) {
-                card.classList.remove('active');
-            });
-            document.getElementById('cardFire').classList.add('active');
-            document.getElementById('settingsPanel').classList.remove('open');
-            Swal.fire({
-                title: 'Tema restaurado',
-                icon: 'success',
-                timer: 1500,
-                showConfirmButton: false,
-                background: 'var(--bg-card)',
-                color: 'var(--text-primary)'
-            });
-        }
-
-        function cargarTemaGuardado() {
-            const tema = localStorage.getItem('cupotax-busero-tema') || 'fire';
-            setTema(tema);
-        }
-
-        function toggleTemas() {
-            document.getElementById('settingsPanel').classList.toggle('open');
-        }
-
-        // ==========================================================
-        // 📱 NAVEGACIÓN
-        // ==========================================================
-        document.querySelectorAll('.nav-item[data-seccion]').forEach(function(item) {
-            item.addEventListener('click', function() {
-                const seccion = this.dataset.seccion;
-                if (seccion === 'salir') {
-                    cerrarSesionBusero();
-                    return;
+                switch (estado) {
+                    case 'en_ruta':
+                        dot.className = 'status-dot';
+                        texto.textContent = 'En ruta';
+                        statEstado.textContent = 'En ruta';
+                        icono.style.color = 'var(--success)';
+                        break;
+                    case 'descanso':
+                        dot.className = 'status-dot pausa';
+                        texto.textContent = 'En descanso';
+                        statEstado.textContent = 'En descanso';
+                        icono.style.color = 'var(--warning)';
+                        break;
+                    case 'fuera':
+                        dot.className = 'status-dot ocupado';
+                        texto.textContent = 'Fuera de servicio';
+                        statEstado.textContent = 'Fuera de servicio';
+                        icono.style.color = 'var(--danger)';
+                        break;
                 }
-                document.querySelectorAll('.nav-item').forEach(function(i) {
-                    i.classList.remove('active');
+            });
+        }
+
+        function actualizarBadgesBusero() {
+            // Actualizar badges de notificaciones
+            database.ref('notificaciones').orderByChild('buseroId').equalTo(uidActual).once('value').then(function(
+                snapshot) {
+                let noLeidas = 0;
+                snapshot.forEach(function(child) {
+                    if (!child.val().leida) noLeidas++;
                 });
-                this.classList.add('active');
-                mostrarSeccionBusero(seccion);
-            });
-        });
-
-        document.querySelectorAll('.bottom-btn[data-seccion]').forEach(function(item) {
-            item.addEventListener('click', function() {
-                const seccion = this.dataset.seccion;
-                document.querySelectorAll('.bottom-btn').forEach(function(i) {
-                    i.classList.remove('active');
-                });
-                this.classList.add('active');
-                mostrarSeccionBusero(seccion);
-                document.getElementById('menuMas').classList.remove('open');
-            });
-        });
-
-        document.querySelectorAll('.menu-mas button[data-seccion]').forEach(function(item) {
-            item.addEventListener('click', function() {
-                const seccion = this.dataset.seccion;
-                if (seccion === 'salir') {
-                    cerrarSesionBusero();
-                    return;
-                }
-                document.querySelectorAll('.bottom-btn').forEach(function(i) {
-                    i.classList.remove('active');
-                });
-                const bottomBtn = document.querySelector(`.bottom-btn[data-seccion="${seccion}"]`);
-                if (bottomBtn) {
-                    bottomBtn.classList.add('active');
-                } else {
-                    document.getElementById('btnMasOpciones').classList.add('active');
-                }
-                mostrarSeccionBusero(seccion);
-                document.getElementById('menuMas').classList.remove('open');
-            });
-        });
-
-        function mostrarSeccionBusero(seccion) {
-            document.querySelectorAll('.seccion').forEach(function(sec) {
-                sec.classList.remove('active');
-            });
-            const target = document.getElementById('seccion-' + seccion);
-            if (target) {
-                target.classList.add('active');
-                if (seccion === 'ruta') {
-                    generarAsientos();
-                }
-                if (seccion === 'viajes') {
-                    cargarViajes(uidActual);
-                }
-                if (seccion === 'ingresos') {
-                    cargarIngresos(uidActual);
-                }
-                if (seccion === 'mensajeria') {
-                    cargarSoporteAdmin(uidActual);
-                }
-                if (seccion === 'notificaciones') {
-                    cargarNotificacionesCompletas(uidActual);
-                }
-            }
-        }
-
-        function cargarNotificacionesCompletas(uid) {
-            const container = document.getElementById('notificaciones-lista');
-
-            database.ref('notificaciones').orderByChild('buseroId').equalTo(uid).limitToLast(20).once('value')
-                .then(function(snapshot) {
-                    let html = '';
-                    let count = 0;
-
-                    snapshot.forEach(function(child) {
-                        const notif = child.val();
-                        count++;
-                        html += `
-                            <div class="card" style="margin-bottom:12px;">
-                                <div style="display:flex; justify-content:space-between;">
-                                    <div><strong>${notif.titulo || 'Notificación'}</strong></div>
-                                    <div style="font-size:11px; color:var(--text-tertiary);">${formatearFecha(notif.fecha)}</div>
-                                </div>
-                                <div style="font-size:13px; color:var(--text-secondary);">${sanitizar(notif.mensaje || '')}</div>
-                            </div>
-                        `;
-                    });
-
-                    if (count === 0) {
-                        html = '<div style="text-align:center; padding:20px; color:var(--text-tertiary);">🔔 No hay notificaciones</div>';
-                    }
-
-                    container.innerHTML = html;
-                });
-        }
-
-        function volverInicio() {
-            document.querySelectorAll('.nav-item').forEach(function(i) {
-                i.classList.remove('active');
-            });
-            document.querySelectorAll('.bottom-btn').forEach(function(i) {
-                i.classList.remove('active');
-            });
-            document.querySelector('.nav-item[data-seccion="inicio"]').classList.add('active');
-            document.querySelector('.bottom-btn[data-seccion="inicio"]').classList.add('active');
-            mostrarSeccionBusero('inicio');
-        }
-
-        function irAPerfil() {
-            document.querySelectorAll('.nav-item').forEach(function(i) {
-                i.classList.remove('active');
-            });
-            document.querySelector('.nav-item[data-seccion="perfil"]').classList.add('active');
-            mostrarSeccionBusero('perfil');
-        }
-
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
-        }
-
-        function toggleMenuMas() {
-            document.getElementById('menuMas').classList.toggle('open');
-        }
-
-        // ==========================================================
-        // 🔔 NOTIFICACIONES (panel)
-        // ==========================================================
-        function toggleNotificaciones() {
-            Swal.fire({
-                title: '🔔 Notificaciones',
-                text: 'Tienes notificaciones pendientes. Revisa la sección de Notificaciones.',
-                icon: 'info',
-                background: 'var(--bg-card)',
-                color: 'var(--text-primary)',
-                confirmButtonColor: 'var(--accent)'
+                document.getElementById('notifBadge').textContent = noLeidas;
+                document.getElementById('mensajesBadge').textContent = noLeidas;
             });
         }
 
         // ==========================================================
         // 🚪 CERRAR SESIÓN
         // ==========================================================
+
         function cerrarSesionBusero() {
             Swal.fire({
                 title: '¿Cerrar sesión?',
@@ -4306,30 +5755,44 @@
         }
 
         // ==========================================================
-        // ✅ INICIALIZACIÓN DE FECHA EN CHAT
+        // ✅ INICIALIZACIÓN
         // ==========================================================
-        document.addEventListener('DOMContentLoaded', function() {
-            const fecha = document.getElementById('fechaAdminBusero');
-            if (fecha) {
-                const hoy = new Date();
-                fecha.textContent = hoy.toLocaleDateString('es-ES', {
-                    day: 'numeric',
-                    month: 'numeric',
-                    year: 'numeric'
-                });
-            }
 
-            // Iniciar escuchas
-            setTimeout(function() {
-                iniciarEscuchasFirebaseBusero();
-            }, 500);
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarTemaGuardado();
+
+            auth.onAuthStateChanged(function(user) {
+                if (user) {
+                    uidActual = user.uid;
+                    cargarDatosBusero(uidActual);
+                    setTimeout(function() {
+                        initMapboxMapBusero();
+                    }, 300);
+                    iniciarActualizacionUbicacionBusero();
+                    iniciarControlInactividad();
+                    iniciarEscuchasFirebaseBusero();
+                    registrarAuditoria('inicio_sesion', 'Busero inició sesión');
+
+                    if ('speechSynthesis' in window) {
+                        window.speechSynthesis.getVoices();
+                        window.speechSynthesis.onvoiceschanged = function() {
+                            window.speechSynthesis.getVoices();
+                        };
+                    }
+                } else {
+                    window.location.href = API_URL + '/login';
+                }
+            });
         });
 
         console.log('✅ CupoTax - Panel de Busero cargado correctamente');
         console.log('🛡️ Seguridad activa: Sanitización, Anti-XSS, Auditoría, Inactividad (30min)');
+        console.log('🎤 Modo voz activo para inclusión');
+        console.log('🚌 Buses reales desde Firebase');
+        console.log('🗺️ 4 modos de mapa: Estándar, Satélite, Navegación, Oscuro');
+        console.log('💬 Feedback Agent integrado');
         console.log('📱 Responsive: PC, Tablet, Móvil');
         console.log('🔥 Firebase conectado en tiempo real');
-        console.log('💬 Chat con Administrador de prestataria conectado');
     </script>
 
 </body>
