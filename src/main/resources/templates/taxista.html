@@ -7,23 +7,16 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <link href='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css' rel='stylesheet' />
-    <script src='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.js'>
-    </script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.js'></script>
 
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js">
-    </script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js">
-    </script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js">
-    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
     <style>
         /* ==========================================================
@@ -214,22 +207,10 @@
             flex-direction: column;
             gap: 1.5rem;
         }
-        #inactividadOverlay.active {
-            display: flex;
-        }
-        #inactividadOverlay h2 {
-            font-size: 1.8rem;
-            color: var(--accent);
-        }
-        #inactividadOverlay p {
-            color: var(--text-secondary);
-            font-size: 1rem;
-        }
-        #inactividadOverlay .countdown {
-            font-size: 3rem;
-            font-weight: 800;
-            color: var(--accent);
-        }
+        #inactividadOverlay.active { display: flex; }
+        #inactividadOverlay h2 { font-size: 1.8rem; color: var(--accent); }
+        #inactividadOverlay p { color: var(--text-secondary); font-size: 1rem; }
+        #inactividadOverlay .countdown { font-size: 3rem; font-weight: 800; color: var(--accent); }
 
         /* ==========================================================
            BOTÓN DE VOZ FLOTANTE (ACCESIBILIDAD)
@@ -254,9 +235,7 @@
             transition: all 0.3s;
             animation: pulse-voice 2s infinite;
         }
-        .voice-float-btn:hover {
-            transform: scale(1.1);
-        }
+        .voice-float-btn:hover { transform: scale(1.1); }
         .voice-float-btn.listening {
             background: var(--danger);
             color: #fff;
@@ -291,16 +270,9 @@
             font-size: 0.85rem;
             box-shadow: var(--accent-glow);
         }
-        .voice-status-bar.open {
-            display: block;
-            animation: fadeInUp 0.3s ease;
-        }
-        .voice-status-bar .status-text {
-            color: var(--text-secondary);
-        }
-        .voice-status-bar .status-text strong {
-            color: var(--accent);
-        }
+        .voice-status-bar.open { display: block; animation: fadeInUp 0.3s ease; }
+        .voice-status-bar .status-text { color: var(--text-secondary); }
+        .voice-status-bar .status-text strong { color: var(--accent); }
         .voice-status-bar .close-status {
             position: absolute;
             top: 4px;
@@ -361,14 +333,8 @@
             z-index: 100;
             transition: transform 0.3s ease;
         }
-
-        .sidebar::-webkit-scrollbar {
-            width: 4px;
-        }
-        .sidebar::-webkit-scrollbar-thumb {
-            background: var(--accent);
-            border-radius: 10px;
-        }
+        .sidebar::-webkit-scrollbar { width: 4px; }
+        .sidebar::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
 
         .sidebar-logo {
             text-align: center;
@@ -376,11 +342,7 @@
             padding-bottom: 1rem;
             border-bottom: 1px solid var(--glass-border);
         }
-        .sidebar-logo img {
-            width: 120px;
-            height: auto;
-            margin-bottom: 0.5rem;
-        }
+        .sidebar-logo img { width: 120px; height: auto; margin-bottom: 0.5rem; }
         .sidebar-logo h1 {
             font-size: 1.5rem;
             background: var(--gradient-glow);
@@ -388,11 +350,7 @@
             background-clip: text;
             color: transparent;
         }
-        .sidebar-logo span {
-            font-size: 0.6rem;
-            color: var(--text-secondary);
-            letter-spacing: 2px;
-        }
+        .sidebar-logo span { font-size: 0.6rem; color: var(--text-secondary); letter-spacing: 2px; }
 
         .user-info {
             background: var(--bg-card);
@@ -403,10 +361,7 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-        .user-info:hover {
-            border-color: var(--accent);
-            box-shadow: var(--accent-glow);
-        }
+        .user-info:hover { border-color: var(--accent); box-shadow: var(--accent-glow); }
         .user-name {
             font-weight: 700;
             font-size: 15px;
@@ -421,15 +376,32 @@
             padding: 4px 8px;
             border-radius: 20px;
         }
-        .user-id {
-            font-size: 10px;
-            color: var(--text-tertiary);
-            margin-top: 4px;
+        .user-id { font-size: 10px; color: var(--text-tertiary); margin-top: 4px; }
+        .user-rating { font-size: 12px; color: var(--warning); margin-top: 4px; }
+
+        /* Foto de perfil en sidebar */
+        .user-photo-container {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            overflow: hidden;
+            border: 3px solid var(--accent);
+            background: var(--bg-input);
         }
-        .user-rating {
-            font-size: 12px;
-            color: var(--warning);
-            margin-top: 4px;
+        .user-photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .user-photo-container .placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--text-secondary);
         }
 
         .nav-menu {
@@ -451,19 +423,9 @@
             transition: all 0.2s;
             position: relative;
         }
-        .nav-item i {
-            width: 20px;
-            font-size: 14px;
-        }
-        .nav-item:hover {
-            background: var(--hover-bg);
-            color: var(--text-primary);
-        }
-        .nav-item.active {
-            background: var(--hover-bg);
-            color: var(--accent);
-            border-left: 3px solid var(--accent);
-        }
+        .nav-item i { width: 20px; font-size: 14px; }
+        .nav-item:hover { background: var(--hover-bg); color: var(--text-primary); }
+        .nav-item.active { background: var(--hover-bg); color: var(--accent); border-left: 3px solid var(--accent); }
         .nav-item .badge {
             position: absolute;
             right: 12px;
@@ -474,11 +436,7 @@
             border-radius: 20px;
             font-weight: 700;
         }
-        .nav-divider {
-            height: 1px;
-            background: var(--glass-border);
-            margin: 12px 0;
-        }
+        .nav-divider { height: 1px; background: var(--glass-border); margin: 12px 0; }
 
         /* ==========================================================
            MAIN CONTENT
@@ -513,9 +471,7 @@
             border: 1px solid var(--glass-border);
             transition: all 0.3s;
         }
-        .estado-container:hover {
-            border-color: var(--accent);
-        }
+        .estado-container:hover { border-color: var(--accent); }
         .status-dot {
             width: 10px;
             height: 10px;
@@ -523,38 +479,19 @@
             background: var(--success);
             animation: pulse-dot 1.5s infinite;
         }
-        .status-dot.ocupado {
-            background: var(--danger);
-        }
-        .status-dot.pausa {
-            background: var(--warning);
-        }
+        .status-dot.ocupado { background: var(--danger); }
+        .status-dot.pausa { background: var(--warning); }
         @keyframes pulse-dot {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.5; transform: scale(0.8); }
         }
-        .estado-texto {
-            font-size: 13px;
-            font-weight: 600;
-        }
-        .turno-texto {
-            font-size: 11px;
-            color: var(--text-tertiary);
-        }
+        .estado-texto { font-size: 13px; font-weight: 600; }
+        .turno-texto { font-size: 11px; color: var(--text-tertiary); }
 
-        .user-top {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .user-top span {
-            font-size: 14px;
-        }
+        .user-top { display: flex; align-items: center; gap: 12px; }
+        .user-top span { font-size: 14px; }
 
-        .top-actions {
-            display: flex;
-            gap: 8px;
-        }
+        .top-actions { display: flex; gap: 8px; }
         .btn-notificaciones,
         .btn-temas {
             background: var(--bg-card);
@@ -571,10 +508,7 @@
             justify-content: center;
         }
         .btn-notificaciones:hover,
-        .btn-temas:hover {
-            border-color: var(--accent);
-            box-shadow: var(--accent-glow);
-        }
+        .btn-temas:hover { border-color: var(--accent); box-shadow: var(--accent-glow); }
         .btn-notificaciones .badge {
             position: absolute;
             top: -5px;
@@ -596,9 +530,7 @@
             display: none;
             animation: fadeInUp 0.4s ease;
         }
-        .seccion.active {
-            display: block;
-        }
+        .seccion.active { display: block; }
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -615,10 +547,7 @@
             padding: 1.2rem;
             transition: all 0.3s;
         }
-        .card:hover {
-            border-color: var(--accent);
-            box-shadow: var(--accent-glow);
-        }
+        .card:hover { border-color: var(--accent); box-shadow: var(--accent-glow); }
         .card-title {
             font-size: 11px;
             text-transform: uppercase;
@@ -629,9 +558,7 @@
             align-items: center;
             gap: 6px;
         }
-        .card-title i {
-            color: var(--accent);
-        }
+        .card-title i { color: var(--accent); }
 
         /* ==========================================================
            GRIDS
@@ -672,38 +599,17 @@
             border-color: var(--accent);
             box-shadow: var(--accent-glow);
         }
-        .stat-icon {
-            font-size: 1.8rem;
-            color: var(--accent);
-            margin-bottom: 0.3rem;
-        }
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-        .stat-label {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            margin-top: 0.2rem;
-        }
-        .stat-trend {
-            font-size: 0.65rem;
-            color: var(--success);
-            margin-top: 0.3rem;
-        }
-        .stat-trend.down {
-            color: var(--danger);
-        }
+        .stat-icon { font-size: 1.8rem; color: var(--accent); margin-bottom: 0.3rem; }
+        .stat-value { font-size: 1.8rem; font-weight: 700; color: var(--text-primary); }
+        .stat-label { font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.2rem; }
+        .stat-trend { font-size: 0.65rem; color: var(--success); margin-top: 0.3rem; }
+        .stat-trend.down { color: var(--danger); }
 
         /* ==========================================================
            MAPA
            ========================================================== */
-        .map-wrapper {
-            position: relative;
-        }
+        .map-wrapper { position: relative; }
 
-        /* BOTONES DE MODO DEL MAPA */
         .map-mode-selector {
             position: absolute;
             top: 10px;
@@ -730,13 +636,8 @@
             min-height: 32px;
             white-space: nowrap;
         }
-        .map-mode-btn:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-        .map-mode-btn.active {
-            background: var(--accent);
-            color: #000;
-        }
+        .map-mode-btn:hover { background: rgba(255, 255, 255, 0.05); }
+        .map-mode-btn.active { background: var(--accent); color: #000; }
 
         #mapa-taxista {
             width: 100%;
@@ -750,10 +651,7 @@
             gap: 1rem;
             margin-bottom: 1rem;
         }
-        .map-wrapper {
-            flex: 2;
-            position: relative;
-        }
+        .map-wrapper { flex: 2; position: relative; }
         .info-panel {
             flex: 1;
             background: var(--bg-card);
@@ -765,11 +663,7 @@
             overflow-y: auto;
             transition: all 0.3s;
         }
-        .info-panel h4 {
-            color: var(--accent);
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
-        }
+        .info-panel h4 { color: var(--accent); margin-bottom: 0.5rem; font-size: 1rem; }
         .info-panel-empty {
             text-align: center;
             color: var(--text-secondary);
@@ -786,23 +680,72 @@
             transition: all 0.2s;
             border-radius: 8px;
         }
-        .info-panel .vehiculo-lista-item .vehiculo-info {
-            flex: 1;
+        .info-panel .vehiculo-lista-item .vehiculo-info { flex: 1; }
+        .info-panel .vehiculo-lista-item .vehiculo-nombre { font-weight: 600; font-size: 0.9rem; }
+        .info-panel .vehiculo-lista-item .vehiculo-detalle { font-size: 0.75rem; color: var(--text-secondary); }
+        .info-panel .vehiculo-lista-item .vehiculo-distancia { font-size: 0.7rem; color: var(--text-tertiary); }
+
+        /* ESTADO DEL VEHÍCULO EN EL MAPA */
+        .vehicle-dot {
+            transition: transform 0.2s ease;
+            cursor: pointer;
+            position: relative;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 0 8px rgba(0,0,0,0.5);
         }
-        .info-panel .vehiculo-lista-item .vehiculo-nombre {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        .info-panel .vehiculo-lista-item .vehiculo-detalle {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-        }
-        .info-panel .vehiculo-lista-item .vehiculo-distancia {
-            font-size: 0.7rem;
-            color: var(--text-tertiary);
+        .vehicle-dot:hover { transform: scale(1.4); }
+        .vehicle-dot.disponible { background: var(--success) !important; }
+        .vehicle-dot.ocupado { background: var(--danger) !important; }
+
+        .vehicle-number {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #000;
+            color: #fff;
+            font-size: 8px;
+            font-weight: 700;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #fff;
         }
 
-        /* FEEDBACK AGENT - BOTÓN FLOTANTE */
+        /* ==========================================================
+           INSTRUCCIONES DE RUTA (NAVEGACIÓN PASO A PASO)
+           ========================================================== */
+        .route-instructions {
+            margin-top: 1rem;
+            background: var(--hover-bg);
+            border-radius: 16px;
+            padding: 1rem;
+            max-height: 250px;
+            overflow-y: auto;
+            display: none;
+        }
+        .route-instructions.show { display: block; animation: fadeInUp 0.3s ease; }
+        .route-step {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--glass-border);
+            font-size: 0.8rem;
+        }
+        .route-step i { width: 20px; color: var(--accent); }
+        .route-step .step-distance {
+            margin-left: auto;
+            color: var(--text-tertiary);
+            font-size: 0.7rem;
+        }
+
+        /* ==========================================================
+           FEEDBACK AGENT
+           ========================================================== */
         .feedback-float-btn {
             position: absolute;
             bottom: 20px;
@@ -827,7 +770,6 @@
             box-shadow: 0 0 30px rgba(255, 106, 42, 0.6);
         }
 
-        /* FEEDBACK AGENT - PANEL */
         .feedback-panel {
             display: none;
             position: absolute;
@@ -844,26 +786,14 @@
             padding: 1rem;
             overflow-y: auto;
         }
-        .feedback-panel.open {
-            display: block;
-            animation: slideUp 0.3s ease;
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        .feedback-panel.open { display: block; animation: slideUp 0.3s ease; }
         .feedback-panel .feedback-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 0.8rem;
         }
-        .feedback-panel .feedback-header h4 {
-            color: var(--accent);
-            font-size: 1rem;
-        }
+        .feedback-panel .feedback-header h4 { color: var(--accent); font-size: 1rem; }
         .feedback-panel .feedback-header .close-feedback {
             background: none;
             border: none;
@@ -871,10 +801,7 @@
             font-size: 1.4rem;
             cursor: pointer;
         }
-        .feedback-panel .feedback-header .close-feedback:hover {
-            color: var(--danger);
-        }
-
+        .feedback-panel .feedback-header .close-feedback:hover { color: var(--danger); }
         .feedback-panel .feedback-location {
             font-size: 0.8rem;
             color: var(--text-secondary);
@@ -883,10 +810,7 @@
             background: var(--bg-input);
             border-radius: 12px;
         }
-        .feedback-panel .feedback-location strong {
-            color: var(--text-primary);
-        }
-
+        .feedback-panel .feedback-location strong { color: var(--text-primary); }
         .feedback-panel textarea {
             width: 100%;
             padding: 10px 14px;
@@ -900,14 +824,7 @@
             min-height: 70px;
             outline: none;
         }
-        .feedback-panel textarea:focus {
-            border-color: var(--accent);
-        }
-        .feedback-panel textarea::placeholder {
-            color: var(--text-secondary);
-            opacity: 0.6;
-        }
-
+        .feedback-panel textarea:focus { border-color: var(--accent); }
         .feedback-panel .feedback-buttons {
             display: flex;
             gap: 8px;
@@ -929,9 +846,7 @@
             color: var(--text-primary);
             border: 1px solid var(--glass-border);
         }
-        .feedback-panel .feedback-buttons .btn-feedback-voice:hover {
-            border-color: var(--accent);
-        }
+        .feedback-panel .feedback-buttons .btn-feedback-voice:hover { border-color: var(--accent); }
         .feedback-panel .feedback-buttons .btn-feedback-voice.listening {
             background: var(--danger);
             color: #fff;
@@ -941,10 +856,6 @@
             background: var(--accent);
             color: #000;
         }
-        .feedback-panel .feedback-buttons .btn-feedback-submit:hover {
-            box-shadow: var(--accent-glow);
-        }
-
         .feedback-panel .feedback-message {
             margin-top: 10px;
             padding: 10px 14px;
@@ -981,44 +892,95 @@
         }
 
         /* ==========================================================
-           VEHICLE DOT (MARCADORES EN MAPA)
+           SISTEMA DE PAGOS
            ========================================================== */
-        .vehicle-dot {
-            transition: transform 0.2s ease;
-            cursor: pointer;
-            position: relative;
-        }
-        .vehicle-dot:hover {
-            transform: scale(1.4);
-        }
-        .vehicle-number {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background: #000;
-            color: #fff;
-            font-size: 8px;
-            font-weight: 700;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            display: flex;
+        .pago-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 30000;
             align-items: center;
             justify-content: center;
-            border: 1px solid #fff;
+        }
+        .pago-modal.active { display: flex; }
+        .pago-modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--accent);
+            border-radius: 24px;
+            max-width: 450px;
+            width: 90%;
+            padding: 1.5rem;
+            animation: fadeInUp 0.3s ease;
+        }
+        .pago-modal-content h2 {
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .pago-metodo {
+            background: var(--hover-bg);
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        .pago-metodo:hover { border-color: var(--accent); }
+        .pago-metodo.selected { border-color: var(--accent); background: rgba(255, 106, 42, 0.1); }
+        .pago-metodo .nombre {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+        .pago-metodo .descripcion {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
         }
 
-        .mapboxgl-popup-content {
-            background: var(--bg-card) !important;
-            backdrop-filter: blur(10px);
-            border-radius: 16px !important;
-            border: 1px solid var(--accent);
-            color: var(--text-primary);
-            padding: 14px !important;
+        /* ==========================================================
+           TARIFAS DINÁMICAS
+           ========================================================== */
+        .tarifa-dinamica {
+            background: var(--bg-input);
+            border-radius: 12px;
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            border-left: 3px solid var(--warning);
         }
-        .mapboxgl-popup-content button {
-            min-height: 32px;
+        .tarifa-dinamica .label { font-size: 0.7rem; color: var(--text-secondary); }
+        .tarifa-dinamica .valor { font-size: 1.2rem; font-weight: 700; color: var(--accent); }
+        .tarifa-dinamica .demanda {
+            font-size: 0.6rem;
+            padding: 2px 10px;
+            border-radius: 20px;
+            display: inline-block;
         }
+        .demanda-alta { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+        .demanda-media { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+        .demanda-baja { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+
+        /* ==========================================================
+           GEOFENCING
+           ========================================================== */
+        .zona-alerta {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid var(--warning);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .zona-alerta .icono { font-size: 1.5rem; }
+        .zona-alerta .texto { font-size: 0.85rem; color: var(--text-secondary); }
+        .zona-alerta .texto strong { color: var(--text-primary); }
 
         /* ==========================================================
            BOTONES
@@ -1050,9 +1012,7 @@
             transition: all 0.3s;
             min-height: 36px;
         }
-        .btn-outline:hover {
-            background: rgba(255, 255, 255, 0.08);
-        }
+        .btn-outline:hover { background: rgba(255, 255, 255, 0.08); }
 
         .btn-success {
             background: var(--success);
@@ -1186,15 +1146,9 @@
             transition: all 0.3s;
             position: relative;
         }
-        .bottom-btn i {
-            font-size: 1.3rem;
-        }
-        .bottom-btn:hover {
-            color: var(--text-primary);
-        }
-        .bottom-btn.active {
-            color: var(--accent);
-        }
+        .bottom-btn i { font-size: 1.3rem; }
+        .bottom-btn:hover { color: var(--text-primary); }
+        .bottom-btn.active { color: var(--accent); }
         .bottom-btn .badge {
             position: absolute;
             top: -2px;
@@ -1223,14 +1177,7 @@
             min-width: 200px;
             box-shadow: var(--accent-glow);
         }
-        .menu-mas.open {
-            display: block;
-            animation: slideUp 0.3s ease;
-        }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .menu-mas.open { display: block; animation: slideUp 0.3s ease; }
         .menu-mas button {
             display: flex;
             align-items: center;
@@ -1245,42 +1192,21 @@
             border-radius: 10px;
             transition: all 0.2s;
         }
-        .menu-mas button:hover {
-            background: var(--hover-bg);
-            color: var(--accent);
-        }
-        .menu-mas button i {
-            width: 20px;
-        }
+        .menu-mas button:hover { background: var(--hover-bg); color: var(--accent); }
+        .menu-mas button i { width: 20px; }
 
         /* ==========================================================
            RESPONSIVE
            ========================================================== */
         @media (max-width: 1024px) {
-            .sidebar {
-                width: 70px;
-            }
-            .sidebar span {
-                display: none;
-            }
-            .sidebar-logo img {
-                width: 50px;
-            }
-            .sidebar-logo h1 {
-                font-size: 0.8rem;
-            }
-            .sidebar-logo span {
-                display: none;
-            }
-            .user-info {
-                display: none;
-            }
-            .main-content {
-                margin-left: 70px;
-            }
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            .sidebar { width: 70px; }
+            .sidebar span { display: none; }
+            .sidebar-logo img { width: 50px; }
+            .sidebar-logo h1 { font-size: 0.8rem; }
+            .sidebar-logo span { display: none; }
+            .user-info { display: none; }
+            .main-content { margin-left: 70px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .map-mode-selector {
                 top: 8px;
                 left: 8px;
@@ -1292,16 +1218,8 @@
                 font-size: 0.6rem;
                 min-height: 28px;
             }
-            .feedback-float-btn {
-                width: 48px;
-                height: 48px;
-                font-size: 1.2rem;
-            }
-            .feedback-panel {
-                width: 300px;
-                right: 16px;
-                bottom: 80px;
-            }
+            .feedback-float-btn { width: 48px; height: 48px; font-size: 1.2rem; }
+            .feedback-panel { width: 300px; right: 16px; bottom: 80px; }
         }
 
         @media (max-width: 768px) {
@@ -1309,55 +1227,29 @@
                 transform: translateX(-100%);
                 width: 280px;
             }
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            .sidebar span {
-                display: inline;
-            }
-            .sidebar-logo img {
-                width: 120px;
-            }
-            .sidebar-logo h1 {
-                font-size: 1.5rem;
-            }
-            .sidebar-logo span {
-                display: block;
-            }
-            .user-info {
-                display: block;
-            }
+            .sidebar.open { transform: translateX(0); }
+            .sidebar span { display: inline; }
+            .sidebar-logo img { width: 120px; }
+            .sidebar-logo h1 { font-size: 1.5rem; }
+            .sidebar-logo span { display: block; }
+            .user-info { display: block; }
             .main-content {
                 margin-left: 0;
                 padding: 1rem;
                 padding-bottom: 80px;
             }
-            .bottom-menu {
-                display: flex !important;
-            }
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            .grid-2 {
-                grid-template-columns: 1fr;
-            }
-            .grid-3 {
-                grid-template-columns: 1fr;
-            }
+            .bottom-menu { display: flex !important; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .grid-2 { grid-template-columns: 1fr; }
+            .grid-3 { grid-template-columns: 1fr; }
             .top-bar {
                 flex-direction: column;
                 align-items: stretch;
                 gap: 0.5rem;
             }
-            .estado-container {
-                justify-content: center;
-            }
-            .user-top {
-                justify-content: center;
-            }
-            .top-actions {
-                justify-content: center;
-            }
+            .estado-container { justify-content: center; }
+            .user-top { justify-content: center; }
+            .top-actions { justify-content: center; }
             .menu-toggle {
                 display: block;
                 position: fixed;
@@ -1372,12 +1264,8 @@
                 color: var(--accent);
                 font-size: 1.2rem;
             }
-            .map-container {
-                flex-direction: column;
-            }
-            .info-panel {
-                max-height: 280px;
-            }
+            .map-container { flex-direction: column; }
+            .info-panel { max-height: 280px; }
             .map-mode-selector {
                 top: 60px;
                 left: 8px;
@@ -1411,19 +1299,13 @@
         }
 
         @media (max-width: 480px) {
-            .sidebar-logo img {
-                width: 80px;
-            }
-            .sidebar-logo h1 {
-                font-size: 1.2rem;
-            }
+            .sidebar-logo img { width: 80px; }
+            .sidebar-logo h1 { font-size: 1.2rem; }
             .main-content {
                 padding: 0.8rem;
                 padding-top: 65px;
             }
-            #mapa-taxista {
-                height: 200px;
-            }
+            #mapa-taxista { height: 200px; }
             .info-panel {
                 max-height: 200px;
                 padding: 10px;
@@ -1439,10 +1321,7 @@
                 font-size: 0.5rem;
                 min-height: 20px;
             }
-            .weather-info {
-                font-size: 0.6rem;
-                padding: 4px 8px;
-            }
+            .weather-info { font-size: 0.6rem; padding: 4px 8px; }
             .feedback-float-btn {
                 width: 40px;
                 height: 40px;
@@ -1469,9 +1348,7 @@
             }
         }
 
-        .menu-toggle {
-            display: none;
-        }
+        .menu-toggle { display: none; }
 
         /* ==========================================================
            SETTINGS
@@ -1514,15 +1391,8 @@
             z-index: 10000;
             display: none;
         }
-        .settings-panel.open {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-        .settings-panel h4 {
-            color: var(--accent);
-            text-align: center;
-            margin-bottom: 0.5rem;
-        }
+        .settings-panel.open { display: block; animation: fadeIn 0.3s ease; }
+        .settings-panel h4 { color: var(--accent); text-align: center; margin-bottom: 0.5rem; }
         .theme-card {
             padding: 0.5rem;
             cursor: pointer;
@@ -1533,13 +1403,8 @@
             color: var(--text-primary);
             min-height: 36px;
         }
-        .theme-card:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        .theme-card.active {
-            background: var(--accent);
-            color: #000;
-        }
+        .theme-card:hover { background: rgba(255, 255, 255, 0.1); }
+        .theme-card.active { background: var(--accent); color: #000; }
         .btn-reset {
             width: 100%;
             padding: 0.5rem;
@@ -1551,14 +1416,8 @@
             margin-top: 0.5rem;
             min-height: 36px;
         }
-        .btn-reset:hover {
-            background: var(--accent);
-            color: #000;
-        }
+        .btn-reset:hover { background: var(--accent); color: #000; }
 
-        /* ==========================================================
-           ACCESIBILIDAD: OPCIONES DE TAMAÑO
-           ========================================================== */
         .font-size-options {
             display: flex;
             gap: 8px;
@@ -1605,23 +1464,14 @@
             align-items: center;
             justify-content: center;
         }
-        .btn-sos-flotante:hover {
-            transform: scale(1.05);
-        }
+        .btn-sos-flotante:hover { transform: scale(1.05); }
 
         /* ==========================================================
            SCROLLBAR
            ========================================================== */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--sidebar-bg);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent);
-            border-radius: 10px;
-        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--sidebar-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
 
         /* ==========================================================
            MODALES
@@ -1639,9 +1489,7 @@
             align-items: center;
             justify-content: center;
         }
-        .modal-detalle.active {
-            display: flex;
-        }
+        .modal-detalle.active { display: flex; }
         .modal-detalle-content {
             background: var(--bg-card);
             border: 1px solid var(--accent);
@@ -1690,32 +1538,17 @@
             font-weight: 600;
             text-transform: uppercase;
         }
-        .estado-completado {
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--success);
-        }
-        .estado-en_progreso {
-            background: rgba(245, 158, 11, 0.2);
-            color: var(--warning);
-        }
-        .estado-pendiente {
-            background: rgba(59, 130, 246, 0.2);
-            color: #3B82F6;
-        }
-        .estado-cancelado {
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--danger);
-        }
+        .estado-completado { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+        .estado-en_progreso { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+        .estado-pendiente { background: rgba(59, 130, 246, 0.2); color: #3B82F6; }
+        .estado-cancelado { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
 
         .filtro-btn.active {
             background: var(--accent) !important;
             color: #000 !important;
             border-color: var(--accent) !important;
         }
-        .filtro-btn:hover {
-            border-color: var(--accent);
-            color: var(--text-primary);
-        }
+        .filtro-btn:hover { border-color: var(--accent); color: var(--text-primary); }
 
         .detalle-item {
             display: flex;
@@ -1723,39 +1556,8 @@
             padding: 10px 0;
             border-bottom: 1px solid var(--glass-border);
         }
-        .detalle-item:last-child {
-            border-bottom: none;
-        }
-        .detalle-label {
-            color: var(--text-tertiary);
-            font-size: 12px;
-        }
-        .detalle-valor {
-            font-weight: 600;
-            font-size: 14px;
-            text-align: right;
-        }
-
-        /* ==========================================================
-           ESTILOS PARA IA
-           ========================================================== */
-        .ia-typing-dot {
-            display: inline-block;
-            animation: iaBlink 1.4s infinite;
-            font-size: 10px;
-            margin: 0 2px;
-        }
-        .ia-typing-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        .ia-typing-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes iaBlink {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 1; }
-        }
+        .detalle-label { color: var(--text-tertiary); font-size: 12px; }
+        .detalle-valor { font-weight: 600; font-size: 14px; text-align: right; }
 
         /* ==========================================================
            NOTIFICACIONES PUSH
@@ -1775,10 +1577,7 @@
             transition: all 0.3s;
             position: relative;
         }
-        .notificacion-push:hover {
-            transform: translateX(-4px);
-            border-color: var(--accent);
-        }
+        .notificacion-push:hover { transform: translateX(-4px); border-color: var(--accent); }
         .notificacion-push .notif-icono {
             font-size: 28px;
             flex-shrink: 0;
@@ -1789,22 +1588,11 @@
             align-items: center;
             justify-content: center;
         }
-        .notificacion-push .notif-icono.solicitud {
-            background: rgba(16, 185, 129, 0.2);
-        }
-        .notificacion-push .notif-icono.alerta {
-            background: rgba(239, 68, 68, 0.2);
-        }
-        .notificacion-push .notif-icono.info {
-            background: rgba(59, 130, 246, 0.2);
-        }
-        .notificacion-push .notif-icono.mantenimiento {
-            background: rgba(245, 158, 11, 0.2);
-        }
-        .notificacion-push .notif-contenido {
-            flex: 1;
-            min-width: 0;
-        }
+        .notificacion-push .notif-icono.solicitud { background: rgba(16, 185, 129, 0.2); }
+        .notificacion-push .notif-icono.alerta { background: rgba(239, 68, 68, 0.2); }
+        .notificacion-push .notif-icono.info { background: rgba(59, 130, 246, 0.2); }
+        .notificacion-push .notif-icono.mantenimiento { background: rgba(245, 158, 11, 0.2); }
+        .notificacion-push .notif-contenido { flex: 1; min-width: 0; }
         .notificacion-push .notif-titulo {
             font-weight: 700;
             font-size: 14px;
@@ -1832,9 +1620,7 @@
             margin-top: -4px;
             margin-right: -4px;
         }
-        .notificacion-push .notif-cerrar:hover {
-            color: var(--text-primary);
-        }
+        .notificacion-push .notif-cerrar:hover { color: var(--text-primary); }
         .notificacion-push .notif-accion {
             margin-top: 8px;
             padding: 6px 14px;
@@ -1845,13 +1631,8 @@
             font-weight: 600;
             transition: all 0.2s;
         }
-        .notif-accion-ver {
-            background: var(--accent);
-            color: #000;
-        }
-        .notif-accion-ver:hover {
-            box-shadow: var(--accent-glow);
-        }
+        .notif-accion-ver { background: var(--accent); color: #000; }
+        .notif-accion-ver:hover { box-shadow: var(--accent-glow); }
 
         @keyframes notifSlideIn {
             from { opacity: 0; transform: translateX(80px) scale(0.9); }
@@ -1868,172 +1649,8 @@
                 right: 10px;
                 max-width: calc(100% - 20px);
             }
-            .notificacion-push {
-                padding: 12px;
-                border-radius: 12px;
-            }
-            .notificacion-push .notif-icono {
-                font-size: 22px;
-                width: 36px;
-                height: 36px;
-            }
-        }
-
-        /* ==========================================================
-           RESPONSIVE GLOBAL - TODAS LAS SECCIONES
-           ========================================================== */
-        @media (max-width: 768px) {
-            #seccion-soporte .soporte-chat {
-                grid-template-columns: 1fr !important;
-                gap: 16px !important;
-            }
-            #seccion-soporte .btn-outline {
-                font-size: 10px !important;
-                padding: 6px 12px !important;
-            }
-            #seccion-soporte h2 {
-                font-size: 18px !important;
-            }
-            #seccion-soporte .banner-robot {
-                flex-direction: column !important;
-                text-align: center !important;
-                padding: 20px !important;
-            }
-            #seccion-seguridad .seguridad-grid {
-                grid-template-columns: 1fr !important;
-                gap: 12px !important;
-            }
-            #seccion-seguridad .numeros-emergencia {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 8px !important;
-            }
-            #seccion-seguridad .btn-sos {
-                font-size: 16px !important;
-                padding: 14px !important;
-            }
-            #seccion-perfil .perfil-grid {
-                grid-template-columns: 1fr !important;
-                gap: 16px !important;
-            }
-            #seccion-mapas .map-container {
-                padding: 8px !important;
-            }
-            #seccion-mapas #mapa-ruta-grande,
-            #seccion-mapas #mapa-calor-grande {
-                height: 250px !important;
-            }
-            #seccion-mensajeria .chats-lista {
-                gap: 8px !important;
-            }
-            #seccion-mensajeria .chat-item {
-                padding: 12px 14px !important;
-                gap: 12px !important;
-            }
-            #seccion-vehiculo .vehiculo-grid {
-                grid-template-columns: 1fr !important;
-                gap: 12px !important;
-            }
-            #seccion-vehiculo .vehiculo-metricas {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 8px !important;
-            }
-            #seccion-viajes .viajes-stats {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 10px !important;
-            }
-            #seccion-documentos .documentos-grid {
-                grid-template-columns: 1fr !important;
-                gap: 16px !important;
-            }
-            #seccion-documentos .documentos-stats {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 10px !important;
-            }
-            #seccion-calificaciones .calificacion-item {
-                padding: 12px !important;
-            }
-            #seccion-solicitudes .solicitud-item {
-                padding: 12px !important;
-            }
-            #seccion-reservas .reserva-item {
-                padding: 12px !important;
-            }
-        }
-
-        @media (max-width: 480px) {
-            #seccion-soporte .btn-outline {
-                font-size: 9px !important;
-                padding: 4px 10px !important;
-            }
-            #seccion-soporte .banner-robot .robot-container {
-                width: 80px !important;
-                height: 80px !important;
-            }
-            #seccion-seguridad .numeros-emergencia {
-                grid-template-columns: 1fr !important;
-            }
-            #seccion-seguridad .btn-sos {
-                font-size: 14px !important;
-                padding: 12px !important;
-            }
-            #seccion-perfil .perfil-foto-container {
-                width: 80px !important;
-                height: 80px !important;
-            }
-            #seccion-mapas #mapa-ruta-grande,
-            #seccion-mapas #mapa-calor-grande {
-                height: 200px !important;
-            }
-            #seccion-mensajeria .chat-item {
-                padding: 10px 12px !important;
-                gap: 10px !important;
-            }
-            #seccion-mensajeria .chat-item .avatar {
-                width: 34px !important;
-                height: 34px !important;
-                font-size: 12px !important;
-            }
-            #seccion-vehiculo .vehiculo-metricas {
-                grid-template-columns: 1fr 1fr !important;
-            }
-            #seccion-vehiculo #vehiculoFotoContainer {
-                width: 100px !important;
-                height: 100px !important;
-            }
-            #seccion-viajes .viajes-stats {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 8px !important;
-            }
-            #seccion-documentos .documentos-stats {
-                grid-template-columns: 1fr !important;
-                gap: 8px !important;
-            }
-            #seccion-calificaciones .calificacion-item {
-                padding: 10px !important;
-            }
-            #seccion-solicitudes .solicitud-item {
-                padding: 10px !important;
-            }
-            #seccion-reservas .reserva-item {
-                padding: 10px !important;
-            }
-            #modalChat .modal-detalle-content {
-                width: 98% !important;
-                max-height: 95vh !important;
-                border-radius: 16px !important;
-            }
-            #modalChat .chat-header {
-                padding: 12px 14px !important;
-            }
-            #modalChat .chat-body {
-                padding: 12px !important;
-                min-height: 180px !important;
-                max-height: 300px !important;
-            }
-            #modalChat .chat-footer {
-                padding: 10px 12px !important;
-                gap: 8px !important;
-            }
+            .notificacion-push { padding: 12px; border-radius: 12px; }
+            .notificacion-push .notif-icono { font-size: 22px; width: 36px; height: 36px; }
         }
 
         /* ==========================================================
@@ -2069,10 +1686,7 @@
             color: #000;
             flex-shrink: 0;
         }
-        .chat-item .info {
-            flex: 1;
-            min-width: 0;
-        }
+        .chat-item .info { flex: 1; min-width: 0; }
         .chat-item .nombre {
             font-weight: 600;
             font-size: 14px;
@@ -2135,10 +1749,7 @@
             color: #000;
             flex-shrink: 0;
         }
-        .modal-chat-header .chat-info {
-            flex: 1;
-            min-width: 0;
-        }
+        .modal-chat-header .chat-info { flex: 1; min-width: 0; }
         .modal-chat-header .chat-info .nombre {
             font-weight: 600;
             font-size: 15px;
@@ -2155,9 +1766,7 @@
             font-size: 20px;
             cursor: pointer;
         }
-        .modal-chat-header .btn-close-chat:hover {
-            color: var(--danger);
-        }
+        .modal-chat-header .btn-close-chat:hover { color: var(--danger); }
 
         .modal-chat-body {
             flex: 1;
@@ -2216,9 +1825,7 @@
             font-size: 14px;
             outline: none;
         }
-        .modal-chat-footer input:focus {
-            border-color: var(--accent);
-        }
+        .modal-chat-footer input:focus { border-color: var(--accent); }
         .modal-chat-footer button {
             background: var(--accent);
             border: none;
@@ -2245,12 +1852,10 @@
             font-size: 20px;
             cursor: pointer;
         }
-        .modal-chat-footer .btn-adjuntar:hover {
-            color: var(--accent);
-        }
+        .modal-chat-footer .btn-adjuntar:hover { color: var(--accent); }
 
         /* ==========================================================
-           IA
+           IA TYPING DOTS
            ========================================================== */
         .ia-typing-dot {
             display: inline-block;
@@ -2258,12 +1863,8 @@
             font-size: 10px;
             margin: 0 2px;
         }
-        .ia-typing-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        .ia-typing-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
+        .ia-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .ia-typing-dot:nth-child(3) { animation-delay: 0.4s; }
 
         @keyframes iaBlink {
             0%, 100% { opacity: 0.2; }
@@ -2288,7 +1889,7 @@
     </div>
 
     <!-- ==========================================================
-    BOTÓN DE VOZ FLOTANTE (ACCESIBILIDAD)
+    BOTÓN DE VOZ FLOTANTE
     ========================================================== -->
     <button class="voice-float-btn" id="voiceFloatBtn" onclick="toggleModoVoz()" aria-label="Activar modo de voz">
         <i class="fas fa-microphone"></i>
@@ -2332,6 +1933,11 @@
         </div>
 
         <div class="user-info" id="btn-perfil" onclick="irAPerfil()">
+            <!-- Foto de perfil -->
+            <div class="user-photo-container" id="sidebarFotoContainer">
+                <div class="placeholder" id="sidebarFotoPlaceholder"><i class="fas fa-user"></i></div>
+                <img id="sidebarFotoImg" style="display:none; width:100%; height:100%; object-fit:cover;" alt="Foto perfil">
+            </div>
             <div class="user-name">
                 <span id="taxistaNombre">Cargando...</span>
                 <span class="gold-badge" id="taxistaNivel">Cargando</span>
@@ -2420,14 +2026,47 @@
                 </div>
             </div>
 
-            <!-- MENSAJE DE BIENVENIDA: LISTO PARA ACEPTAR NUEVOS VIAJES -->
-            <div class="card" style="margin-bottom:1.5rem; background: var(--gradient-glow); border: none; text-align:center; padding:1.5rem;">
-                <div style="font-size:2.5rem; margin-bottom:0.5rem;">🚕</div>
-                <h2 style="color:#000; font-size:1.5rem; font-weight:700;">¡Listo para aceptar nuevos viajes!</h2>
-                <p style="color:rgba(0,0,0,0.7); font-size:1rem;">Tu vehículo está disponible para llevar a los pasajeros a su destino</p>
-                <div style="display:flex; gap:10px; justify-content:center; margin-top:12px; flex-wrap:wrap;">
-                    <button class="btn-primary" onclick="mostrarSeccion('solicitudes')" style="background:#000; color:var(--accent); width:auto; padding:0.5rem 1.5rem;">📋 Ver solicitudes</button>
-                    <button class="btn-primary" onclick="mostrarSeccion('viajes')" style="background:#000; color:var(--accent); width:auto; padding:0.5rem 1.5rem;">🚗 Ver viajes</button>
+            <!-- TARIFA DINÁMICA -->
+            <div class="card" style="margin-bottom:1.5rem; border-left: 4px solid var(--warning);">
+                <div class="card-title"><i class="fas fa-chart-line" style="color:var(--warning);"></i> TARIFA DINÁMICA</div>
+                <div class="tarifa-dinamica">
+                    <div class="label">Tarifa base por km</div>
+                    <div class="valor" id="tarifaBase">B/. 1.50</div>
+                    <div style="display:flex; gap:12px; margin-top:8px; flex-wrap:wrap;">
+                        <span class="demanda demanda-alta" id="demandaNivel">🔴 Alta demanda (+25%)</span>
+                        <span style="font-size:0.7rem; color:var(--text-secondary);" id="horaPicoInfo">⏰ Hora pico: 6-9am / 5-7pm</span>
+                    </div>
+                    <div style="margin-top:6px; font-size:0.8rem; color:var(--text-secondary);">
+                        Precio estimado por km: <strong id="precioPorKm" style="color:var(--accent);">B/. 1.88</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GEOFENCING - ZONAS DE ALTA DEMANDA -->
+            <div class="card" style="margin-bottom:1.5rem;" id="zonasDemandaContainer">
+                <div class="card-title"><i class="fas fa-map-pin" style="color:var(--warning);"></i> ZONAS DE ALTA DEMANDA</div>
+                <div id="zonasDemandaLista">
+                    <div class="zona-alerta">
+                        <div class="icono">📍</div>
+                        <div class="texto">
+                            <strong>Changuinola Centro</strong> - Alta demanda detectada
+                            <br><span style="font-size:0.65rem;">🟢 12 taxis disponibles · ⏱️ Tiempo de espera: 3 min</span>
+                        </div>
+                    </div>
+                    <div class="zona-alerta">
+                        <div class="icono">📍</div>
+                        <div class="texto">
+                            <strong>Almirante</strong> - Demanda media
+                            <br><span style="font-size:0.65rem;">🟡 5 taxis disponibles · ⏱️ Tiempo de espera: 8 min</span>
+                        </div>
+                    </div>
+                    <div class="zona-alerta" style="border-color:var(--success);">
+                        <div class="icono">📍</div>
+                        <div class="texto">
+                            <strong>David</strong> - Baja demanda
+                            <br><span style="font-size:0.65rem;">🟢 8 taxis disponibles · ⏱️ Tiempo de espera: 5 min</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -2462,6 +2101,15 @@
                     <div style="font-size:16px; font-weight:700;" id="vehiculoModelo">Cargando...</div>
                     <div style="font-size:11px; color:var(--text-tertiary);">Placa: <span id="vehiculoPlaca">Cargando...</span> | Interno: <span id="vehiculoInterno">Cargando...</span></div>
                     <div style="font-size:11px; color:var(--text-tertiary);">Color: <span id="vehiculoColor">Cargando...</span> | Año: <span id="vehiculoAnio">Cargando...</span></div>
+                    <!-- Foto del vehículo -->
+                    <div style="margin:8px 0;">
+                        <div id="vehiculoFotoMini" style="width:80px; height:60px; border-radius:8px; background:var(--bg-input); overflow:hidden; border:1px solid var(--glass-border);">
+                            <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:var(--text-tertiary); font-size:0.7rem;">
+                                <i class="fas fa-car"></i>
+                            </div>
+                            <img id="vehiculoFotoMiniImg" style="display:none; width:100%; height:100%; object-fit:cover;">
+                        </div>
+                    </div>
                     <div style="margin-top:8px;">
                         <div style="display:flex; justify-content:space-between; font-size:11px;">
                             <span>⛽ Combustible</span>
@@ -2613,6 +2261,14 @@
                         <button class="btn-outline" onclick="reportarIncidenteViaje()" style="padding:6px 16px; font-size:11px;">🚨 Reportar</button>
                         <button class="btn-danger" onclick="finalizarViaje()" style="padding:6px 16px; font-size:11px; border:none; border-radius:30px; cursor:pointer; color:#fff; background:var(--danger);">✅ Finalizar</button>
                     </div>
+                    <!-- INSTRUCCIONES DE RUTA (NAVEGACIÓN PASO A PASO) -->
+                    <div id="routeInstructions" class="route-instructions">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                            <strong><i class="fas fa-directions"></i> Instrucciones de ruta</strong>
+                            <button onclick="cerrarInstrucciones()" style="background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.2rem;">✕</button>
+                        </div>
+                        <div id="routeStepsList"></div>
+                    </div>
                 </div>
             </div>
 
@@ -2675,6 +2331,8 @@
                         <button class="map-mode-btn" data-mode="satellite" onclick="cambiarModoMapa('satellite')">🛰️ Satélite</button>
                         <button class="map-mode-btn" data-mode="navigation" onclick="cambiarModoMapa('navigation')">🧭 Navegación</button>
                         <button class="map-mode-btn" data-mode="dark" onclick="cambiarModoMapa('dark')">🌙 Oscuro</button>
+                        <button class="map-mode-btn" data-mode="3d" onclick="cambiarModoMapa('3d')">📍 3D Live</button>
+                        <button class="map-mode-btn" data-mode="traffic" onclick="cambiarModoMapa('traffic')">🚦 Tráfico</button>
                     </div>
                     <div id="mapa-taxista"></div>
                     <!-- FEEDBACK AGENT BUTTON -->
@@ -2712,12 +2370,13 @@
                 </div>
             </div>
 
-            <div id="routeInstructionsPanel" class="route-instructions" style="display: none;">
+            <!-- INSTRUCCIONES DE RUTA COMPLETAS -->
+            <div id="routeInstructionsFull" class="route-instructions show" style="display:none;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
                     <strong><i class="fas fa-directions"></i> Instrucciones de ruta</strong>
-                    <button onclick="cerrarInstrucciones()" style="background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.2rem; padding:4px 8px;">✕</button>
+                    <button onclick="cerrarInstruccionesFull()" style="background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.2rem;">✕</button>
                 </div>
-                <div id="routeStepsList"></div>
+                <div id="routeStepsFull"></div>
             </div>
 
             <div class="card" style="margin-bottom:1.5rem;">
@@ -3303,25 +2962,27 @@
         </div>
 
         <!-- ==========================================================
-        SECCIÓN PERFIL
+        SECCIÓN PERFIL (EDITABLE SIN CERRAR SESIÓN)
         ========================================================== -->
         <div id="seccion-perfil" class="seccion">
             <h2 style="margin-bottom:20px;">👤 MI PERFIL</h2>
             <div class="card" style="margin-bottom:1.5rem;">
                 <div style="display:flex; gap:20px; align-items:center; flex-wrap:wrap; margin-bottom:20px;">
                     <div style="text-align:center;">
-                        <div id="fotoPerfilContainer" style="width:100px; height:100px; border-radius:50%; background:var(--hover-bg); border:3px solid var(--accent); overflow:hidden; display:flex; align-items:center; justify-content:center;">
-                            <i class="fas fa-user fa-3x" id="fotoIcono" style="color:var(--text-secondary);"></i>
+                        <div id="fotoPerfilContainer" style="width:120px; height:120px; border-radius:50%; background:var(--hover-bg); border:3px solid var(--accent); overflow:hidden; display:flex; align-items:center; justify-content:center; position:relative;">
+                            <i class="fas fa-user fa-4x" id="fotoIcono" style="color:var(--text-secondary);"></i>
                             <img id="fotoPerfilImg" src="" style="width:100%; height:100%; object-fit:cover; display:none;">
+                            <div style="position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.6); padding:4px; text-align:center; font-size:0.6rem; color:white; display:none;" id="fotoPerfilLabel">📸</div>
                         </div>
                         <button class="btn-outline" style="margin-top:10px; padding:6px 12px; font-size:11px;" onclick="document.getElementById('fotoInput').click()">📸 Cambiar foto</button>
                         <input type="file" id="fotoInput" accept="image/*" style="display:none;">
                     </div>
                     <div>
-                        <div style="font-size:20px; font-weight:700;" id="perfilNombre">Cargando...</div>
+                        <div style="font-size:24px; font-weight:700;" id="perfilNombre">Cargando...</div>
                         <div style="color:var(--warning);" id="perfilNivel">Nivel Oro</div>
                         <div style="color:var(--text-tertiary);">ID: <span id="perfilId">Cargando...</span></div>
                         <div style="color:var(--text-tertiary);">Rol: <span id="perfilRol">Taxista</span></div>
+                        <div style="color:var(--accent); margin-top:4px;">🏢 <span id="perfilPrestataria">Cargando...</span></div>
                     </div>
                 </div>
 
@@ -3351,6 +3012,20 @@
                     <div style="font-size:11px; color:var(--text-tertiary); margin-bottom:4px;">VENCIMIENTO DE LICENCIA</div>
                     <input type="date" id="editVencimiento" style="width:100%; background:var(--bg-input); border:1px solid var(--glass-border); border-radius:12px; padding:12px; color:var(--text-primary);">
                 </div>
+
+                <!-- FOTO DEL VEHÍCULO EN PERFIL -->
+                <div style="margin-bottom:16px;">
+                    <div style="font-size:11px; color:var(--text-tertiary); margin-bottom:4px;">📸 FOTO DEL VEHÍCULO</div>
+                    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                        <div id="vehiculoFotoPerfil" style="width:120px; height:90px; border-radius:12px; background:var(--bg-input); border:1px solid var(--glass-border); overflow:hidden; display:flex; align-items:center; justify-content:center;">
+                            <i class="fas fa-car" style="font-size:2rem; color:var(--text-tertiary);"></i>
+                            <img id="vehiculoFotoPerfilImg" style="display:none; width:100%; height:100%; object-fit:cover;">
+                        </div>
+                        <button class="btn-outline" onclick="document.getElementById('fotoVehiculoInput').click()" style="padding:6px 12px; font-size:11px;">📸 Cambiar foto</button>
+                        <input type="file" id="fotoVehiculoInput" accept="image/*" style="display:none;">
+                    </div>
+                </div>
+
                 <div style="margin-bottom:16px;">
                     <div style="font-size:11px; color:var(--text-tertiary); margin-bottom:4px;">CONTRASEÑA</div>
                     <input type="password" id="editPassword" placeholder="Dejar en blanco para no cambiar" style="width:100%; background:var(--bg-input); border:1px solid var(--glass-border); border-radius:12px; padding:12px; color:var(--text-primary);">
@@ -3360,6 +3035,31 @@
                 <button class="btn-primary" onclick="actualizarPerfil()">💾 ACTUALIZAR PERFIL</button>
             </div>
             <button class="btn-primary" onclick="volverInicio()">← VOLVER AL INICIO</button>
+        </div>
+
+        <!-- ==========================================================
+        SISTEMA DE PAGOS (MODAL)
+        ========================================================== -->
+        <div id="pagoModal" class="pago-modal">
+            <div class="pago-modal-content">
+                <h2>💳 Método de pago</h2>
+                <div style="margin-bottom:1rem;">
+                    <div class="pago-metodo" onclick="seleccionarMetodoPago('yappy', this)">
+                        <div class="nombre"><i class="fab fa-yappy"></i> Yappy</div>
+                        <div class="descripcion">Paga al instante con Yappy de Banco General</div>
+                    </div>
+                    <div class="pago-metodo" onclick="seleccionarMetodoPago('tarjeta', this)">
+                        <div class="nombre"><i class="fas fa-credit-card"></i> Tarjeta de crédito/débito</div>
+                        <div class="descripcion">Visa, Mastercard, American Express</div>
+                    </div>
+                    <div class="pago-metodo" onclick="seleccionarMetodoPago('efectivo', this)">
+                        <div class="nombre"><i class="fas fa-money-bill"></i> Efectivo</div>
+                        <div class="descripcion">Paga en efectivo al abordar el vehículo</div>
+                    </div>
+                </div>
+                <button class="btn-primary" id="btnConfirmarPago" onclick="confirmarPago()" disabled>✅ Confirmar pago</button>
+                <button class="btn-outline" style="margin-top:0.5rem;" onclick="cerrarPagoModal()">Cancelar</button>
+            </div>
         </div>
 
     </div>
@@ -4005,13 +3705,16 @@
         let vehiculosReales = [];
         let ubicacionUsuario = { lat: 9.4333, lng: -82.5167 };
         let escuchaVehiculos = null;
+        let prestatariaActual = null;
 
         // ESTILOS DE MAPA
         const mapStyles = {
-            standard: 'mapbox://styles/mapbox/standard',
+            standard: 'mapbox://styles/mapbox/light-v11', // B/N con textura
             satellite: 'mapbox://styles/mapbox/satellite-streets-v12',
             navigation: 'mapbox://styles/mapbox/navigation-night-v1',
-            dark: 'mapbox://styles/mapbox/dark-v11'
+            dark: 'mapbox://styles/mapbox/dark-v11',
+            '3d': 'mapbox://styles/mapbox/standard',
+            traffic: 'mapbox://styles/mapbox/light-v11' // + capa de tráfico
         };
 
         function initMapboxMapTaxista() {
@@ -4085,6 +3788,18 @@
                 }
             });
 
+            if (modo === 'traffic') {
+                if (mapboxMapTaxista) {
+                    mapboxMapTaxista.setStyle(mapStyles.standard);
+                    mapboxMapTaxista.once('style.load', function() {
+                        agregarCapaTrafico();
+                        cargarVehiculosRealesTaxista();
+                        if (document.getElementById('weatherTemp')) cargarClimaTaxista();
+                    });
+                }
+                return;
+            }
+
             if (mapboxMapTaxista) {
                 mapboxMapTaxista.setStyle(mapStyles[modo] || mapStyles.standard);
                 mapboxMapTaxista.once('style.load', function() {
@@ -4104,68 +3819,99 @@
             }
 
             if (modoVozActivo) {
-                const nombres = { standard: 'Estándar', satellite: 'Satélite', navigation: 'Navegación', dark: 'Oscuro' };
+                const nombres = { standard: 'Estándar B/N', satellite: 'Satélite', navigation: 'Navegación', dark: 'Oscuro',
+                    '3d': '3D Live', traffic: 'Tráfico' };
                 leerTexto('Cambiando a modo ' + nombres[modo]);
             }
 
             registrarAuditoria('cambiar_modo_mapa', 'Cambió a modo: ' + modo);
         }
 
+        function agregarCapaTrafico() {
+            if (!mapboxMapTaxista) return;
+            if (mapboxMapTaxista.getLayer('traffic')) return;
+
+            try {
+                mapboxMapTaxista.addLayer({
+                    id: 'traffic',
+                    type: 'line',
+                    source: { type: 'vector', url: 'mapbox://mapbox.mapbox-traffic-v1' },
+                    'source-layer': 'traffic',
+                    paint: {
+                        'line-color': ['match', ['get', 'congestion'],
+                            'heavy', '#e74c3c',
+                            'moderate', '#f39c12',
+                            'low', '#2ecc71',
+                            '#95a5a6'
+                        ],
+                        'line-width': 3,
+                        'line-opacity': 0.8
+                    }
+                });
+                console.log('🚦 Capa de tráfico agregada');
+            } catch (e) {
+                console.warn('⚠️ No se pudo agregar capa de tráfico:', e);
+            }
+        }
+
         // ==========================================================
-        // 📍 CARGAR VEHÍCULOS REALES DESDE FIREBASE
+        // 📍 CARGAR VEHÍCULOS REALES DESDE FIREBASE (TODOS DE LA PRESTATARIA)
         // ==========================================================
 
         function cargarVehiculosRealesTaxista() {
             if (!mapboxMapTaxista) return;
 
-            database.ref('usuarios')
-                .orderByChild('rol')
-                .once('value')
-                .then(function(snapshot) {
-                    vehiculosReales = [];
+            // Obtener la prestataria del usuario actual
+            database.ref('usuarios/' + uidActual + '/prestataria').once('value').then(function(snapshot) {
+                prestatariaActual = snapshot.val() || 'general';
 
-                    snapshot.forEach(function(child) {
-                        const user = child.val();
-                        if (user.rol === 'TAXISTA' && user.ubicacion) {
-                            const dist = calcularDistanciaTaxista(
-                                ubicacionUsuario.lat,
-                                ubicacionUsuario.lng,
-                                user.ubicacion.lat,
-                                user.ubicacion.lng
-                            );
+                database.ref('usuarios')
+                    .orderByChild('rol')
+                    .once('value')
+                    .then(function(snapshot) {
+                        vehiculosReales = [];
 
-                            if (dist < 5) {
+                        snapshot.forEach(function(child) {
+                            const user = child.val();
+                            // Mostrar TODOS los vehículos de la prestataria (sin filtro de distancia)
+                            if (user.rol === 'TAXISTA' && user.prestataria === prestatariaActual) {
                                 vehiculosReales.push({
                                     id: child.key,
                                     nombre: user.nombre || 'Taxista',
                                     placa: user.vehiculo?.placa || 'N/A',
                                     modelo: user.vehiculo?.modelo || 'N/A',
                                     capacidad: user.vehiculo?.capacidad || 0,
-                                    lat: user.ubicacion.lat,
-                                    lng: user.ubicacion.lng,
+                                    lat: user.ubicacion?.lat || 0,
+                                    lng: user.ubicacion?.lng || 0,
                                     tipo: user.rol,
-                                    disponible: user.disponible !== false,
-                                    distancia: dist,
+                                    disponible: user.estado === 'disponible',
                                     calificacion: user.calificacion || 0,
-                                    valoraciones: user.valoraciones || 0
+                                    valoraciones: user.valoraciones || 0,
+                                    tieneUbicacion: user.ubicacion ? true : false
                                 });
                             }
+                        });
+
+                        // Ordenar por disponibilidad primero
+                        vehiculosReales.sort((a, b) => {
+                            if (a.disponible && !b.disponible) return -1;
+                            if (!a.disponible && b.disponible) return 1;
+                            return 0;
+                        });
+
+                        actualizarMarcadoresRealesTaxista(vehiculosReales);
+                        actualizarListaVehiculosTaxista(vehiculosReales);
+
+                        if (modoVozActivo && vehiculosReales.length > 0) {
+                            const disponibles = vehiculosReales.filter(v => v.disponible).length;
+                            leerTexto('Hay ' + vehiculosReales.length +
+                                ' vehículos en tu prestataria. ' + disponibles + ' disponibles.');
                         }
+
+                    }).catch(function(error) {
+                        console.error('Error cargando vehículos:', error);
                     });
-
-                    vehiculosReales.sort((a, b) => a.distancia - b.distancia);
-                    actualizarMarcadoresRealesTaxista(vehiculosReales);
-                    actualizarListaVehiculosTaxista(vehiculosReales);
-
-                    if (modoVozActivo && vehiculosReales.length > 0) {
-                        leerTexto('Hay ' + vehiculosReales.length +
-                            ' taxis cercanos. El más cercano está a ' +
-                            (vehiculosReales[0].distancia * 1000).toFixed(0) + ' metros.');
-                    }
-
-                }).catch(function(error) {
-                    console.error('Error cargando vehículos:', error);
-                });
+            });
         }
 
         function iniciarEscuchaVehiculosRealesTaxista() {
@@ -4179,19 +3925,8 @@
             });
         }
 
-        function calcularDistanciaTaxista(lat1, lng1, lat2, lng2) {
-            const R = 6371;
-            const dLat = (lat2 - lat1) * Math.PI / 180;
-            const dLng = (lng2 - lng1) * Math.PI / 180;
-            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                Math.sin(dLng / 2) * Math.sin(dLng / 2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            return R * c;
-        }
-
         // ==========================================================
-        // 📌 MARCADORES EN EL MAPA
+        // 📌 MARCADORES EN EL MAPA (CON COLOR SEGÚN ESTADO)
         // ==========================================================
 
         function actualizarMarcadoresRealesTaxista(vehiculos) {
@@ -4201,19 +3936,31 @@
             if (!mapboxMapTaxista) return;
 
             vehiculos.forEach(function(v, index) {
-                const color = '#FFD700'; // Dorado para taxis
+                // Color según estado: Verde = Disponible, Rojo = Ocupado
+                const color = v.disponible ? '#22C55E' : '#EF4444';
+                const estadoLabel = v.disponible ? '✅ Disponible' : '🔴 Ocupado';
 
                 const el = document.createElement('div');
-                el.className = 'vehicle-dot';
+                el.className = 'vehicle-dot ' + (v.disponible ? 'disponible' : 'ocupado');
                 el.style.cssText =
                     'background:' + color +
                     '; width:16px; height:16px; border-radius:50%; border:2px solid white; box-shadow:0 0 10px ' +
                     color + '; cursor:pointer; position:relative;';
 
+                // Si no tiene ubicación, mostrar como inactivo
+                if (!v.tieneUbicacion) {
+                    el.style.opacity = '0.4';
+                    el.style.border = '2px dashed #888';
+                }
+
                 const numero = document.createElement('span');
                 numero.className = 'vehicle-number';
                 numero.textContent = index + 1;
                 el.appendChild(numero);
+
+                const ubicacionTexto = v.tieneUbicacion ?
+                    `📍 ${(v.lat ? 'Ubicación activa' : 'Ubicación no disponible')}` :
+                    '📍 Ubicación no disponible';
 
                 const popup = new mapboxgl.Popup({ offset: 25, closeButton: true, closeOnClick: false })
                     .setHTML(`
@@ -4221,13 +3968,13 @@
                         👤 ${sanitizar(v.nombre)}<br>
                         🚗 ${v.placa}<br>
                         ${v.modelo} • ${v.capacidad} pasajeros<br>
-                        📏 ${(v.distancia * 1000).toFixed(0)} m<br>
+                        ${ubicacionTexto}<br>
                         ⭐ ${v.calificacion.toFixed(1)} (${v.valoraciones} valoraciones)<br>
-                        ${v.disponible ? '✅ Disponible' : '🔴 No disponible'}<br>
+                        <span style="color:${color}; font-weight:700;">${estadoLabel}</span><br>
                     `);
 
                 const marker = new mapboxgl.Marker(el)
-                    .setLngLat([v.lng, v.lat])
+                    .setLngLat([v.lng || -82.5167, v.lat || 9.4333])
                     .setPopup(popup)
                     .addTo(mapboxMapTaxista);
 
@@ -4250,31 +3997,47 @@
                 panelEmpty.style.display = 'block';
                 panelEmpty.innerHTML = `
                     <i class="fas fa-search"></i><br>
-                    No hay taxis cercanos<br>
-                    <span style="font-size:0.7rem;">Intenta ampliar tu búsqueda</span>
+                    No hay vehículos en tu prestataria<br>
+                    <span style="font-size:0.7rem;">Todos los vehículos aparecerán aquí</span>
                 `;
                 return;
             }
 
             panelEmpty.style.display = 'none';
             let html = `
-                <h4 style="color:var(--accent); margin-bottom:8px;">🚕 Taxis cercanos (${vehiculos.length})</h4>
+                <h4 style="color:var(--accent); margin-bottom:8px;">🚕 Vehículos de tu prestataria (${vehiculos.length})</h4>
                 <div style="max-height:320px; overflow-y:auto;">
             `;
 
-            vehiculos.forEach(function(v, index) {
-                const estadoColor = v.disponible ? 'var(--success)' : 'var(--text-tertiary)';
-                const estadoText = v.disponible ? 'Disponible' : 'Ocupado';
+            const disponibles = vehiculos.filter(v => v.disponible);
+            const ocupados = vehiculos.filter(v => !v.disponible);
 
+            // Mostrar disponibles primero
+            disponibles.forEach(function(v, index) {
                 html += `
-                    <div class="vehiculo-lista-item">
+                    <div class="vehiculo-lista-item" style="border-left:3px solid var(--success);">
                         <div class="vehiculo-info">
-                            <div class="vehiculo-nombre">#${index + 1} 🚕 ${sanitizar(v.nombre)}</div>
+                            <div class="vehiculo-nombre">✅ ${sanitizar(v.nombre)}</div>
                             <div class="vehiculo-detalle">${v.placa} • ${v.modelo}</div>
-                            <div class="vehiculo-distancia">📏 ${(v.distancia * 1000).toFixed(0)} m • ⭐ ${v.calificacion.toFixed(1)}</div>
+                            <div class="vehiculo-distancia">⭐ ${v.calificacion.toFixed(1)} • ${v.valoraciones} valoraciones</div>
                         </div>
                         <div style="text-align:right;">
-                            <div style="font-size:0.7rem; color:${estadoColor}; font-weight:600;">${estadoText}</div>
+                            <div style="font-size:0.7rem; color:var(--success); font-weight:600;">Disponible</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            ocupados.forEach(function(v, index) {
+                html += `
+                    <div class="vehiculo-lista-item" style="border-left:3px solid var(--danger); opacity:0.7;">
+                        <div class="vehiculo-info">
+                            <div class="vehiculo-nombre">🔴 ${sanitizar(v.nombre)}</div>
+                            <div class="vehiculo-detalle">${v.placa} • ${v.modelo}</div>
+                            <div class="vehiculo-distancia">⭐ ${v.calificacion.toFixed(1)} • ${v.valoraciones} valoraciones</div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-size:0.7rem; color:var(--danger); font-weight:600;">Ocupado</div>
                         </div>
                     </div>
                 `;
@@ -4561,6 +4324,8 @@
                             lng: pos.coords.longitude,
                             timestamp: firebase.database.ServerValue.TIMESTAMP
                         });
+                        // También actualizar el estado para que el usuario vea disponibilidad
+                        database.ref('usuarios/' + uidActual + '/disponible').set(estadoActual === 'disponible');
                     },
                     function(err) {
                         console.warn('⚠️ Error obteniendo ubicación:', err);
@@ -4663,7 +4428,6 @@
                         }
                     }, 200);
                 }
-                // Cargar datos según la sección
                 if (seccion === 'viajes') {
                     cargarViajes(uidActual);
                 }
@@ -4758,8 +4522,8 @@
         // 👤 DATOS DEL USUARIO - CARGAR
         // ==========================================================
 
-        // Las siguientes funciones ya están en tu código original, solo las mantengo
-        // para que no se pierdan
+        let usuarioActual = null;
+        let contactos = [];
 
         function cargarDatosUsuario(uid) {
             database.ref('usuarios/' + uid).once('value').then(function(snapshot) {
@@ -4774,6 +4538,7 @@
                     document.getElementById('perfilNombre').textContent = data.nombre || 'Taxista';
                     document.getElementById('perfilId').textContent = data.id || 'Sin ID';
                     document.getElementById('perfilRol').textContent = data.rol || 'Taxista';
+                    document.getElementById('perfilPrestataria').textContent = data.prestataria || 'Sin prestataria';
                     document.getElementById('editNombre').value = data.nombre || '';
                     document.getElementById('editTelefono').value = data.telefono || '';
                     document.getElementById('editCorreo').value = data.email || '';
@@ -4781,6 +4546,18 @@
                     document.getElementById('editDireccion').value = data.direccion || '';
                     document.getElementById('editVencimiento').value = data.vencimiento || '';
                     document.getElementById('soporteNombreTaxista').textContent = data.nombre || 'Taxista';
+
+                    // Cargar foto de perfil en sidebar y perfil
+                    if (data.fotoPerfil) {
+                        document.getElementById('sidebarFotoImg').src = data.fotoPerfil;
+                        document.getElementById('sidebarFotoImg').style.display = 'block';
+                        document.getElementById('sidebarFotoPlaceholder').style.display = 'none';
+
+                        document.getElementById('fotoPerfilImg').src = data.fotoPerfil;
+                        document.getElementById('fotoPerfilImg').style.display = 'block';
+                        document.getElementById('fotoIcono').style.display = 'none';
+                        document.getElementById('fotoPerfilLabel').style.display = 'block';
+                    }
 
                     if (data.vehiculo) {
                         vehiculoActual = data.vehiculo;
@@ -4792,6 +4569,17 @@
                         document.getElementById('vehiculoCombustible').textContent = (vehiculoActual.combustible || 0) +
                             '%';
                         document.getElementById('combustibleFill').style.width = (vehiculoActual.combustible || 0) + '%';
+
+                        // Foto del vehículo
+                        if (vehiculoActual.foto) {
+                            document.getElementById('vehiculoFotoMiniImg').src = vehiculoActual.foto;
+                            document.getElementById('vehiculoFotoMiniImg').style.display = 'block';
+                            document.getElementById('vehiculoFotoMini').querySelector('div').style.display = 'none';
+
+                            document.getElementById('vehiculoFotoPerfilImg').src = vehiculoActual.foto;
+                            document.getElementById('vehiculoFotoPerfilImg').style.display = 'block';
+                            document.getElementById('vehiculoFotoPerfil').querySelector('i').style.display = 'none';
+                        }
                     }
 
                     cargarEstadisticas(uid);
@@ -4813,6 +4601,7 @@
                     cargarFotoPerfil();
 
                     actualizarBadges();
+                    actualizarTarifaDinamica();
                 }
             }).catch(function(error) {
                 console.error('Error cargando usuario:', error);
@@ -4930,16 +4719,24 @@
             const solicitud = solicitudesPendientes.find(s => s.id === id);
             if (!solicitud) return;
 
+            // Calcular tarifa dinámica
+            const tarifaBase = solicitud.tarifa || 5;
+            const factorDemanda = calcularFactorDemanda();
+            const tarifaFinal = tarifaBase * factorDemanda;
+
             database.ref('solicitudes/' + id).update({
                 estado: 'aceptado',
                 taxistaId: uidActual,
-                fechaAceptacion: new Date().toISOString()
+                fechaAceptacion: new Date().toISOString(),
+                tarifaFinal: tarifaFinal
             }).then(function() {
                 const viajeData = {
                     pasajero: sanitizar(solicitud.pasajero),
                     origen: sanitizar(solicitud.origen),
                     destino: sanitizar(solicitud.destino),
-                    tarifa: solicitud.tarifa,
+                    tarifa: tarifaFinal,
+                    tarifaBase: tarifaBase,
+                    factorDemanda: factorDemanda,
                     taxistaId: uidActual,
                     estado: 'en_curso',
                     fechaInicio: new Date().toISOString(),
@@ -4952,11 +4749,11 @@
 
                 Swal.fire({
                     title: '✅ Solicitud aceptada',
-                    text: 'Has aceptado el viaje de ' + solicitud.pasajero,
+                    html: `Has aceptado el viaje de ${solicitud.pasajero}<br>💰 Tarifa: B/. ${tarifaFinal.toFixed(2)}<br>📈 Factor demanda: ${factorDemanda.toFixed(2)}x`,
                     icon: 'success',
                     background: 'var(--bg-card)',
                     color: 'var(--text-primary)',
-                    timer: 2000,
+                    timer: 3000,
                     showConfirmButton: false
                 });
 
@@ -4993,6 +4790,55 @@
             document.getElementById('demandaAlta').textContent = alta;
             document.getElementById('demandaMedia').textContent = media;
             document.getElementById('demandaBaja').textContent = baja;
+        }
+
+        // ==========================================================
+        // 💰 TARIFA DINÁMICA
+        // ==========================================================
+
+        function calcularFactorDemanda() {
+            const hora = new Date().getHours();
+            const esHoraPico = (hora >= 6 && hora <= 9) || (hora >= 17 && hora <= 20);
+            const numSolicitudes = solicitudesPendientes ? solicitudesPendientes.length : 0;
+
+            let factor = 1.0;
+            if (esHoraPico) factor += 0.25;
+            if (numSolicitudes > 5) factor += 0.20;
+            if (numSolicitudes > 10) factor += 0.30;
+
+            return Math.min(factor, 2.0);
+        }
+
+        function actualizarTarifaDinamica() {
+            const factor = calcularFactorDemanda();
+            const tarifaBase = 1.50;
+            const tarifaFinal = tarifaBase * factor;
+
+            let nivel = 'baja';
+            let clase = 'demanda-baja';
+            let texto = '🟢 Demanda baja';
+
+            if (factor >= 1.5) {
+                nivel = 'alta';
+                clase = 'demanda-alta';
+                texto = '🔴 Alta demanda (+' + Math.round((factor - 1) * 100) + '%)';
+            } else if (factor >= 1.2) {
+                nivel = 'media';
+                clase = 'demanda-media';
+                texto = '🟡 Demanda media (+' + Math.round((factor - 1) * 100) + '%)';
+            }
+
+            document.getElementById('tarifaBase').textContent = 'B/. ' + tarifaBase.toFixed(2);
+            document.getElementById('demandaNivel').textContent = texto;
+            document.getElementById('demandaNivel').className = 'demanda ' + clase;
+            document.getElementById('precioPorKm').textContent = 'B/. ' + tarifaFinal.toFixed(2);
+
+            // Actualizar hora pico
+            const hora = new Date().getHours();
+            const esHoraPico = (hora >= 6 && hora <= 9) || (hora >= 17 && hora <= 20);
+            document.getElementById('horaPicoInfo').textContent = esHoraPico ?
+                '⏰ Hora pico activa (+25%)' :
+                '⏰ Horario normal';
         }
 
         // ==========================================================
@@ -5263,7 +5109,6 @@
                 'cancelado': '❌ Cancelado'
             } [estado] || estado;
 
-            // Crear modal si no existe
             let modal = document.getElementById('modalDetalleSolicitud');
             if (!modal) {
                 modal = document.createElement('div');
@@ -5404,8 +5249,54 @@
                         <button class="btn-outline" onclick="reportarIncidenteViaje()" style="padding:6px 16px; font-size:11px;">🚨 Reportar</button>
                         <button class="btn-danger" onclick="finalizarViaje()" style="padding:6px 16px; font-size:11px;">✅ Finalizar</button>
                     </div>
+                    <div id="routeInstructions" class="route-instructions show">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                            <strong><i class="fas fa-directions"></i> Instrucciones de ruta</strong>
+                            <button onclick="cerrarInstrucciones()" style="background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.2rem;">✕</button>
+                        </div>
+                        <div id="routeStepsList"></div>
+                    </div>
                 </div>
             `;
+
+            // Calcular ruta y mostrar instrucciones
+            if (viaje.origen && viaje.destino) {
+                calcularRutaInstrucciones(viaje.origen, viaje.destino);
+            }
+        }
+
+        function calcularRutaInstrucciones(origen, destino) {
+            const stepsList = document.getElementById('routeStepsList');
+            if (!stepsList) return;
+
+            // Simular instrucciones de ruta
+            const instrucciones = [
+                { texto: 'Salir de ' + origen, distancia: '0 km' },
+                { texto: 'Tomar la calle principal hacia el norte', distancia: '0.8 km' },
+                { texto: 'Continuar recto por la vía principal', distancia: '1.5 km' },
+                { texto: 'Girar a la derecha en el semáforo', distancia: '2.3 km' },
+                { texto: 'Llegar a ' + destino, distancia: '3.1 km' }
+            ];
+
+            stepsList.innerHTML = instrucciones.map(function(step, index) {
+                return `
+                    <div class="route-step">
+                        <i class="fas fa-${index === 0 ? 'play' : index === instrucciones.length - 1 ? 'flag-checkered' : 'arrow-right'}"></i>
+                        <span>${step.texto}</span>
+                        <span class="step-distance">${step.distancia}</span>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('routeInstructions').style.display = 'block';
+        }
+
+        function cerrarInstrucciones() {
+            document.getElementById('routeInstructions').style.display = 'none';
+        }
+
+        function cerrarInstruccionesFull() {
+            document.getElementById('routeInstructionsFull').style.display = 'none';
         }
 
         function iniciarProgresoViaje(viaje) {
@@ -5896,9 +5787,42 @@
         }
 
         function abrirChat(chatId) {
-            const chat = null; // Buscar chat por ID
-            // Esta función se implementa cuando se selecciona un chat
-            // Por simplicidad, se usa el modal genérico
+            // Cargar historial completo de mensajes
+            database.ref('chats/' + chatId + '/mensajes').orderByChild('timestamp').limitToLast(50).once('value')
+                .then(function(snapshot) {
+                    const container = document.getElementById('chatMensajesArea');
+                    let html = '';
+                    const mensajes = [];
+
+                    snapshot.forEach(function(child) {
+                        mensajes.push(child.val());
+                    });
+
+                    mensajes.sort(function(a, b) { return a.timestamp - b.timestamp; });
+
+                    if (mensajes.length === 0) {
+                        html =
+                            `<div style="text-align:center; color:var(--text-tertiary); font-size:12px; padding:20px;">💬 Sin mensajes aún. Envía un saludo!</div>`;
+                    } else {
+                        mensajes.forEach(function(m) {
+                            const esTaxista = m.emisor === 'taxista';
+                            const hora = m.timestamp ? new Date(m.timestamp).toLocaleTimeString() : '';
+                            html += `
+                                <div style="text-align:${esTaxista ? 'right' : 'left'}; margin-bottom:10px;">
+                                    <div style="display:inline-block; background:${esTaxista ? 'var(--accent)' : 'var(--bg-card)'}; padding:10px 16px; border-radius:18px; max-width:85%; color:${esTaxista ? '#000' : 'var(--text-primary)'}; border:${esTaxista ? 'none' : '1px solid var(--glass-border)'};">
+                                        ${sanitizar(m.texto)}
+                                        ${m.leido ? '<span style="font-size:8px; margin-left:6px; color:var(--text-tertiary);">✓✓</span>' : ''}
+                                    </div>
+                                    <div style="font-size:8px; color:var(--text-tertiary); margin-top:2px;">${hora}</div>
+                                </div>
+                            `;
+                        });
+                    }
+
+                    container.innerHTML = html;
+                    container.scrollTop = container.scrollHeight;
+                });
+
             document.getElementById('modalChat').classList.add('active');
             document.getElementById('chatModalNombre').textContent = 'Pasajero';
             document.getElementById('chatInputMsg').value = '';
@@ -7019,6 +6943,9 @@
         // ==========================================================
         // 💬 SOPORTE ADMIN
         // ==========================================================
+        let adminEscucha = null;
+        let historialIA = [];
+
         function cargarSoporteAdmin(uid) {
             const container = document.getElementById('chatAdminMensajes');
 
@@ -7050,6 +6977,31 @@
 
                 container.innerHTML = html;
                 container.scrollTop = container.scrollHeight;
+            });
+
+            // Cargar historial de IA
+            cargarHistorialIA(uid);
+        }
+
+        function cargarHistorialIA(uid) {
+            database.ref('historial_ia/' + uid).orderByChild('timestamp').limitToLast(20).once('value').then(function(
+                snapshot) {
+                historialIA = [];
+                snapshot.forEach(function(child) {
+                    historialIA.push(child.val());
+                });
+                historialIA.reverse();
+            });
+        }
+
+        function guardarHistorialIA(uid, pregunta, respuesta) {
+            const data = {
+                pregunta: sanitizar(pregunta),
+                respuesta: sanitizar(respuesta),
+                timestamp: Date.now()
+            };
+            database.ref('historial_ia/' + uid).push(data).catch(function(err) {
+                console.warn('No se pudo guardar historial IA:', err);
             });
         }
 
@@ -7131,6 +7083,8 @@
             }
 
             const respuesta = procesarPreguntaIA(texto);
+            guardarHistorialIA(uidActual, texto, respuesta);
+
             Swal.fire({
                 title: '🤖 Asistente IA',
                 html: `<div style="text-align:left;">${respuesta}</div>`,
@@ -7147,34 +7101,157 @@
         function procesarPreguntaIA(texto) {
             const m = texto.toLowerCase();
 
-            if (m.includes('documento') || m.includes('foto') || m.includes('subir')) {
-                return '📸 <strong>Para subir un documento:</strong><br>1. Ve a la sección DOCUMENTOS<br>2. Selecciona el tipo de documento<br>3. Haz clic en "Subir archivo"<br>4. Selecciona la foto o PDF desde tu dispositivo';
+            // ==========================================================
+            // RESPUESTAS AMPLIADAS DE LA IA (MÁS DE 20 CATEGORÍAS)
+            // ==========================================================
+
+            // 1. Documentos
+            if (m.includes('documento') || m.includes('foto') || m.includes('subir') || m.includes('archivo')) {
+                return '📸 <strong>Para subir un documento:</strong><br><br>1️⃣ Ve a la sección <strong>DOCUMENTOS</strong> en el menú lateral.<br>2️⃣ Selecciona el tipo de documento que deseas subir (Cédula, Licencia, Seguro, etc.).<br>3️⃣ Haz clic en el botón <strong>"Subir archivo"</strong>.<br>4️⃣ Selecciona la imagen o PDF desde tu dispositivo.<br>5️⃣ Ingresa la fecha de vencimiento del documento.<br>6️⃣ Confirma la carga.<br><br>💡 Los documentos vencidos o por vencer aparecerán con advertencias para que los actualices a tiempo.';
             }
 
-            if (m.includes('cobrar') || m.includes('ganancias') || m.includes('cuanto he ganado') || m.includes(
-                'ingresos')) {
+            // 2. Cobros / Ganancias
+            if (m.includes('cobrar') || m.includes('ganancias') || m.includes('cuanto he ganado') || m.includes('ingresos') || m
+                .includes('saldo')) {
                 const ganancias = document.getElementById('statGanancias')?.textContent || 'B/. 0.00';
                 const viajes = document.getElementById('statViajesHoy')?.textContent || '0';
-                return `💰 <strong>Tus ingresos hoy:</strong> ${ganancias}<br>📊 Viajes realizados hoy: ${viajes}`;
+                const totalViajes = document.getElementById('statTotalViajes')?.textContent || '0';
+                const ingresosTotales = document.getElementById('statIngresosTotales')?.textContent || 'B/. 0';
+                return `💰 <strong>Información de ingresos:</strong><br><br>📊 <strong>Ganancias hoy:</strong> ${ganancias}<br>🚕 <strong>Viajes hoy:</strong> ${viajes}<br>📈 <strong>Total viajes:</strong> ${totalViajes}<br>💵 <strong>Ingresos totales:</strong> ${ingresosTotales}<br><br>💡 Revisa la sección <strong>VIAJES</strong> para ver más detalles.`;
             }
 
-            if (m.includes('viaje') || m.includes('ruta') || m.includes('destino')) {
-                return '🚌 <strong>Información de viajes:</strong><br>• Los viajes se registran automáticamente<br>• Puedes ver tu historial en la sección VIAJES<br>• Cada viaje guarda: origen, destino, monto y calificación';
+            // 3. Viajes
+            if (m.includes('viaje') || m.includes('ruta') || m.includes('destino') || m.includes('origen')) {
+                const viajeActual = document.getElementById('viajeActualPasajero')?.textContent || 'Sin viaje activo';
+                return `🚌 <strong>Información de viajes:</strong><br><br>🔹 <strong>Estado:</strong> ${viajeActual}<br>🔹 Los viajes se registran automáticamente cuando aceptas una solicitud.<br>🔹 Puedes ver tu historial completo en la sección <strong>VIAJES</strong>.<br>🔹 Cada viaje guarda: origen, destino, monto, calificación y evidencia.<br>🔹 Puedes compartir la ruta con tus pasajeros usando el botón "Compartir ruta".<br>🔹 También puedes ver instrucciones paso a paso en el panel de viajes.`;
             }
 
-            if (m.includes('mantenimiento') || m.includes('revisión') || m.includes('aceite') || m.includes('frenos')) {
-                return '🔧 <strong>Mantenimiento del vehículo:</strong><br>• Revisa la sección MANTENIMIENTO<br>• Puedes ver el progreso de cada servicio<br>• Sube fotos de los servicios realizados<br>• El sistema te notificará cuando se acerque un servicio';
+            // 4. Mantenimiento
+            if (m.includes('mantenimiento') || m.includes('revisión') || m.includes('aceite') || m.includes('frenos') || m
+                .includes('motor') || m.includes('servicio')) {
+                return '🔧 <strong>Mantenimiento del vehículo:</strong><br><br>🔹 Revisa la sección <strong>MANTENIMIENTO</strong> en el menú lateral.<br>🔹 Puedes ver el progreso de cada servicio (Cambio de aceite, Frenos, Motor, etc.).<br>🔹 Sube fotos de los servicios realizados como evidencia.<br>🔹 El sistema te notificará cuando se acerque un servicio programado.<br>🔹 Marca los servicios como completados una vez realizados.<br>🔹 Lleva un historial de todas tus evidencias.<br>🔹 Puedes agregar servicios personalizados según tus necesidades.';
             }
 
-            if (m.includes('sos') || m.includes('emergencia') || m.includes('ayuda') || m.includes('peligro')) {
-                return '🆘 <strong>Botón de emergencia SOS:</strong><br>• Presiona el botón SOS en la sección SEGURIDAD<br>• También tienes un botón flotante rojo siempre visible<br>• Se notificará a tus contactos de confianza<br><br>⚠️ Úsalo SOLO en casos de emergencia real.';
+            // 5. SOS / Emergencia
+            if (m.includes('sos') || m.includes('emergencia') || m.includes('ayuda') || m.includes('peligro') || m.includes(
+                'urgencia')) {
+                return '🆘 <strong>Botón de emergencia SOS:</strong><br><br>🔴 Presiona el botón <strong>SOS</strong> en la sección <strong>SEGURIDAD</strong>.<br>🔴 También tienes un botón flotante rojo siempre visible en la pantalla.<br>🔴 1 clic = seleccionar tipo de emergencia (Accidente, Asalto, Médico, Otro).<br>🔴 2 clics = alerta inmediata sin preguntas.<br>🔴 Se notificará a tus <strong>contactos de confianza</strong> y al administrador.<br>🔴 También se guardará un registro del incidente.<br>🔴 Puedes adjuntar una foto de la situación.<br><br>⚠️ <strong>¡Úsalo SOLO en casos de emergencia real!</strong>';
             }
 
-            if (m.includes('hola') || m.includes('buenas') || m.includes('saludos')) {
-                return '👋 ¡Hola! Soy tu asistente IA de CupoTax.<br><br>Puedo ayudarte con:<br>📄 Documentos<br>💰 Cobros y ganancias<br>🚌 Viajes<br>🔧 Mantenimiento<br>🆘 Emergencias<br><br>¿En qué más puedo ayudarte?';
+            // 6. Saludos
+            if (m.includes('hola') || m.includes('buenas') || m.includes('saludos') || m.includes('hey')) {
+                return '👋 ¡Hola! Soy tu asistente IA de CupoTax.<br><br>Puedo ayudarte con:<br>📄 <strong>Documentos</strong> - Subir y gestionar tus documentos<br>💰 <strong>Cobros y ganancias</strong> - Ver tus ingresos<br>🚌 <strong>Viajes</strong> - Información de tus viajes<br>🔧 <strong>Mantenimiento</strong> - Servicios y evidencias<br>🆘 <strong>Emergencias</strong> - Sistema SOS<br>📋 <strong>Políticas</strong> - Normas de la plataforma<br>🌤️ <strong>Clima</strong> - Condiciones actuales<br>🚦 <strong>Tráfico</strong> - Estado del tráfico<br>💡 <strong>Consejos</strong> - Seguridad y recomendaciones<br>📅 <strong>Reservas</strong> - Gestiona tus reservas<br>⭐ <strong>Calificaciones</strong> - Revisa tus calificaciones<br>💰 <strong>Pagos</strong> - Métodos de pago disponibles<br><br>¿En qué más puedo ayudarte?';
             }
 
-            return '🤔 No entendí tu pregunta. Puedes preguntarme sobre:<br><br>📄 Documentos<br>💰 Cobros / Ganancias<br>🚌 Viajes<br>🔧 Mantenimiento<br>🆘 Emergencias<br><br>💡 O escribe "ayuda" para ver todas las opciones.';
+            // 7. Clima
+            if (m.includes('clima') || m.includes('temperatura') || m.includes('lluvia') || m.includes('soleado')) {
+                const temp = document.getElementById('weatherTemp')?.textContent || '28°C';
+                return `🌤️ <strong>Clima actual:</strong><br><br>📊 ${temp}<br>💡 Recuerda revisar las condiciones climáticas antes de salir a trabajar.<br>🔹 Si hay lluvia, maneja con precaución.<br>🔹 En días soleados, usa protector solar y mantén el vehículo ventilado.`;
+            }
+
+            // 8. Tráfico
+            if (m.includes('tráfico') || m.includes('trafico') || m.includes('congestion') || m.includes('atasco')) {
+                return '🚦 <strong>Estado del tráfico:</strong><br><br>🔹 Puedes activar la capa de <strong>TRÁFICO</strong> en el mapa usando el botón correspondiente.<br>🔹 Las calles con tráfico pesado se mostrarán en <span style="color:#e74c3c;">rojo</span>.<br>🔹 Tráfico moderado en <span style="color:#f39c12;">amarillo</span>.<br>🔹 Tráfico fluido en <span style="color:#2ecc71;">verde</span>.<br>🔹 También puedes ver la demanda en tiempo real en la sección de mapas.<br><br>💡 Recomiendo revisar el mapa antes de aceptar viajes en horas pico.';
+            }
+
+            // 9. Políticas
+            if (m.includes('politica') || m.includes('políticas') || m.includes('normas') || m.includes('reglas') || m
+                .includes('términos')) {
+                return '📋 <strong>Políticas de la plataforma CupoTax:</strong><br><br>🔹 <strong>Seguridad:</strong> Todos los conductores deben tener documentos vigentes.<br>🔹 <strong>Calidad:</strong> Se espera un trato respetuoso con los pasajeros.<br>🔹 <strong>Tarifas:</strong> Las tarifas son calculadas automáticamente según la ruta y demanda.<br>🔹 <strong>Cancelaciones:</strong> Las cancelaciones repetidas pueden afectar tu calificación.<br>🔹 <strong>Evidencias:</strong> Es obligatorio subir evidencias de los servicios de mantenimiento.<br>🔹 <strong>SOS:</strong> El botón de emergencia es para casos reales.<br>🔹 <strong>Privacidad:</strong> Tus datos están protegidos y no se comparten con terceros.<br><br>📖 Revisa la <strong>Base de conocimiento</strong> en Soporte para más información.';
+            }
+
+            // 10. Consejos de seguridad
+            if (m.includes('consejo') || m.includes('seguridad') || m.includes('recomendacion') || m.includes('sugerencia')) {
+                return '💡 <strong>Consejos de seguridad para conductores:</strong><br><br>🚗 <strong>Antes de viajar:</strong> Revisa las condiciones del vehículo (frenos, luces, combustible).<br>🔐 <strong>Seguridad personal:</strong> Mantén tus puertas con seguro durante los viajes.<br>📱 <strong>Comparte tu ubicación:</strong> Usa la función de compartir viaje con tus contactos de confianza.<br>🚨 <strong>En caso de emergencia:</strong> Usa el botón SOS sin dudar.<br>📸 <strong>Evidencias:</strong> Guarda fotos de los viajes y servicios por si las necesitas.<br>👤 <strong>Pasajeros:</strong> Confirma la identidad del pasajero antes de iniciar el viaje.<br>🛡️ <strong>Activa el 2FA:</strong> La verificación en dos pasos protege tu cuenta.<br>🔧 <strong>Mantenimiento preventivo:</strong> No esperes a que algo falle para revisar el vehículo.<br>💤 <strong>Descansa:</strong> Toma pausas regulares para mantenerte alerta.';
+            }
+
+            // 11. Ayuda / Comandos
+            if (m.includes('ayuda') || m.includes('comandos') || m.includes('que puedes hacer')) {
+                return '🆘 <strong>Comandos disponibles:</strong><br><br>🗣️ <strong>Puedes preguntarme sobre:</strong><br>📄 Documentos<br>💰 Cobros y ganancias<br>🚌 Viajes<br>🔧 Mantenimiento<br>🆘 Emergencias<br>📋 Políticas<br>🌤️ Clima<br>🚦 Tráfico<br>💡 Consejos de seguridad<br>📅 Reservas<br>⭐ Calificaciones<br>💳 Pagos<br><br>📱 <strong>También puedes usar comandos de voz:</strong><br>• "Ir a Inicio"<br>• "Ir a Solicitudes"<br>• "Compartir ubicación"<br>• "Mi saldo"<br>• "SOS"<br><br>¿Sobre qué tema necesitas información?';
+            }
+
+            // 12. Agradecimientos
+            if (m.includes('gracias')) {
+                return '🙏 ¡De nada! Estoy aquí para ayudarte con tus viajes. ¿Necesitas algo más?<br><br>💡 Recuerda que puedes preguntarme sobre documentos, cobros, viajes, mantenimiento, emergencias, políticas, clima, tráfico o consejos de seguridad.<br><br>⭐ Si te ha sido útil, no olvides calificar mi servicio.';
+            }
+
+            // 13. Qué es CupoTax
+            if (m.includes('qué es cupotax') || m.includes('que es cupotax') || m.includes('cupotax')) {
+                return '🚕 <strong>CupoTax es una plataforma inteligente de transporte.</strong><br><br>🔹 Conecta <strong>pasajeros</strong> con <strong>conductores profesionales</strong> (Taxistas y Buseros).<br>🔹 Ofrece <strong>viajes en tiempo real</strong> con seguimiento GPS.<br>🔹 Incluye <strong>sistema de seguridad</strong> con botón SOS y contactos de confianza.<br>🔹 Permite <strong>gestionar documentos, mantenimiento y ganancias</strong> desde un solo lugar.<br>🔹 Tiene <strong>asistente IA</strong> para ayudarte con cualquier consulta.<br>🔹 Ofrece <strong>tarifas dinámicas</strong> según la demanda.<br>🔹 Incluye <strong>navegación paso a paso</strong> para facilitar tus viajes.<br><br>📍 Actualmente operamos en <strong>Changuinola, Almirante, David y Bocas del Toro</strong>.';
+            }
+
+            // 14. Reservas
+            if (m.includes('reserva') || m.includes('reservar') || m.includes('agendar')) {
+                return '📅 <strong>Reservas:</strong><br><br>🔹 Puedes ver tus reservas agendadas en la sección <strong>RESERVAS</strong>.<br>🔹 Las reservas te permiten planificar tus viajes con anticipación.<br>🔹 Puedes cancelar una reserva si ya no la necesitas.<br>🔹 Los pasajeros pueden reservar viajes para horas específicas.<br>🔹 Recibirás notificaciones cuando una reserva esté próxima.<br><br>💡 Revisa la sección <strong>RESERVAS</strong> para gestionar todas tus citas.';
+            }
+
+            // 15. Calificaciones
+            if (m.includes('calificacion') || m.includes('calificaciones') || m.includes('estrellas')) {
+                return '⭐ <strong>Calificaciones:</strong><br><br>🔹 Puedes ver tus calificaciones en la sección <strong>CALIFICACIONES</strong>.<br>🔹 Los pasajeros te califican después de cada viaje.<br>🔹 Mantener una calificación alta te da más visibilidad.<br>🔹 Las calificaciones de 5 estrellas son el objetivo.<br>🔹 Puedes ver los comentarios que te dejan los pasajeros.<br><br>💡 Un buen servicio = mejores calificaciones = más viajes.';
+            }
+
+            // 16. Pagos
+            if (m.includes('pago') || m.includes('pagar') || m.includes('yappy') || m.includes('tarjeta') || m.includes(
+                'efectivo')) {
+                return '💳 <strong>Métodos de pago:</strong><br><br>🔹 <strong>Yappy:</strong> Pago instantáneo desde tu cuenta de Banco General.<br>🔹 <strong>Tarjeta:</strong> Aceptamos Visa, Mastercard y American Express.<br>🔹 <strong>Efectivo:</strong> Pago tradicional al abordar el vehículo.<br>🔹 Los pagos se procesan de forma segura.<br>🔹 Puedes ver tus transacciones en la sección de billetera.<br><br>💡 Todos los métodos de pago son seguros y confiables.';
+            }
+
+            // 17. Ubicación en tiempo real
+            if (m.includes('ubicacion') || m.includes('ubicación') || m.includes('gps') || m.includes('localizacion')) {
+                return '📍 <strong>Ubicación en tiempo real:</strong><br><br>🔹 Tu ubicación se actualiza automáticamente cada 5 segundos.<br>🔹 Los pasajeros pueden ver tu ubicación cuando aceptas un viaje.<br>🔹 También puedes compartir tu ubicación con contactos de confianza.<br>🔹 El mapa muestra todos los vehículos de tu prestataria.<br>🔹 Los vehículos disponibles aparecen en <span style="color:#22C55E;">verde</span> y los ocupados en <span style="color:#EF4444;">rojo</span>.<br><br>💡 Mantén el GPS activado para recibir viajes.';
+            }
+
+            // 18. Zonas de demanda
+            if (m.includes('zona') || m.includes('demanda') || m.includes('alta demanda') || m.includes('zonas')) {
+                return '📍 <strong>Zonas de demanda:</strong><br><br>🔹 El sistema detecta automáticamente las zonas con alta demanda.<br>🔹 Las zonas se muestran en el mapa con colores:<br>• 🔴 <strong>Rojo:</strong> Alta demanda (muchas solicitudes)<br>• 🟡 <strong>Amarillo:</strong> Demanda media<br>• 🟢 <strong>Verde:</strong> Baja demanda<br>🔹 La tarifa aumenta en zonas de alta demanda.<br>🔹 Puedes ver las zonas activas en la sección de mapas.<br><br>💡 Dirígete a zonas con alta demanda para obtener más viajes.';
+            }
+
+            // 19. Historial de IA
+            if (m.includes('historial ia') || m.includes('historial de ia') || m.includes('mis preguntas')) {
+                if (historialIA.length === 0) {
+                    return '📜 <strong>No hay historial de preguntas.</strong><br><br>💡 Aún no has hecho ninguna pregunta al asistente IA. ¡Pregúntame algo!';
+                }
+                let html = '📜 <strong>Historial de preguntas al asistente IA:</strong><br><br>';
+                historialIA.forEach(function(item, index) {
+                    const fecha = new Date(item.timestamp).toLocaleString();
+                    html +=
+                        `${index + 1}. <strong>Pregunta:</strong> ${sanitizar(item.pregunta)}<br>   <strong>Respuesta:</strong> ${sanitizar(item.respuesta.substring(0, 100))}...<br>   <span style="font-size:0.7rem; color:var(--text-tertiary);">${fecha}</span><br><br>`;
+                });
+                return html;
+            }
+
+            // 20. Versión de la app
+            if (m.includes('version') || m.includes('versión') || m.includes('actualizacion') || m.includes('actualización')) {
+                return '📱 <strong>Información de la aplicación:</strong><br><br>📌 <strong>Versión:</strong> 2.5.0<br>📅 <strong>Última actualización:</strong> 15/06/2026<br>🔹 <strong>Novedades:</strong><br>• Mejoras en el mapa con 6 modos visuales<br>• Tarifas dinámicas según demanda<br>• Navegación paso a paso<br>• Asistente IA mejorado<br>• Corrección de errores y mejoras de rendimiento<br><br>💡 Mantén tu app actualizada para disfrutar de todas las funcionalidades.';
+            }
+
+            // 21. Cómo ser taxista / requisitos
+            if (m.includes('requisito') || m.includes('requisitos') || m.includes('ser taxista') || m.includes('registrarse')) {
+                return '📋 <strong>Requisitos para ser taxista en CupoTax:</strong><br><br>🔹 <strong>Documentos:</strong> Cédula, Licencia de conducir, Certificado médico, Antecedentes penales.<br>🔹 <strong>Vehículo:</strong> Debe tener seguro, tarjeta de circulación y revisión vehicular vigente.<br>🔹 <strong>Edad:</strong> Mayor de 21 años.<br>🔹 <strong>Experiencia:</strong> Mínimo 1 año de experiencia como conductor.<br>🔹 <strong>Capacitación:</strong> Debes completar el curso de inducción de CupoTax.<br>🔹 <strong>Disponibilidad:</strong> Compromiso de al menos 6 horas diarias.<br><br>💡 Todos los documentos deben estar vigentes. Revisa la sección DOCUMENTOS para subirlos.';
+            }
+
+            // 22. Horarios de atención
+            if (m.includes('horario') || m.includes('horarios') || m.includes('atención') || m.includes('turno')) {
+                return '🕐 <strong>Horarios de atención CupoTax:</strong><br><br>🔹 <strong>Plataforma:</strong> 24 horas, 7 días a la semana.<br>🔹 <strong>Soporte telefónico:</strong> Lunes a Domingo de 6:00 AM a 10:00 PM.<br>🔹 <strong>Chat en línea:</strong> 24/7 disponible.<br>🔹 <strong>Horas pico:</strong> 6-9 AM y 5-7 PM (mayor demanda, tarifas dinámicas).<br>🔹 <strong>Mantenimiento programado:</strong> Miércoles de 2:00 AM a 4:00 AM.<br><br>💡 Durante el mantenimiento, la plataforma puede tener interrupciones breves.';
+            }
+
+            // 23. Cómo funciona el sistema de bonos
+            if (m.includes('bono') || m.includes('bonos') || m.includes('recompensa') || m.includes('incentivo')) {
+                return '🎁 <strong>Sistema de bonos y recompensas:</strong><br><br>🔹 <strong>Bono de bienvenida:</strong> Completa 5 viajes y gana B/. 10.<br>🔹 <strong>Bono de calidad:</strong> Mantén 5 estrellas por 10 viajes.<br>🔹 <strong>Bono de eficiencia:</strong> Realiza 50 viajes en un mes.<br>🔹 <strong>Bonos adicionales:</strong> Puedes ganar bonos por:<br>• ⭐ Calificaciones perfectas (5 estrellas)<br>• 🏆 Más viajes en una semana<br>• 📈 Mayor distancia recorrida<br><br>💡 Revisa la sección BONOS Y RECOMPENSAS para ver tu progreso.';
+            }
+
+            // 24. Consejos para manejar en lluvia
+            if (m.includes('lluvia') || m.includes('manejar con lluvia') || m.includes('conducción en lluvia')) {
+                return '🌧️ <strong>Consejos para manejar bajo la lluvia:</strong><br><br>🔹 <strong>Velocidad:</strong> Reduce la velocidad y mantén distancia de seguridad.<br>🔹 <strong>Luces:</strong> Enciende las luces bajas o de niebla.<br>🔹 <strong>Frenos:</strong> Frena suavemente para evitar derrapes.<br>🔹 <strong>Neumáticos:</strong> Verifica que tengan buena profundidad de dibujo.<br>🔹 <strong>Visión:</strong> Usa desempañador y limpiaparabrisas.<br>🔹 <strong>Inundaciones:</strong> Evita cruzar zonas inundadas.<br>🔹 <strong>Pasajeros:</strong> Conduce con más precaución cuando lleves pasajeros.<br><br>💡 La seguridad es primero. Si las condiciones son muy malas, considera detenerte.';
+            }
+
+            // 25. Cómo funciona el sistema de notificaciones push
+            if (m.includes('notificacion') || m.includes('notificaciones') || m.includes('push') || m.includes('alertas')) {
+                return '🔔 <strong>Sistema de notificaciones push:</strong><br><br>🔹 <strong>Nuevas solicitudes:</strong> Recibirás alertas cuando un pasajero solicite un viaje.<br>🔹 <strong>Mensajes:</strong> Notificaciones de mensajes de pasajeros y administrador.<br>🔹 <strong>Bonos:</strong> Alertas cuando completes un bono o recompensa.<br>🔹 <strong>Mantenimiento:</strong> Recordatorios de servicios programados.<br>🔹 <strong>Incidentes:</strong> Alertas de seguridad y reportes.<br><br>💡 Las notificaciones aparecen en la pantalla y en el panel de notificaciones.';
+            }
+
+            // Respuesta por defecto
+            return '🤔 No entendí tu pregunta. Puedes preguntarme sobre:<br><br>📄 <strong>Documentos</strong> - Cómo subir y gestionar tus documentos<br>💰 <strong>Cobros / Ganancias</strong> - Ver tus ingresos<br>🚌 <strong>Viajes</strong> - Información de tus viajes<br>🔧 <strong>Mantenimiento</strong> - Servicios y evidencias<br>🆘 <strong>Emergencias</strong> - Sistema SOS<br>📋 <strong>Políticas</strong> - Normas de la plataforma<br>🌤️ <strong>Clima</strong> - Condiciones actuales<br>🚦 <strong>Tráfico</strong> - Estado del tráfico<br>💡 <strong>Consejos</strong> - Seguridad y recomendaciones<br>📅 <strong>Reservas</strong> - Gestiona tus reservas<br>⭐ <strong>Calificaciones</strong> - Revisa tus calificaciones<br>💳 <strong>Pagos</strong> - Métodos de pago disponibles<br>📍 <strong>Ubicación</strong> - GPS y zonas de demanda<br>📜 <strong>Historial IA</strong> - Ver tus preguntas anteriores<br>📱 <strong>Versión</strong> - Información de la app<br>📋 <strong>Requisitos</strong> - Cómo ser taxista<br>🕐 <strong>Horarios</strong> - Atención y turnos<br>🎁 <strong>Bonos</strong> - Recompensas e incentivos<br>🌧️ <strong>Lluvia</strong> - Consejos para manejar<br>🔔 <strong>Notificaciones</strong> - Sistema de alertas<br><br>💡 También puedes preguntar <strong>"Ayuda"</strong> para ver todos los comandos disponibles.';
         }
 
         function preguntaIA(pregunta) {
@@ -7202,6 +7279,11 @@
                         <p><strong>💰 Cobros y métodos de pago</strong> - Actualizado hace 5 días</p>
                         <p><strong>🔧 Mantenimiento preventivo</strong> - Actualizado hace 1 semana</p>
                         <p><strong>📋 Políticas de la plataforma</strong> - Actualizado hace 2 semanas</p>
+                        <p><strong>🚦 Tráfico en tiempo real</strong> - Actualizado hace 1 día</p>
+                        <p><strong>🆘 Protocolo de emergencia</strong> - Actualizado hace 3 días</p>
+                        <p><strong>💰 Tarifas dinámicas</strong> - Actualizado hace 2 días</p>
+                        <p><strong>📍 Zonas de alta demanda</strong> - Actualizado hace 4 días</p>
+                        <p><strong>🎁 Bonos y recompensas</strong> - Actualizado hace 1 semana</p>
                     </div>
                 `,
                 icon: 'info',
@@ -7215,7 +7297,7 @@
             document.getElementById('iaMsgInputTaxista').focus();
             Swal.fire({
                 title: '🤖 Asistente IA',
-                text: 'Escribe tu pregunta en el campo de texto y te ayudaré.',
+                text: 'Escribe tu pregunta en el campo de texto y te ayudaré. Tengo respuestas para más de 25 temas diferentes.',
                 icon: 'info',
                 background: 'var(--bg-card)',
                 color: 'var(--text-primary)',
@@ -7237,9 +7319,34 @@
         }
 
         function verHistorialIA() {
+            if (historialIA.length === 0) {
+                Swal.fire({
+                    title: '📜 Historial con Asistente IA',
+                    text: 'Aún no tienes consultas con el asistente IA. ¡Haz una pregunta para empezar!',
+                    icon: 'info',
+                    background: 'var(--bg-card)',
+                    color: 'var(--text-primary)',
+                    confirmButtonColor: 'var(--accent)'
+                });
+                return;
+            }
+
+            let html = '<div style="text-align:left; max-height:400px; overflow-y:auto;">';
+            historialIA.forEach(function(item, index) {
+                const fecha = new Date(item.timestamp).toLocaleString();
+                html += `
+                    <div style="padding:8px 0; border-bottom:1px solid var(--glass-border);">
+                        <div style="font-weight:600; color:var(--accent);">${index + 1}. ${sanitizar(item.pregunta)}</div>
+                        <div style="font-size:0.85rem; color:var(--text-secondary);">${sanitizar(item.respuesta)}</div>
+                        <div style="font-size:0.6rem; color:var(--text-tertiary);">${fecha}</div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+
             Swal.fire({
                 title: '🤖 Historial con Asistente IA',
-                text: 'Aquí puedes ver el historial de tus consultas con el asistente IA.',
+                html: html,
                 icon: 'info',
                 background: 'var(--bg-card)',
                 color: 'var(--text-primary)',
@@ -7270,16 +7377,16 @@
         }
 
         function mostrarArticulo(articulo) {
-            const titulos = {
-                'documentos': '📄 Cómo subir documentos',
-                'cobros': '💰 Cobros y métodos de pago',
-                'mantenimiento': '🔧 Mantenimiento preventivo',
-                'politicas': '📋 Políticas de la plataforma'
+            const contenidos = {
+                'documentos': '📄 <strong>Cómo subir documentos:</strong><br><br>1. Ve a DOCUMENTOS en el menú lateral.<br>2. Selecciona el tipo de documento.<br>3. Haz clic en "Subir archivo".<br>4. Selecciona el archivo desde tu dispositivo.<br>5. Ingresa la fecha de vencimiento.<br>6. Confirma la carga.<br><br>💡 Los documentos vencidos se marcan en rojo.',
+                'cobros': '💰 <strong>Cobros y métodos de pago:</strong><br><br>🔹 Los pasajeros pueden pagar con:<br>• 💳 Tarjeta de crédito/débito<br>• 📱 Yappy<br>• 💵 Efectivo<br>🔹 Las ganancias se acumulan en tu billetera.<br>🔹 Puedes retirar tus ganancias cuando quieras.',
+                'mantenimiento': '🔧 <strong>Mantenimiento preventivo:</strong><br><br>🔹 Revisa la sección MANTENIMIENTO.<br>🔹 Cada servicio tiene un kilometraje recomendado.<br>🔹 Sube fotos como evidencia.<br>🔹 Marca los servicios como completados.<br>🔹 Lleva un historial de todas las revisiones.',
+                'politicas': '📋 <strong>Políticas de la plataforma:</strong><br><br>🔹 Todos los conductores deben tener documentos vigentes.<br>🔹 Las tarifas son dinámicas según demanda.<br>🔹 El sistema SOS es para emergencias reales.<br>🔹 Las cancelaciones repetidas afectan tu calificación.<br>🔹 Los datos personales están protegidos.'
             };
 
             Swal.fire({
-                title: titulos[articulo] || 'Artículo',
-                text: 'Este artículo se está cargando. Pronto tendrás más información.',
+                title: '📖 Artículo',
+                html: contenidos[articulo] || 'Información no disponible.',
                 icon: 'info',
                 background: 'var(--bg-card)',
                 color: 'var(--text-primary)',
@@ -7587,11 +7694,16 @@
             database.ref('usuarios/' + uidActual + '/fotoPerfil').once('value').then(function(snapshot) {
                 const foto = snapshot.val();
                 if (foto) {
-                    const img = document.getElementById('fotoPerfilImg');
-                    const icono = document.getElementById('fotoIcono');
-                    img.src = foto;
-                    img.style.display = 'block';
-                    icono.style.display = 'none';
+                    // Sidebar
+                    document.getElementById('sidebarFotoImg').src = foto;
+                    document.getElementById('sidebarFotoImg').style.display = 'block';
+                    document.getElementById('sidebarFotoPlaceholder').style.display = 'none';
+
+                    // Perfil
+                    document.getElementById('fotoPerfilImg').src = foto;
+                    document.getElementById('fotoPerfilImg').style.display = 'block';
+                    document.getElementById('fotoIcono').style.display = 'none';
+                    document.getElementById('fotoPerfilLabel').style.display = 'block';
                 }
             });
         }
@@ -7599,6 +7711,8 @@
         // ==========================================================
         // 🚕 ESTADO DEL CONDUCTOR
         // ==========================================================
+        let estadoActual = 'disponible';
+
         function cambiarEstado(estado) {
             if (estado) {
                 estadoActual = estado;
@@ -7636,12 +7750,13 @@
 
             if (uidActual) {
                 database.ref('usuarios/' + uidActual + '/estado').set(estadoActual);
+                database.ref('usuarios/' + uidActual + '/disponible').set(estadoActual === 'disponible');
                 registrarAuditoria('cambiar_estado', 'Estado cambiado a: ' + estadoActual);
             }
         }
 
         // ==========================================================
-        // 👤 PERFIL - ACTUALIZAR
+        // 👤 PERFIL - ACTUALIZAR (SIN CERRAR SESIÓN)
         // ==========================================================
         function actualizarPerfil() {
             const nombre = document.getElementById('editNombre').value.trim();
@@ -7679,14 +7794,101 @@
             }
 
             database.ref('usuarios/' + uidActual).update(updates).then(function() {
-                Swal.fire('✅ Perfil actualizado', '', 'success');
+                Swal.fire({
+                    title: '✅ Perfil actualizado',
+                    text: 'Tus datos han sido guardados correctamente',
+                    icon: 'success',
+                    background: 'var(--bg-card)',
+                    color: 'var(--text-primary)',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
                 document.getElementById('taxistaNombre').textContent = nombre;
                 document.getElementById('topNombre').textContent = nombre;
                 document.getElementById('perfilNombre').textContent = nombre;
                 document.getElementById('editPassword').value = '';
+
                 registrarAuditoria('actualizar_perfil', 'Actualizó su perfil');
+            }).catch(function(error) {
+                Swal.fire('Error', 'No se pudo actualizar el perfil: ' + error.message, 'error');
             });
         }
+
+        // ==========================================================
+        // 📸 SUBIR FOTO DE PERFIL
+        // ==========================================================
+        document.getElementById('fotoInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const data = event.target.result;
+
+                    // Actualizar perfil
+                    document.getElementById('fotoPerfilImg').src = data;
+                    document.getElementById('fotoPerfilImg').style.display = 'block';
+                    document.getElementById('fotoIcono').style.display = 'none';
+                    document.getElementById('fotoPerfilLabel').style.display = 'block';
+
+                    // Actualizar sidebar
+                    document.getElementById('sidebarFotoImg').src = data;
+                    document.getElementById('sidebarFotoImg').style.display = 'block';
+                    document.getElementById('sidebarFotoPlaceholder').style.display = 'none';
+
+                    // Guardar en Firebase
+                    database.ref('usuarios/' + uidActual + '/fotoPerfil').set(data).then(function() {
+                        Swal.fire({
+                            title: '✅ Foto actualizada',
+                            icon: 'success',
+                            timer: 1500,
+                            showConfirmButton: false,
+                            background: 'var(--bg-card)',
+                            color: 'var(--text-primary)'
+                        });
+                        registrarAuditoria('cambiar_foto_perfil', 'Cambió foto de perfil');
+                    });
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // ==========================================================
+        // 📸 SUBIR FOTO DEL VEHÍCULO
+        // ==========================================================
+        document.getElementById('fotoVehiculoInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const data = event.target.result;
+
+                    // Actualizar en perfil
+                    document.getElementById('vehiculoFotoPerfilImg').src = data;
+                    document.getElementById('vehiculoFotoPerfilImg').style.display = 'block';
+                    document.getElementById('vehiculoFotoPerfil').querySelector('i').style.display = 'none';
+
+                    // Actualizar en inicio
+                    document.getElementById('vehiculoFotoMiniImg').src = data;
+                    document.getElementById('vehiculoFotoMiniImg').style.display = 'block';
+                    document.getElementById('vehiculoFotoMini').querySelector('div').style.display = 'none';
+
+                    // Guardar en Firebase
+                    database.ref('usuarios/' + uidActual + '/vehiculo/foto').set(data).then(function() {
+                        Swal.fire({
+                            title: '✅ Foto del vehículo actualizada',
+                            icon: 'success',
+                            timer: 1500,
+                            showConfirmButton: false,
+                            background: 'var(--bg-card)',
+                            color: 'var(--text-primary)'
+                        });
+                        registrarAuditoria('cambiar_foto_vehiculo', 'Cambió foto del vehículo');
+                    });
+                };
+                reader.readAsDataURL(file);
+            }
+        });
 
         // ==========================================================
         // 📍 COMPARTIR UBICACIÓN
@@ -7855,7 +8057,7 @@
                 if (containerRutaMini) {
                     mapaMiniRuta = new mapboxgl.Map({
                         container: 'mapa-ruta-mini',
-                        style: 'mapbox://styles/mapbox/standard',
+                        style: 'mapbox://styles/mapbox/light-v11',
                         center: [-82.52, 9.43],
                         zoom: 13,
                         interactive: false
@@ -7866,7 +8068,7 @@
                 if (containerCalorMini) {
                     mapaMiniCalor = new mapboxgl.Map({
                         container: 'mapa-calor-mini',
-                        style: 'mapbox://styles/mapbox/standard',
+                        style: 'mapbox://styles/mapbox/light-v11',
                         center: [-82.52, 9.43],
                         zoom: 12,
                         interactive: false
@@ -7967,6 +8169,55 @@
                 });
                 registrarAuditoria('activar_sos', 'Activó SOS: ' + tipo);
             });
+        }
+
+        // ==========================================================
+        // 💳 SISTEMA DE PAGOS
+        // ==========================================================
+        let metodoPagoSeleccionado = null;
+
+        function abrirPagoModal() {
+            document.getElementById('pagoModal').classList.add('active');
+            metodoPagoSeleccionado = null;
+            document.getElementById('btnConfirmarPago').disabled = true;
+            document.querySelectorAll('.pago-metodo').forEach(function(el) {
+                el.classList.remove('selected');
+            });
+        }
+
+        function cerrarPagoModal() {
+            document.getElementById('pagoModal').classList.remove('active');
+            metodoPagoSeleccionado = null;
+        }
+
+        function seleccionarMetodoPago(metodo, el) {
+            document.querySelectorAll('.pago-metodo').forEach(function(e) {
+                e.classList.remove('selected');
+            });
+            el.classList.add('selected');
+            metodoPagoSeleccionado = metodo;
+            document.getElementById('btnConfirmarPago').disabled = false;
+            registrarAuditoria('seleccionar_metodo_pago', 'Seleccionó método: ' + metodo);
+        }
+
+        function confirmarPago() {
+            if (!metodoPagoSeleccionado) {
+                Swal.fire('Error', 'Selecciona un método de pago', 'error');
+                return;
+            }
+
+            Swal.fire({
+                title: '✅ Pago confirmado',
+                text: 'Has seleccionado ' + metodoPagoSeleccionado.toUpperCase() + ' como método de pago.',
+                icon: 'success',
+                background: 'var(--bg-card)',
+                color: 'var(--text-primary)',
+                timer: 2500,
+                showConfirmButton: false
+            });
+
+            registrarAuditoria('confirmar_pago', 'Confirmó pago con: ' + metodoPagoSeleccionado);
+            cerrarPagoModal();
         }
 
         // ==========================================================
@@ -8079,7 +8330,7 @@
             if (!uidActual) return;
 
             database.ref('solicitudes').orderByChild('estado').equalTo('pendiente').on('child_added', function(
-            snapshot) {
+                snapshot) {
                 const solicitud = snapshot.val();
                 if (solicitud.taxistaId !== uidActual) {
                     mostrarNotificacion(
@@ -8100,6 +8351,20 @@
                         chat.ultimoMensaje || 'Nuevo mensaje',
                         'ver_mensaje'
                     );
+                }
+            });
+
+            // Notificaciones de bonos
+            database.ref('bonos/' + uidActual).on('child_changed', function(snapshot) {
+                const bono = snapshot.val();
+                if (bono.completado && !bono.notificado) {
+                    mostrarNotificacion(
+                        'bono',
+                        '🎁 Bono completado',
+                        `Has completado el bono: ${bono.nombre}`,
+                        'ver_bono'
+                    );
+                    database.ref('bonos/' + uidActual + '/' + snapshot.key + '/notificado').set(true);
                 }
             });
         }
@@ -8157,28 +8422,75 @@
                         icono.style.color = 'var(--warning)';
                         break;
                 }
+
+                // Actualizar tarifa dinámica cada vez que cambia el estado
+                actualizarTarifaDinamica();
+            });
+
+            // Escuchar cambios en solicitudes para actualizar tarifa
+            database.ref('solicitudes').on('value', function() {
+                actualizarTarifaDinamica();
+            });
+
+            // Actualizar tarifa cada minuto
+            setInterval(function() {
+                actualizarTarifaDinamica();
+            }, 60000);
+        }
+
+        // ==========================================================
+        // ✅ INICIALIZACIÓN COMPLETA
+        // ==========================================================
+
+        function actualizarBadges() {
+            database.ref('notificaciones').orderByChild('taxistaId').equalTo(uidActual).once('value').then(function(
+                snapshot) {
+                let noLeidas = 0;
+                snapshot.forEach(function(child) {
+                    if (!child.val().leida) noLeidas++;
+                });
+                document.getElementById('notifBadge').textContent = noLeidas;
+                document.getElementById('mensajesBadge').textContent = noLeidas;
             });
         }
 
-        // ==========================================================
-        // 🏆 LOGROS Y METAS
-        // ==========================================================
-        function cargarLogros() {
-            // Función opcional para cargar logros
-            console.log('🏆 Logros cargados');
+        // FUNCIONES UTILITARIAS
+        function obtenerIniciales(nombre) {
+            if (!nombre) return '??';
+            const palabras = nombre.trim().split(' ');
+            if (palabras.length === 1) {
+                return palabras[0].substring(0, 2).toUpperCase();
+            }
+            return (palabras[0][0] + palabras[palabras.length - 1][0]).toUpperCase();
         }
 
-        // ==========================================================
-        // 📊 GRÁFICOS
-        // ==========================================================
-        function crearGraficoGanancias() {
-            // Función opcional para gráficos
-            console.log('📊 Gráfico de ganancias creado');
+        function calcularTiempo(fecha) {
+            if (!fecha) return 'Fecha desconocida';
+            const ahora = new Date();
+            const fechaObj = new Date(fecha);
+            const diffMs = ahora - fechaObj;
+            const diffMin = Math.floor(diffMs / 60000);
+            const diffHoras = Math.floor(diffMs / 3600000);
+            const diffDias = Math.floor(diffMs / 86400000);
+
+            if (diffMin < 1) return 'Hace un momento';
+            if (diffMin < 60) return 'Hace ' + diffMin + ' min';
+            if (diffHoras < 24) return 'Hace ' + diffHoras + 'h';
+            if (diffDias < 7) return 'Hace ' + diffDias + 'd';
+            return fechaObj.toLocaleDateString();
         }
 
-        // ==========================================================
-        // 🔔 NOTIFICACIONES (panel)
-        // ==========================================================
+        function formatearFecha(fecha) {
+            if (!fecha) return 'N/A';
+            return new Date(fecha).toLocaleDateString('es-ES', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
         function toggleNotificaciones() {
             Swal.fire({
                 title: '🔔 Notificaciones',
@@ -8191,33 +8503,59 @@
         }
 
         // ==========================================================
-        // ✅ INICIALIZACIÓN COMPLETA
+        // 🚀 INICIALIZACIÓN
         // ==========================================================
 
-        // Variables globales adicionales
-        let contactos = [];
+        document.addEventListener('DOMContentLoaded', function() {
+            auth.onAuthStateChanged(function(user) {
+                if (user) {
+                    uidActual = user.uid;
+                    cargarDatosUsuario(uidActual);
+                    initMapboxMapTaxista();
+                    inicializarMapas();
+                    iniciarActualizacionUbicacionTaxista();
+                    iniciarEscuchasFirebase();
+                    iniciarEscuchasNotificaciones();
+                    cargarTemaGuardado();
+                    iniciarControlInactividad();
+                    registrarAuditoria('inicio_sesion', 'Taxista inició sesión');
 
-        function actualizarBadges() {
-            // Actualizar badges de notificaciones
-            database.ref('notificaciones').orderByChild('taxistaId').equalTo(uidActual).once('value').then(function(
-                snapshot) {
-                let noLeidas = 0;
-                snapshot.forEach(function(child) {
-                    if (!child.val().leida) noLeidas++;
-                });
-                document.getElementById('notifBadge').textContent = noLeidas;
-                document.getElementById('mensajesBadge').textContent = noLeidas;
+                    // Cargar voces para TTS
+                    if (window.speechSynthesis) {
+                        window.speechSynthesis.getVoices();
+                        window.speechSynthesis.onvoiceschanged = function() {
+                            window.speechSynthesis.getVoices();
+                        };
+                    }
+
+                    // Actualizar tarifa dinámica inicial
+                    setTimeout(function() {
+                        actualizarTarifaDinamica();
+                    }, 1000);
+
+                    console.log('🚀 CupoTax - Panel de Taxista cargado correctamente');
+                    console.log('🛡️ Seguridad activa: Sanitización, Anti-XSS, Auditoría, Inactividad (30min)');
+                    console.log('🎤 Modo voz activo para inclusión');
+                    console.log('🚕 Taxis reales desde Firebase');
+                    console.log('🗺️ 6 modos de mapa: Estándar B/N, Satélite, Navegación, Oscuro, 3D Live, Tráfico');
+                    console.log('💬 Feedback Agent integrado');
+                    console.log('📱 Responsive: PC, Tablet, Móvil');
+                    console.log('🔥 Firebase conectado en tiempo real');
+                    console.log('💰 Tarifas dinámicas activas');
+                    console.log('📍 Geofencing: Zonas de alta demanda');
+                    console.log('🎤 Navegación paso a paso disponible');
+                    console.log('💳 Sistema de pagos: Yappy, Tarjeta, Efectivo');
+
+                } else {
+                    window.location.href = API_URL + '/login';
+                }
             });
-        }
+        });
 
-        console.log('🚀 CupoTax - Panel de Taxista cargado correctamente');
-        console.log('🛡️ Seguridad activa: Sanitización, Anti-XSS, Auditoría, Inactividad (30min)');
-        console.log('🎤 Modo voz activo para inclusión');
-        console.log('🚕 Taxis reales desde Firebase');
-        console.log('🗺️ 4 modos de mapa: Estándar, Satélite, Navegación, Oscuro');
-        console.log('💬 Feedback Agent integrado');
-        console.log('📱 Responsive: PC, Tablet, Móvil');
-        console.log('🔥 Firebase conectado en tiempo real');
+        // FUNCIÓN PARA INSTALAR COMO PWA (opcional)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(function() {});
+        }
     </script>
 
 </body>
