@@ -7,23 +7,16 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <link href='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css' rel='stylesheet' />
-    <script src='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.js'>
-    </script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.js'></script>
 
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js">
-    </script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js">
-    </script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js">
-    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
     <style>
         /* ==========================================================
@@ -214,22 +207,10 @@
             flex-direction: column;
             gap: 1.5rem;
         }
-        #inactividadOverlay.active {
-            display: flex;
-        }
-        #inactividadOverlay h2 {
-            font-size: 1.8rem;
-            color: var(--accent);
-        }
-        #inactividadOverlay p {
-            color: var(--text-secondary);
-            font-size: 1rem;
-        }
-        #inactividadOverlay .countdown {
-            font-size: 3rem;
-            font-weight: 800;
-            color: var(--accent);
-        }
+        #inactividadOverlay.active { display: flex; }
+        #inactividadOverlay h2 { font-size: 1.8rem; color: var(--accent); }
+        #inactividadOverlay p { color: var(--text-secondary); font-size: 1rem; }
+        #inactividadOverlay .countdown { font-size: 3rem; font-weight: 800; color: var(--accent); }
 
         /* ==========================================================
            BOTÓN DE VOZ FLOTANTE (ACCESIBILIDAD)
@@ -254,9 +235,7 @@
             transition: all 0.3s;
             animation: pulse-voice 2s infinite;
         }
-        .voice-float-btn:hover {
-            transform: scale(1.1);
-        }
+        .voice-float-btn:hover { transform: scale(1.1); }
         .voice-float-btn.listening {
             background: var(--danger);
             color: #fff;
@@ -291,16 +270,9 @@
             font-size: 0.85rem;
             box-shadow: var(--accent-glow);
         }
-        .voice-status-bar.open {
-            display: block;
-            animation: fadeInUp 0.3s ease;
-        }
-        .voice-status-bar .status-text {
-            color: var(--text-secondary);
-        }
-        .voice-status-bar .status-text strong {
-            color: var(--accent);
-        }
+        .voice-status-bar.open { display: block; animation: fadeInUp 0.3s ease; }
+        .voice-status-bar .status-text { color: var(--text-secondary); }
+        .voice-status-bar .status-text strong { color: var(--accent); }
         .voice-status-bar .close-status {
             position: absolute;
             top: 4px;
@@ -361,14 +333,8 @@
             z-index: 100;
             transition: transform 0.3s ease;
         }
-
-        .sidebar::-webkit-scrollbar {
-            width: 4px;
-        }
-        .sidebar::-webkit-scrollbar-thumb {
-            background: var(--accent);
-            border-radius: 10px;
-        }
+        .sidebar::-webkit-scrollbar { width: 4px; }
+        .sidebar::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
 
         .sidebar-logo {
             text-align: center;
@@ -376,11 +342,7 @@
             padding-bottom: 1rem;
             border-bottom: 1px solid var(--glass-border);
         }
-        .sidebar-logo img {
-            width: 120px;
-            height: auto;
-            margin-bottom: 0.5rem;
-        }
+        .sidebar-logo img { width: 120px; height: auto; margin-bottom: 0.5rem; }
         .sidebar-logo h1 {
             font-size: 1.5rem;
             background: var(--gradient-glow);
@@ -388,11 +350,7 @@
             background-clip: text;
             color: transparent;
         }
-        .sidebar-logo span {
-            font-size: 0.6rem;
-            color: var(--text-secondary);
-            letter-spacing: 2px;
-        }
+        .sidebar-logo span { font-size: 0.6rem; color: var(--text-secondary); letter-spacing: 2px; }
 
         .user-info {
             background: var(--bg-card);
@@ -403,10 +361,33 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-        .user-info:hover {
-            border-color: var(--accent);
-            box-shadow: var(--accent-glow);
+        .user-info:hover { border-color: var(--accent); box-shadow: var(--accent-glow); }
+
+        /* Foto de perfil en sidebar */
+        .user-photo-container {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            overflow: hidden;
+            border: 3px solid var(--accent);
+            background: var(--bg-input);
         }
+        .user-photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .user-photo-container .placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--text-secondary);
+        }
+
         .user-name {
             font-weight: 700;
             font-size: 15px;
@@ -421,21 +402,9 @@
             padding: 4px 8px;
             border-radius: 20px;
         }
-        .user-id {
-            font-size: 10px;
-            color: var(--text-tertiary);
-            margin-top: 4px;
-        }
-        .user-rating {
-            font-size: 12px;
-            color: var(--warning);
-            margin-top: 4px;
-        }
-        .user-prestataria {
-            font-size: 11px;
-            color: var(--accent);
-            margin-top: 4px;
-        }
+        .user-id { font-size: 10px; color: var(--text-tertiary); margin-top: 4px; }
+        .user-rating { font-size: 12px; color: var(--warning); margin-top: 4px; }
+        .user-prestataria { font-size: 11px; color: var(--accent); margin-top: 4px; }
 
         .nav-menu {
             list-style: none;
@@ -456,19 +425,9 @@
             transition: all 0.2s;
             position: relative;
         }
-        .nav-item i {
-            width: 20px;
-            font-size: 14px;
-        }
-        .nav-item:hover {
-            background: var(--hover-bg);
-            color: var(--text-primary);
-        }
-        .nav-item.active {
-            background: var(--hover-bg);
-            color: var(--accent);
-            border-left: 3px solid var(--accent);
-        }
+        .nav-item i { width: 20px; font-size: 14px; }
+        .nav-item:hover { background: var(--hover-bg); color: var(--text-primary); }
+        .nav-item.active { background: var(--hover-bg); color: var(--accent); border-left: 3px solid var(--accent); }
         .nav-item .badge {
             position: absolute;
             right: 12px;
@@ -479,11 +438,7 @@
             border-radius: 20px;
             font-weight: 700;
         }
-        .nav-divider {
-            height: 1px;
-            background: var(--glass-border);
-            margin: 12px 0;
-        }
+        .nav-divider { height: 1px; background: var(--glass-border); margin: 12px 0; }
 
         /* ==========================================================
            MAIN CONTENT
@@ -518,9 +473,7 @@
             border: 1px solid var(--glass-border);
             transition: all 0.3s;
         }
-        .estado-container:hover {
-            border-color: var(--accent);
-        }
+        .estado-container:hover { border-color: var(--accent); }
         .status-dot {
             width: 10px;
             height: 10px;
@@ -528,38 +481,19 @@
             background: var(--success);
             animation: pulse-dot 1.5s infinite;
         }
-        .status-dot.ocupado {
-            background: var(--danger);
-        }
-        .status-dot.pausa {
-            background: var(--warning);
-        }
+        .status-dot.ocupado { background: var(--danger); }
+        .status-dot.pausa { background: var(--warning); }
         @keyframes pulse-dot {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.5; transform: scale(0.8); }
         }
-        .estado-texto {
-            font-size: 13px;
-            font-weight: 600;
-        }
-        .turno-texto {
-            font-size: 11px;
-            color: var(--text-tertiary);
-        }
+        .estado-texto { font-size: 13px; font-weight: 600; }
+        .turno-texto { font-size: 11px; color: var(--text-tertiary); }
 
-        .user-top {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .user-top span {
-            font-size: 14px;
-        }
+        .user-top { display: flex; align-items: center; gap: 12px; }
+        .user-top span { font-size: 14px; }
 
-        .top-actions {
-            display: flex;
-            gap: 8px;
-        }
+        .top-actions { display: flex; gap: 8px; }
         .btn-notificaciones,
         .btn-temas {
             background: var(--bg-card);
@@ -576,10 +510,7 @@
             justify-content: center;
         }
         .btn-notificaciones:hover,
-        .btn-temas:hover {
-            border-color: var(--accent);
-            box-shadow: var(--accent-glow);
-        }
+        .btn-temas:hover { border-color: var(--accent); box-shadow: var(--accent-glow); }
         .btn-notificaciones .badge {
             position: absolute;
             top: -5px;
@@ -601,9 +532,7 @@
             display: none;
             animation: fadeInUp 0.4s ease;
         }
-        .seccion.active {
-            display: block;
-        }
+        .seccion.active { display: block; }
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -620,10 +549,7 @@
             padding: 1.2rem;
             transition: all 0.3s;
         }
-        .card:hover {
-            border-color: var(--accent);
-            box-shadow: var(--accent-glow);
-        }
+        .card:hover { border-color: var(--accent); box-shadow: var(--accent-glow); }
         .card-title {
             font-size: 11px;
             text-transform: uppercase;
@@ -634,9 +560,7 @@
             align-items: center;
             gap: 6px;
         }
-        .card-title i {
-            color: var(--accent);
-        }
+        .card-title i { color: var(--accent); }
 
         /* ==========================================================
            GRIDS
@@ -677,36 +601,16 @@
             border-color: var(--accent);
             box-shadow: var(--accent-glow);
         }
-        .stat-icon {
-            font-size: 1.8rem;
-            color: var(--accent);
-            margin-bottom: 0.3rem;
-        }
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-        .stat-label {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            margin-top: 0.2rem;
-        }
-        .stat-trend {
-            font-size: 0.65rem;
-            color: var(--success);
-            margin-top: 0.3rem;
-        }
-        .stat-trend.down {
-            color: var(--danger);
-        }
+        .stat-icon { font-size: 1.8rem; color: var(--accent); margin-bottom: 0.3rem; }
+        .stat-value { font-size: 1.8rem; font-weight: 700; color: var(--text-primary); }
+        .stat-label { font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.2rem; }
+        .stat-trend { font-size: 0.65rem; color: var(--success); margin-top: 0.3rem; }
+        .stat-trend.down { color: var(--danger); }
 
         /* ==========================================================
            MAPA
            ========================================================== */
-        .map-wrapper {
-            position: relative;
-        }
+        .map-wrapper { position: relative; }
 
         /* BOTONES DE MODO DEL MAPA */
         .map-mode-selector {
@@ -735,13 +639,8 @@
             min-height: 32px;
             white-space: nowrap;
         }
-        .map-mode-btn:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-        .map-mode-btn.active {
-            background: var(--accent);
-            color: #000;
-        }
+        .map-mode-btn:hover { background: rgba(255, 255, 255, 0.05); }
+        .map-mode-btn.active { background: var(--accent); color: #000; }
 
         #mapa-busero {
             width: 100%;
@@ -755,10 +654,7 @@
             gap: 1rem;
             margin-bottom: 1rem;
         }
-        .map-wrapper {
-            flex: 2;
-            position: relative;
-        }
+        .map-wrapper { flex: 2; position: relative; }
         .info-panel {
             flex: 1;
             background: var(--bg-card);
@@ -770,11 +666,7 @@
             overflow-y: auto;
             transition: all 0.3s;
         }
-        .info-panel h4 {
-            color: var(--accent);
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
-        }
+        .info-panel h4 { color: var(--accent); margin-bottom: 0.5rem; font-size: 1rem; }
         .info-panel-empty {
             text-align: center;
             color: var(--text-secondary);
@@ -791,24 +683,11 @@
             transition: all 0.2s;
             border-radius: 8px;
         }
-        .info-panel .vehiculo-lista-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-        .info-panel .vehiculo-lista-item .vehiculo-info {
-            flex: 1;
-        }
-        .info-panel .vehiculo-lista-item .vehiculo-nombre {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        .info-panel .vehiculo-lista-item .vehiculo-detalle {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-        }
-        .info-panel .vehiculo-lista-item .vehiculo-distancia {
-            font-size: 0.7rem;
-            color: var(--text-tertiary);
-        }
+        .info-panel .vehiculo-lista-item:hover { background: rgba(255, 255, 255, 0.05); }
+        .info-panel .vehiculo-lista-item .vehiculo-info { flex: 1; }
+        .info-panel .vehiculo-lista-item .vehiculo-nombre { font-weight: 600; font-size: 0.9rem; }
+        .info-panel .vehiculo-lista-item .vehiculo-detalle { font-size: 0.75rem; color: var(--text-secondary); }
+        .info-panel .vehiculo-lista-item .vehiculo-distancia { font-size: 0.7rem; color: var(--text-tertiary); }
 
         /* FEEDBACK AGENT - BOTÓN FLOTANTE */
         .feedback-float-btn {
@@ -852,10 +731,7 @@
             padding: 1rem;
             overflow-y: auto;
         }
-        .feedback-panel.open {
-            display: block;
-            animation: slideUp 0.3s ease;
-        }
+        .feedback-panel.open { display: block; animation: slideUp 0.3s ease; }
 
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(20px); }
@@ -868,10 +744,7 @@
             align-items: center;
             margin-bottom: 0.8rem;
         }
-        .feedback-panel .feedback-header h4 {
-            color: var(--accent);
-            font-size: 1rem;
-        }
+        .feedback-panel .feedback-header h4 { color: var(--accent); font-size: 1rem; }
         .feedback-panel .feedback-header .close-feedback {
             background: none;
             border: none;
@@ -879,9 +752,7 @@
             font-size: 1.4rem;
             cursor: pointer;
         }
-        .feedback-panel .feedback-header .close-feedback:hover {
-            color: var(--danger);
-        }
+        .feedback-panel .feedback-header .close-feedback:hover { color: var(--danger); }
 
         .feedback-panel .feedback-location {
             font-size: 0.8rem;
@@ -891,9 +762,7 @@
             background: var(--bg-input);
             border-radius: 12px;
         }
-        .feedback-panel .feedback-location strong {
-            color: var(--text-primary);
-        }
+        .feedback-panel .feedback-location strong { color: var(--text-primary); }
 
         .feedback-panel textarea {
             width: 100%;
@@ -908,13 +777,8 @@
             min-height: 70px;
             outline: none;
         }
-        .feedback-panel textarea:focus {
-            border-color: var(--accent);
-        }
-        .feedback-panel textarea::placeholder {
-            color: var(--text-secondary);
-            opacity: 0.6;
-        }
+        .feedback-panel textarea:focus { border-color: var(--accent); }
+        .feedback-panel textarea::placeholder { color: var(--text-secondary); opacity: 0.6; }
 
         .feedback-panel .feedback-buttons {
             display: flex;
@@ -937,9 +801,7 @@
             color: var(--text-primary);
             border: 1px solid var(--glass-border);
         }
-        .feedback-panel .feedback-buttons .btn-feedback-voice:hover {
-            border-color: var(--accent);
-        }
+        .feedback-panel .feedback-buttons .btn-feedback-voice:hover { border-color: var(--accent); }
         .feedback-panel .feedback-buttons .btn-feedback-voice.listening {
             background: var(--danger);
             color: #fff;
@@ -949,9 +811,7 @@
             background: var(--accent);
             color: #000;
         }
-        .feedback-panel .feedback-buttons .btn-feedback-submit:hover {
-            box-shadow: var(--accent-glow);
-        }
+        .feedback-panel .feedback-buttons .btn-feedback-submit:hover { box-shadow: var(--accent-glow); }
 
         .feedback-panel .feedback-message {
             margin-top: 10px;
@@ -996,9 +856,7 @@
             cursor: pointer;
             position: relative;
         }
-        .vehicle-dot:hover {
-            transform: scale(1.4);
-        }
+        .vehicle-dot:hover { transform: scale(1.4); }
         .vehicle-number {
             position: absolute;
             top: -10px;
@@ -1024,8 +882,38 @@
             color: var(--text-primary);
             padding: 14px !important;
         }
-        .mapboxgl-popup-content button {
-            min-height: 32px;
+        .mapboxgl-popup-content button { min-height: 32px; }
+
+        /* ==========================================================
+           ASIENTOS
+           ========================================================== */
+        .seat-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 4px;
+            margin: 12px 0;
+        }
+        .seat {
+            aspect-ratio: 1/0.8;
+            background: var(--hover-bg);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            border: 1px solid var(--glass-border);
+        }
+        .seat.ocupado {
+            background: rgba(239, 68, 68, 0.6);
+            border-color: var(--danger);
+        }
+        .seat.reservado {
+            background: rgba(245, 158, 11, 0.6);
+            border-color: var(--warning);
+        }
+        .seat.libre {
+            background: var(--hover-bg);
+            border-color: var(--glass-border);
         }
 
         /* ==========================================================
@@ -1058,9 +946,7 @@
             transition: all 0.3s;
             min-height: 36px;
         }
-        .btn-outline:hover {
-            background: rgba(255, 255, 255, 0.08);
-        }
+        .btn-outline:hover { background: rgba(255, 255, 255, 0.08); }
 
         .btn-success {
             background: var(--success);
@@ -1148,38 +1034,6 @@
         }
 
         /* ==========================================================
-           ASIENTOS
-           ========================================================== */
-        .seat-grid {
-            display: grid;
-            grid-template-columns: repeat(10, 1fr);
-            gap: 4px;
-            margin: 12px 0;
-        }
-        .seat {
-            aspect-ratio: 1/0.8;
-            background: var(--hover-bg);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 8px;
-            border: 1px solid var(--glass-border);
-        }
-        .seat.ocupado {
-            background: rgba(239, 68, 68, 0.6);
-            border-color: var(--danger);
-        }
-        .seat.reservado {
-            background: rgba(245, 158, 11, 0.6);
-            border-color: var(--warning);
-        }
-        .seat.libre {
-            background: var(--hover-bg);
-            border-color: var(--glass-border);
-        }
-
-        /* ==========================================================
            PROGRESS BARS
            ========================================================== */
         .progress-bar {
@@ -1226,15 +1080,9 @@
             transition: all 0.3s;
             position: relative;
         }
-        .bottom-btn i {
-            font-size: 1.3rem;
-        }
-        .bottom-btn:hover {
-            color: var(--text-primary);
-        }
-        .bottom-btn.active {
-            color: var(--accent);
-        }
+        .bottom-btn i { font-size: 1.3rem; }
+        .bottom-btn:hover { color: var(--text-primary); }
+        .bottom-btn.active { color: var(--accent); }
         .bottom-btn .badge {
             position: absolute;
             top: -2px;
@@ -1263,14 +1111,7 @@
             min-width: 200px;
             box-shadow: var(--accent-glow);
         }
-        .menu-mas.open {
-            display: block;
-            animation: slideUp 0.3s ease;
-        }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .menu-mas.open { display: block; animation: slideUp 0.3s ease; }
         .menu-mas button {
             display: flex;
             align-items: center;
@@ -1285,45 +1126,22 @@
             border-radius: 10px;
             transition: all 0.2s;
         }
-        .menu-mas button:hover {
-            background: var(--hover-bg);
-            color: var(--accent);
-        }
-        .menu-mas button i {
-            width: 20px;
-        }
+        .menu-mas button:hover { background: var(--hover-bg); color: var(--accent); }
+        .menu-mas button i { width: 20px; }
 
         /* ==========================================================
            RESPONSIVE
            ========================================================== */
         @media (max-width: 1024px) {
-            .sidebar {
-                width: 70px;
-            }
-            .sidebar span {
-                display: none;
-            }
-            .sidebar-logo img {
-                width: 50px;
-            }
-            .sidebar-logo h1 {
-                font-size: 0.8rem;
-            }
-            .sidebar-logo span {
-                display: none;
-            }
-            .user-info {
-                display: none;
-            }
-            .main-content {
-                margin-left: 70px;
-            }
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .seat-grid {
-                grid-template-columns: repeat(5, 1fr);
-            }
+            .sidebar { width: 70px; }
+            .sidebar span { display: none; }
+            .sidebar-logo img { width: 50px; }
+            .sidebar-logo h1 { font-size: 0.8rem; }
+            .sidebar-logo span { display: none; }
+            .user-info { display: none; }
+            .main-content { margin-left: 70px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .seat-grid { grid-template-columns: repeat(5, 1fr); }
             .map-mode-selector {
                 top: 8px;
                 left: 8px;
@@ -1335,16 +1153,8 @@
                 font-size: 0.6rem;
                 min-height: 28px;
             }
-            .feedback-float-btn {
-                width: 48px;
-                height: 48px;
-                font-size: 1.2rem;
-            }
-            .feedback-panel {
-                width: 300px;
-                right: 16px;
-                bottom: 80px;
-            }
+            .feedback-float-btn { width: 48px; height: 48px; font-size: 1.2rem; }
+            .feedback-panel { width: 300px; right: 16px; bottom: 80px; }
         }
 
         @media (max-width: 768px) {
@@ -1352,55 +1162,29 @@
                 transform: translateX(-100%);
                 width: 280px;
             }
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            .sidebar span {
-                display: inline;
-            }
-            .sidebar-logo img {
-                width: 120px;
-            }
-            .sidebar-logo h1 {
-                font-size: 1.5rem;
-            }
-            .sidebar-logo span {
-                display: block;
-            }
-            .user-info {
-                display: block;
-            }
+            .sidebar.open { transform: translateX(0); }
+            .sidebar span { display: inline; }
+            .sidebar-logo img { width: 120px; }
+            .sidebar-logo h1 { font-size: 1.5rem; }
+            .sidebar-logo span { display: block; }
+            .user-info { display: block; }
             .main-content {
                 margin-left: 0;
                 padding: 1rem;
                 padding-bottom: 80px;
             }
-            .bottom-menu {
-                display: flex !important;
-            }
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            .grid-2 {
-                grid-template-columns: 1fr;
-            }
-            .grid-3 {
-                grid-template-columns: 1fr;
-            }
+            .bottom-menu { display: flex !important; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .grid-2 { grid-template-columns: 1fr; }
+            .grid-3 { grid-template-columns: 1fr; }
             .top-bar {
                 flex-direction: column;
                 align-items: stretch;
                 gap: 0.5rem;
             }
-            .estado-container {
-                justify-content: center;
-            }
-            .user-top {
-                justify-content: center;
-            }
-            .top-actions {
-                justify-content: center;
-            }
+            .estado-container { justify-content: center; }
+            .user-top { justify-content: center; }
+            .top-actions { justify-content: center; }
             .menu-toggle {
                 display: block;
                 position: fixed;
@@ -1415,15 +1199,9 @@
                 color: var(--accent);
                 font-size: 1.2rem;
             }
-            .seat-grid {
-                grid-template-columns: repeat(5, 1fr);
-            }
-            .map-container {
-                flex-direction: column;
-            }
-            .info-panel {
-                max-height: 280px;
-            }
+            .seat-grid { grid-template-columns: repeat(5, 1fr); }
+            .map-container { flex-direction: column; }
+            .info-panel { max-height: 280px; }
             .map-mode-selector {
                 top: 60px;
                 left: 8px;
@@ -1457,22 +1235,14 @@
         }
 
         @media (max-width: 480px) {
-            .seat-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-            .sidebar-logo img {
-                width: 80px;
-            }
-            .sidebar-logo h1 {
-                font-size: 1.2rem;
-            }
+            .seat-grid { grid-template-columns: repeat(4, 1fr); }
+            .sidebar-logo img { width: 80px; }
+            .sidebar-logo h1 { font-size: 1.2rem; }
             .main-content {
                 padding: 0.8rem;
                 padding-top: 65px;
             }
-            #mapa-busero {
-                height: 200px;
-            }
+            #mapa-busero { height: 200px; }
             .info-panel {
                 max-height: 200px;
                 padding: 10px;
@@ -1488,10 +1258,7 @@
                 font-size: 0.5rem;
                 min-height: 20px;
             }
-            .weather-info {
-                font-size: 0.6rem;
-                padding: 4px 8px;
-            }
+            .weather-info { font-size: 0.6rem; padding: 4px 8px; }
             .feedback-float-btn {
                 width: 40px;
                 height: 40px;
@@ -1518,9 +1285,7 @@
             }
         }
 
-        .menu-toggle {
-            display: none;
-        }
+        .menu-toggle { display: none; }
 
         /* ==========================================================
            SETTINGS
@@ -1563,15 +1328,8 @@
             z-index: 10000;
             display: none;
         }
-        .settings-panel.open {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-        .settings-panel h4 {
-            color: var(--accent);
-            text-align: center;
-            margin-bottom: 0.5rem;
-        }
+        .settings-panel.open { display: block; animation: fadeIn 0.3s ease; }
+        .settings-panel h4 { color: var(--accent); text-align: center; margin-bottom: 0.5rem; }
         .theme-card {
             padding: 0.5rem;
             cursor: pointer;
@@ -1582,13 +1340,8 @@
             color: var(--text-primary);
             min-height: 36px;
         }
-        .theme-card:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        .theme-card.active {
-            background: var(--accent);
-            color: #000;
-        }
+        .theme-card:hover { background: rgba(255, 255, 255, 0.1); }
+        .theme-card.active { background: var(--accent); color: #000; }
         .btn-reset {
             width: 100%;
             padding: 0.5rem;
@@ -1600,10 +1353,7 @@
             margin-top: 0.5rem;
             min-height: 36px;
         }
-        .btn-reset:hover {
-            background: var(--accent);
-            color: #000;
-        }
+        .btn-reset:hover { background: var(--accent); color: #000; }
 
         /* ==========================================================
            ACCESIBILIDAD: OPCIONES DE TAMAÑO
@@ -1654,23 +1404,14 @@
             align-items: center;
             justify-content: center;
         }
-        .btn-sos-flotante:hover {
-            transform: scale(1.05);
-        }
+        .btn-sos-flotante:hover { transform: scale(1.05); }
 
         /* ==========================================================
            SCROLLBAR
            ========================================================== */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--sidebar-bg);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent);
-            border-radius: 10px;
-        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--sidebar-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
 
         /* ==========================================================
            MODALES
@@ -1688,9 +1429,7 @@
             align-items: center;
             justify-content: center;
         }
-        .modal-detalle.active {
-            display: flex;
-        }
+        .modal-detalle.active { display: flex; }
         .modal-detalle-content {
             background: var(--bg-card);
             border: 1px solid var(--accent);
@@ -1762,18 +1501,9 @@
             padding: 10px 0;
             border-bottom: 1px solid var(--glass-border);
         }
-        .detalle-item:last-child {
-            border-bottom: none;
-        }
-        .detalle-label {
-            color: var(--text-tertiary);
-            font-size: 12px;
-        }
-        .detalle-valor {
-            font-weight: 600;
-            font-size: 14px;
-            text-align: right;
-        }
+        .detalle-item:last-child { border-bottom: none; }
+        .detalle-label { color: var(--text-tertiary); font-size: 12px; }
+        .detalle-valor { font-weight: 600; font-size: 14px; text-align: right; }
 
         /* ==========================================================
            NOTIFICACIONES PUSH
@@ -1807,22 +1537,11 @@
             align-items: center;
             justify-content: center;
         }
-        .notificacion-push .notif-icono.solicitud {
-            background: rgba(16, 185, 129, 0.2);
-        }
-        .notificacion-push .notif-icono.alerta {
-            background: rgba(239, 68, 68, 0.2);
-        }
-        .notificacion-push .notif-icono.info {
-            background: rgba(59, 130, 246, 0.2);
-        }
-        .notificacion-push .notif-icono.mantenimiento {
-            background: rgba(245, 158, 11, 0.2);
-        }
-        .notificacion-push .notif-contenido {
-            flex: 1;
-            min-width: 0;
-        }
+        .notificacion-push .notif-icono.solicitud { background: rgba(16, 185, 129, 0.2); }
+        .notificacion-push .notif-icono.alerta { background: rgba(239, 68, 68, 0.2); }
+        .notificacion-push .notif-icono.info { background: rgba(59, 130, 246, 0.2); }
+        .notificacion-push .notif-icono.mantenimiento { background: rgba(245, 158, 11, 0.2); }
+        .notificacion-push .notif-contenido { flex: 1; min-width: 0; }
         .notificacion-push .notif-titulo {
             font-weight: 700;
             font-size: 14px;
@@ -1850,9 +1569,7 @@
             margin-top: -4px;
             margin-right: -4px;
         }
-        .notificacion-push .notif-cerrar:hover {
-            color: var(--text-primary);
-        }
+        .notificacion-push .notif-cerrar:hover { color: var(--text-primary); }
         .notificacion-push .notif-accion {
             margin-top: 8px;
             padding: 6px 14px;
@@ -1867,9 +1584,7 @@
             background: var(--accent);
             color: #000;
         }
-        .notif-accion-ver:hover {
-            box-shadow: var(--accent-glow);
-        }
+        .notif-accion-ver:hover { box-shadow: var(--accent-glow); }
 
         @keyframes notifSlideIn {
             from { opacity: 0; transform: translateX(80px) scale(0.9); }
@@ -1930,10 +1645,7 @@
             color: #000;
             flex-shrink: 0;
         }
-        .chat-item .info {
-            flex: 1;
-            min-width: 0;
-        }
+        .chat-item .info { flex: 1; min-width: 0; }
         .chat-item .nombre {
             font-weight: 600;
             font-size: 14px;
@@ -1996,10 +1708,7 @@
             color: #000;
             flex-shrink: 0;
         }
-        .modal-chat-header .chat-info {
-            flex: 1;
-            min-width: 0;
-        }
+        .modal-chat-header .chat-info { flex: 1; min-width: 0; }
         .modal-chat-header .chat-info .nombre {
             font-weight: 600;
             font-size: 15px;
@@ -2016,9 +1725,7 @@
             font-size: 20px;
             cursor: pointer;
         }
-        .modal-chat-header .btn-close-chat:hover {
-            color: var(--danger);
-        }
+        .modal-chat-header .btn-close-chat:hover { color: var(--danger); }
 
         .modal-chat-body {
             flex: 1;
@@ -2077,9 +1784,7 @@
             font-size: 14px;
             outline: none;
         }
-        .modal-chat-footer input:focus {
-            border-color: var(--accent);
-        }
+        .modal-chat-footer input:focus { border-color: var(--accent); }
         .modal-chat-footer button {
             background: var(--accent);
             border: none;
@@ -2106,9 +1811,7 @@
             font-size: 20px;
             cursor: pointer;
         }
-        .modal-chat-footer .btn-adjuntar:hover {
-            color: var(--accent);
-        }
+        .modal-chat-footer .btn-adjuntar:hover { color: var(--accent); }
 
         /* ==========================================================
            IA
@@ -2119,12 +1822,8 @@
             font-size: 10px;
             margin: 0 2px;
         }
-        .ia-typing-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        .ia-typing-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
+        .ia-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .ia-typing-dot:nth-child(3) { animation-delay: 0.4s; }
 
         @keyframes iaBlink {
             0%, 100% { opacity: 0.2; }
@@ -2193,6 +1892,11 @@
         </div>
 
         <div class="user-info" id="btn-perfil" onclick="irAPerfil()">
+            <!-- Foto de perfil en sidebar -->
+            <div class="user-photo-container" id="sidebarFotoContainer">
+                <div class="placeholder" id="sidebarFotoPlaceholder"><i class="fas fa-user"></i></div>
+                <img id="sidebarFotoImg" style="display:none; width:100%; height:100%; object-fit:cover;" alt="Foto perfil">
+            </div>
             <div class="user-name">
                 <span id="buseroNombre">Cargando...</span>
                 <span class="gold-badge" id="buseroNivel">Cargando</span>
@@ -2282,6 +1986,17 @@
                 </div>
             </div>
 
+            <!-- MENSAJE DE BIENVENIDA: LISTO PARA COMENZAR UNA NUEVA RUTA -->
+            <div class="card" style="margin-bottom:1.5rem; background: var(--gradient-glow); border: none; text-align:center; padding:1.5rem;">
+                <div style="font-size:2.5rem; margin-bottom:0.5rem;">🚌</div>
+                <h2 style="color:#000; font-size:1.5rem; font-weight:700;">¡Listo para comenzar una nueva ruta!</h2>
+                <p style="color:rgba(0,0,0,0.7); font-size:1rem;">Tu vehículo está preparado para llevar a los pasajeros a su destino</p>
+                <div style="display:flex; gap:10px; justify-content:center; margin-top:12px; flex-wrap:wrap;">
+                    <button class="btn-primary" onclick="mostrarSeccionBusero('ruta')" style="background:#000; color:var(--accent); width:auto; padding:0.5rem 1.5rem;">🗺️ Ver mi ruta</button>
+                    <button class="btn-primary" onclick="mostrarSeccionBusero('pasajeros')" style="background:#000; color:var(--accent); width:auto; padding:0.5rem 1.5rem;">👥 Ver pasajeros</button>
+                </div>
+            </div>
+
             <div class="grid-2">
                 <div class="card">
                     <div class="card-title"><i class="fas fa-route"></i> MI RUTA ACTUAL</div>
@@ -2299,7 +2014,7 @@
                             <span id="rutaDistancia">-- km</span>
                         </div>
                     </div>
-                    <button class="btn-outline" style="margin-top:8px; font-size:11px;" onclick="mostrarSeccion('ruta')">Ver detalle de ruta →</button>
+                    <button class="btn-outline" style="margin-top:8px; font-size:11px;" onclick="mostrarSeccionBusero('ruta')">Ver detalle de ruta →</button>
                 </div>
                 <div class="card">
                     <div class="card-title"><i class="fas fa-chair"></i> OCUPACIÓN</div>
@@ -2309,17 +2024,6 @@
                         <span>🟢 <span id="asientosLibres">0</span> libres</span>
                         <span>🔴 <span id="asientosOcupados">0</span> ocupados</span>
                     </div>
-                </div>
-            </div>
-
-            <!-- MENSAJE DE BIENVENIDA: LISTO PARA COMENZAR UNA NUEVA RUTA -->
-            <div class="card" style="margin-bottom:1.5rem; background: var(--gradient-glow); border: none; text-align:center; padding:1.5rem;">
-                <div style="font-size:2.5rem; margin-bottom:0.5rem;">🚌</div>
-                <h2 style="color:#000; font-size:1.5rem; font-weight:700;">¡Listo para comenzar una nueva ruta!</h2>
-                <p style="color:rgba(0,0,0,0.7); font-size:1rem;">Tu vehículo está preparado para llevar a los pasajeros a su destino</p>
-                <div style="display:flex; gap:10px; justify-content:center; margin-top:12px; flex-wrap:wrap;">
-                    <button class="btn-primary" onclick="mostrarSeccion('ruta')" style="background:#000; color:var(--accent); width:auto; padding:0.5rem 1.5rem;">🗺️ Ver mi ruta</button>
-                    <button class="btn-primary" onclick="mostrarSeccion('pasajeros')" style="background:#000; color:var(--accent); width:auto; padding:0.5rem 1.5rem;">👥 Ver pasajeros</button>
                 </div>
             </div>
 
@@ -2344,6 +2048,15 @@
 
             <div class="card" style="margin-bottom:1.5rem;">
                 <div class="card-title"><i class="fas fa-bus"></i> MI VEHÍCULO</div>
+                <!-- Foto del vehículo en inicio -->
+                <div style="margin-bottom:8px;">
+                    <div id="vehiculoFotoMini" style="width:100px; height:70px; border-radius:8px; background:var(--bg-input); overflow:hidden; border:1px solid var(--glass-border);">
+                        <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:var(--text-tertiary); font-size:0.7rem;">
+                            <i class="fas fa-bus"></i>
+                        </div>
+                        <img id="vehiculoFotoMiniImg" style="display:none; width:100%; height:100%; object-fit:cover;">
+                    </div>
+                </div>
                 <div style="font-size:16px; font-weight:700;" id="vehiculoModelo">Cargando...</div>
                 <div style="font-size:11px; color:var(--text-tertiary);">Placa: <span id="vehiculoPlaca">Cargando...</span> | Interno: <span id="vehiculoInterno">Cargando...</span></div>
                 <div style="font-size:11px; color:var(--text-tertiary);">Capacidad: <span id="vehiculoCapacidad">0</span> pasajeros</div>
@@ -2354,7 +2067,7 @@
                     </div>
                     <div class="progress-bar" style="margin-top:4px;"><div class="progress-fill" id="combustibleFill" style="width:0%"></div></div>
                 </div>
-                <button class="btn-outline" style="margin-top:8px; font-size:11px;" onclick="mostrarSeccion('vehiculo')">Ver detalles →</button>
+                <button class="btn-outline" style="margin-top:8px; font-size:11px;" onclick="mostrarSeccionBusero('vehiculo')">Ver detalles →</button>
             </div>
         </div>
 
@@ -2956,7 +2669,7 @@
         </div>
 
         <!-- ==========================================================
-        SECCIÓN PERFIL
+        SECCIÓN PERFIL (EDITABLE SIN CERRAR SESIÓN)
         ========================================================== -->
         <div id="seccion-perfil" class="seccion">
             <h2 style="margin-bottom:20px;">👤 MI PERFIL</h2>
@@ -2964,15 +2677,16 @@
             <div class="card" style="margin-bottom:1.5rem;">
                 <div style="display:flex; gap:20px; align-items:center; flex-wrap:wrap; margin-bottom:20px;">
                     <div style="text-align:center;">
-                        <div id="fotoPerfilContainer" style="width:100px; height:100px; border-radius:50%; background:var(--hover-bg); border:3px solid var(--accent); overflow:hidden; display:flex; align-items:center; justify-content:center;">
-                            <i class="fas fa-user fa-3x" id="fotoIcono" style="color:var(--text-secondary);"></i>
+                        <div id="fotoPerfilContainer" style="width:120px; height:120px; border-radius:50%; background:var(--hover-bg); border:3px solid var(--accent); overflow:hidden; display:flex; align-items:center; justify-content:center; position:relative;">
+                            <i class="fas fa-user fa-4x" id="fotoIcono" style="color:var(--text-secondary);"></i>
                             <img id="fotoPerfilImg" src="" style="width:100%; height:100%; object-fit:cover; display:none;">
+                            <div style="position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.6); padding:4px; text-align:center; font-size:0.6rem; color:white; display:none;" id="fotoPerfilLabel">📸</div>
                         </div>
                         <button class="btn-outline" style="margin-top:10px; padding:6px 12px; font-size:11px;" onclick="document.getElementById('fotoInput').click()">📸 Cambiar foto</button>
                         <input type="file" id="fotoInput" accept="image/*" style="display:none;">
                     </div>
                     <div>
-                        <div style="font-size:20px; font-weight:700;" id="perfilNombre">Cargando...</div>
+                        <div style="font-size:24px; font-weight:700;" id="perfilNombre">Cargando...</div>
                         <div style="color:var(--warning);" id="perfilNivel">Nivel Oro</div>
                         <div style="color:var(--text-tertiary);">ID: <span id="perfilId">Cargando...</span></div>
                         <div style="color:var(--text-tertiary);">Rol: <span id="perfilRol">Busero</span></div>
@@ -2994,6 +2708,20 @@
                     <div style="font-size:11px; color:var(--text-tertiary); margin-bottom:4px;">CORREO ELECTRÓNICO</div>
                     <input type="email" id="editCorreo" style="width:100%; background:var(--bg-input); border:1px solid var(--glass-border); border-radius:12px; padding:12px; color:var(--text-primary);">
                 </div>
+
+                <!-- Foto del vehículo en perfil -->
+                <div style="margin-bottom:16px;">
+                    <div style="font-size:11px; color:var(--text-tertiary); margin-bottom:4px;">📸 FOTO DEL VEHÍCULO</div>
+                    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                        <div id="vehiculoFotoPerfil" style="width:120px; height:90px; border-radius:12px; background:var(--bg-input); border:1px solid var(--glass-border); overflow:hidden; display:flex; align-items:center; justify-content:center;">
+                            <i class="fas fa-bus" style="font-size:2rem; color:var(--text-tertiary);"></i>
+                            <img id="vehiculoFotoPerfilImg" style="display:none; width:100%; height:100%; object-fit:cover;">
+                        </div>
+                        <button class="btn-outline" onclick="document.getElementById('fotoVehiculoPerfilInput').click()" style="padding:6px 12px; font-size:11px;">📸 Cambiar foto</button>
+                        <input type="file" id="fotoVehiculoPerfilInput" accept="image/*" style="display:none;">
+                    </div>
+                </div>
+
                 <div style="margin-bottom:16px;">
                     <div style="font-size:11px; color:var(--text-tertiary); margin-bottom:4px;">CONTRASEÑA</div>
                     <input type="password" id="editPassword" placeholder="Dejar en blanco para no cambiar" style="width:100%; background:var(--bg-input); border:1px solid var(--glass-border); border-radius:12px; padding:12px; color:var(--text-primary);">
@@ -3085,7 +2813,7 @@
     <div id="notificacionesContainer" style="position:fixed; top:20px; right:20px; z-index:99999; display:flex; flex-direction:column; gap:10px; max-width:380px; width:100%; pointer-events:none;"></div>
 
     <!-- ==========================================================
-    JAVASCRIPT COMPLETO
+    JAVASCRIPT COMPLETO (TODAS LAS FUNCIONALIDADES)
     ========================================================== -->
     <script>
         // ==========================================================
@@ -3447,7 +3175,7 @@
         }
 
         // ==========================================================
-        // 🗣️ COMANDOS DE VOZ
+        // 🗣️ COMANDOS DE VOZ (NAVEGACIÓN Y ACCIONES)
         // ==========================================================
 
         function procesarComandoVoz(texto) {
@@ -3627,7 +3355,7 @@
 
         // ESTILOS DE MAPA
         const mapStyles = {
-            standard: 'mapbox://styles/mapbox/standard',
+            standard: 'mapbox://styles/mapbox/light-v11', // B/N con textura
             satellite: 'mapbox://styles/mapbox/satellite-streets-v12',
             navigation: 'mapbox://styles/mapbox/navigation-night-v1',
             dark: 'mapbox://styles/mapbox/dark-v11'
@@ -3726,7 +3454,7 @@
             }
 
             if (modoVozActivo) {
-                const nombres = { standard: 'Estándar', satellite: 'Satélite', navigation: 'Navegación', dark: 'Oscuro' };
+                const nombres = { standard: 'Estándar B/N', satellite: 'Satélite', navigation: 'Navegación', dark: 'Oscuro' };
                 leerTexto('Cambiando a modo ' + nombres[modo]);
             }
 
@@ -4193,7 +3921,7 @@
         }
 
         // ==========================================================
-        // 📦 FUNCIONES UTILITARIAS (EXISTENTES)
+        // 📦 FUNCIONES UTILITARIAS
         // ==========================================================
 
         function cargarTemaGuardado() {
@@ -4365,6 +4093,18 @@
                     document.getElementById('editCorreo').value = data.email || '';
                     document.getElementById('mensajeriaNombre').textContent = data.nombre || 'Busero';
 
+                    // Cargar foto de perfil en sidebar y perfil
+                    if (data.fotoPerfil) {
+                        document.getElementById('sidebarFotoImg').src = data.fotoPerfil;
+                        document.getElementById('sidebarFotoImg').style.display = 'block';
+                        document.getElementById('sidebarFotoPlaceholder').style.display = 'none';
+
+                        document.getElementById('fotoPerfilImg').src = data.fotoPerfil;
+                        document.getElementById('fotoPerfilImg').style.display = 'block';
+                        document.getElementById('fotoIcono').style.display = 'none';
+                        document.getElementById('fotoPerfilLabel').style.display = 'block';
+                    }
+
                     if (data.vehiculo) {
                         vehiculoActual = data.vehiculo;
                         document.getElementById('vehiculoModelo').textContent = vehiculoActual.modelo || 'Sin modelo';
@@ -4374,6 +4114,17 @@
                         document.getElementById('vehiculoCombustible').textContent = (vehiculoActual.combustible || 0) +
                             '%';
                         document.getElementById('combustibleFill').style.width = (vehiculoActual.combustible || 0) + '%';
+
+                        // Foto del vehículo
+                        if (vehiculoActual.foto) {
+                            document.getElementById('vehiculoFotoMiniImg').src = vehiculoActual.foto;
+                            document.getElementById('vehiculoFotoMiniImg').style.display = 'block';
+                            document.getElementById('vehiculoFotoMini').querySelector('div').style.display = 'none';
+
+                            document.getElementById('vehiculoFotoPerfilImg').src = vehiculoActual.foto;
+                            document.getElementById('vehiculoFotoPerfilImg').style.display = 'block';
+                            document.getElementById('vehiculoFotoPerfil').querySelector('i').style.display = 'none';
+                        }
 
                         document.getElementById('vehiculoPlacaDetalle').textContent = vehiculoActual.placa ||
                         'Sin placa';
@@ -5260,33 +5011,101 @@
         function procesarPreguntaIABusero(texto) {
             const m = texto.toLowerCase();
 
+            // ==========================================================
+            // RESPUESTAS AMPLIADAS DE LA IA PARA BUSERO
+            // ==========================================================
+
+            // 1. Documentos
             if (m.includes('documento') || m.includes('foto') || m.includes('subir')) {
-                return '📸 <strong>Para subir un documento:</strong><br>1. Ve a la sección DOCUMENTOS<br>2. Selecciona el tipo de documento<br>3. Haz clic en "Subir"<br>4. Selecciona la foto o PDF desde tu dispositivo';
+                return '📸 <strong>Para subir un documento:</strong><br>1. Ve a la sección DOCUMENTOS<br>2. Selecciona el tipo de documento<br>3. Haz clic en "Subir"<br>4. Selecciona la foto o PDF desde tu dispositivo<br>5. Ingresa la fecha de vencimiento<br><br>💡 Los documentos vencidos aparecerán en rojo.';
             }
 
+            // 2. Cobros / Ganancias
             if (m.includes('cobrar') || m.includes('ganancias') || m.includes('ingresos')) {
                 const ingresos = document.getElementById('statIngresos')?.textContent || 'B/. 0.00';
-                return `💰 <strong>Tus ingresos hoy:</strong> ${ingresos}<br>📊 Revisa tus estadísticas en la sección INGRESOS.`;
+                return `💰 <strong>Tus ingresos hoy:</strong> ${ingresos}<br>📊 Revisa tus estadísticas en la sección INGRESOS.<br>🔹 También puedes ver el resumen del día con el detalle de efectivo, QR y bonos.`;
             }
 
+            // 3. Ruta
             if (m.includes('ruta') || m.includes('recorrido') || m.includes('destino')) {
                 const ruta = document.getElementById('rutaActualNombre')?.textContent || 'Sin ruta asignada';
-                return `🚌 <strong>Tu ruta actual:</strong> ${ruta}<br>📍 Revisa los detalles en la sección RUTA.`;
+                return `🚌 <strong>Tu ruta actual:</strong> ${ruta}<br>📍 Revisa los detalles en la sección RUTA.<br>🔹 Puedes ver el mapa de asientos y los horarios de salida.`;
             }
 
+            // 4. Mantenimiento
             if (m.includes('mantenimiento') || m.includes('revisión') || m.includes('aceite')) {
-                return '🔧 <strong>Mantenimiento del vehículo:</strong><br>• Revisa la sección MANTENIMIENTO<br>• Puedes ver el progreso de cada servicio<br>• Marca los servicios como completados';
+                return '🔧 <strong>Mantenimiento del vehículo:</strong><br>• Revisa la sección MANTENIMIENTO<br>• Puedes ver el progreso de cada servicio<br>• Marca los servicios como completados<br>• Sube fotos como evidencia<br>• Lleva un historial de todas las revisiones.';
             }
 
+            // 5. SOS / Emergencia
             if (m.includes('sos') || m.includes('emergencia') || m.includes('ayuda')) {
-                return '🆘 <strong>Botón de emergencia SOS:</strong><br>• Presiona el botón SOS en la sección SEGURIDAD<br>• También tienes un botón flotante rojo siempre visible<br>• Se notificará a tus contactos de confianza<br><br>⚠️ Úsalo SOLO en casos de emergencia real.';
+                return '🆘 <strong>Botón de emergencia SOS:</strong><br>• Presiona el botón SOS en la sección SEGURIDAD<br>• También tienes un botón flotante rojo siempre visible<br>• Se notificará a tus contactos de confianza<br>• 1 clic = seleccionar tipo de emergencia<br>• 2 clics = alerta inmediata<br><br>⚠️ Úsalo SOLO en casos de emergencia real.';
             }
 
+            // 6. Saludos
             if (m.includes('hola') || m.includes('buenas') || m.includes('saludos')) {
-                return '👋 ¡Hola! Soy tu asistente IA de CupoTax.<br><br>Puedo ayudarte con:<br>📄 Documentos<br>💰 Cobros y ganancias<br>🚌 Ruta<br>🔧 Mantenimiento<br>🆘 Emergencias<br><br>¿En qué más puedo ayudarte?';
+                return '👋 ¡Hola! Soy tu asistente IA de CupoTax.<br><br>Puedo ayudarte con:<br>📄 Documentos<br>💰 Cobros y ganancias<br>🚌 Ruta<br>🔧 Mantenimiento<br>🆘 Emergencias<br>👥 Pasajeros<br>📅 Historial de viajes<br><br>¿En qué más puedo ayudarte?';
             }
 
-            return '🤔 No entendí tu pregunta. Puedes preguntarme sobre:<br><br>📄 Documentos<br>💰 Cobros / Ganancias<br>🚌 Ruta<br>🔧 Mantenimiento<br>🆘 Emergencias<br><br>💡 O escribe "ayuda" para ver todas las opciones.';
+            // 7. Pasajeros
+            if (m.includes('pasajero') || m.includes('pasajeros') || m.includes('viajeros')) {
+                return '👥 <strong>Información de pasajeros:</strong><br>• Puedes ver la lista de pasajeros en la sección PASAJEROS<br>• Los pasajeros frecuentes aparecen en el inicio<br>• Puedes buscar pasajeros por nombre<br>• La ocupación del bus se muestra en tiempo real<br>• Los asientos ocupados se marcan en rojo.';
+            }
+
+            // 8. Historial
+            if (m.includes('historial') || m.includes('viajes') || m.includes('mis viajes')) {
+                return '📜 <strong>Historial de viajes:</strong><br>• Puedes ver todos tus viajes en la sección HISTORIAL<br>• Cada viaje muestra: fecha, ruta, pasajeros y tarifa<br>• También puedes ver estadísticas como:<br>• 📊 Total de viajes realizados<br>• 👥 Pasajeros transportados<br>• 📏 Distancia recorrida.';
+            }
+
+            // 9. Perfil
+            if (m.includes('perfil') || m.includes('mi perfil') || m.includes('editar perfil')) {
+                return '👤 <strong>Mi Perfil:</strong><br>• Puedes editar tu nombre, teléfono y correo<br>• Cambiar tu foto de perfil<br>• Cambiar la foto de tu vehículo<br>• Cambiar tu contraseña<br>• Todos los cambios se guardan automáticamente.<br><br>💡 No es necesario cerrar sesión para actualizar tu perfil.';
+            }
+
+            // 10. Ayuda / Comandos
+            if (m.includes('ayuda') || m.includes('comandos') || m.includes('que puedes hacer')) {
+                return '🆘 <strong>Comandos disponibles:</strong><br><br>🗣️ <strong>Puedes preguntarme sobre:</strong><br>📄 Documentos<br>💰 Cobros y ganancias<br>🚌 Ruta<br>🔧 Mantenimiento<br>🆘 Emergencias<br>👥 Pasajeros<br>📜 Historial<br>👤 Perfil<br><br>📱 <strong>Comandos de voz:</strong><br>• "Ir a Inicio"<br>• "Ir a Mi Ruta"<br>• "Ir a Pasajeros"<br>• "Ir a Historial"<br>• "Ir a Ingresos"<br>• "Compartir ubicación"<br>• "SOS"<br><br>¿Sobre qué tema necesitas información?';
+            }
+
+            // 11. Agradecimientos
+            if (m.includes('gracias')) {
+                return '🙏 ¡De nada! Estoy aquí para ayudarte con tus viajes. ¿Necesitas algo más?<br><br>💡 Recuerda que puedes preguntarme sobre documentos, cobros, ruta, mantenimiento, emergencias, pasajeros, historial o perfil.';
+            }
+
+            // 12. Clima
+            if (m.includes('clima') || m.includes('temperatura') || m.includes('lluvia') || m.includes('soleado')) {
+                const temp = document.getElementById('weatherTemp')?.textContent || '28°C';
+                return `🌤️ <strong>Clima actual:</strong><br><br>📊 ${temp}<br>💡 Recuerda revisar las condiciones climáticas antes de salir a la ruta.<br>🔹 Si hay lluvia, maneja con precaución y reduce la velocidad.`;
+            }
+
+            // 13. Vehículo
+            if (m.includes('vehiculo') || m.includes('mi vehiculo') || m.includes('bus')) {
+                const placa = document.getElementById('vehiculoPlaca')?.textContent || 'N/A';
+                const modelo = document.getElementById('vehiculoModelo')?.textContent || 'N/A';
+                const capacidad = document.getElementById('vehiculoCapacidad')?.textContent || '0';
+                return `🚌 <strong>Información de tu vehículo:</strong><br><br>🔹 <strong>Placa:</strong> ${placa}<br>🔹 <strong>Modelo:</strong> ${modelo}<br>🔹 <strong>Capacidad:</strong> ${capacidad} pasajeros<br>🔹 Puedes ver más detalles en la sección VEHÍCULO.<br>🔹 También puedes cambiar la foto de tu vehículo.`;
+            }
+
+            // 14. Ingresos
+            if (m.includes('ingresos') || m.includes('ganancias') || m.includes('cuanto he ganado')) {
+                const hoy = document.getElementById('ingresoHoy')?.textContent || 'B/. 0.00';
+                const semana = document.getElementById('ingresoSemana')?.textContent || 'B/. 0.00';
+                const mes = document.getElementById('ingresoMes')?.textContent || 'B/. 0.00';
+                return `💰 <strong>Resumen de ingresos:</strong><br><br>📊 <strong>Hoy:</strong> ${hoy}<br>📈 <strong>Esta semana:</strong> ${semana}<br>📉 <strong>Este mes:</strong> ${mes}<br><br>💡 Revisa la sección INGRESOS para más detalles y el resumen del día.`;
+            }
+
+            // 15. Contactos de confianza
+            if (m.includes('contacto') || m.includes('contactos') || m.includes('confianza')) {
+                return '👤 <strong>Contactos de confianza:</strong><br><br>🔹 Puedes agregar contactos de confianza en la sección SEGURIDAD.<br>🔹 Se notificarán cuando uses el botón SOS.<br>🔹 También puedes compartir tu ubicación con ellos.<br>🔹 Agrega nombre y teléfono de tus contactos.<br><br>💡 Es importante tener contactos de confianza registrados.';
+            }
+
+            // 16. Notificaciones
+            if (m.includes('notificacion') || m.includes('notificaciones') || m.includes('alertas')) {
+                return '🔔 <strong>Notificaciones:</strong><br><br>🔹 Recibirás notificaciones de:<br>• 📢 Nuevos viajes asignados<br>• 📅 Recordatorios de mantenimiento<br>• 💬 Mensajes del administrador<br>• 🎁 Bonos y recompensas<br>🔹 Puedes ver todas tus notificaciones en la sección NOTIFICACIONES.<br><br>💡 Las notificaciones importantes aparecen como alertas en la pantalla.';
+            }
+
+            // Respuesta por defecto
+            return '🤔 No entendí tu pregunta. Puedes preguntarme sobre:<br><br>📄 Documentos<br>💰 Cobros / Ganancias<br>🚌 Ruta<br>🔧 Mantenimiento<br>🆘 Emergencias<br>👥 Pasajeros<br>📜 Historial<br>👤 Perfil<br>🌤️ Clima<br>🚌 Vehículo<br>📊 Ingresos<br>👤 Contactos<br>🔔 Notificaciones<br><br>💡 O escribe "ayuda" para ver todas las opciones.';
         }
 
         function preguntaIABusero(pregunta) {
@@ -5512,7 +5331,7 @@
         }
 
         // ==========================================================
-        // 👤 ACTUALIZAR PERFIL
+        // 👤 ACTUALIZAR PERFIL (SIN CERRAR SESIÓN)
         // ==========================================================
 
         function actualizarPerfil() {
@@ -5547,16 +5366,19 @@
             database.ref('usuarios/' + uidActual).update(updates).then(function() {
                 Swal.fire({
                     title: '✅ Perfil actualizado',
+                    text: 'Tus datos han sido guardados correctamente',
                     icon: 'success',
                     background: 'var(--bg-card)',
                     color: 'var(--text-primary)',
                     timer: 2000,
                     showConfirmButton: false
                 });
+
                 document.getElementById('buseroNombre').textContent = nombre;
                 document.getElementById('topNombre').textContent = nombre;
                 document.getElementById('perfilNombre').textContent = nombre;
                 document.getElementById('editPassword').value = '';
+
                 registrarAuditoria('actualizar_perfil', 'Actualizó su perfil');
                 cargarDatosBusero(uidActual);
             }).catch(function(error) {
@@ -5565,7 +5387,7 @@
         }
 
         // ==========================================================
-        // 📸 FOTO DE PERFIL
+        // 📸 SUBIR FOTO DE PERFIL
         // ==========================================================
 
         document.getElementById('fotoInput').addEventListener('change', function(e) {
@@ -5573,27 +5395,69 @@
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(event) {
-                    const img = document.getElementById('fotoPerfilImg');
-                    const icono = document.getElementById('fotoIcono');
-                    img.src = event.target.result;
-                    img.style.display = 'block';
-                    icono.style.display = 'none';
-                    database.ref('usuarios/' + uidActual + '/fotoPerfil').set(event.target.result);
-                    registrarAuditoria('cambiar_foto_perfil', 'Cambió foto de perfil');
+                    const data = event.target.result;
+
+                    // Actualizar perfil
+                    document.getElementById('fotoPerfilImg').src = data;
+                    document.getElementById('fotoPerfilImg').style.display = 'block';
+                    document.getElementById('fotoIcono').style.display = 'none';
+                    document.getElementById('fotoPerfilLabel').style.display = 'block';
+
+                    // Actualizar sidebar
+                    document.getElementById('sidebarFotoImg').src = data;
+                    document.getElementById('sidebarFotoImg').style.display = 'block';
+                    document.getElementById('sidebarFotoPlaceholder').style.display = 'none';
+
+                    // Guardar en Firebase
+                    database.ref('usuarios/' + uidActual + '/fotoPerfil').set(data).then(function() {
+                        Swal.fire({
+                            title: '✅ Foto actualizada',
+                            icon: 'success',
+                            timer: 1500,
+                            showConfirmButton: false,
+                            background: 'var(--bg-card)',
+                            color: 'var(--text-primary)'
+                        });
+                        registrarAuditoria('cambiar_foto_perfil', 'Cambió foto de perfil');
+                    });
                 };
                 reader.readAsDataURL(file);
             }
         });
 
-        document.getElementById('fotoVehiculoInput').addEventListener('change', function(e) {
+        // ==========================================================
+        // 📸 SUBIR FOTO DEL VEHÍCULO (DESDE PERFIL)
+        // ==========================================================
+
+        document.getElementById('fotoVehiculoPerfilInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(event) {
-                    const container = document.getElementById('vehiculoFotoContainer');
-                    container.innerHTML = `<img src="${event.target.result}" style="width:100%; height:100%; object-fit:cover;">`;
-                    database.ref('usuarios/' + uidActual + '/vehiculo/foto').set(event.target.result);
-                    registrarAuditoria('cambiar_foto_vehiculo', 'Cambió foto del vehículo');
+                    const data = event.target.result;
+
+                    // Actualizar en perfil
+                    document.getElementById('vehiculoFotoPerfilImg').src = data;
+                    document.getElementById('vehiculoFotoPerfilImg').style.display = 'block';
+                    document.getElementById('vehiculoFotoPerfil').querySelector('i').style.display = 'none';
+
+                    // Actualizar en inicio
+                    document.getElementById('vehiculoFotoMiniImg').src = data;
+                    document.getElementById('vehiculoFotoMiniImg').style.display = 'block';
+                    document.getElementById('vehiculoFotoMini').querySelector('div').style.display = 'none';
+
+                    // Guardar en Firebase
+                    database.ref('usuarios/' + uidActual + '/vehiculo/foto').set(data).then(function() {
+                        Swal.fire({
+                            title: '✅ Foto del vehículo actualizada',
+                            icon: 'success',
+                            timer: 1500,
+                            showConfirmButton: false,
+                            background: 'var(--bg-card)',
+                            color: 'var(--text-primary)'
+                        });
+                        registrarAuditoria('cambiar_foto_vehiculo', 'Cambió foto del vehículo');
+                    });
                 };
                 reader.readAsDataURL(file);
             }
@@ -5717,7 +5581,6 @@
         }
 
         function actualizarBadgesBusero() {
-            // Actualizar badges de notificaciones
             database.ref('notificaciones').orderByChild('buseroId').equalTo(uidActual).once('value').then(function(
                 snapshot) {
                 let noLeidas = 0;
@@ -5779,6 +5642,20 @@
                             window.speechSynthesis.getVoices();
                         };
                     }
+
+                    // Verificar si el usuario está registrado en la prestataria
+                    if (usuarioActual && usuarioActual.prestataria) {
+                        database.ref('prestatarias/' + usuarioActual.prestataria + '/conductores/' + uidActual)
+                            .set({
+                                nombre: usuarioActual.nombre,
+                                rol: usuarioActual.rol,
+                                placa: usuarioActual.vehiculo?.placa || 'N/A',
+                                cupo: usuarioActual.vehiculo?.interno || 'N/A',
+                                fechaRegistro: usuarioActual.fechaRegistro || new Date().toISOString(),
+                                estado: 'Activo'
+                            });
+                    }
+
                 } else {
                     window.location.href = API_URL + '/login';
                 }
@@ -5789,10 +5666,13 @@
         console.log('🛡️ Seguridad activa: Sanitización, Anti-XSS, Auditoría, Inactividad (30min)');
         console.log('🎤 Modo voz activo para inclusión');
         console.log('🚌 Buses reales desde Firebase');
-        console.log('🗺️ 4 modos de mapa: Estándar, Satélite, Navegación, Oscuro');
+        console.log('🗺️ 4 modos de mapa: Estándar B/N, Satélite, Navegación, Oscuro');
         console.log('💬 Feedback Agent integrado');
         console.log('📱 Responsive: PC, Tablet, Móvil');
         console.log('🔥 Firebase conectado en tiempo real');
+        console.log('👤 Perfil editable sin cerrar sesión');
+        console.log('📸 Fotos de perfil y vehículo guardadas');
+        console.log('🏢 Registro automático en prestataria');
     </script>
 
 </body>
