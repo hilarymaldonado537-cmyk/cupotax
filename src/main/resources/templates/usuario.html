@@ -7,18 +7,13 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
-    </script>
-    <script src='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.js'>
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css' rel='stylesheet' />
 
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js">
-    </script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js">
-    </script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js">
-    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
     <style>
         /* ==========================================================
@@ -251,22 +246,12 @@
         }
 
         @keyframes pulse-voice {
-            0%,
-            100% {
-                box-shadow: 0 0 20px rgba(255, 106, 42, 0.4);
-            }
-            50% {
-                box-shadow: 0 0 40px rgba(255, 106, 42, 0.8);
-            }
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 106, 42, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(255, 106, 42, 0.8); }
         }
         @keyframes pulse-voice-danger {
-            0%,
-            100% {
-                box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
-            }
-            50% {
-                box-shadow: 0 0 40px rgba(239, 68, 68, 0.8);
-            }
+            0%, 100% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(239, 68, 68, 0.8); }
         }
 
         .voice-status-bar {
@@ -306,14 +291,8 @@
         }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* ==========================================================
@@ -504,13 +483,8 @@
         }
 
         @keyframes pulse {
-            0%,
-            100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.2);
-            }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
         }
 
         .notificaciones-panel {
@@ -534,14 +508,8 @@
         }
 
         @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .notificaciones-header {
@@ -622,7 +590,7 @@
         }
 
         /* ==========================================================
-           MAPA
+           MAPA - SIN MAPA DE CALOR Y SIN LÍNEAS VERDES
            ========================================================== */
         .map-wrapper {
             position: relative;
@@ -794,14 +762,8 @@
         }
 
         @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .feedback-panel .feedback-header {
@@ -1018,15 +980,8 @@
             animation: pulse-dot 1.5s infinite;
         }
         @keyframes pulse-dot {
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.5;
-                transform: scale(0.8);
-            }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
         }
 
         /* ==========================================================
@@ -1290,14 +1245,8 @@
             font-size: 1.1rem;
         }
         @keyframes pulseSos {
-            0%,
-            100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.02);
-                background: #c0392b;
-            }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); background: #c0392b; }
         }
 
         .btn-emergencia {
@@ -1321,21 +1270,11 @@
             transform: scale(1.02);
             filter: brightness(1.1);
         }
-        .btn-policia {
-            background: #e74c3c;
-        }
-        .btn-bomberos {
-            background: #e67e22;
-        }
-        .btn-ambulancia {
-            background: #2ecc71;
-        }
-        .btn-transito {
-            background: #3498db;
-        }
-        .btn-salud {
-            background: #9b59b6;
-        }
+        .btn-policia { background: #e74c3c; }
+        .btn-bomberos { background: #e67e22; }
+        .btn-ambulancia { background: #2ecc71; }
+        .btn-transito { background: #3498db; }
+        .btn-salud { background: #9b59b6; }
 
         .service-buttons {
             display: flex;
@@ -1388,14 +1327,8 @@
             animation: modalFadeIn 0.3s ease;
         }
         @keyframes modalFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .modal-header {
             display: flex;
@@ -1567,15 +1500,8 @@
             color: white;
         }
         @keyframes pulseVoice {
-            0%,
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: scale(1.1);
-                opacity: 0.8;
-            }
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
         }
         .voice-status {
             font-size: 0.8rem;
@@ -2895,51 +2821,6 @@
                             <option value="Colonia Santeña">
                             <option value="Panamá">
                             <option value="Santiago">
-                            <option value="Changuinola Centro">
-                            <option value="Finca 6">
-                            <option value="Cuadrante">
-                            <option value="Finca 15">
-                            <option value="Guabito">
-                            <option value="Almirante">
-                            <option value="David">
-                            <option value="Zona hospitalaria">
-                            <option value="Entrada a 66">
-                            <option value="Swiche 4">
-                            <option value="El Puré">
-                            <option value="Finca 12">
-                            <option value="Bda Barnet">
-                            <option value="Cuartel de Policía Fca 6">
-                            <option value="Bda villa Marina">
-                            <option value="Barriada A">
-                            <option value="Barriada B">
-                            <option value="Coibita">
-                            <option value="Lincon creek">
-                            <option value="Barriada universitaria">
-                            <option value="Villa verde">
-                            <option value="Finca 4">
-                            <option value="El Silencio">
-                            <option value="Finca 8">
-                            <option value="Finca 11">
-                            <option value="Villa Marina">
-                            <option value="Aeropuerto de Changuinola">
-                            <option value="Barriada 4 de Abril">
-                            <option value="INADEH">
-                            <option value="Las Fincas 60">
-                            <option value="Las Fincas 30">
-                            <option value="San San">
-                            <option value="Milla 21">
-                            <option value="Finca 51">
-                            <option value="Finca 52">
-                            <option value="Puente Blanco">
-                            <option value="Finca 41">
-                            <option value="California">
-                            <option value="Débora">
-                            <option value="Policlínica">
-                            <option value="Aeropuerto">
-                            <option value="Bluff">
-                            <option value="Carolina">
-                            <option value="Big Creek">
-                            <option value="Playa Tortuga">
                         </datalist>
                     </div>
 
@@ -3000,20 +2881,6 @@
                             <option value="Colonia Santeña">
                             <option value="Las Tablas">
                             <option value="Tiger Hill">
-                            <option value="Nuevo Paraíso">
-                            <option value="Valle Las Perlas">
-                            <option value="Río Oeste">
-                            <option value="Río Uyama">
-                            <option value="Quebrada Pastor">
-                            <option value="Quebrada Pitti">
-                            <option value="Loma Estrella">
-                            <option value="Chiriqui Grande">
-                            <option value="Theobroma">
-                            <option value="Finca Las 30">
-                            <option value="Bocas del Drago">
-                            <option value="Colonia Santeña">
-                            <option value="Panamá">
-                            <option value="Santiago">
                         </datalist>
                     </div>
 
@@ -3254,16 +3121,72 @@
             </div>
 
             <!-- ==========================================================
-            SECCIÓN CONFIGURACIÓN
+            SECCIÓN CONFIGURACIÓN - AHORA CON PERFIL EDITABLE
             ========================================================== -->
             <div id="seccion-configuracion" style="display:none;">
                 <div class="card">
                     <div class="card-title"><i class="fas fa-cog"></i> Configuración</div>
-                    <div class="viaje-item" style="cursor:pointer;" onclick="irAPerfil()"><span><i class="fas fa-user"></i> Editar perfil</span><span style="color:var(--accent);">→</span></div>
-                    <div class="viaje-item" style="cursor:pointer;" onclick="cambiarPassword()"><span><i class="fas fa-lock"></i> Cambiar contraseña</span><span style="color:var(--accent);">→</span></div>
-                    <div class="viaje-item"><span><i class="fas fa-language"></i> Idioma</span><span style="color:var(--accent);">Español</span></div>
-                    <div class="viaje-item"><span><i class="fas fa-bell"></i> Notificaciones</span><span style="color:var(--accent);">Activadas</span></div>
-                    <div class="viaje-item"><span><i class="fas fa-mobile-alt"></i> Versión de la app</span><span>v2.5.0</span></div>
+
+                    <!-- Botón para editar perfil (ABRE MODAL) -->
+                    <div class="viaje-item" style="cursor:pointer;" onclick="abrirModalEditarPerfil()">
+                        <span><i class="fas fa-user-edit"></i> Editar perfil</span>
+                        <span style="color:var(--accent);">✎</span>
+                    </div>
+
+                    <div class="viaje-item" style="cursor:pointer;" onclick="cambiarPassword()">
+                        <span><i class="fas fa-lock"></i> Cambiar contraseña</span>
+                        <span style="color:var(--accent);">→</span>
+                    </div>
+                    <div class="viaje-item">
+                        <span><i class="fas fa-language"></i> Idioma</span>
+                        <span style="color:var(--accent);">Español</span>
+                    </div>
+                    <div class="viaje-item">
+                        <span><i class="fas fa-bell"></i> Notificaciones</span>
+                        <span style="color:var(--accent);">Activadas</span>
+                    </div>
+                    <div class="viaje-item">
+                        <span><i class="fas fa-mobile-alt"></i> Versión de la app</span>
+                        <span>v2.5.0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==========================================================
+            MODAL EDITAR PERFIL (NUEVO - SIN REDIRIGIR)
+            ========================================================== -->
+            <div id="modalEditarPerfil" class="modal-recarga" style="display:none;">
+                <div class="modal-content" style="max-width:450px;">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-user-edit"></i> Editar perfil</h3>
+                        <button class="modal-close" onclick="cerrarModalEditarPerfil()">&times;</button>
+                    </div>
+
+                    <!-- Foto de perfil -->
+                    <div style="text-align:center; margin-bottom:1rem;">
+                        <div id="fotoPerfilContainer" style="width:80px; height:80px; border-radius:50%; background:var(--hover-bg); border:3px solid var(--accent); overflow:hidden; display:flex; align-items:center; justify-content:center; margin:0 auto;">
+                            <i class="fas fa-user fa-3x" id="fotoIconoEdit" style="color:var(--text-secondary);"></i>
+                            <img id="fotoPerfilImgEdit" src="" style="width:100%; height:100%; object-fit:cover; display:none;">
+                        </div>
+                        <button class="btn-outline" style="margin-top:8px; padding:4px 16px; font-size:0.7rem; width:auto;" onclick="document.getElementById('fotoInputEdit').click()">📸 Cambiar foto</button>
+                        <input type="file" id="fotoInputEdit" accept="image/*" style="display:none;">
+                    </div>
+
+                    <div class="form-group">
+                        <label>NOMBRE COMPLETO</label>
+                        <input type="text" id="editNombre" placeholder="Tu nombre completo">
+                    </div>
+                    <div class="form-group">
+                        <label>TELÉFONO</label>
+                        <input type="tel" id="editTelefono" placeholder="Ej: 6663-7549">
+                    </div>
+                    <div class="form-group">
+                        <label>CORREO ELECTRÓNICO</label>
+                        <input type="email" id="editCorreo" placeholder="tu@email.com">
+                    </div>
+
+                    <button class="btn-primary" onclick="guardarPerfilEditado()" style="margin-top:0.5rem;">💾 Guardar cambios</button>
+                    <button class="btn-outline" onclick="cerrarModalEditarPerfil()" style="margin-top:0.5rem;">Cancelar</button>
                 </div>
             </div>
 
@@ -3953,7 +3876,7 @@
         }
 
         // ==========================================================
-        // 🗺️ MAPA - MÚLTIPLES MODOS
+        // 🗺️ MAPA - SIN MAPA DE CALOR Y SIN LÍNEAS VERDES
         // ==========================================================
 
         let mapboxMap;
@@ -3969,7 +3892,7 @@
         let etaInterval = null;
         let viajeActualData = null;
 
-        // ESTILOS DE MAPA
+        // ESTILOS DE MAPA (SIN MAPA DE CALOR)
         const mapStyles = {
             standard: 'mapbox://styles/mapbox/standard',
             satellite: 'mapbox://styles/mapbox/satellite-streets-v12',
@@ -4009,6 +3932,7 @@
                     mapboxMap.setPaintProperty('building', 'fill-extrusion-opacity', 0.6);
                 } catch (e) {}
 
+                // OBTENER UBICACIÓN REAL DEL USUARIO AL ABRIR
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
                         function(pos) {
@@ -4017,9 +3941,14 @@
                             mapboxMap.setCenter([pos.coords.longitude, pos.coords.latitude]);
                             mapboxMap.setZoom(15);
                             cargarVehiculosReales();
+                            guardarUbicacionEnFirebase(pos.coords.latitude, pos.coords.longitude);
                         },
                         function() {
                             cargarVehiculosReales();
+                        }, {
+                            enableHighAccuracy: true,
+                            timeout: 10000,
+                            maximumAge: 5000
                         }
                     );
                 } else {
@@ -4036,15 +3965,39 @@
 
             mapboxMap.on('click', function(e) {
                 obtenerInfoLugarPorCoordenadas(e.lngLat.lng, e.lngLat.lat);
-                // Actualizar ubicación para Feedback
                 obtenerDireccionFeedback(e.lngLat.lat, e.lngLat.lng);
             });
+        }
+
+        function guardarUbicacionEnFirebase(lat, lng) {
+            if (!uidActual) return;
+            const ubicacion = {
+                lat: lat,
+                lng: lng,
+                timestamp: firebase.database.ServerValue.TIMESTAMP
+            };
+            database.ref('usuarios/' + uidActual + '/ubicacion').set(ubicacion);
+        }
+
+        // ACTUALIZAR UBICACIÓN CADA 5 SEGUNDOS
+        function iniciarActualizacionUbicacion() {
+            if (!uidActual) return;
+            setInterval(function() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        function(pos) {
+                            guardarUbicacionEnFirebase(pos.coords.latitude, pos.coords.longitude);
+                        },
+                        function() {},
+                        { enableHighAccuracy: true, timeout: 10000, maximumAge: 5000 }
+                    );
+                }
+            }, 5000);
         }
 
         function cambiarModoMapa(modo) {
             mapModeActual = modo;
 
-            // Actualizar botones
             document.querySelectorAll('.map-mode-btn').forEach(function(btn) {
                 btn.classList.remove('active');
                 if (btn.dataset.mode === modo) {
@@ -4052,7 +4005,6 @@
                 }
             });
 
-            // Cambiar estilo del mapa
             if (mapboxMap) {
                 mapboxMap.setStyle(mapStyles[modo] || mapStyles.standard);
                 mapboxMap.once('style.load', function() {
@@ -4067,7 +4019,6 @@
                         obtenerInfoLugarPorCoordenadas(e.lngLat.lng, e.lngLat.lat);
                     });
                     if (modo === 'navigation') {
-                        // En modo navegación, ocultar vehículos y mostrar ruta
                         ocultarVehiculos();
                         if (viajeActualData) {
                             mostrarRutaNavegacion(viajeActualData);
@@ -4104,100 +4055,8 @@
             cargarVehiculosReales();
         }
 
-        function mostrarRutaNavegacion(viaje) {
-            if (!viaje || !mapboxMap) return;
-            const origen = viaje.origen || 'Changuinola';
-            const destino = viaje.destino || 'David';
-
-            calcularRutaNavegacion(origen, destino);
-        }
-
-        async function calcularRutaNavegacion(origen, destino) {
-            try {
-                const geocodeUrl = function(q) {
-                    return 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + encodeURIComponent(q) +
-                        '.json?access_token=' + mapboxgl.accessToken + '&country=pa&limit=1';
-                };
-
-                const [origenRes, destinoRes] = await Promise.all([
-                    fetch(geocodeUrl(origen)).then(function(r) { return r.json(); }),
-                    fetch(geocodeUrl(destino)).then(function(r) { return r.json(); })
-                ]);
-
-                if (!origenRes.features?.length || !destinoRes.features?.length) return;
-
-                const ori = origenRes.features[0].center;
-                const dest = destinoRes.features[0].center;
-
-                const routeRes = await fetch(
-                    'https://api.mapbox.com/directions/v5/mapbox/driving/' + ori[0] + ',' + ori[1] + ';' + dest[0] +
-                    ',' + dest[1] +
-                    '?access_token=' + mapboxgl.accessToken + '&geometries=geojson&steps=true&language=es'
-                );
-                const routeData = await routeRes.json();
-
-                if (routeData.routes?.length) {
-                    const route = routeData.routes[0];
-                    const steps = route.legs[0].steps;
-
-                    if (currentRouteLayer) {
-                        if (mapboxMap.getLayer('route')) mapboxMap.removeLayer('route');
-                        if (mapboxMap.getSource('route')) mapboxMap.removeSource('route');
-                    }
-
-                    mapboxMap.addSource('route', {
-                        type: 'geojson',
-                        data: {
-                            type: 'Feature',
-                            geometry: route.geometry
-                        }
-                    });
-
-                    mapboxMap.addLayer({
-                        id: 'route',
-                        type: 'line',
-                        source: 'route',
-                        layout: {
-                            'line-join': 'round',
-                            'line-cap': 'round'
-                        },
-                        paint: {
-                            'line-color': '#3A86FF',
-                            'line-width': 5,
-                            'line-opacity': 0.9
-                        }
-                    });
-
-                    currentRouteLayer = true;
-
-                    const stepsList = document.getElementById('routeStepsList');
-                    stepsList.innerHTML = steps.map(function(step) {
-                        return '<div class="route-step"><i class="fas fa-arrow-right"></i><span>' + (step
-                            .maneuver.instruction || 'Continuar') + '</span><span style="margin-left: auto;">' +
-                            (step.distance / 1000).toFixed(1) + ' km</span></div>';
-                    }).join('');
-
-                    stepsList.innerHTML =
-                        '<div class="route-step" style="background: rgba(58,134,255,0.2); border-radius: 12px;"><i class="fas fa-info-circle"></i><span><strong>' +
-                        (route.distance / 1000).toFixed(1) + ' km · ' + Math.round(route.duration / 60) +
-                        ' min</strong></span></div>' + stepsList.innerHTML;
-
-                    document.getElementById('routeInstructionsPanel').style.display = 'block';
-                    mapboxMap.fitBounds(new mapboxgl.LngLatBounds().extend(ori).extend(dest), { padding: 50 });
-
-                    if (modoVozActivo) {
-                        leerTexto('Ruta calculada: ' + (route.distance / 1000).toFixed(1) +
-                            ' kilómetros, aproximadamente ' + Math.round(route.duration / 60) +
-                            ' minutos.');
-                    }
-                }
-            } catch (e) {
-                console.error('Error calculando ruta de navegación:', e);
-            }
-        }
-
         // ==========================================================
-        // 📍 CARGAR VEHÍCULOS REALES DESDE FIREBASE
+        // 📍 CARGAR VEHÍCULOS REALES DESDE FIREBASE (CERCANOS)
         // ==========================================================
 
         function cargarVehiculosReales() {
@@ -4219,6 +4078,7 @@
                                 user.ubicacion.lng
                             );
 
+                            // SOLO VEHÍCULOS DENTRO DE 5 KM
                             if (dist < 5) {
                                 vehiculosReales.push({
                                     id: child.key,
@@ -4278,7 +4138,7 @@
         }
 
         // ==========================================================
-        // 📌 MARCADORES EN EL MAPA
+        // 📌 MARCADORES EN EL MAPA Y LISTA DE VEHÍCULOS CERCANOS
         // ==========================================================
 
         function actualizarMarcadoresReales(vehiculos) {
@@ -4326,10 +4186,6 @@
                 marcadoresVehiculos[v.id] = marker;
             });
         }
-
-        // ==========================================================
-        // 📋 LISTA DE VEHÍCULOS EN PANEL LATERAL
-        // ==========================================================
 
         function actualizarListaVehiculos(vehiculos) {
             const panelContent = document.getElementById('infoPanelContent');
@@ -4493,10 +4349,8 @@
 
             document.getElementById('conductorSeguimiento').classList.add('active');
 
-            // Cambiar a modo navegación automáticamente
             cambiarModoMapa('navigation');
 
-            // Escuchar ubicación del conductor
             if (conductorUbicacionEscucha) {
                 conductorUbicacionEscucha.off();
             }
@@ -4510,14 +4364,12 @@
                 calcularETA(ubicacion.lat, ubicacion.lng);
             });
 
-            // Escuchar cambios en el estado del viaje
             database.ref('viajes/' + viajeId).on('value', function(snapshot) {
                 const viaje = snapshot.val();
                 if (!viaje) return;
 
                 if (viaje.estado === 'completado') {
                     finalizarSeguimientoConductor();
-                    // Mostrar modal de calificación
                     setTimeout(function() {
                         mostrarModalCalificacion(conductorId);
                     }, 2000);
@@ -4574,7 +4426,6 @@
                 .setPopup(popup)
                 .addTo(mapboxMap);
 
-            // Centrar el mapa en el conductor
             mapboxMap.flyTo({
                 center: [lng, lat],
                 zoom: 15,
@@ -4584,7 +4435,7 @@
 
         function calcularETA(lat, lng) {
             const dist = calcularDistancia(ubicacionUsuario.lat, ubicacionUsuario.lng, lat, lng);
-            const velocidadPromedio = 40; // km/h
+            const velocidadPromedio = 40;
             const tiempoMin = Math.round((dist / velocidadPromedio) * 60);
 
             const eta = tiempoMin < 1 ? 'Menos de 1 min' :
@@ -4594,7 +4445,6 @@
             document.getElementById('conductorETA').textContent = eta;
             document.getElementById('etaPopup').textContent = eta;
 
-            // Actualizar estado
             const estadoTexto = tiempoMin < 2 ? 'El conductor está casi llegando' :
                 tiempoMin < 5 ? 'El conductor está muy cerca' :
                 'El conductor está en camino';
@@ -4622,7 +4472,6 @@
             viajeActivoId = null;
             viajeActualData = null;
 
-            // Volver a modo estándar
             cambiarModoMapa('standard');
 
             registrarAuditoria('finalizar_seguimiento', 'Finalizó seguimiento del conductor');
@@ -4694,7 +4543,6 @@
 
         let calificacionSeleccionada = 0;
         let calificacionConductorId = null;
-        let calificacionViajeId = null;
 
         function mostrarModalCalificacion(conductorId) {
             calificacionConductorId = conductorId;
@@ -4773,9 +4621,8 @@
             };
 
             database.ref('calificaciones').push(calificacion).then(function() {
-                // Actualizar promedio del conductor
                 database.ref('usuarios/' + calificacionConductorId + '/valoraciones').transaction(function(
-                current) {
+                    current) {
                     return (current || 0) + 1;
                 });
 
@@ -4853,7 +4700,6 @@
             const btn = document.getElementById('feedbackVoiceBtn');
 
             if (feedbackVoiceActive) {
-                // Detener grabación
                 if (feedbackRecognition) {
                     feedbackRecognition.stop();
                     feedbackRecognition = null;
@@ -4864,7 +4710,6 @@
                 return;
             }
 
-            // Iniciar grabación
             if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
                 Swal.fire('Error', 'Tu navegador no soporta reconocimiento de voz', 'error');
                 return;
@@ -4938,7 +4783,6 @@
                 estado: 'pendiente'
             };
 
-            // Obtener coordenadas si es posible
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(pos) {
                     feedback.lat = pos.coords.latitude;
@@ -4960,7 +4804,6 @@
                 messageEl.textContent = '✅ ¡Gracias por tu feedback! Nos ayuda a mejorar.';
                 messageEl.style.display = 'block';
 
-                // Notificar al admin
                 database.ref('admin/notificaciones').push({
                     tipo: 'feedback',
                     mensaje: 'Nuevo feedback de ' + feedback.usuarioNombre,
@@ -5084,14 +4927,10 @@
         }
 
         // ==========================================================
-        // 💰 CÁLCULO DE TARIFA - TODAS LAS RUTAS COMPLETAS
+        // 💰 CÁLCULO DE TARIFA (TODAS LAS RUTAS COMPLETAS)
         // ==========================================================
 
         let tarifaCalculada = 0;
-
-        // ==========================================================
-        // 🟢 TODAS LAS TARIFAS DE TAXI (COMPLETAS CON INVERSAS)
-        // ==========================================================
 
         const tarifasTaxi = {
             // AEROPUERTO DE CHANGUINOLA
@@ -5295,7 +5134,7 @@
             "Tiger Hill-Changuinola": 2.75,
             "Changuinola-Tiger Hill": 2.75,
 
-            // TODAS LAS DEMÁS RUTAS (COMPLETAS Y CON INVERSAS)
+            // TODAS LAS DEMÁS RUTAS
             "Changuinola Centro-Zona hospitalaria": 0.70,
             "Zona hospitalaria-Changuinola Centro": 0.70,
             "Changuinola Centro-Entrada a 66": 0.70,
@@ -5484,7 +5323,6 @@
 
         const tarifasBus = {};
 
-        // Copiar las tarifas de taxi que también aplican para bus
         Object.keys(tarifasTaxi).forEach(key => {
             if (key.includes('Changuinola') || key.includes('Almirante') || key.includes('Bajo Cedro') ||
                 key.includes('David') || key.includes('Las Tablas') || key.includes('Guabito') ||
@@ -5499,57 +5337,6 @@
                 tarifasBus[key] = tarifasTaxi[key];
             }
         });
-
-        // Agregar tarifas específicas de bus
-        tarifasBus["Changuinola-Empalme"] = 0.35;
-        tarifasBus["Empalme-Changuinola"] = 0.35;
-        tarifasBus["Changuinola-Finca #44"] = 0.90;
-        tarifasBus["Finca #44-Changuinola"] = 0.90;
-        tarifasBus["Changuinola-Finca #43"] = 0.55;
-        tarifasBus["Finca #43-Changuinola"] = 0.55;
-        tarifasBus["Changuinola-Finca #11"] = 0.45;
-        tarifasBus["Finca #11-Changuinola"] = 0.45;
-        tarifasBus["El Empalme-El Silencio"] = 0.45;
-        tarifasBus["El Silencio-El Empalme"] = 0.45;
-        tarifasBus["Almirante-Puente de Río Uyama"] = 1.75;
-        tarifasBus["Puente de Río Uyama-Almirante"] = 1.75;
-        tarifasBus["Bajo Cedro-Puente"] = 0.35;
-        tarifasBus["Puente-Bajo Cedro"] = 0.35;
-        tarifasBus["Bajo Cedro-Loma La Fe"] = 0.60;
-        tarifasBus["Loma La Fe-Bajo Cedro"] = 0.60;
-        tarifasBus["Bajo Cedro-Loma La Estrella"] = 0.60;
-        tarifasBus["Loma La Estrella-Bajo Cedro"] = 0.60;
-        tarifasBus["Bajo Cedro-Loma Azul"] = 0.70;
-        tarifasBus["Loma Azul-Bajo Cedro"] = 0.70;
-        tarifasBus["Bajo Cedro-Quebrada Garay"] = 1.10;
-        tarifasBus["Quebrada Garay-Bajo Cedro"] = 1.10;
-        tarifasBus["Bajo Cedro-Quebrada Pastor"] = 1.10;
-        tarifasBus["Quebrada Pastor-Bajo Cedro"] = 1.10;
-        tarifasBus["Bajo Cedro-Renacimiento"] = 1.10;
-        tarifasBus["Renacimiento-Bajo Cedro"] = 1.10;
-        tarifasBus["Bajo Cedro-Valle De Agua Abajo"] = 1.10;
-        tarifasBus["Valle De Agua Abajo-Bajo Cedro"] = 1.10;
-        tarifasBus["Bajo Cedro-Valle De Agua Arriba"] = 1.21;
-        tarifasBus["Valle De Agua Arriba-Bajo Cedro"] = 1.21;
-        tarifasBus["Bajo Cedro-Valle Las Perlas"] = 1.40;
-        tarifasBus["Valle Las Perlas-Bajo Cedro"] = 1.40;
-        tarifasBus["Bajo Cedro-Río Oeste"] = 1.40;
-        tarifasBus["Río Oeste-Bajo Cedro"] = 1.40;
-        tarifasBus["Bajo Cedro-Nuevo Paraíso"] = 2.10;
-        tarifasBus["Nuevo Paraíso-Bajo Cedro"] = 2.10;
-        tarifasBus["Bajo Cedro-Almirante"] = 2.10;
-        tarifasBus["Changuinola-Finca 67"] = 0.60;
-        tarifasBus["Finca 67-Changuinola"] = 0.60;
-        tarifasBus["Changuinola-Finca 65"] = 0.60;
-        tarifasBus["Finca 65-Changuinola"] = 0.60;
-        tarifasBus["Changuinola-Finca 62"] = 0.60;
-        tarifasBus["Finca 62-Changuinola"] = 0.60;
-        tarifasBus["Changuinola-Finca 63"] = 0.60;
-        tarifasBus["Finca 63-Changuinola"] = 0.60;
-        tarifasBus["Changuinola-Finca 64"] = 0.60;
-        tarifasBus["Finca 64-Changuinola"] = 0.60;
-        tarifasBus["Changuinola-Finca 61"] = 0.70;
-        tarifasBus["Finca 61-Changuinola"] = 0.70;
 
         function calcularTarifaReal() {
             const origen = document.getElementById('origenViaje')?.value?.trim();
@@ -5571,7 +5358,6 @@
             tarifa = tarifas[key] || tarifas[keyR] || 0;
 
             if (tarifa === 0) {
-                // Buscar coincidencia parcial
                 for (let [k, v] of Object.entries(tarifas)) {
                     if (k.toLowerCase().includes(origen.toLowerCase()) && k.toLowerCase().includes(destino
                         .toLowerCase())) {
@@ -5591,7 +5377,124 @@
         }
 
         // ==========================================================
-        // 🚗 SOLICITAR VIAJE (TU CÓDIGO EXISTENTE MEJORADO)
+        // 📝 FUNCIÓN PARA EDITAR PERFIL (SIN REDIRIGIR)
+        // ==========================================================
+
+        let perfilEditando = false;
+
+        function abrirModalEditarPerfil() {
+            if (!usuarioActual) {
+                Swal.fire('Error', 'No se cargaron los datos del usuario', 'error');
+                return;
+            }
+
+            // Cargar datos actuales en el modal
+            document.getElementById('editNombre').value = usuarioActual.nombre || '';
+            document.getElementById('editTelefono').value = usuarioActual.telefono || '';
+            document.getElementById('editCorreo').value = usuarioActual.email || '';
+
+            // Cargar foto si existe
+            if (usuarioActual.fotoPerfil) {
+                document.getElementById('fotoPerfilImgEdit').src = usuarioActual.fotoPerfil;
+                document.getElementById('fotoPerfilImgEdit').style.display = 'block';
+                document.getElementById('fotoIconoEdit').style.display = 'none';
+            } else {
+                document.getElementById('fotoPerfilImgEdit').style.display = 'none';
+                document.getElementById('fotoIconoEdit').style.display = 'block';
+            }
+
+            document.getElementById('modalEditarPerfil').style.display = 'flex';
+            perfilEditando = true;
+        }
+
+        function cerrarModalEditarPerfil() {
+            document.getElementById('modalEditarPerfil').style.display = 'none';
+            perfilEditando = false;
+        }
+
+        function guardarPerfilEditado() {
+            const nombre = document.getElementById('editNombre').value.trim();
+            const telefono = document.getElementById('editTelefono').value.trim();
+            const correo = document.getElementById('editCorreo').value.trim();
+
+            if (!nombre) {
+                Swal.fire('Error', 'El nombre es obligatorio', 'error');
+                return;
+            }
+
+            if (detectarAtaque(nombre) || detectarAtaque(telefono) || detectarAtaque(correo)) {
+                Swal.fire('🚨 Ataque detectado', 'Se ha detectado un intento de ataque', 'error');
+                registrarAuditoria('ataque_editar_perfil', 'Intento de XSS en editar perfil');
+                return;
+            }
+
+            const updates = {
+                nombre: sanitizar(nombre),
+                telefono: sanitizar(telefono),
+                email: sanitizar(correo)
+            };
+
+            // Si hay foto, agregarla
+            const fotoImg = document.getElementById('fotoPerfilImgEdit');
+            if (fotoImg.style.display !== 'none' && fotoImg.src) {
+                updates.fotoPerfil = fotoImg.src;
+            }
+
+            database.ref('usuarios/' + uidActual).update(updates).then(function() {
+                // Actualizar variable local
+                usuarioActual.nombre = updates.nombre;
+                usuarioActual.telefono = updates.telefono;
+                usuarioActual.email = updates.email;
+                if (updates.fotoPerfil) {
+                    usuarioActual.fotoPerfil = updates.fotoPerfil;
+                }
+
+                // Actualizar UI
+                document.getElementById('nombreUsuario').textContent = updates.nombre;
+
+                Swal.fire({
+                    title: '✅ Perfil actualizado',
+                    text: 'Los cambios se guardaron correctamente',
+                    icon: 'success',
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
+                cerrarModalEditarPerfil();
+                registrarAuditoria('editar_perfil', 'Usuario editó su perfil');
+            }).catch(function(error) {
+                Swal.fire('Error', 'No se pudo actualizar el perfil: ' + error.message, 'error');
+            });
+        }
+
+        // ==========================================================
+        // 📸 MANEJAR CAMBIO DE FOTO DE PERFIL EN MODAL
+        // ==========================================================
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const fotoInput = document.getElementById('fotoInputEdit');
+            if (fotoInput) {
+                fotoInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            const img = document.getElementById('fotoPerfilImgEdit');
+                            const icono = document.getElementById('fotoIconoEdit');
+                            img.src = event.target.result;
+                            img.style.display = 'block';
+                            icono.style.display = 'none';
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+        });
+
+        // ==========================================================
+        // 🚗 SOLICITAR VIAJE
         // ==========================================================
 
         let serviceType = 'estandar';
@@ -5909,7 +5812,963 @@
         }
 
         // ==========================================================
-        // 💬 CHAT CON CONDUCTORES (TU CÓDIGO EXISTENTE)
+        // 🚨 SISTEMA SOS (TU CÓDIGO EXISTENTE)
+        // ==========================================================
+
+        let clickCount = 0;
+        let sosTimeout = null;
+
+        function iniciarSOS() {
+            clickCount++;
+            if (clickCount === 1) {
+                sosTimeout = setTimeout(function() {
+                    mostrarOpcionesSOS();
+                    clickCount = 0;
+                    sosTimeout = null;
+                }, 300);
+            } else if (clickCount === 2) {
+                if (sosTimeout) clearTimeout(sosTimeout);
+                activarSOSInmediato();
+                clickCount = 0;
+                sosTimeout = null;
+            }
+            setTimeout(function() {
+                if (clickCount > 0 && !sosTimeout) clickCount = 0;
+            }, 500);
+        }
+
+        function mostrarOpcionesSOS() {
+            Swal.fire({
+                title: '🆘 ¿Qué está sucediendo?',
+                html: `
+                    <div style="text-align:left;">
+                        <button onclick="seleccionarSOS('Accidente de tránsito', 'Se ha producido un accidente')" style="width:100%; margin-bottom:8px; background:var(--card-bg); border:1px solid var(--accent); padding:12px; border-radius:16px; cursor:pointer; color:var(--text-primary);">🚗 Accidente</button>
+                        <button onclick="seleccionarSOS('Asalto / Robo', 'Estoy siendo víctima de un asalto')" style="width:100%; margin-bottom:8px; background:var(--card-bg); border:1px solid var(--accent); padding:12px; border-radius:16px; cursor:pointer; color:var(--text-primary);">🔫 Asalto</button>
+                        <button onclick="seleccionarSOS('Problema médico', 'Necesito asistencia médica')" style="width:100%; margin-bottom:8px; background:var(--card-bg); border:1px solid var(--accent); padding:12px; border-radius:16px; cursor:pointer; color:var(--text-primary);">🏥 Médico</button>
+                        <button onclick="seleccionarSOS('Otro', 'Describir situación')" style="width:100%; background:var(--card-bg); border:1px solid var(--accent); padding:12px; border-radius:16px; cursor:pointer; color:var(--text-primary);">📝 Otro</button>
+                    </div>
+                `,
+                showConfirmButton: false,
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)'
+            });
+        }
+
+        function seleccionarSOS(tipo, desc) {
+            Swal.close();
+            if (tipo === 'Otro') {
+                Swal.fire({
+                    title: 'Describa la situación',
+                    input: 'textarea',
+                    inputPlaceholder: 'Escriba los detalles...',
+                    showCancelButton: true,
+                    confirmButtonText: 'Enviar alerta',
+                    confirmButtonColor: '#d33',
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)'
+                }).then(function(r) {
+                    if (r.isConfirmed && r.value) {
+                        if (detectarAtaque(r.value)) {
+                            registrarAuditoria('ataque_sos', 'Intento de XSS en SOS: ' + r.value);
+                            Swal.fire({
+                                title: '🚨 Ataque detectado',
+                                text: 'Se ha detectado un intento de ataque',
+                                icon: 'error',
+                                background: 'var(--card-bg)',
+                                color: 'var(--text-primary)'
+                            });
+                            return;
+                        }
+                        activarSOS(tipo, r.value);
+                    }
+                });
+            } else {
+                activarSOS(tipo, desc);
+            }
+        }
+
+        function activarSOSInmediato() {
+            activarSOS('EMERGENCIA MÁXIMA', 'Alerta inmediata - Se requiere asistencia urgente');
+        }
+
+        async function activarSOS(tipo, desc) {
+            const contacto = document.getElementById('contactoEmergencia').value || 'Sin contacto';
+            const ubicacion = "Changuinola, Panamá";
+            const foto = document.getElementById('sosFoto').files[0];
+
+            const incidente = {
+                usuarioId: uidActual,
+                tipo: sanitizar(tipo),
+                descripcion: sanitizar(desc),
+                ubicacion: ubicacion,
+                contacto: sanitizar(contacto),
+                estado: 'pendiente',
+                fecha: new Date().toISOString()
+            };
+
+            try {
+                await database.ref('incidentes').push(incidente);
+                registrarAuditoria('sos_activado', 'SOS activado: ' + tipo + ' - ' + desc);
+                Swal.fire({
+                    title: '🚨 ALERTA DE EMERGENCIA ENVIADA',
+                    html: '<strong>Tipo:</strong> ' + sanitizar(tipo) + '<br><strong>Descripción:</strong> ' +
+                        sanitizar(desc) + '<br><strong>Ubicación:</strong> ' + ubicacion,
+                    icon: 'error',
+                    confirmButtonColor: '#d33',
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)'
+                });
+                document.getElementById('sosFoto').value = '';
+
+                if (modoVozActivo) {
+                    leerTexto('Alerta de emergencia enviada. Se ha notificado a tus contactos de confianza.');
+                }
+            } catch (e) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'No se pudo enviar la alerta',
+                    icon: 'error',
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)'
+                });
+            }
+        }
+
+        // ==========================================================
+        // 📦 FUNCIONES UTILITARIAS
+        // ==========================================================
+
+        function abrirModalRecarga() {
+            document.getElementById('modalRecarga').classList.add('active');
+        }
+
+        function cerrarModalRecarga() {
+            document.getElementById('modalRecarga').classList.remove('active');
+        }
+
+        function copiarTexto(id) {
+            const texto = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(texto);
+            Swal.fire({
+                title: 'Copiado',
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false,
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)'
+            });
+        }
+
+        function verPlanes() {
+            mostrarSeccion('premium');
+        }
+
+        function invitarAmigos() {
+            Swal.fire({
+                title: 'Invitar amigos',
+                text: 'Comparte tu código: CUPOTAX2025',
+                icon: 'success',
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)',
+                confirmButtonColor: 'var(--accent)'
+            });
+            registrarAuditoria('invitar_amigos', 'Compartió código de invitación');
+        }
+
+        function contratarPremium() {
+            Swal.fire({
+                title: 'Plan Premium',
+                text: '¿Deseas contratar el Plan Premium por B/. 19.90/mes?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, contratar',
+                cancelButtonText: 'Cancelar',
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)',
+                confirmButtonColor: 'var(--accent)'
+            }).then(function(r) {
+                if (r.isConfirmed) {
+                    database.ref('usuarios/' + uidActual + '/premium').set(true);
+                    Swal.fire({
+                        title: '¡Premium activado!',
+                        text: 'Ahora disfrutas de todos los beneficios exclusivos.',
+                        icon: 'success',
+                        background: 'var(--card-bg)',
+                        color: 'var(--text-primary)'
+                    });
+                    registrarAuditoria('contratar_premium', 'Contrató plan Premium');
+                }
+            });
+        }
+
+        function compartirViaje() {
+            Swal.fire({
+                title: 'Obteniendo ubicación...',
+                text: 'Por favor espera',
+                allowOutsideClick: false,
+                didOpen: function() { Swal.showLoading(); }
+            });
+
+            if (!navigator.geolocation) {
+                Swal.close();
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Tu navegador no soporta geolocalización',
+                    icon: 'error',
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)'
+                });
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                function(pos) {
+                    Swal.close();
+                    const l = 'https://maps.google.com/?q=' + pos.coords.latitude + ',' + pos.coords.longitude;
+                    const m = 'Estoy en esta ubicación: ' + l;
+
+                    Swal.fire({
+                        title: 'Compartir ubicación en vivo',
+                        html: '<p><strong>📍 Enlace:</strong></p><p style="font-size:0.85rem;word-break:break-all">' +
+                            l +
+                            '</p><button onclick="window.open(\'https://wa.me/?text=' +
+                            encodeURIComponent(m) +
+                            '\', \'_blank\')" style="background:#25D366;width:100%;margin-bottom:0.5rem;padding:0.8rem;border-radius:40px;color:white;font-weight:bold;border:none;cursor:pointer;">📱 WhatsApp</button><button onclick="copiarEnlace(\'' +
+                            l +
+                            '\')" style="background:#6C6F93;width:100%;padding:0.8rem;border-radius:40px;color:white;font-weight:bold;border:none;cursor:pointer;">🔗 Copiar enlace</button>',
+                        showConfirmButton: false,
+                        showCloseButton: true,
+                        background: 'var(--card-bg)',
+                        color: 'var(--text-primary)'
+                    });
+                    registrarAuditoria('compartir_viaje', 'Compartió ubicación en vivo');
+
+                    if (modoVozActivo) {
+                        leerTexto('Ubicación compartida. Puedes enviarla por WhatsApp o copiar el enlace.');
+                    }
+                },
+                function(error) {
+                    Swal.close();
+                    let m = 'No se pudo obtener tu ubicación. ';
+                    if (error.code === error.PERMISSION_DENIED) m += 'Permiso denegado.';
+                    Swal.fire({
+                        title: 'Error',
+                        text: m,
+                        icon: 'error',
+                        background: 'var(--card-bg)',
+                        color: 'var(--text-primary)'
+                    });
+                }
+            );
+        }
+
+        function copiarEnlace(e) {
+            navigator.clipboard.writeText(e);
+            Swal.fire({
+                title: '✅ Enlace copiado',
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false,
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)'
+            });
+        }
+
+        function chatSoporte() {
+            Swal.fire({
+                title: 'Chat de soporte',
+                text: 'Un agente se conectará contigo',
+                icon: 'info',
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)',
+                confirmButtonColor: 'var(--accent)'
+            });
+            registrarAuditoria('chat_soporte', 'Solicitó chat de soporte');
+        }
+
+        function irAPerfil() {
+            abrirModalEditarPerfil();
+        }
+
+        function cambiarPassword() {
+            Swal.fire({
+                title: 'Cambiar contraseña',
+                text: 'Recibirás un enlace de recuperación por email',
+                icon: 'info',
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)',
+                confirmButtonColor: 'var(--accent)'
+            });
+            registrarAuditoria('cambiar_password', 'Solicitó cambio de contraseña');
+        }
+
+        function cargarTransacciones() {
+            const container = document.getElementById('transaccionesLista');
+            if (container) {
+                container.innerHTML = '<div class="viaje-item">No hay transacciones recientes</div>';
+            }
+        }
+
+        // ==========================================================
+        // 🌓 TEMA (TU CÓDIGO EXISTENTE)
+        // ==========================================================
+
+        function setEstilo(e) {
+            document.body.className = '';
+            document.body.classList.add('style-' + e);
+            localStorage.setItem('cupotax-usuario-estilo', e);
+            actualizarCards(e);
+            Swal.fire({
+                title: 'Estilo ' + e + ' aplicado',
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false,
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)'
+            });
+            registrarAuditoria('cambiar_estilo', 'Cambió estilo a: ' + e);
+        }
+
+        function toggleLightMode() {
+            document.body.classList.toggle('light-mode');
+            const m = document.body.classList.contains('light-mode') ? 'Modo claro activado' : 'Modo oscuro activado';
+            Swal.fire({
+                title: m,
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false,
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)'
+            });
+            registrarAuditoria('toggle_light_mode', m);
+        }
+
+        function resetearEstilos() {
+            document.body.className = 'style-fire';
+            localStorage.setItem('cupotax-usuario-estilo', 'fire');
+            localStorage.removeItem('cupotax-font-size');
+            actualizarCards('fire');
+            setFontSize('normal');
+            Swal.fire({
+                title: 'Estilos restaurados',
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false,
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)'
+            });
+            registrarAuditoria('resetear_estilos', 'Restauró estilos predeterminados');
+        }
+
+        function actualizarCards(e) {
+            ['cardFire', 'cardGlass', 'cardNeon', 'cardCrimson', 'cardLight'].forEach(function(c) {
+                const el = document.getElementById(c);
+                if (el) el.classList.remove('active');
+            });
+            if (e === 'fire') document.getElementById('cardFire')?.classList.add('active');
+            else if (e === 'glass') document.getElementById('cardGlass')?.classList.add('active');
+            else if (e === 'neon') document.getElementById('cardNeon')?.classList.add('active');
+            else if (e === 'crimson') document.getElementById('cardCrimson')?.classList.add('active');
+        }
+
+        function cargarTemaGuardado() {
+            const estiloGuardado = localStorage.getItem('cupotax-usuario-estilo') || 'fire';
+            const lightGuardado = localStorage.getItem('cupotax-usuario-light') === 'true';
+            document.body.classList.add('style-' + estiloGuardado);
+            if (lightGuardado) document.body.classList.add('light-mode');
+            actualizarCards(estiloGuardado);
+            cargarFontSize();
+        }
+
+        function toggleSettingsPanel() {
+            document.getElementById('settingsPanel').classList.toggle('open');
+        }
+
+        // ==========================================================
+        // 🧭 NAVEGACIÓN
+        // ==========================================================
+
+        function mostrarSeccion(s) {
+            const secs = ['inicio', 'solicitar', 'reservas', 'favoritos', 'billetera', 'historial', 'premium',
+                'notificaciones', 'seguridad', 'ayuda', 'configuracion'
+            ];
+            secs.forEach(function(se) {
+                const el = document.getElementById('seccion-' + se);
+                if (el) el.style.display = 'none';
+            });
+            document.getElementById('seccion-' + s).style.display = 'block';
+
+            document.querySelectorAll('.sidebar-menu a').forEach(function(el) {
+                el.classList.remove('active');
+            });
+
+            if (s === 'solicitar') {
+                setTimeout(function() { initMapboxMap(); }, 100);
+                calcularTarifaReal();
+            }
+            if (s === 'historial') cargarViajesUsuario(uidActual);
+            if (s === 'reservas') cargarReservasUsuario(uidActual);
+            if (s === 'reservas') cargarChatsConductores();
+            if (s === 'favoritos') cargarFavoritosUsuario(uidActual);
+            if (s === 'billetera') {
+                cargarDatosUsuario(uidActual);
+                cargarTransacciones();
+            }
+            if (s === 'notificaciones') cargarNotificacionesUsuario(uidActual);
+            if (s === 'seguridad') cargarContactosUsuario(uidActual);
+
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+
+            if (modoVozActivo) {
+                const titulo = document.querySelector('.seccion.active h2')?.textContent ||
+                    document.querySelector('.welcome-header h1')?.textContent ||
+                    s.charAt(0).toUpperCase() + s.slice(1);
+                leerTexto('Sección: ' + titulo);
+            }
+        }
+
+        function toggleSidebarMenu() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        function cerrarSidebar() {
+            if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
+        }
+
+        // ==========================================================
+        // 👤 DATOS DEL USUARIO
+        // ==========================================================
+
+        let uidActual = null;
+        let usuarioActual = null;
+        let saldoUsuario = 0;
+        let viajesUsuario = [];
+
+        function cargarDatosUsuario(uid) {
+            database.ref('usuarios/' + uid).once('value').then(function(snapshot) {
+                const data = snapshot.val();
+                if (data) {
+                    usuarioActual = data;
+                    document.getElementById('nombreUsuario').textContent = sanitizar(data.nombre || 'Usuario');
+                    saldoUsuario = data.saldo || 0;
+                    document.getElementById('saldoBilletera').innerHTML = 'B/. ' + saldoUsuario.toFixed(2);
+                    document.getElementById('saldoBilletera2').innerHTML = 'B/. ' + saldoUsuario.toFixed(2);
+                    cargarViajesUsuario(uid);
+                    cargarNotificacionesUsuario(uid);
+                    cargarReservasUsuario(uid);
+                    cargarFavoritosUsuario(uid);
+                    cargarContactosUsuario(uid);
+                    cargarChatsConductores();
+                    cargarDestinosRapidos();
+                    cargarRutasPopulares();
+                    registrarAuditoria('cargar_datos', 'Datos de usuario cargados');
+
+                    if (modoVozActivo) {
+                        leerTexto('Bienvenido ' + (data.nombre || 'Usuario') +
+                            '. Tienes ' + saldoUsuario.toFixed(2) + ' balboas en tu billetera.');
+                    }
+
+                    // Cargar foto de perfil si existe
+                    if (data.fotoPerfil) {
+                        // La foto se carga en el modal al abrir
+                    }
+                }
+            });
+        }
+
+        // ==========================================================
+        // 📍 DESTINOS RÁPIDOS Y RUTAS POPULARES
+        // ==========================================================
+
+        function cargarDestinosRapidos() {
+            const container = document.getElementById('destinosRapidos');
+            const destinos = [
+                { nombre: '🏥 Hospital', dir: 'Zona hospitalaria' },
+                { nombre: '🏫 Universidad', dir: 'Barriada universitaria' },
+                { nombre: '🛒 Supermercado', dir: 'Changuinola Centro' },
+                { nombre: '🚌 Terminal', dir: 'Terminal Sincotavecop' },
+                { nombre: '✈️ Aeropuerto', dir: 'Aeropuerto de Changuinola' },
+                { nombre: '🏖️ Playa', dir: 'Bocas del Drago' }
+            ];
+            let html = '';
+            destinos.forEach(function(d) {
+                html += `
+                    <div class="destino-item" onclick="usarDestinoRapido('${d.dir}')" role="button" tabindex="0">
+                        <strong>${d.nombre}</strong>
+                        <span>${d.dir}</span>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function usarDestinoRapido(dir) {
+            document.getElementById('destinoSolicitud').value = dir;
+            calcularTarifaReal();
+            mostrarSeccion('solicitar');
+            Swal.fire({
+                title: '✅ Destino seleccionado',
+                text: dir,
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false,
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)'
+            });
+            if (modoVozActivo) {
+                leerTexto('Destino seleccionado: ' + dir);
+            }
+        }
+
+        function cargarRutasPopulares() {
+            const container = document.getElementById('rutasPopulares');
+            const rutas = [
+                { nombre: 'Changuinola → Almirante', precio: 'B/. 1.45' },
+                { nombre: 'Changuinola → David', precio: 'B/. 9.65' },
+                { nombre: 'Changuinola → Guabito', precio: 'B/. 0.95' },
+                { nombre: 'Changuinola → Las Tablas', precio: 'B/. 2.05' }
+            ];
+            let html = '';
+            rutas.forEach(function(r) {
+                html += `
+                    <div class="viaje-item">
+                        <div>${r.nombre}</div>
+                        <div style="color:var(--accent); font-weight:600;">${r.precio}</div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // ==========================================================
+        // 📅 VIAJES DEL USUARIO
+        // ==========================================================
+
+        function cargarViajesUsuario(uid) {
+            database.ref('viajes').orderByChild('usuarioId').equalTo(uid).once('value').then(function(snapshot) {
+                viajesUsuario = [];
+                snapshot.forEach(function(child) {
+                    const v = child.val();
+                    v.id = child.key;
+                    viajesUsuario.push(v);
+                });
+                viajesUsuario.sort(function(a, b) {
+                    return new Date(b.fechaSolicitud || b.fecha) - new Date(a.fechaSolicitud || a.fecha);
+                });
+                renderizarViajesRecientes(viajesUsuario);
+                renderizarHistorialCompleto(viajesUsuario);
+            });
+        }
+
+        function renderizarViajesRecientes(viajes) {
+            const container = document.getElementById('viajesRecientes');
+            const recientes = viajes.slice(0, 3);
+            if (recientes.length === 0) {
+                container.innerHTML = '<div class="viaje-item">No hay viajes recientes</div>';
+                return;
+            }
+            let html = '';
+            recientes.forEach(function(v) {
+                html += `
+                    <div class="viaje-item">
+                        <div class="viaje-info">
+                            <h4>${sanitizar(v.tipoViaje || 'Viaje')}</h4>
+                            <p>${sanitizar(v.origen || 'Changuinola')} → ${sanitizar(v.destino || 'N/A')}</p>
+                            <p class="viaje-estado">${v.estado || 'pendiente'}</p>
+                        </div>
+                        <div class="viaje-precio">B/.${v.tarifa || '0'}</div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderizarHistorialCompleto(viajes) {
+            const container = document.getElementById('historialCompleto');
+            if (viajes.length === 0) {
+                container.innerHTML = '<div class="viaje-item">No hay viajes registrados</div>';
+                return;
+            }
+            let html = '';
+            viajes.forEach(function(v) {
+                html += `
+                    <div class="viaje-item">
+                        <div class="viaje-info">
+                            <h4>${sanitizar(v.tipoViaje || 'Viaje')}</h4>
+                            <p>${sanitizar(v.origen || 'Changuinola')} → ${sanitizar(v.destino || 'N/A')}</p>
+                            <p class="viaje-estado">${v.fechaSolicitud ? new Date(v.fechaSolicitud).toLocaleDateString() : ''} - ${v.estado || 'pendiente'}</p>
+                        </div>
+                        <div class="viaje-precio">B/.${v.tarifa || '0'}</div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // ==========================================================
+        // 🔔 NOTIFICACIONES
+        // ==========================================================
+
+        let notificacionesListaGlobal = [];
+
+        function cargarNotificacionesUsuario(uid) {
+            database.ref('notificaciones').orderByChild('usuarioId').equalTo(uid).on('value', function(snapshot) {
+                notificacionesListaGlobal = [];
+                snapshot.forEach(function(child) {
+                    const n = child.val();
+                    n.id = child.key;
+                    notificacionesListaGlobal.push(n);
+                });
+                notificacionesListaGlobal.sort(function(a, b) {
+                    return new Date(b.fecha) - new Date(a.fecha);
+                });
+                renderizarNotificacionesRapidas(notificacionesListaGlobal);
+                renderizarNotificacionesCompletas(notificacionesListaGlobal);
+                renderizarNotificacionesPanel(notificacionesListaGlobal);
+                const noLeidas = notificacionesListaGlobal.filter(function(n) { return !n.leida; }).length;
+                const badge = document.getElementById('notificacionesContador');
+                if (noLeidas > 0) {
+                    badge.style.display = 'flex';
+                    badge.textContent = noLeidas > 9 ? '9+' : noLeidas;
+                } else {
+                    badge.style.display = 'none';
+                }
+            });
+        }
+
+        function renderizarNotificacionesRapidas(notificaciones) {
+            const container = document.getElementById('notificacionesLista');
+            const recientes = notificaciones.slice(0, 3);
+            if (recientes.length === 0) {
+                container.innerHTML = '<div class="viaje-item">No hay notificaciones</div>';
+                return;
+            }
+            let html = '';
+            recientes.forEach(function(n) {
+                html += `
+                    <div class="viaje-item">
+                        <div><strong>${sanitizar(n.titulo || 'Notificación')}</strong><br><span style="font-size:0.7rem; color:var(--text-secondary);">${sanitizar(n.mensaje || '')}</span></div>
+                        <span style="font-size:0.65rem; color:${n.leida ? 'var(--text-tertiary)' : 'var(--success)'};">${n.leida ? 'Leída' : '● Nueva'}</span>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderizarNotificacionesCompletas(notificaciones) {
+            const container = document.getElementById('notificacionesCompleto');
+            if (notificaciones.length === 0) {
+                container.innerHTML = '<div class="viaje-item">No hay notificaciones</div>';
+                return;
+            }
+            let html = '';
+            notificaciones.forEach(function(n) {
+                html += `
+                    <div class="viaje-item" style="cursor:pointer;" onclick="marcarNotificacionLeida('${n.id}')">
+                        <div>
+                            <strong style="color:${n.leida ? 'var(--text-secondary)' : 'var(--accent)'};">${sanitizar(n.titulo || 'Notificación')}</strong>
+                            <br><span style="font-size:0.75rem; color:var(--text-secondary);">${sanitizar(n.mensaje || '')}</span>
+                            <br><span style="font-size:0.65rem; color:var(--text-tertiary);">${n.fecha ? new Date(n.fecha).toLocaleString() : ''}</span>
+                        </div>
+                        <span style="font-size:0.65rem; color:${n.leida ? 'var(--text-tertiary)' : 'var(--success)'};">${n.leida ? '✓ Leída' : '● Nueva'}</span>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderizarNotificacionesPanel(notificaciones) {
+            const container = document.getElementById('notificacionesListaPanel');
+            if (notificaciones.length === 0) {
+                container.innerHTML = '<div class="notificacion-vacia">✨ No tienes notificaciones</div>';
+                return;
+            }
+            let html = '';
+            notificaciones.forEach(function(n) {
+                html += `
+                    <div class="notificacion-item-panel${n.leida ? '' : ' no-leida'}" onclick="marcarNotificacionLeida('${n.id}')">
+                        <div class="notificacion-titulo">${sanitizar(n.titulo || 'Notificación')}</div>
+                        <div class="notificacion-mensaje">${sanitizar(n.mensaje || '')}</div>
+                        <div class="notificacion-fecha">${n.fecha ? new Date(n.fecha).toLocaleString() : ''}</div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function marcarNotificacionLeida(id) {
+            if (!id) return;
+            database.ref('notificaciones/' + id + '/leida').set(true);
+        }
+
+        function marcarTodasLeidas() {
+            const noLeidas = notificacionesListaGlobal.filter(function(n) { return !n.leida; });
+            if (noLeidas.length === 0) {
+                Swal.fire({
+                    title: 'Listo',
+                    text: 'Todas las notificaciones ya están leídas',
+                    icon: 'info',
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)'
+                });
+                return;
+            }
+            const updates = {};
+            noLeidas.forEach(function(n) {
+                updates['notificaciones/' + n.id + '/leida'] = true;
+            });
+            database.ref().update(updates).then(function() {
+                Swal.fire({
+                    title: 'Listo',
+                    text: 'Todas las notificaciones marcadas como leídas',
+                    icon: 'success',
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)'
+                });
+            });
+        }
+
+        function toggleNotificacionesPanel(e) {
+            e.stopPropagation();
+            document.getElementById('notificacionesPanel').classList.toggle('open');
+        }
+
+        document.addEventListener('click', function() {
+            document.getElementById('notificacionesPanel').classList.remove('open');
+        });
+
+        // ==========================================================
+        // 📅 RESERVAS DEL USUARIO
+        // ==========================================================
+
+        function cargarReservasUsuario(uid) {
+            database.ref('reservas').orderByChild('usuarioId').equalTo(uid).once('value').then(function(snapshot) {
+                const container = document.getElementById('reservasLista');
+                let html = '';
+                let count = 0;
+                snapshot.forEach(function(child) {
+                    const r = child.val();
+                    count++;
+                    const estadoColor = r.estado === 'confirmada' ? 'var(--success)' :
+                        r.estado === 'cancelada' ? 'var(--danger)' : 'var(--warning)';
+                    html += `
+                        <div class="viaje-item">
+                            <div>
+                                <h4>${sanitizar(r.origen || 'N/A')} → ${sanitizar(r.destino || 'N/A')}</h4>
+                                <p style="font-size:0.75rem;">${r.fecha || 'N/A'} - ${r.hora || 'N/A'}</p>
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="color:${estadoColor}; font-size:0.75rem;">${r.estado || 'pendiente'}</div>
+                                <div style="font-size:1rem; font-weight:700; color:var(--accent);">B/. ${r.tarifa || '0'}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                if (count === 0) {
+                    html = '<div class="viaje-item">No hay reservas activas</div>';
+                }
+                container.innerHTML = html;
+            });
+        }
+
+        // ==========================================================
+        // ⭐ FAVORITOS
+        // ==========================================================
+
+        function cargarFavoritosUsuario(uid) {
+            database.ref('favoritos').orderByChild('usuarioId').equalTo(uid).once('value').then(function(snapshot) {
+                const container = document.getElementById('favoritosLista');
+                let html = '';
+                let count = 0;
+                snapshot.forEach(function(child) {
+                    const f = child.val();
+                    count++;
+                    html += `
+                        <div class="viaje-item">
+                            <div>
+                                <h4>${sanitizar(f.nombre || 'Favorito')}</h4>
+                                <p style="font-size:0.75rem;">${sanitizar(f.direccion || 'N/A')}</p>
+                            </div>
+                            <button class="btn-outline" style="padding:4px 12px; font-size:0.65rem; width:auto;" onclick="usarFavorito('${f.direccion}')">Usar</button>
+                        </div>
+                    `;
+                });
+                if (count === 0) {
+                    html = '<div class="viaje-item">No hay favoritos</div>';
+                }
+                container.innerHTML = html;
+            });
+        }
+
+        function usarFavorito(direccion) {
+            document.getElementById('destinoSolicitud').value = direccion;
+            calcularTarifaReal();
+            mostrarSeccion('solicitar');
+            Swal.fire({
+                title: '✅ Favorito seleccionado',
+                text: direccion,
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false,
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)'
+            });
+            if (modoVozActivo) {
+                leerTexto('Favorito seleccionado: ' + direccion);
+            }
+        }
+
+        function agregarFavorito() {
+            Swal.fire({
+                title: 'Agregar favorito',
+                input: 'text',
+                inputPlaceholder: 'Nombre del lugar',
+                confirmButtonText: 'Siguiente',
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)'
+            }).then(function(result) {
+                if (result.isConfirmed && result.value) {
+                    const nombre = result.value;
+                    Swal.fire({
+                        title: 'Dirección',
+                        input: 'text',
+                        inputPlaceholder: 'Dirección del lugar',
+                        confirmButtonText: 'Guardar',
+                        background: 'var(--card-bg)',
+                        color: 'var(--text-primary)'
+                    }).then(function(result2) {
+                        if (result2.isConfirmed && result2.value) {
+                            database.ref('favoritos').push({
+                                usuarioId: uidActual,
+                                nombre: sanitizar(nombre),
+                                direccion: sanitizar(result2.value),
+                                fecha: new Date().toISOString()
+                            }).then(function() {
+                                Swal.fire({
+                                    title: '✅ Favorito agregado',
+                                    icon: 'success',
+                                    timer: 1500,
+                                    showConfirmButton: false,
+                                    background: 'var(--card-bg)',
+                                    color: 'var(--text-primary)'
+                                });
+                                cargarFavoritosUsuario(uidActual);
+                                registrarAuditoria('agregar_favorito', 'Agregó favorito: ' + nombre);
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+        // ==========================================================
+        // 👤 CONTACTOS DE CONFIANZA
+        // ==========================================================
+
+        function cargarContactosUsuario(uid) {
+            database.ref('contactos').orderByChild('usuarioId').equalTo(uid).once('value').then(function(snapshot) {
+                const container = document.getElementById('contactosLista');
+                let html = '';
+                let count = 0;
+                snapshot.forEach(function(child) {
+                    const c = child.val();
+                    count++;
+                    html += `
+                        <div class="viaje-item">
+                            <div>
+                                <h4>${sanitizar(c.nombre || 'Sin nombre')}</h4>
+                                <p style="font-size:0.75rem;">📞 ${sanitizar(c.telefono || 'Sin teléfono')}</p>
+                            </div>
+                            <button class="btn-danger" style="padding:4px 12px; font-size:0.65rem; width:auto; border:none; border-radius:15px; cursor:pointer; color:#fff; background:var(--danger);" onclick="eliminarContacto('${child.key}')">🗑️</button>
+                        </div>
+                    `;
+                });
+                if (count === 0) {
+                    html = '<div class="viaje-item">No hay contactos guardados</div>';
+                }
+                container.innerHTML = html;
+            });
+        }
+
+        function guardarContacto() {
+            const input = document.getElementById('contactoEmergencia');
+            const valor = input.value.trim();
+
+            if (!valor) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Ingresa nombre y teléfono',
+                    icon: 'error',
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)'
+                });
+                return;
+            }
+
+            if (detectarAtaque(valor)) {
+                Swal.fire({
+                    title: '🚨 Ataque detectado',
+                    text: 'El contacto contiene caracteres maliciosos',
+                    icon: 'error',
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)'
+                });
+                registrarAuditoria('ataque_contacto', 'Intento de XSS en contacto: ' + valor);
+                return;
+            }
+
+            let nombre = valor;
+            let telefono = '';
+            const matchTel = valor.match(/(\d{7,8})/);
+            if (matchTel) {
+                telefono = matchTel[1];
+                nombre = valor.replace(telefono, '').trim();
+            }
+
+            database.ref('contactos').push({
+                usuarioId: uidActual,
+                nombre: sanitizar(nombre || 'Contacto'),
+                telefono: sanitizar(telefono || 'Sin teléfono'),
+                fecha: new Date().toISOString()
+            }).then(function() {
+                input.value = '';
+                Swal.fire({
+                    title: '✅ Contacto guardado',
+                    icon: 'success',
+                    timer: 1500,
+                    showConfirmButton: false,
+                    background: 'var(--card-bg)',
+                    color: 'var(--text-primary)'
+                });
+                cargarContactosUsuario(uidActual);
+                registrarAuditoria('guardar_contacto', 'Guardó contacto: ' + nombre);
+            });
+        }
+
+        function eliminarContacto(id) {
+            Swal.fire({
+                title: '¿Eliminar contacto?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, eliminar',
+                background: 'var(--card-bg)',
+                color: 'var(--text-primary)'
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    database.ref('contactos/' + id).remove().then(function() {
+                        cargarContactosUsuario(uidActual);
+                        registrarAuditoria('eliminar_contacto', 'Eliminó contacto');
+                    });
+                }
+            });
+        }
+
+        // ==========================================================
+        // 💬 CHAT CON CONDUCTORES
         // ==========================================================
 
         let chatsConductores = [];
@@ -6247,957 +7106,6 @@
         }
 
         // ==========================================================
-        // 🚨 SISTEMA SOS (TU CÓDIGO EXISTENTE)
-        // ==========================================================
-
-        let clickCount = 0;
-        let sosTimeout = null;
-
-        function iniciarSOS() {
-            clickCount++;
-            if (clickCount === 1) {
-                sosTimeout = setTimeout(function() {
-                    mostrarOpcionesSOS();
-                    clickCount = 0;
-                    sosTimeout = null;
-                }, 300);
-            } else if (clickCount === 2) {
-                if (sosTimeout) clearTimeout(sosTimeout);
-                activarSOSInmediato();
-                clickCount = 0;
-                sosTimeout = null;
-            }
-            setTimeout(function() {
-                if (clickCount > 0 && !sosTimeout) clickCount = 0;
-            }, 500);
-        }
-
-        function mostrarOpcionesSOS() {
-            Swal.fire({
-                title: '🆘 ¿Qué está sucediendo?',
-                html: `
-                    <div style="text-align:left;">
-                        <button onclick="seleccionarSOS('Accidente de tránsito', 'Se ha producido un accidente')" style="width:100%; margin-bottom:8px; background:var(--card-bg); border:1px solid var(--accent); padding:12px; border-radius:16px; cursor:pointer; color:var(--text-primary);">🚗 Accidente</button>
-                        <button onclick="seleccionarSOS('Asalto / Robo', 'Estoy siendo víctima de un asalto')" style="width:100%; margin-bottom:8px; background:var(--card-bg); border:1px solid var(--accent); padding:12px; border-radius:16px; cursor:pointer; color:var(--text-primary);">🔫 Asalto</button>
-                        <button onclick="seleccionarSOS('Problema médico', 'Necesito asistencia médica')" style="width:100%; margin-bottom:8px; background:var(--card-bg); border:1px solid var(--accent); padding:12px; border-radius:16px; cursor:pointer; color:var(--text-primary);">🏥 Médico</button>
-                        <button onclick="seleccionarSOS('Otro', 'Describir situación')" style="width:100%; background:var(--card-bg); border:1px solid var(--accent); padding:12px; border-radius:16px; cursor:pointer; color:var(--text-primary);">📝 Otro</button>
-                    </div>
-                `,
-                showConfirmButton: false,
-                showCancelButton: true,
-                cancelButtonText: 'Cancelar',
-                background: 'var(--card-bg)',
-                color: 'var(--text-primary)'
-            });
-        }
-
-        function seleccionarSOS(tipo, desc) {
-            Swal.close();
-            if (tipo === 'Otro') {
-                Swal.fire({
-                    title: 'Describa la situación',
-                    input: 'textarea',
-                    inputPlaceholder: 'Escriba los detalles...',
-                    showCancelButton: true,
-                    confirmButtonText: 'Enviar alerta',
-                    confirmButtonColor: '#d33',
-                    background: 'var(--card-bg)',
-                    color: 'var(--text-primary)'
-                }).then(function(r) {
-                    if (r.isConfirmed && r.value) {
-                        if (detectarAtaque(r.value)) {
-                            registrarAuditoria('ataque_sos', 'Intento de XSS en SOS: ' + r.value);
-                            Swal.fire({
-                                title: '🚨 Ataque detectado',
-                                text: 'Se ha detectado un intento de ataque',
-                                icon: 'error',
-                                background: 'var(--card-bg)',
-                                color: 'var(--text-primary)'
-                            });
-                            return;
-                        }
-                        activarSOS(tipo, r.value);
-                    }
-                });
-            } else {
-                activarSOS(tipo, desc);
-            }
-        }
-
-        function activarSOSInmediato() {
-            activarSOS('EMERGENCIA MÁXIMA', 'Alerta inmediata - Se requiere asistencia urgente');
-        }
-
-        async function activarSOS(tipo, desc) {
-            const contacto = document.getElementById('contactoEmergencia').value || 'Sin contacto';
-            const ubicacion = "Changuinola, Panamá";
-            const foto = document.getElementById('sosFoto').files[0];
-
-            const incidente = {
-                usuarioId: uidActual,
-                tipo: sanitizar(tipo),
-                descripcion: sanitizar(desc),
-                ubicacion: ubicacion,
-                contacto: sanitizar(contacto),
-                estado: 'pendiente',
-                fecha: new Date().toISOString()
-            };
-
-            try {
-                await database.ref('incidentes').push(incidente);
-                registrarAuditoria('sos_activado', 'SOS activado: ' + tipo + ' - ' + desc);
-                Swal.fire({
-                    title: '🚨 ALERTA DE EMERGENCIA ENVIADA',
-                    html: '<strong>Tipo:</strong> ' + sanitizar(tipo) + '<br><strong>Descripción:</strong> ' +
-                        sanitizar(desc) + '<br><strong>Ubicación:</strong> ' + ubicacion,
-                    icon: 'error',
-                    confirmButtonColor: '#d33',
-                    background: 'var(--card-bg)',
-                    color: 'var(--text-primary)'
-                });
-                document.getElementById('sosFoto').value = '';
-
-                if (modoVozActivo) {
-                    leerTexto('Alerta de emergencia enviada. Se ha notificado a tus contactos de confianza.');
-                }
-            } catch (e) {
-                Swal.fire({
-                    title: 'Error',
-                    text: 'No se pudo enviar la alerta',
-                    icon: 'error',
-                    background: 'var(--card-bg)',
-                    color: 'var(--text-primary)'
-                });
-            }
-        }
-
-        // ==========================================================
-        // 📦 FUNCIONES UTILITARIAS (TUS EXISTENTES)
-        // ==========================================================
-
-        function abrirModalRecarga() {
-            document.getElementById('modalRecarga').classList.add('active');
-        }
-
-        function cerrarModalRecarga() {
-            document.getElementById('modalRecarga').classList.remove('active');
-        }
-
-        function copiarTexto(id) {
-            const texto = document.getElementById(id).innerText;
-            navigator.clipboard.writeText(texto);
-            Swal.fire({
-                title: 'Copiado',
-                icon: 'success',
-                timer: 1500,
-                showConfirmButton: false,
-                background: 'var(--card-bg)',
-                color: 'var(--text-primary)'
-            });
-        }
-
-        function verPlanes() {
-            mostrarSeccion('premium');
-        }
-
-        function invitarAmigos() {
-            Swal.fire({
-                title: 'Invitar amigos',
-                text: 'Comparte tu código: CUPOTAX2025',
-                icon: 'success',
-                background: 'var(--card-bg)',
-                color: 'var(--text-primary)',
-                confirmButtonColor: 'var(--accent)'
-            });
-            registrarAuditoria('invitar_amigos', 'Compartió código de invitación');
-        }
-
-        function contratarPremium() {
-            Swal.fire({
-                title: 'Plan Premium',
-                text: '¿Deseas contratar el Plan Premium por B/. 19.90/mes?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Sí, contratar',
-                cancelButtonText: 'Cancelar',
-                background: 'var(--card-bg)',
-                color: 'var(--text-primary)',
-                confirmButtonColor: 'var(--accent)'
-            }).then(function(r) {
-                if (r.isConfirmed) {
-                    database.ref('usuarios/' + uidActual + '/premium').set(true);
-                    Swal.fire({
-                        title: '¡Premium activado!',
-                        text: 'Ahora disfrutas de todos los beneficios exclusivos.',
-                        icon: 'success',
-                        background: 'var(--card-bg)',
-                        color: 'var(--text-primary)'
-                    });
-                    registrarAuditoria('contratar_premium', 'Contrató plan Premium');
-                }
-            });
-        }
-
-        function compartirViaje() {
-            Swal.fire({
-                title: 'Obteniendo ubicación...',
-                text: 'Por favor espera',
-                allowOutsideClick: false,
-                didOpen: function() { Swal.showLoading(); }
-            });
-
-            if (!navigator.geolocation) {
-                Swal.close();
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Tu navegador no soporta geolocalización',
-                    icon: 'error',
-                    background: 'var(--card-bg)',
-                    color: 'var(--text-primary)'
-                });
-                return;
-            }
-
-            navigator.geolocation.getCurrentPosition(
-                function(pos) {
-                    Swal.close();
-                    const l = 'https://maps.google.com/?q=' + pos.coords.latitude + ',' + pos.coords.longitude;
-                    const m = 'Estoy en esta ubicación: ' + l;
-
-                    Swal.fire({
-                        title: 'Compartir ubicación en vivo',
-                        html: '<p><strong>📍 Enlace:</strong></p><p style="font-size:0.85rem;word-break:break-all">' +
-                            l +
-                            '</p><button onclick="window.open(\'https://wa.me/?text=' +
-                            encodeURIComponent(m) +
-                            '\', \'_blank\')" style="background:#25D366;width:100%;margin-bottom:0.5rem;padding:0.8rem;border-radius:40px;color:white;font-weight:bold;border:none;cursor:pointer;">📱 WhatsApp</button><button onclick="copiarEnlace(\'' +
-                            l +
-                            '\')" style="background:#6C6F93;width:100%;padding:0.8rem;border-radius:40px;color:white;font-weight:bold;border:none;cursor:pointer;">🔗 Copiar enlace</button>',
-                        showConfirmButton: false,
-                        showCloseButton: true,
-                        background: 'var(--card-bg)',
-                        color: 'var(--text-primary)'
-                    });
-                    registrarAuditoria('compartir_viaje', 'Compartió ubicación en vivo');
-
-                    if (modoVozActivo) {
-                        leerTexto('Ubicación compartida. Puedes enviarla por WhatsApp o copiar el enlace.');
-                    }
-                },
-                function(error) {
-                    Swal.close();
-                    let m = 'No se pudo obtener tu ubicación. ';
-                    if (error.code === error.PERMISSION_DENIED) m += 'Permiso denegado.';
-                    Swal.fire({
-                        title: 'Error',
-                        text: m,
-                        icon: 'error',
-                        background: 'var(--card-bg)',
-                        color: 'var(--text-primary)'
-                    });
-                }
-            );
-        }
-
-        function copiarEnlace(e) {
-            navigator.clipboard.writeText(e);
-            Swal.fire({
-                title: '✅ Enlace copiado',
-                icon: 'success',
-                timer: 1500,
-                showConfirmButton: false,
-                background: 'var(--card-bg)',
-                color: 'var(--text-primary)'
-            });
-        }
-
-        function chatSoporte() {
-            Swal.fire({
-                title: 'Chat de soporte',
-                text: 'Un agente se conectará contigo',
-                icon: 'info',
-                background: 'var(--card-bg)',
-                color: 'var(--text-primary)',
-                confirmButtonColor: 'var(--accent)'
-            });
-            registrarAuditoria('chat_soporte', 'Solicitó chat de soporte');
-        }
-
-        function irAPerfil() {
-            window.location.href = API_URL + '/perfil';
-        }
-
-        function cambiarPassword() {
-            Swal.fire({
-                title: 'Cambiar contraseña',
-                text: 'Recibirás un enlace de recuperación por email',
-                icon: 'info',
-                background: 'var(--card-bg)',
-                color: 'var(--text-primary)',
-                confirmButtonColor: 'var(--accent)'
-            });
-            registrarAuditoria('cambiar_password', 'Solicitó cambio de contraseña');
-        }
-
-        function cargarTransacciones() {
-            const container = document.getElementById('transaccionesLista');
-            if (container) {
-                container.innerHTML = '<div class="viaje-item">No hay transacciones recientes</div>';
-            }
-        }
-
-        // ==========================================================
-        // 🌓 TEMA (TU CÓDIGO EXISTENTE)
-        // ==========================================================
-
-        function setEstilo(e) {
-            document.body.className = '';
-            document.body.classList.add('style-' + e);
-            localStorage.setItem('cupotax-usuario-estilo', e);
-            actualizarCards(e);
-            Swal.fire({
-                title: 'Estilo ' + e + ' aplicado',
-                icon: 'success',
-                timer: 1500,
-                showConfirmButton: false,
-                background: 'var(--card-bg)',
-                color: 'var(--text-primary)'
-            });
-            registrarAuditoria('cambiar_estilo', 'Cambió estilo a: ' + e);
-        }
-
-        function toggleLightMode() {
-            document.body.classList.toggle('light-mode');
-            const m = document.body.classList.contains('light-mode') ? 'Modo claro activado' : 'Modo oscuro activado';
-            Swal.fire({
-                title: m,
-                icon: 'success',
-                timer: 1500,
-                showConfirmButton: false,
-                background: 'var(--card-bg)',
-                color: 'var(--text-primary)'
-            });
-            registrarAuditoria('toggle_light_mode', m);
-        }
-
-        function resetearEstilos() {
-            document.body.className = 'style-fire';
-            localStorage.setItem('cupotax-usuario-estilo', 'fire');
-            localStorage.removeItem('cupotax-font-size');
-            actualizarCards('fire');
-            setFontSize('normal');
-            Swal.fire({
-                title: 'Estilos restaurados',
-                icon: 'success',
-                timer: 1500,
-                showConfirmButton: false,
-                background: 'var(--card-bg)',
-                color: 'var(--text-primary)'
-            });
-            registrarAuditoria('resetear_estilos', 'Restauró estilos predeterminados');
-        }
-
-        function actualizarCards(e) {
-            ['cardFire', 'cardGlass', 'cardNeon', 'cardCrimson', 'cardLight'].forEach(function(c) {
-                const el = document.getElementById(c);
-                if (el) el.classList.remove('active');
-            });
-            if (e === 'fire') document.getElementById('cardFire')?.classList.add('active');
-            else if (e === 'glass') document.getElementById('cardGlass')?.classList.add('active');
-            else if (e === 'neon') document.getElementById('cardNeon')?.classList.add('active');
-            else if (e === 'crimson') document.getElementById('cardCrimson')?.classList.add('active');
-        }
-
-        function cargarTemaGuardado() {
-            const estiloGuardado = localStorage.getItem('cupotax-usuario-estilo') || 'fire';
-            const lightGuardado = localStorage.getItem('cupotax-usuario-light') === 'true';
-            document.body.classList.add('style-' + estiloGuardado);
-            if (lightGuardado) document.body.classList.add('light-mode');
-            actualizarCards(estiloGuardado);
-            cargarFontSize();
-        }
-
-        function toggleSettingsPanel() {
-            document.getElementById('settingsPanel').classList.toggle('open');
-        }
-
-        // ==========================================================
-        // 🧭 NAVEGACIÓN (TU CÓDIGO EXISTENTE)
-        // ==========================================================
-
-        function mostrarSeccion(s) {
-            const secs = ['inicio', 'solicitar', 'reservas', 'favoritos', 'billetera', 'historial', 'premium',
-                'notificaciones', 'seguridad', 'ayuda', 'configuracion'
-            ];
-            secs.forEach(function(se) {
-                const el = document.getElementById('seccion-' + se);
-                if (el) el.style.display = 'none';
-            });
-            document.getElementById('seccion-' + s).style.display = 'block';
-
-            document.querySelectorAll('.sidebar-menu a').forEach(function(el) {
-                el.classList.remove('active');
-            });
-
-            if (s === 'solicitar') {
-                setTimeout(function() { initMapboxMap(); }, 100);
-                calcularTarifaReal();
-            }
-            if (s === 'historial') cargarViajesUsuario(uidActual);
-            if (s === 'reservas') cargarReservasUsuario(uidActual);
-            if (s === 'reservas') cargarChatsConductores();
-            if (s === 'favoritos') cargarFavoritosUsuario(uidActual);
-            if (s === 'billetera') {
-                cargarDatosUsuario(uidActual);
-                cargarTransacciones();
-            }
-            if (s === 'notificaciones') cargarNotificacionesUsuario(uidActual);
-            if (s === 'seguridad') cargarContactosUsuario(uidActual);
-
-            if (window.innerWidth <= 768) {
-                document.getElementById('sidebar').classList.remove('open');
-            }
-
-            if (modoVozActivo) {
-                const titulo = document.querySelector('.seccion.active h2')?.textContent ||
-                    document.querySelector('.welcome-header h1')?.textContent ||
-                    s.charAt(0).toUpperCase() + s.slice(1);
-                leerTexto('Sección: ' + titulo);
-            }
-        }
-
-        function toggleSidebarMenu() {
-            document.getElementById('sidebar').classList.toggle('open');
-        }
-
-        function cerrarSidebar() {
-            if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
-        }
-
-        // ==========================================================
-        // 👤 DATOS DEL USUARIO (TU CÓDIGO EXISTENTE)
-        // ==========================================================
-
-        let uidActual = null;
-        let usuarioActual = null;
-        let saldoUsuario = 0;
-        let viajesUsuario = [];
-
-        function cargarDatosUsuario(uid) {
-            database.ref('usuarios/' + uid).once('value').then(function(snapshot) {
-                const data = snapshot.val();
-                if (data) {
-                    usuarioActual = data;
-                    document.getElementById('nombreUsuario').textContent = sanitizar(data.nombre || 'Usuario');
-                    saldoUsuario = data.saldo || 0;
-                    document.getElementById('saldoBilletera').innerHTML = 'B/. ' + saldoUsuario.toFixed(2);
-                    document.getElementById('saldoBilletera2').innerHTML = 'B/. ' + saldoUsuario.toFixed(2);
-                    cargarViajesUsuario(uid);
-                    cargarNotificacionesUsuario(uid);
-                    cargarReservasUsuario(uid);
-                    cargarFavoritosUsuario(uid);
-                    cargarContactosUsuario(uid);
-                    cargarChatsConductores();
-                    cargarDestinosRapidos();
-                    cargarRutasPopulares();
-                    registrarAuditoria('cargar_datos', 'Datos de usuario cargados');
-
-                    if (modoVozActivo) {
-                        leerTexto('Bienvenido ' + (data.nombre || 'Usuario') +
-                            '. Tienes ' + saldoUsuario.toFixed(2) + ' balboas en tu billetera.');
-                    }
-                }
-            });
-        }
-
-        // ==========================================================
-        // 📍 DESTINOS RÁPIDOS Y RUTAS POPULARES
-        // ==========================================================
-
-        function cargarDestinosRapidos() {
-            const container = document.getElementById('destinosRapidos');
-            const destinos = [
-                { nombre: '🏥 Hospital', dir: 'Zona hospitalaria' },
-                { nombre: '🏫 Universidad', dir: 'Barriada universitaria' },
-                { nombre: '🛒 Supermercado', dir: 'Changuinola Centro' },
-                { nombre: '🚌 Terminal', dir: 'Terminal Sincotavecop' },
-                { nombre: '✈️ Aeropuerto', dir: 'Aeropuerto de Changuinola' },
-                { nombre: '🏖️ Playa', dir: 'Bocas del Drago' }
-            ];
-            let html = '';
-            destinos.forEach(function(d) {
-                html += `
-                    <div class="destino-item" onclick="usarDestinoRapido('${d.dir}')" role="button" tabindex="0">
-                        <strong>${d.nombre}</strong>
-                        <span>${d.dir}</span>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-        function usarDestinoRapido(dir) {
-            document.getElementById('destinoSolicitud').value = dir;
-            calcularTarifaReal();
-            mostrarSeccion('solicitar');
-            Swal.fire({
-                title: '✅ Destino seleccionado',
-                text: dir,
-                icon: 'success',
-                timer: 1500,
-                showConfirmButton: false,
-                background: 'var(--card-bg)',
-                color: 'var(--text-primary)'
-            });
-            if (modoVozActivo) {
-                leerTexto('Destino seleccionado: ' + dir);
-            }
-        }
-
-        function cargarRutasPopulares() {
-            const container = document.getElementById('rutasPopulares');
-            const rutas = [
-                { nombre: 'Changuinola → Almirante', precio: 'B/. 1.45' },
-                { nombre: 'Changuinola → David', precio: 'B/. 9.65' },
-                { nombre: 'Changuinola → Guabito', precio: 'B/. 0.95' },
-                { nombre: 'Changuinola → Las Tablas', precio: 'B/. 2.05' }
-            ];
-            let html = '';
-            rutas.forEach(function(r) {
-                html += `
-                    <div class="viaje-item">
-                        <div>${r.nombre}</div>
-                        <div style="color:var(--accent); font-weight:600;">${r.precio}</div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-        // ==========================================================
-        // 📅 VIAJES DEL USUARIO (TU CÓDIGO EXISTENTE)
-        // ==========================================================
-
-        function cargarViajesUsuario(uid) {
-            database.ref('viajes').orderByChild('usuarioId').equalTo(uid).once('value').then(function(snapshot) {
-                viajesUsuario = [];
-                snapshot.forEach(function(child) {
-                    const v = child.val();
-                    v.id = child.key;
-                    viajesUsuario.push(v);
-                });
-                viajesUsuario.sort(function(a, b) {
-                    return new Date(b.fechaSolicitud || b.fecha) - new Date(a.fechaSolicitud || a.fecha);
-                });
-                renderizarViajesRecientes(viajesUsuario);
-                renderizarHistorialCompleto(viajesUsuario);
-            });
-        }
-
-        function renderizarViajesRecientes(viajes) {
-            const container = document.getElementById('viajesRecientes');
-            const recientes = viajes.slice(0, 3);
-            if (recientes.length === 0) {
-                container.innerHTML = '<div class="viaje-item">No hay viajes recientes</div>';
-                return;
-            }
-            let html = '';
-            recientes.forEach(function(v) {
-                html += `
-                    <div class="viaje-item">
-                        <div class="viaje-info">
-                            <h4>${sanitizar(v.tipoViaje || 'Viaje')}</h4>
-                            <p>${sanitizar(v.origen || 'Changuinola')} → ${sanitizar(v.destino || 'N/A')}</p>
-                            <p class="viaje-estado">${v.estado || 'pendiente'}</p>
-                        </div>
-                        <div class="viaje-precio">B/.${v.tarifa || '0'}</div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-        function renderizarHistorialCompleto(viajes) {
-            const container = document.getElementById('historialCompleto');
-            if (viajes.length === 0) {
-                container.innerHTML = '<div class="viaje-item">No hay viajes registrados</div>';
-                return;
-            }
-            let html = '';
-            viajes.forEach(function(v) {
-                html += `
-                    <div class="viaje-item">
-                        <div class="viaje-info">
-                            <h4>${sanitizar(v.tipoViaje || 'Viaje')}</h4>
-                            <p>${sanitizar(v.origen || 'Changuinola')} → ${sanitizar(v.destino || 'N/A')}</p>
-                            <p class="viaje-estado">${v.fechaSolicitud ? new Date(v.fechaSolicitud).toLocaleDateString() : ''} - ${v.estado || 'pendiente'}</p>
-                        </div>
-                        <div class="viaje-precio">B/.${v.tarifa || '0'}</div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-        // ==========================================================
-        // 🔔 NOTIFICACIONES (TU CÓDIGO EXISTENTE)
-        // ==========================================================
-
-        let notificacionesListaGlobal = [];
-
-        function cargarNotificacionesUsuario(uid) {
-            database.ref('notificaciones').orderByChild('usuarioId').equalTo(uid).on('value', function(snapshot) {
-                notificacionesListaGlobal = [];
-                snapshot.forEach(function(child) {
-                    const n = child.val();
-                    n.id = child.key;
-                    notificacionesListaGlobal.push(n);
-                });
-                notificacionesListaGlobal.sort(function(a, b) {
-                    return new Date(b.fecha) - new Date(a.fecha);
-                });
-                renderizarNotificacionesRapidas(notificacionesListaGlobal);
-                renderizarNotificacionesCompletas(notificacionesListaGlobal);
-                renderizarNotificacionesPanel(notificacionesListaGlobal);
-                const noLeidas = notificacionesListaGlobal.filter(function(n) { return !n.leida; }).length;
-                const badge = document.getElementById('notificacionesContador');
-                if (noLeidas > 0) {
-                    badge.style.display = 'flex';
-                    badge.textContent = noLeidas > 9 ? '9+' : noLeidas;
-                } else {
-                    badge.style.display = 'none';
-                }
-            });
-        }
-
-        function renderizarNotificacionesRapidas(notificaciones) {
-            const container = document.getElementById('notificacionesLista');
-            const recientes = notificaciones.slice(0, 3);
-            if (recientes.length === 0) {
-                container.innerHTML = '<div class="viaje-item">No hay notificaciones</div>';
-                return;
-            }
-            let html = '';
-            recientes.forEach(function(n) {
-                html += `
-                    <div class="viaje-item">
-                        <div><strong>${sanitizar(n.titulo || 'Notificación')}</strong><br><span style="font-size:0.7rem; color:var(--text-secondary);">${sanitizar(n.mensaje || '')}</span></div>
-                        <span style="font-size:0.65rem; color:${n.leida ? 'var(--text-tertiary)' : 'var(--success)'};">${n.leida ? 'Leída' : '● Nueva'}</span>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-        function renderizarNotificacionesCompletas(notificaciones) {
-            const container = document.getElementById('notificacionesCompleto');
-            if (notificaciones.length === 0) {
-                container.innerHTML = '<div class="viaje-item">No hay notificaciones</div>';
-                return;
-            }
-            let html = '';
-            notificaciones.forEach(function(n) {
-                html += `
-                    <div class="viaje-item" style="cursor:pointer;" onclick="marcarNotificacionLeida('${n.id}')">
-                        <div>
-                            <strong style="color:${n.leida ? 'var(--text-secondary)' : 'var(--accent)'};">${sanitizar(n.titulo || 'Notificación')}</strong>
-                            <br><span style="font-size:0.75rem; color:var(--text-secondary);">${sanitizar(n.mensaje || '')}</span>
-                            <br><span style="font-size:0.65rem; color:var(--text-tertiary);">${n.fecha ? new Date(n.fecha).toLocaleString() : ''}</span>
-                        </div>
-                        <span style="font-size:0.65rem; color:${n.leida ? 'var(--text-tertiary)' : 'var(--success)'};">${n.leida ? '✓ Leída' : '● Nueva'}</span>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-        function renderizarNotificacionesPanel(notificaciones) {
-            const container = document.getElementById('notificacionesListaPanel');
-            if (notificaciones.length === 0) {
-                container.innerHTML = '<div class="notificacion-vacia">✨ No tienes notificaciones</div>';
-                return;
-            }
-            let html = '';
-            notificaciones.forEach(function(n) {
-                html += `
-                    <div class="notificacion-item-panel${n.leida ? '' : ' no-leida'}" onclick="marcarNotificacionLeida('${n.id}')">
-                        <div class="notificacion-titulo">${sanitizar(n.titulo || 'Notificación')}</div>
-                        <div class="notificacion-mensaje">${sanitizar(n.mensaje || '')}</div>
-                        <div class="notificacion-fecha">${n.fecha ? new Date(n.fecha).toLocaleString() : ''}</div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-        function marcarNotificacionLeida(id) {
-            if (!id) return;
-            database.ref('notificaciones/' + id + '/leida').set(true);
-        }
-
-        function marcarTodasLeidas() {
-            const noLeidas = notificacionesListaGlobal.filter(function(n) { return !n.leida; });
-            if (noLeidas.length === 0) {
-                Swal.fire({
-                    title: 'Listo',
-                    text: 'Todas las notificaciones ya están leídas',
-                    icon: 'info',
-                    background: 'var(--card-bg)',
-                    color: 'var(--text-primary)'
-                });
-                return;
-            }
-            const updates = {};
-            noLeidas.forEach(function(n) {
-                updates['notificaciones/' + n.id + '/leida'] = true;
-            });
-            database.ref().update(updates).then(function() {
-                Swal.fire({
-                    title: 'Listo',
-                    text: 'Todas las notificaciones marcadas como leídas',
-                    icon: 'success',
-                    background: 'var(--card-bg)',
-                    color: 'var(--text-primary)'
-                });
-            });
-        }
-
-        function toggleNotificacionesPanel(e) {
-            e.stopPropagation();
-            document.getElementById('notificacionesPanel').classList.toggle('open');
-        }
-
-        document.addEventListener('click', function() {
-            document.getElementById('notificacionesPanel').classList.remove('open');
-        });
-
-        // ==========================================================
-        // 📅 RESERVAS DEL USUARIO (TU CÓDIGO EXISTENTE)
-        // ==========================================================
-
-        function cargarReservasUsuario(uid) {
-            database.ref('reservas').orderByChild('usuarioId').equalTo(uid).once('value').then(function(snapshot) {
-                const container = document.getElementById('reservasLista');
-                let html = '';
-                let count = 0;
-                snapshot.forEach(function(child) {
-                    const r = child.val();
-                    count++;
-                    const estadoColor = r.estado === 'confirmada' ? 'var(--success)' :
-                        r.estado === 'cancelada' ? 'var(--danger)' : 'var(--warning)';
-                    html += `
-                        <div class="viaje-item">
-                            <div>
-                                <h4>${sanitizar(r.origen || 'N/A')} → ${sanitizar(r.destino || 'N/A')}</h4>
-                                <p style="font-size:0.75rem;">${r.fecha || 'N/A'} - ${r.hora || 'N/A'}</p>
-                            </div>
-                            <div style="text-align:right;">
-                                <div style="color:${estadoColor}; font-size:0.75rem;">${r.estado || 'pendiente'}</div>
-                                <div style="font-size:1rem; font-weight:700; color:var(--accent);">B/. ${r.tarifa || '0'}</div>
-                            </div>
-                        </div>
-                    `;
-                });
-                if (count === 0) {
-                    html = '<div class="viaje-item">No hay reservas activas</div>';
-                }
-                container.innerHTML = html;
-            });
-        }
-
-        // ==========================================================
-        // ⭐ FAVORITOS (TU CÓDIGO EXISTENTE)
-        // ==========================================================
-
-        function cargarFavoritosUsuario(uid) {
-            database.ref('favoritos').orderByChild('usuarioId').equalTo(uid).once('value').then(function(snapshot) {
-                const container = document.getElementById('favoritosLista');
-                let html = '';
-                let count = 0;
-                snapshot.forEach(function(child) {
-                    const f = child.val();
-                    count++;
-                    html += `
-                        <div class="viaje-item">
-                            <div>
-                                <h4>${sanitizar(f.nombre || 'Favorito')}</h4>
-                                <p style="font-size:0.75rem;">${sanitizar(f.direccion || 'N/A')}</p>
-                            </div>
-                            <button class="btn-outline" style="padding:4px 12px; font-size:0.65rem; width:auto;" onclick="usarFavorito('${f.direccion}')">Usar</button>
-                        </div>
-                    `;
-                });
-                if (count === 0) {
-                    html = '<div class="viaje-item">No hay favoritos</div>';
-                }
-                container.innerHTML = html;
-            });
-        }
-
-        function usarFavorito(direccion) {
-            document.getElementById('destinoSolicitud').value = direccion;
-            calcularTarifaReal();
-            mostrarSeccion('solicitar');
-            Swal.fire({
-                title: '✅ Favorito seleccionado',
-                text: direccion,
-                icon: 'success',
-                timer: 1500,
-                showConfirmButton: false,
-                background: 'var(--card-bg)',
-                color: 'var(--text-primary)'
-            });
-            if (modoVozActivo) {
-                leerTexto('Favorito seleccionado: ' + direccion);
-            }
-        }
-
-        function agregarFavorito() {
-            Swal.fire({
-                title: 'Agregar favorito',
-                input: 'text',
-                inputPlaceholder: 'Nombre del lugar',
-                confirmButtonText: 'Siguiente',
-                background: 'var(--card-bg)',
-                color: 'var(--text-primary)'
-            }).then(function(result) {
-                if (result.isConfirmed && result.value) {
-                    const nombre = result.value;
-                    Swal.fire({
-                        title: 'Dirección',
-                        input: 'text',
-                        inputPlaceholder: 'Dirección del lugar',
-                        confirmButtonText: 'Guardar',
-                        background: 'var(--card-bg)',
-                        color: 'var(--text-primary)'
-                    }).then(function(result2) {
-                        if (result2.isConfirmed && result2.value) {
-                            database.ref('favoritos').push({
-                                usuarioId: uidActual,
-                                nombre: sanitizar(nombre),
-                                direccion: sanitizar(result2.value),
-                                fecha: new Date().toISOString()
-                            }).then(function() {
-                                Swal.fire({
-                                    title: '✅ Favorito agregado',
-                                    icon: 'success',
-                                    timer: 1500,
-                                    showConfirmButton: false,
-                                    background: 'var(--card-bg)',
-                                    color: 'var(--text-primary)'
-                                });
-                                cargarFavoritosUsuario(uidActual);
-                                registrarAuditoria('agregar_favorito', 'Agregó favorito: ' + nombre);
-                            });
-                        }
-                    });
-                }
-            });
-        }
-
-        // ==========================================================
-        // 👤 CONTACTOS DE CONFIANZA (TU CÓDIGO EXISTENTE)
-        // ==========================================================
-
-        function cargarContactosUsuario(uid) {
-            database.ref('contactos').orderByChild('usuarioId').equalTo(uid).once('value').then(function(snapshot) {
-                const container = document.getElementById('contactosLista');
-                let html = '';
-                let count = 0;
-                snapshot.forEach(function(child) {
-                    const c = child.val();
-                    count++;
-                    html += `
-                        <div class="viaje-item">
-                            <div>
-                                <h4>${sanitizar(c.nombre || 'Sin nombre')}</h4>
-                                <p style="font-size:0.75rem;">📞 ${sanitizar(c.telefono || 'Sin teléfono')}</p>
-                            </div>
-                            <button class="btn-danger" style="padding:4px 12px; font-size:0.65rem; width:auto; border:none; border-radius:15px; cursor:pointer; color:#fff; background:var(--danger);" onclick="eliminarContacto('${child.key}')">🗑️</button>
-                        </div>
-                    `;
-                });
-                if (count === 0) {
-                    html = '<div class="viaje-item">No hay contactos guardados</div>';
-                }
-                container.innerHTML = html;
-            });
-        }
-
-        function guardarContacto() {
-            const input = document.getElementById('contactoEmergencia');
-            const valor = input.value.trim();
-
-            if (!valor) {
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Ingresa nombre y teléfono',
-                    icon: 'error',
-                    background: 'var(--card-bg)',
-                    color: 'var(--text-primary)'
-                });
-                return;
-            }
-
-            if (detectarAtaque(valor)) {
-                Swal.fire({
-                    title: '🚨 Ataque detectado',
-                    text: 'El contacto contiene caracteres maliciosos',
-                    icon: 'error',
-                    background: 'var(--card-bg)',
-                    color: 'var(--text-primary)'
-                });
-                registrarAuditoria('ataque_contacto', 'Intento de XSS en contacto: ' + valor);
-                return;
-            }
-
-            let nombre = valor;
-            let telefono = '';
-            const matchTel = valor.match(/(\d{7,8})/);
-            if (matchTel) {
-                telefono = matchTel[1];
-                nombre = valor.replace(telefono, '').trim();
-            }
-
-            database.ref('contactos').push({
-                usuarioId: uidActual,
-                nombre: sanitizar(nombre || 'Contacto'),
-                telefono: sanitizar(telefono || 'Sin teléfono'),
-                fecha: new Date().toISOString()
-            }).then(function() {
-                input.value = '';
-                Swal.fire({
-                    title: '✅ Contacto guardado',
-                    icon: 'success',
-                    timer: 1500,
-                    showConfirmButton: false,
-                    background: 'var(--card-bg)',
-                    color: 'var(--text-primary)'
-                });
-                cargarContactosUsuario(uidActual);
-                registrarAuditoria('guardar_contacto', 'Guardó contacto: ' + nombre);
-            });
-        }
-
-        function eliminarContacto(id) {
-            Swal.fire({
-                title: '¿Eliminar contacto?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Sí, eliminar',
-                background: 'var(--card-bg)',
-                color: 'var(--text-primary)'
-            }).then(function(result) {
-                if (result.isConfirmed) {
-                    database.ref('contactos/' + id).remove().then(function() {
-                        cargarContactosUsuario(uidActual);
-                        registrarAuditoria('eliminar_contacto', 'Eliminó contacto');
-                    });
-                }
-            });
-        }
-
-        // ==========================================================
         // 🚪 CERRAR SESIÓN
         // ==========================================================
 
@@ -7234,6 +7142,7 @@
                     setTimeout(function() { initMapboxMap(); }, 300);
                     iniciarEscuchasFirebase();
                     iniciarControlInactividad();
+                    iniciarActualizacionUbicacion();
                     registrarAuditoria('inicio_sesion', 'Usuario inició sesión en panel');
 
                     if ('speechSynthesis' in window) {
@@ -7283,33 +7192,6 @@
                     document.getElementById('saldoBilletera').innerHTML = 'B/. ' + saldo.toFixed(2);
                     document.getElementById('saldoBilletera2').innerHTML = 'B/. ' + saldo.toFixed(2);
                 });
-
-                // 📍 ACTUALIZAR UBICACIÓN EN TIEMPO REAL CADA 5 SEGUNDOS
-                function actualizarUbicacion() {
-                    if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition(
-                            function(pos) {
-                                const ubicacion = {
-                                    lat: pos.coords.latitude,
-                                    lng: pos.coords.longitude,
-                                    timestamp: firebase.database.ServerValue.TIMESTAMP
-                                };
-                                database.ref('usuarios/' + uidActual + '/ubicacion').set(ubicacion);
-                            },
-                            function() {
-                                // Si no se puede obtener ubicación, no hacemos nada
-                            }, {
-                                enableHighAccuracy: true,
-                                timeout: 10000,
-                                maximumAge: 5000
-                            }
-                        );
-                    }
-                }
-
-                // Actualizar ubicación al cargar y cada 5 segundos
-                setTimeout(actualizarUbicacion, 1000);
-                setInterval(actualizarUbicacion, 5000);
             }
         }
 
@@ -7317,13 +7199,14 @@
         console.log('🛡️ Seguridad activa: Sanitización, Anti-XSS, Auditoría, Inactividad (30min)');
         console.log('🎤 Modo voz activo para inclusión');
         console.log('🚗 Vehículos reales desde Firebase');
-        console.log('🗺️ 4 modos de mapa: Estándar, Satélite, Navegación, Oscuro');
+        console.log('🗺️ 4 modos de mapa: Estándar, Satélite, Navegación, Oscuro (sin mapa de calor ni líneas verdes)');
         console.log('💬 Feedback Agent integrado');
         console.log('🚗 Seguimiento en vivo del conductor');
         console.log('⭐ Calificación de viajes');
         console.log('📱 Responsive: PC, Tablet, Móvil');
         console.log('🔥 Firebase conectado en tiempo real');
         console.log('📍 Ubicación en tiempo real guardada cada 5 segundos');
+        console.log('👤 Editar perfil SIN redirigir a login');
     </script>
 
 </body>
