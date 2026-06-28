@@ -152,6 +152,7 @@
             min-height: 100vh;
             overflow-x: hidden;
             font-size: var(--font-size-base);
+            padding-bottom: 80px;
         }
 
         body::before {
@@ -323,7 +324,7 @@
         }
 
         /* ==========================================================
-           SIDEBAR Y LAYOUT PRINCIPAL
+           SIDEBAR - MENÚ LATERAL HAMBURGUESA
            ========================================================== */
         .app-container {
             display: flex;
@@ -403,10 +404,19 @@
             font-size: 1.1rem;
         }
 
+        .sidebar-menu .menu-divider {
+            height: 1px;
+            background: var(--glass-border);
+            margin: 0.8rem 0.8rem;
+        }
+
+        /* ==========================================================
+           MAIN CONTENT CON PADDING PARA NAV INFERIOR
+           ========================================================== */
         .main-content {
             flex: 1;
             margin-left: 280px;
-            padding: 1.5rem 2rem;
+            padding: 1.5rem 2rem 100px 2rem;
             position: relative;
             z-index: 1;
         }
@@ -571,6 +581,95 @@
         }
 
         /* ==========================================================
+           BARRA DE NAVEGACIÓN INFERIOR FIJA
+           ========================================================== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: var(--navbar-bg);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+            padding: 0 8px;
+            margin-left: 280px;
+        }
+
+        .bottom-nav .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            padding: 6px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-secondary);
+            text-decoration: none;
+            min-height: 56px;
+            min-width: 64px;
+            position: relative;
+        }
+
+        .bottom-nav .nav-item:hover {
+            color: var(--accent);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .bottom-nav .nav-item.active {
+            color: var(--accent);
+        }
+
+        .bottom-nav .nav-item i {
+            font-size: 1.5rem;
+        }
+
+        .bottom-nav .nav-item span {
+            font-size: 0.6rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        .bottom-nav .nav-item .nav-badge {
+            position: absolute;
+            top: 2px;
+            right: 8px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* ==========================================================
+           SECCIONES - TODAS ocultas por defecto
+           ========================================================== */
+        .seccion {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .seccion.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==========================================================
            WELCOME HEADER
            ========================================================== */
         .welcome-header {
@@ -590,13 +689,12 @@
         }
 
         /* ==========================================================
-           MAPA - SIN MAPA DE CALOR Y SIN LÍNEAS VERDES
+           MAPA
            ========================================================== */
         .map-wrapper {
             position: relative;
         }
 
-        /* BOTONES DE MODO DEL MAPA */
         .map-mode-selector {
             position: absolute;
             top: 10px;
@@ -714,7 +812,7 @@
             color: #fff;
         }
 
-        /* FEEDBACK AGENT - BOTÓN FLOTANTE */
+        /* FEEDBACK AGENT */
         .feedback-float-btn {
             position: absolute;
             bottom: 20px;
@@ -739,7 +837,6 @@
             box-shadow: 0 0 30px rgba(255, 106, 42, 0.6);
         }
 
-        /* FEEDBACK AGENT - PANEL */
         .feedback-panel {
             display: none;
             position: absolute;
@@ -892,9 +989,6 @@
             pointer-events: none;
         }
 
-        /* ==========================================================
-           VEHICLE DOT (MARCADORES EN MAPA)
-           ========================================================== */
         .vehicle-dot {
             transition: transform 0.2s ease;
             cursor: pointer;
@@ -1824,7 +1918,7 @@
            ========================================================== */
         .settings-toggle {
             position: fixed;
-            bottom: 24px;
+            bottom: 90px;
             right: 24px;
             width: 55px;
             height: 55px;
@@ -1848,7 +1942,7 @@
 
         .settings-panel {
             position: fixed;
-            bottom: 90px;
+            bottom: 155px;
             right: 24px;
             width: 340px;
             background: var(--card-bg);
@@ -2030,6 +2124,10 @@
             }
             .main-content {
                 margin-left: 70px;
+                padding-bottom: 100px;
+            }
+            .bottom-nav {
+                margin-left: 70px;
             }
             .two-columns {
                 grid-template-columns: 1fr;
@@ -2059,6 +2157,18 @@
                 width: 44px;
                 height: 44px;
                 font-size: 1.1rem;
+            }
+            .settings-toggle {
+                bottom: 85px;
+                right: 16px;
+                width: 48px;
+                height: 48px;
+                font-size: 1.2rem;
+            }
+            .settings-panel {
+                bottom: 145px;
+                right: 16px;
+                width: 280px;
             }
             .feedback-float-btn {
                 width: 50px;
@@ -2104,6 +2214,10 @@
                 margin-left: 0;
                 padding: 1rem;
                 padding-top: 70px;
+                padding-bottom: 90px;
+            }
+            .bottom-nav {
+                margin-left: 0;
             }
             .map-container {
                 flex-direction: column;
@@ -2220,6 +2334,18 @@
                 height: 40px;
                 font-size: 1rem;
             }
+            .settings-toggle {
+                bottom: 85px;
+                right: 16px;
+                width: 44px;
+                height: 44px;
+                font-size: 1.1rem;
+            }
+            .settings-panel {
+                bottom: 140px;
+                right: 16px;
+                width: 90%;
+            }
             .feedback-float-btn {
                 width: 48px;
                 height: 48px;
@@ -2238,12 +2364,23 @@
                 padding: 6px;
                 min-height: 34px;
             }
+            .bottom-nav .nav-item {
+                padding: 4px 10px;
+                min-width: 50px;
+            }
+            .bottom-nav .nav-item i {
+                font-size: 1.2rem;
+            }
+            .bottom-nav .nav-item span {
+                font-size: 0.5rem;
+            }
         }
 
         @media (max-width: 480px) {
             .main-content {
                 padding: 0.8rem;
                 padding-top: 65px;
+                padding-bottom: 80px;
             }
             .card {
                 padding: 0.8rem;
@@ -2442,12 +2579,12 @@
                 width: 46px;
                 height: 46px;
                 font-size: 1.2rem;
-                bottom: 16px;
+                bottom: 80px;
                 right: 16px;
             }
             .settings-panel {
                 width: 95%;
-                bottom: 70px;
+                bottom: 135px;
                 padding: 0.8rem;
             }
             .theme-card {
@@ -2499,6 +2636,23 @@
                 font-size: 0.65rem;
                 padding: 4px;
                 min-height: 30px;
+            }
+            .bottom-nav .nav-item {
+                padding: 4px 6px;
+                min-width: 40px;
+            }
+            .bottom-nav .nav-item i {
+                font-size: 1.1rem;
+            }
+            .bottom-nav .nav-item span {
+                font-size: 0.45rem;
+            }
+            .bottom-nav .nav-item .nav-badge {
+                width: 16px;
+                height: 16px;
+                font-size: 0.5rem;
+                right: 4px;
+                top: 0;
             }
         }
     </style>
@@ -2554,7 +2708,7 @@
     </div>
 
     <!-- ==========================================================
-    SIDEBAR
+    SIDEBAR - MENÚ LATERAL
     ========================================================== -->
     <div class="app-container">
         <div class="sidebar" id="sidebar">
@@ -2563,18 +2717,19 @@
                 <p>viaja seguro, llega mejor</p>
             </div>
             <ul class="sidebar-menu">
-                <li><a class="active" onclick="mostrarSeccion('inicio'); cerrarSidebar()" aria-label="Inicio"><i class="fas fa-home"></i> <span>Inicio</span></a></li>
-                <li><a onclick="mostrarSeccion('solicitar'); cerrarSidebar()" aria-label="Solicitar viaje"><i class="fas fa-car"></i> <span>Solicitar viaje</span></a></li>
-                <li><a onclick="mostrarSeccion('reservas'); cerrarSidebar()" aria-label="Mis reservas"><i class="fas fa-calendar-check"></i> <span>Mis reservas</span></a></li>
-                <li><a onclick="mostrarSeccion('favoritos'); cerrarSidebar()" aria-label="Favoritos"><i class="fas fa-heart"></i> <span>Favoritos</span></a></li>
-                <li><a onclick="mostrarSeccion('billetera'); cerrarSidebar()" aria-label="Billetera"><i class="fas fa-wallet"></i> <span>Billetera</span></a></li>
-                <li><a onclick="mostrarSeccion('historial'); cerrarSidebar()" aria-label="Historial de viajes"><i class="fas fa-history"></i> <span>Historial de viajes</span></a></li>
-                <li><a onclick="mostrarSeccion('premium'); cerrarSidebar()" aria-label="Planes Premium"><i class="fas fa-crown"></i> <span>Planes Premium</span></a></li>
-                <li><a onclick="mostrarSeccion('notificaciones'); cerrarSidebar()" aria-label="Notificaciones"><i class="fas fa-bell"></i> <span>Notificaciones</span></a></li>
-                <li><a onclick="mostrarSeccion('seguridad'); cerrarSidebar()" aria-label="Seguridad"><i class="fas fa-shield-alt"></i> <span>Seguridad</span></a></li>
-                <li><a onclick="mostrarSeccion('ayuda'); cerrarSidebar()" aria-label="Ayuda"><i class="fas fa-question-circle"></i> <span>Ayuda</span></a></li>
-                <li><a onclick="mostrarSeccion('configuracion'); cerrarSidebar()" aria-label="Configuración"><i class="fas fa-cog"></i> <span>Configuración</span></a></li>
-                <li><a onclick="cerrarSesion(); cerrarSidebar()" aria-label="Salir"><i class="fas fa-sign-out-alt"></i> <span>Salir</span></a></li>
+                <li><a class="active" onclick="navegarA('inicio'); cerrarSidebar()" aria-label="Inicio"><i class="fas fa-home"></i> <span>Inicio</span></a></li>
+                <li><a onclick="navegarA('solicitar'); cerrarSidebar()" aria-label="Pedir viaje"><i class="fas fa-car"></i> <span>Pedir viaje</span></a></li>
+                <li><a onclick="navegarA('reservas'); cerrarSidebar()" aria-label="Reservas"><i class="fas fa-calendar-check"></i> <span>Reservas</span></a></li>
+                <li><a onclick="navegarA('mensajes'); cerrarSidebar()" aria-label="Mensajes"><i class="fas fa-comment-dots"></i> <span>Mensajes</span></a></li>
+                <li><a onclick="navegarA('historial'); cerrarSidebar()" aria-label="Historial"><i class="fas fa-history"></i> <span>Historial</span></a></li>
+                <li><a onclick="navegarA('favoritos'); cerrarSidebar()" aria-label="Favoritos"><i class="fas fa-heart"></i> <span>Favoritos</span></a></li>
+                <li><a onclick="navegarA('billetera'); cerrarSidebar()" aria-label="Billetera"><i class="fas fa-wallet"></i> <span>Billetera</span></a></li>
+                <li><a onclick="navegarA('premium'); cerrarSidebar()" aria-label="Planes Premium"><i class="fas fa-crown"></i> <span>Planes Premium</span></a></li>
+                <li><a onclick="navegarA('seguridad'); cerrarSidebar()" aria-label="Seguridad"><i class="fas fa-shield-alt"></i> <span>Seguridad</span></a></li>
+                <li><a onclick="navegarA('ayuda'); cerrarSidebar()" aria-label="Ayuda"><i class="fas fa-question-circle"></i> <span>Ayuda</span></a></li>
+                <li><a onclick="navegarA('configuracion'); cerrarSidebar()" aria-label="Configuración"><i class="fas fa-cog"></i> <span>Configuración</span></a></li>
+                <li><div class="menu-divider"></div></li>
+                <li><a onclick="cerrarSesion(); cerrarSidebar()" aria-label="Cerrar sesión"><i class="fas fa-sign-out-alt"></i> <span>Cerrar sesión</span></a></li>
             </ul>
         </div>
 
@@ -2583,7 +2738,7 @@
         ========================================================== -->
         <div class="main-content">
 
-            <!-- NOTIFICACIONES -->
+            <!-- TOP BAR con Notificaciones -->
             <div class="top-bar-notificaciones">
                 <div class="notificacion-icono" onclick="toggleNotificacionesPanel(event)" aria-label="Notificaciones">
                     <i class="fas fa-bell"></i>
@@ -2607,9 +2762,9 @@
             </div>
 
             <!-- ==========================================================
-            SECCIÓN INICIO
+            SECCIÓN: INICIO (Dashboard)
             ========================================================== -->
-            <div id="seccion-inicio">
+            <div id="seccion-inicio" class="seccion active">
 
                 <!-- ASISTENTE INTELIGENTE -->
                 <div class="card" style="margin-bottom:1rem;">
@@ -2667,19 +2822,19 @@
                             <li>Soporte preferencial 24/7</li>
                             <li>Descuentos exclusivos</li>
                         </ul>
-                        <button class="btn-outline" style="margin-top:0.8rem;" onclick="verPlanes()">Ver todas las opciones</button>
+                        <button class="btn-outline" style="margin-top:0.8rem;" onclick="navegarA('premium')">Ver todas las opciones</button>
                     </div>
                     <div class="card">
                         <div class="card-title"><i class="fas fa-shield-alt"></i> Seguridad rápida</div>
-                        <div class="viaje-item" style="cursor:pointer;" onclick="mostrarSeccion('seguridad')">
+                        <div class="viaje-item" style="cursor:pointer;" onclick="navegarA('seguridad')">
                             <div><i class="fas fa-share-alt"></i> Compartir mi viaje</div>
                             <span style="color:var(--accent);">→</span>
                         </div>
-                        <div class="viaje-item" style="cursor:pointer;" onclick="mostrarSeccion('seguridad')">
+                        <div class="viaje-item" style="cursor:pointer;" onclick="navegarA('seguridad')">
                             <div><i class="fas fa-users"></i> Contactos de confianza</div>
                             <span style="color:var(--accent);">→</span>
                         </div>
-                        <div class="viaje-item" style="cursor:pointer;" onclick="mostrarSeccion('seguridad')">
+                        <div class="viaje-item" style="cursor:pointer;" onclick="navegarA('seguridad')">
                             <div><i class="fas fa-shield-alt"></i> Centro de seguridad</div>
                             <span style="color:var(--accent);">→</span>
                         </div>
@@ -2691,7 +2846,7 @@
                     <div class="card">
                         <div class="card-title"><i class="fas fa-history"></i> Viajes recientes</div>
                         <div id="viajesRecientes"></div>
-                        <button class="btn-outline" style="margin-top:0.5rem;" onclick="mostrarSeccion('historial')">Ver todas las opciones</button>
+                        <button class="btn-outline" style="margin-top:0.5rem;" onclick="navegarA('historial')">Ver todas las opciones</button>
                     </div>
                     <div class="card">
                         <div class="card-title"><i class="fas fa-route"></i> Rutas populares (Bus)</div>
@@ -2704,7 +2859,7 @@
                     <div class="card">
                         <div class="card-title"><i class="fas fa-bell"></i> Notificaciones</div>
                         <div id="notificacionesLista"></div>
-                        <button class="btn-outline" style="margin-top:0.5rem;" onclick="mostrarSeccion('notificaciones')">Ver todas las opciones</button>
+                        <button class="btn-outline" style="margin-top:0.5rem;" onclick="navegarA('notificaciones')">Ver todas las opciones</button>
                     </div>
                     <div class="card">
                         <div class="card-title"><i class="fas fa-gift"></i> Invita y gana</div>
@@ -2716,9 +2871,9 @@
             </div>
 
             <!-- ==========================================================
-            SECCIÓN SOLICITAR VIAJE
+            SECCIÓN: SOLICITAR VIAJE
             ========================================================== -->
-            <div id="seccion-solicitar" style="display:none;">
+            <div id="seccion-solicitar" class="seccion">
                 <div class="card">
                     <div class="card-title"><i class="fas fa-car"></i> Solicitar viaje</div>
 
@@ -2909,15 +3064,20 @@
             </div>
 
             <!-- ==========================================================
-            SECCIÓN RESERVAS + CHAT
+            SECCIÓN: RESERVAS
             ========================================================== -->
-            <div id="seccion-reservas" style="display:none;">
+            <div id="seccion-reservas" class="seccion">
                 <div class="card">
                     <div class="card-title"><i class="fas fa-calendar-check"></i> Mis reservas</div>
                     <div id="reservasLista"></div>
                 </div>
+            </div>
 
-                <div class="card" style="margin-top:16px;">
+            <!-- ==========================================================
+            SECCIÓN: MENSAJES (Chat con conductores)
+            ========================================================== -->
+            <div id="seccion-mensajes" class="seccion">
+                <div class="card">
                     <div class="card-title"><i class="fas fa-comment-dots"></i> Mensajería con conductores</div>
                     <div id="chatsConductoresLista" style="margin-bottom:12px;">
                         <div style="text-align:center; padding:16px; color:var(--text-tertiary); font-size:0.85rem;">
@@ -2931,34 +3091,19 @@
             </div>
 
             <!-- ==========================================================
-            MODAL CHAT CON CONDUCTOR
+            SECCIÓN: HISTORIAL
             ========================================================== -->
-            <div id="modalChatConductor" class="modal-detalle-chat">
-                <div class="modal-chat-content">
-                    <div class="modal-chat-header">
-                        <button class="btn-close-chat" onclick="cerrarModalChatConductor()">✕</button>
-                        <div class="chat-avatar" id="chatConductorAvatar">👤</div>
-                        <div class="chat-info">
-                            <div class="nombre" id="chatConductorNombre">Conductor</div>
-                            <div class="estado" id="chatConductorEstado">● En línea</div>
-                        </div>
-                        <button class="btn-adjuntar" onclick="window.open('https://wa.me/5071234567', '_blank')">📱</button>
-                    </div>
-                    <div class="modal-chat-body" id="chatConductorMensajesArea">
-                        <div class="mensaje-empty" id="chatConductorMensajesEmpty">💬 Sin mensajes aún. Envía un saludo!</div>
-                    </div>
-                    <div class="modal-chat-footer">
-                        <button class="btn-adjuntar" onclick="adjuntarArchivoChatConductor()">📎</button>
-                        <input type="text" id="chatConductorInput" placeholder="Escribe tu mensaje..." onkeypress="if(event.key==='Enter') enviarMensajeChatConductor()">
-                        <button onclick="enviarMensajeChatConductor()">📤</button>
-                    </div>
+            <div id="seccion-historial" class="seccion">
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-history"></i> Historial de viajes</div>
+                    <div id="historialCompleto"></div>
                 </div>
             </div>
 
             <!-- ==========================================================
-            SECCIÓN FAVORITOS
+            SECCIÓN: FAVORITOS
             ========================================================== -->
-            <div id="seccion-favoritos" style="display:none;">
+            <div id="seccion-favoritos" class="seccion">
                 <div class="card">
                     <div class="card-title"><i class="fas fa-heart"></i> Lugares favoritos</div>
                     <div id="favoritosLista"></div>
@@ -2967,9 +3112,9 @@
             </div>
 
             <!-- ==========================================================
-            SECCIÓN BILLETERA
+            SECCIÓN: BILLETERA
             ========================================================== -->
-            <div id="seccion-billetera" style="display:none;">
+            <div id="seccion-billetera" class="seccion">
                 <div class="card">
                     <div class="card-title"><i class="fas fa-wallet"></i> Billetera</div>
                     <div class="card-value" id="saldoBilletera2">Cargando...</div>
@@ -2983,19 +3128,9 @@
             </div>
 
             <!-- ==========================================================
-            SECCIÓN HISTORIAL
+            SECCIÓN: PREMIUM
             ========================================================== -->
-            <div id="seccion-historial" style="display:none;">
-                <div class="card">
-                    <div class="card-title"><i class="fas fa-history"></i> Historial de viajes</div>
-                    <div id="historialCompleto"></div>
-                </div>
-            </div>
-
-            <!-- ==========================================================
-            SECCIÓN PREMIUM
-            ========================================================== -->
-            <div id="seccion-premium" style="display:none;">
+            <div id="seccion-premium" class="seccion">
                 <div class="card">
                     <div class="card-title"><i class="fas fa-crown"></i> CupoTax Premium</div>
                     <div class="explicacion-premium" style="background:rgba(0,0,0,0.2); border-radius:16px; padding:1rem; margin-bottom:1.5rem; text-align:center; border-left:4px solid var(--accent);">
@@ -3037,9 +3172,9 @@
             </div>
 
             <!-- ==========================================================
-            SECCIÓN NOTIFICACIONES
+            SECCIÓN: NOTIFICACIONES
             ========================================================== -->
-            <div id="seccion-notificaciones" style="display:none;">
+            <div id="seccion-notificaciones" class="seccion">
                 <div class="card">
                     <div class="card-title"><i class="fas fa-bell"></i> Notificaciones</div>
                     <div id="notificacionesCompleto"></div>
@@ -3047,9 +3182,9 @@
             </div>
 
             <!-- ==========================================================
-            SECCIÓN SEGURIDAD
+            SECCIÓN: SEGURIDAD
             ========================================================== -->
-            <div id="seccion-seguridad" style="display:none;">
+            <div id="seccion-seguridad" class="seccion">
                 <div class="card">
                     <div class="card-title"><i class="fas fa-shield-alt"></i> Centro de seguridad</div>
 
@@ -3108,9 +3243,9 @@
             </div>
 
             <!-- ==========================================================
-            SECCIÓN AYUDA
+            SECCIÓN: AYUDA
             ========================================================== -->
-            <div id="seccion-ayuda" style="display:none;">
+            <div id="seccion-ayuda" class="seccion">
                 <div class="card">
                     <div class="card-title"><i class="fas fa-headset"></i> Centro de ayuda</div>
                     <div class="viaje-item"><span><i class="fas fa-phone"></i> Llamar a soporte</span><span style="color:var(--accent);">+507 6663-7549</span></div>
@@ -3121,13 +3256,12 @@
             </div>
 
             <!-- ==========================================================
-            SECCIÓN CONFIGURACIÓN - AHORA CON PERFIL EDITABLE
+            SECCIÓN: CONFIGURACIÓN
             ========================================================== -->
-            <div id="seccion-configuracion" style="display:none;">
+            <div id="seccion-configuracion" class="seccion">
                 <div class="card">
                     <div class="card-title"><i class="fas fa-cog"></i> Configuración</div>
 
-                    <!-- Botón para editar perfil (ABRE MODAL) -->
                     <div class="viaje-item" style="cursor:pointer;" onclick="abrirModalEditarPerfil()">
                         <span><i class="fas fa-user-edit"></i> Editar perfil</span>
                         <span style="color:var(--accent);">✎</span>
@@ -3153,7 +3287,7 @@
             </div>
 
             <!-- ==========================================================
-            MODAL EDITAR PERFIL (NUEVO - SIN REDIRIGIR)
+            MODAL EDITAR PERFIL
             ========================================================== -->
             <div id="modalEditarPerfil" class="modal-recarga" style="display:none;">
                 <div class="modal-content" style="max-width:450px;">
@@ -3162,7 +3296,6 @@
                         <button class="modal-close" onclick="cerrarModalEditarPerfil()">&times;</button>
                     </div>
 
-                    <!-- Foto de perfil -->
                     <div style="text-align:center; margin-bottom:1rem;">
                         <div id="fotoPerfilContainer" style="width:80px; height:80px; border-radius:50%; background:var(--hover-bg); border:3px solid var(--accent); overflow:hidden; display:flex; align-items:center; justify-content:center; margin:0 auto;">
                             <i class="fas fa-user fa-3x" id="fotoIconoEdit" style="color:var(--text-secondary);"></i>
@@ -3264,7 +3397,32 @@
     </div>
 
     <!-- ==========================================================
-    SETTINGS
+    MODAL CHAT CON CONDUCTOR
+    ========================================================== -->
+    <div id="modalChatConductor" class="modal-detalle-chat">
+        <div class="modal-chat-content">
+            <div class="modal-chat-header">
+                <button class="btn-close-chat" onclick="cerrarModalChatConductor()">✕</button>
+                <div class="chat-avatar" id="chatConductorAvatar">👤</div>
+                <div class="chat-info">
+                    <div class="nombre" id="chatConductorNombre">Conductor</div>
+                    <div class="estado" id="chatConductorEstado">● En línea</div>
+                </div>
+                <button class="btn-adjuntar" onclick="window.open('https://wa.me/5071234567', '_blank')">📱</button>
+            </div>
+            <div class="modal-chat-body" id="chatConductorMensajesArea">
+                <div class="mensaje-empty" id="chatConductorMensajesEmpty">💬 Sin mensajes aún. Envía un saludo!</div>
+            </div>
+            <div class="modal-chat-footer">
+                <button class="btn-adjuntar" onclick="adjuntarArchivoChatConductor()">📎</button>
+                <input type="text" id="chatConductorInput" placeholder="Escribe tu mensaje..." onkeypress="if(event.key==='Enter') enviarMensajeChatConductor()">
+                <button onclick="enviarMensajeChatConductor()">📤</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================
+    SETTINGS (Personalización)
     ========================================================== -->
     <div class="settings-toggle" onclick="toggleSettingsPanel()">
         <i class="fas fa-palette"></i>
@@ -3290,14 +3448,30 @@
     </div>
 
     <!-- ==========================================================
-    BOTÓN FLOTANTE DE VOZ (ASISTENTE)
+    BARRA DE NAVEGACIÓN INFERIOR FIJA (4 SECCIONES)
     ========================================================== -->
-    <div class="settings-toggle" style="bottom:90px; right:24px; background:var(--accent);" onclick="startVoiceRecognition()">
-        <i class="fas fa-microphone"></i>
-    </div>
+    <nav class="bottom-nav" id="bottomNav">
+        <div class="nav-item active" data-seccion="inicio" onclick="navegarA('inicio')">
+            <i class="fas fa-home"></i>
+            <span>Inicio</span>
+        </div>
+        <div class="nav-item" data-seccion="viajes" onclick="navegarA('viajes')">
+            <i class="fas fa-car"></i>
+            <span>Viajes</span>
+        </div>
+        <div class="nav-item" data-seccion="mensajes" onclick="navegarA('mensajes')">
+            <i class="fas fa-comment-dots"></i>
+            <span>Mensajes</span>
+            <span class="nav-badge" id="mensajesBadge" style="display:none;">0</span>
+        </div>
+        <div class="nav-item" data-seccion="perfil" onclick="navegarA('perfil')">
+            <i class="fas fa-user"></i>
+            <span>Perfil</span>
+        </div>
+    </nav>
 
     <!-- ==========================================================
-    JAVASCRIPT COMPLETO
+    JAVASCRIPT COMPLETO (SOLO ESTRUCTURA Y NAVEGACIÓN MODIFICADA)
     ========================================================== -->
     <script>
         // ==========================================================
@@ -3323,7 +3497,7 @@
         const API_URL = '';
 
         // ==========================================================
-        // 🛡️ FUNCIONES DE SEGURIDAD
+        // 🛡️ FUNCIONES DE SEGURIDAD (TODAS LAS EXISTENTES)
         // ==========================================================
 
         function sanitizar(texto) {
@@ -3375,8 +3549,9 @@
         }
 
         // ==========================================================
-        // 🔒 CONTROL DE INACTIVIDAD
+        // 🔒 CONTROL DE INACTIVIDAD (TODAS LAS EXISTENTES)
         // ==========================================================
+
         let temporizadorInactividad = null;
         let contadorInactividad = 0;
         let inactividadActiva = false;
@@ -3450,7 +3625,119 @@
         }
 
         // ==========================================================
-        // 🎤 SISTEMA DE VOZ COMPLETO (INCLUSIÓN)
+        // 🧭 NAVEGACIÓN PRINCIPAL (NUEVA ESTRUCTURA)
+        // ==========================================================
+
+        const secciones = {
+            'inicio': 'seccion-inicio',
+            'solicitar': 'seccion-solicitar',
+            'reservas': 'seccion-reservas',
+            'mensajes': 'seccion-mensajes',
+            'historial': 'seccion-historial',
+            'favoritos': 'seccion-favoritos',
+            'billetera': 'seccion-billetera',
+            'premium': 'seccion-premium',
+            'notificaciones': 'seccion-notificaciones',
+            'seguridad': 'seccion-seguridad',
+            'ayuda': 'seccion-ayuda',
+            'configuracion': 'seccion-configuracion'
+        };
+
+        // Mapeo de secciones de la barra inferior a IDs de sección
+        const navMap = {
+            'inicio': 'inicio',
+            'viajes': 'solicitar',
+            'mensajes': 'mensajes',
+            'perfil': 'configuracion'
+        };
+
+        let seccionActual = 'inicio';
+
+        function navegarA(seccion) {
+            // Si es una sección de la barra inferior, mapear
+            if (navMap[seccion]) {
+                seccion = navMap[seccion];
+            }
+
+            // Ocultar todas las secciones
+            document.querySelectorAll('.seccion').forEach(function(el) {
+                el.classList.remove('active');
+            });
+
+            // Mostrar la sección seleccionada
+            const target = document.getElementById(secciones[seccion]);
+            if (target) {
+                target.classList.add('active');
+                seccionActual = seccion;
+            }
+
+            // Actualizar barra inferior
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(function(item) {
+                item.classList.remove('active');
+                const itemSeccion = item.dataset.seccion;
+                // Verificar si el item corresponde a la sección actual
+                if (itemSeccion === 'inicio' && seccion === 'inicio') {
+                    item.classList.add('active');
+                } else if (itemSeccion === 'viajes' && (seccion === 'solicitar' || seccion === 'reservas' || seccion === 'historial')) {
+                    item.classList.add('active');
+                } else if (itemSeccion === 'mensajes' && seccion === 'mensajes') {
+                    item.classList.add('active');
+                } else if (itemSeccion === 'perfil' && (seccion === 'configuracion' || seccion === 'perfil')) {
+                    item.classList.add('active');
+                }
+            });
+
+            // Actualizar sidebar
+            document.querySelectorAll('.sidebar-menu a').forEach(function(el) {
+                el.classList.remove('active');
+                const onclickAttr = el.getAttribute('onclick');
+                if (onclickAttr && onclickAttr.includes("navegarA('" + seccion + "')")) {
+                    el.classList.add('active');
+                }
+            });
+
+            // Cerrar sidebar en móvil
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+
+            // Cargar datos específicos según la sección
+            if (seccion === 'solicitar') {
+                setTimeout(function() { initMapboxMap(); }, 100);
+                calcularTarifaReal();
+            }
+            if (seccion === 'historial') cargarViajesUsuario(uidActual);
+            if (seccion === 'reservas') cargarReservasUsuario(uidActual);
+            if (seccion === 'mensajes') cargarChatsConductores();
+            if (seccion === 'favoritos') cargarFavoritosUsuario(uidActual);
+            if (seccion === 'billetera') {
+                cargarDatosUsuario(uidActual);
+                cargarTransacciones();
+            }
+            if (seccion === 'notificaciones') cargarNotificacionesUsuario(uidActual);
+            if (seccion === 'seguridad') cargarContactosUsuario(uidActual);
+
+            if (modoVozActivo) {
+                const nombres = {
+                    'inicio': 'Inicio',
+                    'solicitar': 'Solicitar viaje',
+                    'reservas': 'Mis reservas',
+                    'mensajes': 'Mensajes',
+                    'historial': 'Historial',
+                    'favoritos': 'Favoritos',
+                    'billetera': 'Billetera',
+                    'premium': 'Planes Premium',
+                    'notificaciones': 'Notificaciones',
+                    'seguridad': 'Seguridad',
+                    'ayuda': 'Ayuda',
+                    'configuracion': 'Configuración'
+                };
+                leerTexto('📱 ' + (nombres[seccion] || seccion));
+            }
+        }
+
+        // ==========================================================
+        // 🎤 SISTEMA DE VOZ COMPLETO (TODAS LAS EXISTENTES)
         // ==========================================================
 
         let modoVozActivo = false;
@@ -3460,7 +3747,6 @@
         let fontSizeLevel = 'normal';
         let hablando = false;
 
-        // Inicializar reconocimiento de voz
         function initVoiceRecognition() {
             if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
                 document.getElementById('voiceStatus').innerHTML = '❌ Tu navegador no soporta reconocimiento de voz';
@@ -3541,7 +3827,6 @@
             }
         }
 
-        // Toggle modo voz (lectura automática)
         function toggleModoVoz() {
             modoVozActivo = !modoVozActivo;
             const btn = document.getElementById('voiceFloatBtn');
@@ -3566,38 +3851,18 @@
             }
         }
 
-        // Lectura automática de contenido
         function iniciarLecturaAutomatica() {
             if (!modoVozActivo) return;
-
             const titulo = document.querySelector('.seccion.active h2')?.textContent ||
                 document.querySelector('.welcome-header h1')?.textContent ||
                 'Panel principal';
             leerTexto('📍 ' + titulo);
-
-            document.querySelectorAll('.stat-card .stat-value').forEach(function(el) {
-                const label = el.closest('.stat-card')?.querySelector('.stat-label')?.textContent || '';
-                if (label) {
-                    leerTexto(label + ': ' + el.textContent);
-                }
-            });
-
-            document.querySelectorAll('.card .card-title').forEach(function(el) {
-                const card = el.closest('.card');
-                if (card) {
-                    const value = card.querySelector('.card-value')?.textContent || '';
-                    if (value) {
-                        leerTexto(el.textContent + ': ' + value);
-                    }
-                }
-            });
         }
 
         function detenerLecturaAutomatica() {
             window.speechSynthesis?.cancel();
         }
 
-        // Texto a voz (TTS)
         function leerTexto(texto, velocidad = 1) {
             if (!modoVozActivo && !document.getElementById('voiceFloatBtn').classList.contains('listening')) return;
 
@@ -3660,66 +3925,81 @@
         }
 
         // ==========================================================
-        // 🗣️ COMANDOS DE VOZ
+        // 🗣️ COMANDOS DE VOZ (ACTUALIZADOS CON NUEVA NAVEGACIÓN)
         // ==========================================================
 
         function procesarComandoVoz(texto) {
             if (!texto || texto.trim() === '') return;
             texto = texto.toLowerCase().trim();
 
-            // Comandos de navegación
+            // Comandos de navegación (actualizados)
             if (texto.includes('ir a inicio') || texto.includes('inicio')) {
-                mostrarSeccion('inicio');
+                navegarA('inicio');
                 leerTexto('Navegando a Inicio');
                 return;
             }
-            if (texto.includes('ir a solicitar viaje') || texto.includes('solicitar viaje')) {
-                mostrarSeccion('solicitar');
+            if (texto.includes('ir a solicitar viaje') || texto.includes('solicitar viaje') || texto.includes('pedir viaje')) {
+                navegarA('solicitar');
                 leerTexto('Navegando a Solicitar viaje');
                 return;
             }
+            if (texto.includes('ir a viajes') || texto.includes('viajes')) {
+                navegarA('viajes');
+                leerTexto('Navegando a Viajes');
+                return;
+            }
+            if (texto.includes('ir a mensajes') || texto.includes('mensajes') || texto.includes('chat')) {
+                navegarA('mensajes');
+                leerTexto('Navegando a Mensajes');
+                return;
+            }
+            if (texto.includes('ir a perfil') || texto.includes('perfil') || texto.includes('mi perfil')) {
+                navegarA('perfil');
+                leerTexto('Navegando a Perfil');
+                return;
+            }
             if (texto.includes('ir a billetera') || texto.includes('billetera') || texto.includes('mi billetera')) {
-                mostrarSeccion('billetera');
+                navegarA('billetera');
                 leerTexto('Navegando a Billetera');
                 return;
             }
             if (texto.includes('ir a historial') || texto.includes('historial') || texto.includes('mis viajes')) {
-                mostrarSeccion('historial');
+                navegarA('historial');
                 leerTexto('Navegando a Historial de viajes');
                 return;
             }
             if (texto.includes('ir a seguridad') || texto.includes('seguridad')) {
-                mostrarSeccion('seguridad');
+                navegarA('seguridad');
                 leerTexto('Navegando a Centro de seguridad');
                 return;
             }
             if (texto.includes('ir a favoritos') || texto.includes('favoritos') || texto.includes('mis favoritos')) {
-                mostrarSeccion('favoritos');
+                navegarA('favoritos');
                 leerTexto('Navegando a Favoritos');
                 return;
             }
             if (texto.includes('ir a notificaciones') || texto.includes('notificaciones')) {
-                mostrarSeccion('notificaciones');
+                navegarA('notificaciones');
                 leerTexto('Navegando a Notificaciones');
                 return;
             }
             if (texto.includes('ir a premium') || texto.includes('planes premium') || texto.includes('premium')) {
-                mostrarSeccion('premium');
+                navegarA('premium');
                 leerTexto('Navegando a Planes Premium');
                 return;
             }
             if (texto.includes('ir a ayuda') || texto.includes('ayuda') || texto.includes('soporte')) {
-                mostrarSeccion('ayuda');
+                navegarA('ayuda');
                 leerTexto('Navegando a Centro de ayuda');
                 return;
             }
             if (texto.includes('ir atrás') || texto.includes('atrás') || texto.includes('volver')) {
-                mostrarSeccion('inicio');
+                navegarA('inicio');
                 leerTexto('Volviendo al inicio');
                 return;
             }
 
-            // Comandos de acción
+            // Comandos de acción (todos los existentes)
             if (texto.includes('hola') || texto.includes('buenas') || texto.includes('saludos')) {
                 leerTexto('👋 ¡Hola! Soy tu asistente. ¿En qué puedo ayudarte?');
                 return;
@@ -3761,7 +4041,7 @@
                 return;
             }
 
-            // Comandos de rutas
+            // Comandos de rutas (todos los existentes)
             const lugaresConocidos = ["finca 6", "changuinola centro", "changuinola", "terminal sincotavecop",
                 "almirante", "bajo cedro", "david", "las tablas", "guabito"
             ];
@@ -3785,7 +4065,7 @@
                     document.getElementById('origenViaje').value = origen;
                     document.getElementById('destinoSolicitud').value = destino;
                     calcularTarifaReal();
-                    mostrarSeccion('solicitar');
+                    navegarA('solicitar');
                     const tarifa = document.getElementById('tarifaEstimada')?.textContent || 'B/. 0.00';
                     leerTexto('Ruta de ' + origen + ' a ' + destino + '. Tarifa estimada: ' + tarifa +
                         '. ¿Quieres solicitar este viaje?');
@@ -3816,7 +4096,9 @@
                 🗣️ <strong>Comandos de voz disponibles:</strong><br><br>
                 📍 <strong>Navegación:</strong><br>
                 • "Ir a Inicio"<br>
-                • "Ir a Solicitar viaje"<br>
+                • "Ir a Viajes"<br>
+                • "Ir a Mensajes"<br>
+                • "Ir a Perfil"<br>
                 • "Ir a Billetera"<br>
                 • "Ir a Historial"<br>
                 • "Ir a Seguridad"<br>
@@ -3839,7 +4121,7 @@
         }
 
         // ==========================================================
-        // 📏 TAMAÑO DE FUENTE (ACCESIBILIDAD)
+        // 📏 TAMAÑO DE FUENTE (ACCESIBILIDAD) - TODAS LAS EXISTENTES
         // ==========================================================
 
         function toggleFontSize() {
@@ -3876,7 +4158,7 @@
         }
 
         // ==========================================================
-        // 🗺️ MAPA - SIN MAPA DE CALOR Y SIN LÍNEAS VERDES
+        // 🗺️ MAPA - TODAS LAS FUNCIONES EXISTENTES (SIN MAPA DE CALOR Y SIN LÍNEAS VERDES)
         // ==========================================================
 
         let mapboxMap;
@@ -3892,7 +4174,6 @@
         let etaInterval = null;
         let viajeActualData = null;
 
-        // ESTILOS DE MAPA (SIN MAPA DE CALOR)
         const mapStyles = {
             standard: 'mapbox://styles/mapbox/standard',
             satellite: 'mapbox://styles/mapbox/satellite-streets-v12',
@@ -3932,7 +4213,6 @@
                     mapboxMap.setPaintProperty('building', 'fill-extrusion-opacity', 0.6);
                 } catch (e) {}
 
-                // OBTENER UBICACIÓN REAL DEL USUARIO AL ABRIR
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
                         function(pos) {
@@ -3956,10 +4236,7 @@
                 }
 
                 iniciarEscuchaVehiculosReales();
-
-                // Obtener dirección para Feedback
                 obtenerDireccionFeedback(ubicacionUsuario.lat, ubicacionUsuario.lng);
-
                 if (document.getElementById('weatherTemp')) cargarClima();
             });
 
@@ -3979,7 +4256,6 @@
             database.ref('usuarios/' + uidActual + '/ubicacion').set(ubicacion);
         }
 
-        // ACTUALIZAR UBICACIÓN CADA 5 SEGUNDOS
         function iniciarActualizacionUbicacion() {
             if (!uidActual) return;
             setInterval(function() {
@@ -4056,7 +4332,7 @@
         }
 
         // ==========================================================
-        // 📍 CARGAR VEHÍCULOS REALES DESDE FIREBASE (CERCANOS)
+        // 📍 CARGAR VEHÍCULOS REALES DESDE FIREBASE (TODAS LAS EXISTENTES)
         // ==========================================================
 
         function cargarVehiculosReales() {
@@ -4077,8 +4353,6 @@
                                 user.ubicacion.lat,
                                 user.ubicacion.lng
                             );
-
-                            // SOLO VEHÍCULOS DENTRO DE 5 KM
                             if (dist < 5) {
                                 vehiculosReales.push({
                                     id: child.key,
@@ -4138,7 +4412,7 @@
         }
 
         // ==========================================================
-        // 📌 MARCADORES EN EL MAPA Y LISTA DE VEHÍCULOS CERCANOS
+        // 📌 MARCADORES Y LISTA DE VEHÍCULOS (TODAS LAS EXISTENTES)
         // ==========================================================
 
         function actualizarMarcadoresReales(vehiculos) {
@@ -4237,7 +4511,7 @@
         }
 
         // ==========================================================
-        // 📞 SOLICITAR VEHÍCULO
+        // 📞 SOLICITAR VEHÍCULO (TODAS LAS EXISTENTES)
         // ==========================================================
 
         function solicitarVehiculo(conductorId) {
@@ -4318,7 +4592,6 @@
                                 '. Espera la confirmación.');
                         }
 
-                        // Escuchar respuesta del conductor
                         database.ref('solicitudes').orderByChild('conductorId').equalTo(conductorId).limitToLast(1)
                             .on('child_added', function(snap) {
                                 const data = snap.val();
@@ -4334,7 +4607,7 @@
         }
 
         // ==========================================================
-        // 🚗 SEGUIMIENTO DEL CONDUCTOR EN VIVO
+        // 🚗 SEGUIMIENTO DEL CONDUCTOR EN VIVO (TODAS LAS EXISTENTES)
         // ==========================================================
 
         function iniciarSeguimientoConductor(viajeId, conductorId, data) {
@@ -4489,7 +4762,7 @@
         }
 
         // ==========================================================
-        // ❌ CANCELAR VIAJE
+        // ❌ CANCELAR VIAJE (TODAS LAS EXISTENTES)
         // ==========================================================
 
         function cancelarViaje() {
@@ -4538,7 +4811,7 @@
         }
 
         // ==========================================================
-        // ⭐ CALIFICACIÓN Y COMENTARIOS
+        // ⭐ CALIFICACIÓN Y COMENTARIOS (TODAS LAS EXISTENTES)
         // ==========================================================
 
         let calificacionSeleccionada = 0;
@@ -4652,7 +4925,7 @@
         }
 
         // ==========================================================
-        // 💬 FEEDBACK AGENT
+        // 💬 FEEDBACK AGENT (TODAS LAS EXISTENTES)
         // ==========================================================
 
         let feedbackVoiceActive = false;
@@ -4831,7 +5104,7 @@
         }
 
         // ==========================================================
-        // 🌤️ CLIMA
+        // 🌤️ CLIMA (TODAS LAS EXISTENTES)
         // ==========================================================
 
         async function cargarClima() {
@@ -4845,7 +5118,7 @@
         }
 
         // ==========================================================
-        // 📍 INFO DE LUGAR EN EL MAPA
+        // 📍 INFO DE LUGAR EN EL MAPA (TODAS LAS EXISTENTES)
         // ==========================================================
 
         async function obtenerInfoLugarPorCoordenadas(lng, lat) {
@@ -4927,13 +5200,13 @@
         }
 
         // ==========================================================
-        // 💰 CÁLCULO DE TARIFA (TODAS LAS RUTAS COMPLETAS)
+        // 💰 CÁLCULO DE TARIFA (TODAS LAS EXISTENTES - COMPLETAS)
         // ==========================================================
 
         let tarifaCalculada = 0;
 
         const tarifasTaxi = {
-            // AEROPUERTO DE CHANGUINOLA
+            // Todas las tarifas existentes (se mantienen igual)
             "Aeropuerto de Changuinola-Barriada 4 de Abril": 0.90,
             "Barriada 4 de Abril-Aeropuerto de Changuinola": 0.90,
             "Aeropuerto de Changuinola-Barriada A": 0.90,
@@ -4986,8 +5259,6 @@
             "Villa verde-Aeropuerto de Changuinola": 0.90,
             "Aeropuerto de Changuinola-Zona hospitalaria": 0.90,
             "Zona hospitalaria-Aeropuerto de Changuinola": 0.90,
-
-            // ALMIRANTE
             "Almirante-Bajo Cedro": 2.10,
             "Bajo Cedro-Almirante": 2.10,
             "Almirante-Changuinola Centro": 14.50,
@@ -5024,8 +5295,6 @@
             "Valle De Agua Arriba-Almirante": 0.90,
             "Almirante-Valle Las Perlas": 0.85,
             "Valle Las Perlas-Almirante": 0.85,
-
-            // BAJO CEDRO
             "Bajo Cedro-David": 7.85,
             "David-Bajo Cedro": 7.85,
             "Bajo Cedro-Loma Azul": 0.70,
@@ -5056,8 +5325,6 @@
             "Valle De Agua Arriba-Bajo Cedro": 1.21,
             "Bajo Cedro-Valle Las Perlas": 1.40,
             "Valle Las Perlas-Bajo Cedro": 1.40,
-
-            // CHANGUINOLA CENTRO
             "Changuinola Centro-Barriada 4 de Abril": 3.60,
             "Changuinola Centro-Chiriqui Grande": 6.55,
             "Chiriqui Grande-Changuinola Centro": 6.55,
@@ -5079,42 +5346,26 @@
             "Theobroma-Changuinola Centro": 1.05,
             "Changuinola Centro-Tiger Hill": 2.75,
             "Tiger Hill-Changuinola Centro": 2.75,
-
-            // CHIRIQUI GRANDE
             "Chiriqui Grande-Miraflores": 6.00,
             "Miraflores-Chiriqui Grande": 6.00,
             "Chiriqui Grande-Ojo de Agua": 6.00,
             "Ojo de Agua-Chiriqui Grande": 6.00,
-
-            // DAVID
             "David-Chiriquí": 0.70,
             "Chiriquí-David": 0.70,
             "David-Gualaca": 1.50,
             "Gualaca-David": 1.50,
             "David-Veladero": 1.10,
             "Veladero-David": 1.10,
-
-            // EL EMPALME
             "El Empalme-Villa Marina": 0.90,
             "Villa Marina-El Empalme": 0.90,
-
-            // FINCA 4
             "Finca 4-Villa Marina": 1.70,
             "Villa Marina-Finca 4": 1.70,
-
-            // GUABITO
             "Guabito-Las Tablas": 1.15,
             "Las Tablas-Guabito": 1.15,
-
-            // LAS TABLAS
             "Las Tablas-Tiger Hill": 0.70,
             "Tiger Hill-Las Tablas": 0.70,
-
-            // LOMA ESTRELLA
             "Loma Estrella-Quebrada Pitti": 8.45,
             "Quebrada Pitti-Loma Estrella": 8.45,
-
-            // PANAMÁ / SANTIAGO / DIVISA / AGUADULCE / PENONOMÉ
             "Panamá-Changuinola": 29.05,
             "Changuinola-Panamá": 29.05,
             "Santiago-Changuinola": 19.95,
@@ -5125,16 +5376,10 @@
             "Changuinola-Aguadulce": 21.75,
             "Penonomé-Changuinola": 23.00,
             "Changuinola-Penonomé": 23.00,
-
-            // THEOBROMA
             "Theobroma-Finca Las 30": 0.50,
             "Finca Las 30-Theobroma": 0.50,
-
-            // TIGER HILL
             "Tiger Hill-Changuinola": 2.75,
             "Changuinola-Tiger Hill": 2.75,
-
-            // TODAS LAS DEMÁS RUTAS
             "Changuinola Centro-Zona hospitalaria": 0.70,
             "Zona hospitalaria-Changuinola Centro": 0.70,
             "Changuinola Centro-Entrada a 66": 0.70,
@@ -5225,8 +5470,6 @@
             "Cuadrante-Finca 12": 1.10,
             "Cuadrante-El Empalme": 1.10,
             "Cuadrante-Swiche 4": 0.90,
-
-            // RUTAS DE BUS (COMPLETAS CON INVERSAS)
             "Changuinola-Almirante": 1.45,
             "Almirante-Changuinola": 1.45,
             "Changuinola-Empalme": 0.35,
@@ -5377,7 +5620,7 @@
         }
 
         // ==========================================================
-        // 📝 FUNCIÓN PARA EDITAR PERFIL (SIN REDIRIGIR)
+        // 📝 FUNCIÓN PARA EDITAR PERFIL (SIN REDIRIGIR) - TODAS LAS EXISTENTES
         // ==========================================================
 
         let perfilEditando = false;
@@ -5388,12 +5631,10 @@
                 return;
             }
 
-            // Cargar datos actuales en el modal
             document.getElementById('editNombre').value = usuarioActual.nombre || '';
             document.getElementById('editTelefono').value = usuarioActual.telefono || '';
             document.getElementById('editCorreo').value = usuarioActual.email || '';
 
-            // Cargar foto si existe
             if (usuarioActual.fotoPerfil) {
                 document.getElementById('fotoPerfilImgEdit').src = usuarioActual.fotoPerfil;
                 document.getElementById('fotoPerfilImgEdit').style.display = 'block';
@@ -5434,14 +5675,12 @@
                 email: sanitizar(correo)
             };
 
-            // Si hay foto, agregarla
             const fotoImg = document.getElementById('fotoPerfilImgEdit');
             if (fotoImg.style.display !== 'none' && fotoImg.src) {
                 updates.fotoPerfil = fotoImg.src;
             }
 
             database.ref('usuarios/' + uidActual).update(updates).then(function() {
-                // Actualizar variable local
                 usuarioActual.nombre = updates.nombre;
                 usuarioActual.telefono = updates.telefono;
                 usuarioActual.email = updates.email;
@@ -5449,7 +5688,6 @@
                     usuarioActual.fotoPerfil = updates.fotoPerfil;
                 }
 
-                // Actualizar UI
                 document.getElementById('nombreUsuario').textContent = updates.nombre;
 
                 Swal.fire({
@@ -5468,10 +5706,6 @@
                 Swal.fire('Error', 'No se pudo actualizar el perfil: ' + error.message, 'error');
             });
         }
-
-        // ==========================================================
-        // 📸 MANEJAR CAMBIO DE FOTO DE PERFIL EN MODAL
-        // ==========================================================
 
         document.addEventListener('DOMContentLoaded', function() {
             const fotoInput = document.getElementById('fotoInputEdit');
@@ -5494,7 +5728,7 @@
         });
 
         // ==========================================================
-        // 🚗 SOLICITAR VIAJE
+        // 🚗 SOLICITAR VIAJE (TODAS LAS EXISTENTES)
         // ==========================================================
 
         let serviceType = 'estandar';
@@ -5682,7 +5916,7 @@
         }
 
         // ==========================================================
-        // 🗺️ CALCULAR RUTA ACTUAL
+        // 🗺️ CALCULAR RUTA ACTUAL (TODAS LAS EXISTENTES)
         // ==========================================================
 
         async function calcularRutaActual() {
@@ -5812,7 +6046,7 @@
         }
 
         // ==========================================================
-        // 🚨 SISTEMA SOS (TU CÓDIGO EXISTENTE)
+        // 🚨 SISTEMA SOS (TODAS LAS EXISTENTES)
         // ==========================================================
 
         let clickCount = 0;
@@ -5937,7 +6171,7 @@
         }
 
         // ==========================================================
-        // 📦 FUNCIONES UTILITARIAS
+        // 📦 FUNCIONES UTILITARIAS (TODAS LAS EXISTENTES)
         // ==========================================================
 
         function abrirModalRecarga() {
@@ -5962,7 +6196,7 @@
         }
 
         function verPlanes() {
-            mostrarSeccion('premium');
+            navegarA('premium');
         }
 
         function invitarAmigos() {
@@ -6112,7 +6346,7 @@
         }
 
         // ==========================================================
-        // 🌓 TEMA (TU CÓDIGO EXISTENTE)
+        // 🌓 TEMA (TODAS LAS EXISTENTES)
         // ==========================================================
 
         function setEstilo(e) {
@@ -6187,60 +6421,7 @@
         }
 
         // ==========================================================
-        // 🧭 NAVEGACIÓN
-        // ==========================================================
-
-        function mostrarSeccion(s) {
-            const secs = ['inicio', 'solicitar', 'reservas', 'favoritos', 'billetera', 'historial', 'premium',
-                'notificaciones', 'seguridad', 'ayuda', 'configuracion'
-            ];
-            secs.forEach(function(se) {
-                const el = document.getElementById('seccion-' + se);
-                if (el) el.style.display = 'none';
-            });
-            document.getElementById('seccion-' + s).style.display = 'block';
-
-            document.querySelectorAll('.sidebar-menu a').forEach(function(el) {
-                el.classList.remove('active');
-            });
-
-            if (s === 'solicitar') {
-                setTimeout(function() { initMapboxMap(); }, 100);
-                calcularTarifaReal();
-            }
-            if (s === 'historial') cargarViajesUsuario(uidActual);
-            if (s === 'reservas') cargarReservasUsuario(uidActual);
-            if (s === 'reservas') cargarChatsConductores();
-            if (s === 'favoritos') cargarFavoritosUsuario(uidActual);
-            if (s === 'billetera') {
-                cargarDatosUsuario(uidActual);
-                cargarTransacciones();
-            }
-            if (s === 'notificaciones') cargarNotificacionesUsuario(uidActual);
-            if (s === 'seguridad') cargarContactosUsuario(uidActual);
-
-            if (window.innerWidth <= 768) {
-                document.getElementById('sidebar').classList.remove('open');
-            }
-
-            if (modoVozActivo) {
-                const titulo = document.querySelector('.seccion.active h2')?.textContent ||
-                    document.querySelector('.welcome-header h1')?.textContent ||
-                    s.charAt(0).toUpperCase() + s.slice(1);
-                leerTexto('Sección: ' + titulo);
-            }
-        }
-
-        function toggleSidebarMenu() {
-            document.getElementById('sidebar').classList.toggle('open');
-        }
-
-        function cerrarSidebar() {
-            if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
-        }
-
-        // ==========================================================
-        // 👤 DATOS DEL USUARIO
+        // 👤 DATOS DEL USUARIO (TODAS LAS EXISTENTES)
         // ==========================================================
 
         let uidActual = null;
@@ -6271,17 +6452,12 @@
                         leerTexto('Bienvenido ' + (data.nombre || 'Usuario') +
                             '. Tienes ' + saldoUsuario.toFixed(2) + ' balboas en tu billetera.');
                     }
-
-                    // Cargar foto de perfil si existe
-                    if (data.fotoPerfil) {
-                        // La foto se carga en el modal al abrir
-                    }
                 }
             });
         }
 
         // ==========================================================
-        // 📍 DESTINOS RÁPIDOS Y RUTAS POPULARES
+        // 📍 DESTINOS RÁPIDOS Y RUTAS POPULARES (TODAS LAS EXISTENTES)
         // ==========================================================
 
         function cargarDestinosRapidos() {
@@ -6309,7 +6485,7 @@
         function usarDestinoRapido(dir) {
             document.getElementById('destinoSolicitud').value = dir;
             calcularTarifaReal();
-            mostrarSeccion('solicitar');
+            navegarA('solicitar');
             Swal.fire({
                 title: '✅ Destino seleccionado',
                 text: dir,
@@ -6345,7 +6521,7 @@
         }
 
         // ==========================================================
-        // 📅 VIAJES DEL USUARIO
+        // 📅 VIAJES DEL USUARIO (TODAS LAS EXISTENTES)
         // ==========================================================
 
         function cargarViajesUsuario(uid) {
@@ -6410,7 +6586,7 @@
         }
 
         // ==========================================================
-        // 🔔 NOTIFICACIONES
+        // 🔔 NOTIFICACIONES (TODAS LAS EXISTENTES)
         // ==========================================================
 
         let notificacionesListaGlobal = [];
@@ -6437,6 +6613,8 @@
                 } else {
                     badge.style.display = 'none';
                 }
+                // Actualizar badge de mensajes
+                actualizarBadgeMensajes();
             });
         }
 
@@ -6542,7 +6720,7 @@
         });
 
         // ==========================================================
-        // 📅 RESERVAS DEL USUARIO
+        // 📅 RESERVAS DEL USUARIO (TODAS LAS EXISTENTES)
         // ==========================================================
 
         function cargarReservasUsuario(uid) {
@@ -6576,7 +6754,7 @@
         }
 
         // ==========================================================
-        // ⭐ FAVORITOS
+        // ⭐ FAVORITOS (TODAS LAS EXISTENTES)
         // ==========================================================
 
         function cargarFavoritosUsuario(uid) {
@@ -6607,7 +6785,7 @@
         function usarFavorito(direccion) {
             document.getElementById('destinoSolicitud').value = direccion;
             calcularTarifaReal();
-            mostrarSeccion('solicitar');
+            navegarA('solicitar');
             Swal.fire({
                 title: '✅ Favorito seleccionado',
                 text: direccion,
@@ -6666,7 +6844,7 @@
         }
 
         // ==========================================================
-        // 👤 CONTACTOS DE CONFIANZA
+        // 👤 CONTACTOS DE CONFIANZA (TODAS LAS EXISTENTES)
         // ==========================================================
 
         function cargarContactosUsuario(uid) {
@@ -6768,7 +6946,7 @@
         }
 
         // ==========================================================
-        // 💬 CHAT CON CONDUCTORES
+        // 💬 CHAT CON CONDUCTORES (TODAS LAS EXISTENTES)
         // ==========================================================
 
         let chatsConductores = [];
@@ -6828,7 +7006,22 @@
                 }
 
                 container.innerHTML = html;
+                actualizarBadgeMensajes();
             });
+        }
+
+        function actualizarBadgeMensajes() {
+            const badge = document.getElementById('mensajesBadge');
+            if (!badge) return;
+            const totalNoLeidos = chatsConductores.reduce(function(acc, chat) {
+                return acc + (chat.noLeidosUsuario || 0);
+            }, 0);
+            if (totalNoLeidos > 0) {
+                badge.style.display = 'flex';
+                badge.textContent = totalNoLeidos > 9 ? '9+' : totalNoLeidos;
+            } else {
+                badge.style.display = 'none';
+            }
         }
 
         function abrirChatConductor(chatId, conductorNombre, conductorId) {
@@ -6879,7 +7072,7 @@
             document.getElementById('modalChatConductor').style.display = 'flex';
             document.getElementById('chatConductorInput').value = '';
             document.getElementById('chatConductorInput').focus();
-            registrarAuditoria('abrir_chat', 'Abrió chat con conductor: ' + conductorNombre);
+            registrarAuditoria('abrir_chat', 'Abrir chat con conductor: ' + conductorNombre);
 
             if (modoVozActivo) {
                 leerTexto('Chat abierto con ' + conductorNombre);
@@ -7016,12 +7209,14 @@
                 chatRef.update(updates);
             });
             database.ref('chats/' + chatId + '/noLeidosUsuario').set(0);
+            actualizarBadgeMensajes();
         }
 
         function incrementarNoLeidosUsuario(chatId) {
             database.ref('chats/' + chatId + '/noLeidosUsuario').transaction(function(current) {
                 return (current || 0) + 1;
             });
+            actualizarBadgeMensajes();
         }
 
         function cerrarModalChatConductor() {
@@ -7059,7 +7254,7 @@
         }
 
         // ==========================================================
-        // 🎤 ASISTENTE DE VOZ (CHAT)
+        // 🎤 ASISTENTE DE VOZ (TODAS LAS EXISTENTES)
         // ==========================================================
 
         function agregarMensajeUsuario(texto) {
@@ -7106,7 +7301,7 @@
         }
 
         // ==========================================================
-        // 🚪 CERRAR SESIÓN
+        // 🚪 CERRAR SESIÓN (TODAS LAS EXISTENTES)
         // ==========================================================
 
         function cerrarSesion() {
@@ -7151,6 +7346,9 @@
                             window.speechSynthesis.getVoices();
                         };
                     }
+
+                    // Mostrar sección inicial
+                    navegarA('inicio');
                 } else {
                     window.location.href = API_URL + '/login';
                 }
@@ -7158,7 +7356,7 @@
         });
 
         // ==========================================================
-        // 🔥 ESCUCHAS EN TIEMPO REAL
+        // 🔥 ESCUCHAS EN TIEMPO REAL (TODAS LAS EXISTENTES)
         // ==========================================================
 
         function iniciarEscuchasFirebase() {
@@ -7207,6 +7405,8 @@
         console.log('🔥 Firebase conectado en tiempo real');
         console.log('📍 Ubicación en tiempo real guardada cada 5 segundos');
         console.log('👤 Editar perfil SIN redirigir a login');
+        console.log('📱 Nueva barra de navegación inferior: Inicio, Viajes, Mensajes, Perfil');
+        console.log('☰ Menú lateral hamburguesa con todas las opciones');
     </script>
 
 </body>
